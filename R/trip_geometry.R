@@ -1,22 +1,22 @@
-#' Return trips geometries
+#' Return trip geometry
 #'
-#' Returns each \code{trip_id} geometry, based either on the \code{shapes} or
-#' the \code{stop_times} file (or both).
+#' Returns the geometry of each specified \code{trip_id}, based either on the
+#' \code{shapes} or the \code{stop_times} file (or both).
 #'
-#' @param gtfs A \code{gtfs} file as read by \code{tidytransit::read_gtfs()}.
+#' @param gtfs A GTFS file as read by \code{tidytransit::read_gtfs()}.
 #' @param trip_id A string vector including the \code{trip_id}s to have their
 #'   geometries generated. If \code{NULL} (the default) the function generates
-#'   geometries for every \code{trip_id} in the \code{gtfs}.
+#'   geometries for every \code{trip_id} in the GTFS.
 #' @param file The file from which geometries should be generated. By default
 #'   uses both \code{shapes} and \code{stop_times}.
 #' @param crs The CRS of the resulting object. Defaults to 4326 (WGS 84).
 #'
 #' @return A \code{LINESTRING sf}.
 
-trips_geometries <- function(gtfs,
-                             trip_id = NULL,
-                             file = c("shapes", "stop_times"),
-                             crs = 4326) {
+trip_geometry <- function(gtfs,
+                          trip_id = NULL,
+                          file = c("shapes", "stop_times"),
+                          crs = 4326) {
 
   # create linestrings from shapes
 
