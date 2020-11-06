@@ -12,5 +12,6 @@ Imports:
     tidytransit,
     sfheaders,
     dplyr,
-    sf
+    sf,
+    nngeo
 RoxygenNote: 7.1.1
