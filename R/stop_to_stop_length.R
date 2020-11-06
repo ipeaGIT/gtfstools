@@ -14,6 +14,7 @@
 #'   \code{FALSE}).
 #' @param drop_geometry Whether the function should drop segment's geometry
 #'   (defaults to \code{TRUE}).
+#' @param crs The CRS of the resulting object. Defaults to 4326 (WGS 84).
 #'
 #' @return A table containing the segments of each specified trip, their length
 #'   (in meters) and their geometry, if desired.
@@ -24,9 +25,10 @@ stop_to_stop_length <- function(gtfs,
                                 trip_id,
                                 file = "stop_times",
                                 progress = FALSE,
-                                drop_geometry = TRUE) {
+                                drop_geometry = TRUE,
+                                crs = 4326) {
 
-  segments <- trip_geometry(gtfs, trip_id, file) %>%
+  segments <- trip_geometry(gtfs, trip_id, file, crs) %>%
     nngeo::st_segments(progress = progress) %>%
     dplyr::group_by(trip_id) %>%
     dplyr::mutate(segment = 1:dplyr::n()) %>%
