@@ -7,7 +7,7 @@
 #'   durations calculated. If \code{NULL} (the default) the function calculates
 #'   the duration of every \code{trip_id} in the GTFS.
 #'
-#' @return A \code{LINESTRING sf}.
+#' @return A table containing the duration (in minutes) of each specified trip.
 
 trip_duration <- function(gtfs, trip_id = NULL) {
 
