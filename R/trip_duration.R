@@ -8,6 +8,8 @@
 #'   the duration of every \code{trip_id} in the GTFS.
 #'
 #' @return A table containing the duration (in minutes) of each specified trip.
+#'
+#' @export
 
 trip_duration <- function(gtfs, trip_id = NULL) {
 

@@ -12,6 +12,8 @@
 #' @param crs The CRS of the resulting object. Defaults to 4326 (WGS 84).
 #'
 #' @return A \code{LINESTRING sf}.
+#'
+#' @export
 
 trip_geometry <- function(gtfs,
                           trip_id = NULL,

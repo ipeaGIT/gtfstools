@@ -17,6 +17,8 @@
 #'
 #' @return A table containing the segments of each specified trip, their length
 #'   (in meters) and their geometry, if desired.
+#'
+#' @export
 
 stop_to_stop_length <- function(gtfs,
                                 trip_id,
