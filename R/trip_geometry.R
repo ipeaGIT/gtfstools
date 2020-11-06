@@ -60,7 +60,7 @@ trip_geometry <- function(gtfs,
 
     } else {
 
-      relevant_trips <- unique(trips$trip_id)
+      relevant_trips <- unique(gtfs$trips$trip_id)
 
     }
 
