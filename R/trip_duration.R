@@ -13,17 +13,13 @@
 
 trip_duration <- function(gtfs, trip_id = NULL) {
 
-  if (! is.null(trip_id)) {
-
-    relevant_trips <- trip_id
-
-  } else {
-
-    relevant_trips <- unique(gtfs$trips$trip_id)
-
-  }
-
   # filter gtfs stop_times and frequencies to reduce computation time
+
+  if (! is.null(trip_id)) {
+    relevant_trips <- trip_id
+  } else {
+    relevant_trips <- unique(gtfs$trips$trip_id)
+  }
 
   gtfs$stop_times <- dplyr::filter(gtfs$stop_times, trip_id %in% relevant_trips)
 
@@ -38,7 +34,7 @@ trip_duration <- function(gtfs, trip_id = NULL) {
   durations <- gtfs$stop_times %>%
     dplyr::group_by(trip_id) %>%
     dplyr::summarise(
-      duration = as.integer(max(arrival_time_hms) - min(departure_time_hms)) / 60,
+      duration = as.numeric(max(arrival_time_hms) - min(departure_time_hms)) / 60,
       .groups = "drop"
     )
 

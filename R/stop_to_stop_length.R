@@ -10,8 +10,6 @@
 #'   calculates the segments' length for every \code{trip_id} in the GTFS.
 #' @param file The file from which geometries should be generated. By now
 #'   supports only \code{stop_times}.
-#' @param progress Whether a progress bar should be displayed (defaults to
-#'   \code{FALSE}).
 #' @param drop_geometry Whether the function should drop segment's geometry
 #'   (defaults to \code{TRUE}).
 #' @param crs The CRS of the resulting object. Defaults to 4326 (WGS 84).
@@ -22,21 +20,26 @@
 #' @export
 
 stop_to_stop_length <- function(gtfs,
-                                trip_id,
+                                trip_id = NULL,
                                 file = "stop_times",
-                                progress = FALSE,
                                 drop_geometry = TRUE,
                                 crs = 4326) {
 
-  segments <- trip_geometry(gtfs, trip_id, file, crs) %>%
-    nngeo::st_segments(progress = progress) %>%
+  # calculate the geometry of segment between stops
+
+  segments <- trip_geometry(gtfs, trip_id = NULL, file, crs) %>%
+    nngeo::st_segments(progress = FALSE) %>%
     dplyr::group_by(trip_id) %>%
     dplyr::mutate(segment = 1:dplyr::n()) %>%
     dplyr::ungroup()
 
+  # calculate the length and bind to result
+
   segment_length <- as.numeric(sf::st_length(segments))
 
   segments <- dplyr::mutate(segments, length = segment_length)
+
+  # either drop the geometry of tidy the result
 
   if (drop_geometry) {
 

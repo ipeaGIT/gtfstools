@@ -6,10 +6,10 @@
 \usage{
 stop_to_stop_length(
   gtfs,
-  trip_id,
+  trip_id = NULL,
   file = "stop_times",
-  progress = FALSE,
-  drop_geometry = TRUE
+  drop_geometry = TRUE,
+  crs = 4326
 )
 }
 \arguments{
@@ -22,11 +22,10 @@ calculates the segments' length for every \code{trip_id} in the GTFS.}
 \item{file}{The file from which geometries should be generated. By now
 supports only \code{stop_times}.}
 
-\item{progress}{Whether a progress bar should be displayed (defaults to
-\code{FALSE}).}
-
 \item{drop_geometry}{Whether the function should drop segment's geometry
 (defaults to \code{TRUE}).}
+
+\item{crs}{The CRS of the resulting object. Defaults to 4326 (WGS 84).}
 }
 \value{
 A table containing the segments of each specified trip, their length
