@@ -15,5 +15,6 @@ Imports:
     nngeo,
     utils,
     checkmate,
-    methods
+    methods,
+    data.table
 RoxygenNote: 7.1.1
