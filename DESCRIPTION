@@ -13,5 +13,7 @@ Imports:
     dplyr,
     sf,
     nngeo,
-    utils
+    utils,
+    checkmate,
+    methods
 RoxygenNote: 7.1.1
