@@ -1,4 +1,4 @@
-# gtfsutils
+# gtfstools
 
 [![Build Status](https://travis-ci.org/dhersz/gtfsutils.svg?branch=master)](https://travis-ci.org/dhersz/gtfsutils)
 
@@ -11,4 +11,4 @@ This package builds on top of existing packages, such as [tidytransit](https://g
 
 ## Acknowledgement
 
-**gtfsutils** is developed by a team at the Institute for Applied Economic Research (Ipea), Brazil.
+**gtfstools** is developed by a team at the Institute for Applied Economic Research (Ipea), Brazil.

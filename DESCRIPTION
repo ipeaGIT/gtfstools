@@ -1,4 +1,4 @@
-Package: gtfsutils
+Package: gtfstools
 Type: Package
 Title: GTFS Editing/Analysing Tools
 Version: 0.0.0.9000
