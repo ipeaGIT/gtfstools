@@ -29,6 +29,27 @@ read_gtfs <- function(gtfs_path, files = NULL) {
   gtfs <- lapply(files_to_read, read_files, temp_dir, gtfs_metadata)
   gtfs <- stats::setNames(gtfs, sub(".txt", "", files_to_read))
 
+  # check if any parsing warnings were thrown
+
+  files_class <- lapply(gtfs, class)
+  has_warning <- unlist(lapply(files_class, function(i) "warning" %in% i))
+
+  if (sum(has_warning) >= 1) {
+
+    gtfs_warnings <- gtfs[has_warning]
+    gtfs_warnings <- lapply(gtfs_warnings, extract_warning_message)
+
+    warning(
+      paste0(
+        "Parsing failures while reading ",
+        paste(names(gtfs_warnings), collapse = ", ")
+      )
+    )
+
+    return(gtfs_warnings)
+
+  }
+
   return(gtfs)
 
 }
@@ -37,11 +58,32 @@ read_files <- function(file, temp_dir, gtfs_metadata) {
 
   file_metadata <- gtfs_metadata[[file]]
 
-  sample_dt   <- data.table::fread(file.path(temp_dir, file), nrows = 1)
+  sample_dt   <- suppressWarnings(
+    data.table::fread(file.path(temp_dir, file), nrows = 1)
+  )
   col_to_read <- names(sample_dt)
   col_classes <- file_metadata$coltype[col_to_read]
 
-  full_dt <- data.table::fread(file.path(temp_dir, file), select = col_classes)
+  full_dt <- tryCatch(
+    data.table::fread(file.path(temp_dir, file), select = col_classes),
+    warning = function(w) w
+  )
+
+}
+
+extract_warning_message <- function(warning_log) {
+
+  warning_log <- as.character(warning_log)
+
+  warning_message <- regmatches(
+    warning_log,
+    regexpr(
+      "Stopped early on line \\d+. Expected \\d+ fields but found \\d+.",
+      warning_log
+    )
+  )
+
+  return(warning_message)
 
 }
 
