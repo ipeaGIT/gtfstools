@@ -1,6 +1,6 @@
 # gtfstools
 
-[![Build Status](https://travis-ci.org/dhersz/gtfsutils.svg?branch=master)](https://travis-ci.org/dhersz/gtfsutils)
+[![Build Status](https://travis-ci.com/ipeaGIT/gtfstools.svg?branch=main)](https://travis-ci.com/ipeaGIT/gtfstools)
 
 This package builds on top of existing packages, such as [tidytransit](https://github.com/r-transit/tidytransit) and [gtfs2gps](https://github.com/ipeaGIT/gtfs2gps), to offer a set of convenient tools for editing and analysing transit feeds in GTFS format.
 
