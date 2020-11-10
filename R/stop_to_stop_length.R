@@ -18,7 +18,6 @@
 #'   (in meters) and their geometry, if desired.
 #'
 #' @export
-
 stop_to_stop_length <- function(gtfs,
                                 trip_id = NULL,
                                 file = "stop_times",

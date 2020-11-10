@@ -1,8 +1,10 @@
 #' @importFrom dplyr %>%
+#' @importFrom data.table :=
 NULL
 
 utils::globalVariables(
   c(
+    ":=",
     "stop_sequence",
     "departure_time_hms",
     "arrival_time_hms",

@@ -10,7 +10,6 @@
 #' @return A table containing the duration (in minutes) of each specified trip.
 #'
 #' @export
-
 trip_duration <- function(gtfs, trip_id = NULL) {
 
   # filter gtfs stop_times and frequencies to reduce computation time

@@ -14,7 +14,6 @@
 #' @return A \code{LINESTRING sf}.
 #'
 #' @export
-
 trip_geometry <- function(gtfs,
                           trip_id = NULL,
                           file = c("shapes", "stop_times"),
