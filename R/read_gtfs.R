@@ -56,7 +56,7 @@ read_gtfs <- function(path, files = NULL, quiet = FALSE) {
     if (!quiet) {
       warning(
         paste0(
-          "Parsing failures while reading ",
+          "Parsing failures while reading the following file(s): ",
           paste(names(gtfs_warnings), collapse = ", ")
         )
       )
@@ -74,6 +74,8 @@ read_gtfs <- function(path, files = NULL, quiet = FALSE) {
   return(gtfs)
 
 }
+
+
 
 #' Read GTFS text files
 #'
@@ -120,6 +122,8 @@ read_files <- function(file, temp_dir) {
 
 }
 
+
+
 #' Extract warning message
 #'
 #' Extracts the warning message as a string from a warning log.
@@ -131,10 +135,15 @@ extract_warning_message <- function(warning_log) {
 
   warning_log <- as.character(warning_log)
 
+  possible_warnings <- c(
+    "Detected \\d+ column names but the data has \\d+ columns \\(i\\.e\\. invalid file\\)\\.",
+    "Stopped early on line \\d+\\. Expected \\d+ fields but found \\d+\\."
+  )
+
   warning_message <- regmatches(
     warning_log,
     regexpr(
-      "Stopped early on line \\d+. Expected \\d+ fields but found \\d+.",
+      paste(possible_warnings, collapse = "|"),
       warning_log
     )
   )
