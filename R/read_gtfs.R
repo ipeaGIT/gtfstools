@@ -34,8 +34,12 @@ read_gtfs <- function(path, files = NULL, quiet = FALSE) {
   }
 
   temp_dir <- file.path(tempdir(), "gtfsdir")
-  unlink(temp_dir, recursive = TRUE)
+
   utils::unzip(path, files = files_to_read, exdir = temp_dir, overwrite = TRUE)
+
+  # removes temp_dir on exit (either due to error or natural function end)
+
+  on.exit(unlink(temp_dir, recursive = TRUE))
 
   # read files into list and assign GTFS class
 
