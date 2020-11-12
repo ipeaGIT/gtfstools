@@ -4,12 +4,14 @@
 \alias{read_files}
 \title{Read GTFS text files}
 \usage{
-read_files(file, temp_dir)
+read_files(file, temp_dir, quiet)
 }
 \arguments{
 \item{file}{The name of the file (with \code{.txt} extension) to be read.}
 
 \item{temp_dir}{The path to the temporary folder where the GTFS was unzipped.}
+
+\item{quiet}{Whether to hide log messages and progress bars (defaults to TRUE).}
 }
 \value{
 Either a data.table containing the desired file or a log message if

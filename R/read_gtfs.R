@@ -7,13 +7,14 @@
 #' @param files A character vector containing the text files to be read from the
 #'   GTFS (without the \code{.txt} extension). If \code{NULL} (the default) all
 #'   existing files are read.
-#' @param quiet Whether to display warning messages (the default) or not.
+#' @param quiet Whether to hide log messages and progress bars (defaults to TRUE).
+#' @param warnings Whether to display warning messages (defaults to TRUE).
 #'
 #' @return A GTFS object: a list of data.tables in which each index represents a
 #'   GTFS text file.
 #'
 #' @export
-read_gtfs <- function(path, files = NULL, quiet = FALSE) {
+read_gtfs <- function(path, files = NULL, quiet = TRUE, warnings = TRUE) {
 
   # unzip files
 
@@ -37,13 +38,23 @@ read_gtfs <- function(path, files = NULL, quiet = FALSE) {
 
   utils::unzip(path, files = files_to_read, exdir = temp_dir, overwrite = TRUE)
 
+  if (!quiet) {
+    message(
+      paste0(
+        "Unzipped the following files to directory ", temp_dir, ":\n",
+        paste0("> ", files_to_read, collapse = "\n"),
+        "\n"
+      )
+    )
+  }
+
   # removes temp_dir on exit (either due to error or natural function end)
 
   on.exit(unlink(temp_dir, recursive = TRUE))
 
   # read files into list and assign GTFS class
 
-  gtfs <- lapply(files_to_read, read_files, temp_dir)
+  gtfs <- lapply(files_to_read, read_files, temp_dir, quiet)
   gtfs <- stats::setNames(gtfs, sub(".txt", "", files_to_read))
   class(gtfs) <- "gtfs"
 
@@ -57,7 +68,7 @@ read_gtfs <- function(path, files = NULL, quiet = FALSE) {
     gtfs_warnings <- gtfs[has_warning]
     gtfs_warnings <- lapply(gtfs_warnings, extract_warning_message)
 
-    if (!quiet) {
+    if (warnings) {
       warning(
         paste0(
           "Parsing failures while reading the following file(s): ",
@@ -66,13 +77,15 @@ read_gtfs <- function(path, files = NULL, quiet = FALSE) {
       )
     }
 
+    if (!quiet) message("\nReturning parsing failures details.")
+
     return(gtfs_warnings)
 
   }
 
   # if not, validate given GTFS structure against specifications
 
-  validation_result <- validate_gtfs(gtfs, files, quiet)
+  validation_result <- validate_gtfs(gtfs, files, quiet, warnings)
   attr(gtfs, "validation_result") <- validation_result
 
   return(gtfs)
@@ -87,22 +100,38 @@ read_gtfs <- function(path, files = NULL, quiet = FALSE) {
 #'
 #' @param file The name of the file (with \code{.txt} extension) to be read.
 #' @param temp_dir The path to the temporary folder where the GTFS was unzipped.
+#' @param quiet Whether to hide log messages and progress bars (defaults to TRUE).
 #'
 #' @return Either a data.table containing the desired file or a log message if
 #'   any parsing warnings were thrown.
-read_files <- function(file, temp_dir) {
+read_files <- function(file, temp_dir, quiet) {
 
   gtfs_metadata <- get_gtfs_meta()
   file_metadata <- gtfs_metadata[[file]]
+
+  if (!quiet) message(paste0("Reading ", file))
 
   # if metadata is null then file is undocumented. read everything as character
   # https://developers.google.com/transit/gtfs/reference
 
   if (is.null(file_metadata)) {
 
+    if (!quiet) {
+
+      message(
+        paste0(
+          "  File ",
+          file,
+          ".txt not recognized. Trying to read it as a csv."
+        )
+      )
+
+    }
+
     full_dt <- data.table::fread(
       file.path(temp_dir, file),
-      colClasses = "character"
+      colClasses = "character",
+      showProgress = !quiet
     )
 
   } else {
@@ -115,7 +144,12 @@ read_files <- function(file, temp_dir) {
 
     # if file is completely empty (without even a header) return NULL data.table
 
-    if (ncol(sample_dt) == 0) return(data.table::data.table(NULL))
+    if (ncol(sample_dt) == 0) {
+
+      if (!quiet) message("  File is empty. Returning a NULL data.table")
+      return(data.table::data.table(NULL))
+
+    }
 
     # read full file. if a parsing warning has been thrown save it
 

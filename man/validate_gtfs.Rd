@@ -4,7 +4,7 @@
 \alias{validate_gtfs}
 \title{Validate GTFS file}
 \usage{
-validate_gtfs(gtfs, files, quiet)
+validate_gtfs(gtfs, files = NULL, quiet = TRUE, warnings = TRUE)
 }
 \arguments{
 \item{gtfs}{A GTFS object as created by \code{read_gtfs}.}
@@ -14,7 +14,9 @@ against the GTFS specification (without the \code{.txt} extension). If
 \code{NULL} (the default) the provided GTFS is validated against all
 possible GTFS text files.}
 
-\item{quiet}{Whether to display warning messages (the default) or not.}
+\item{quiet}{Whether to hide log messages (defaults to TRUE).}
+
+\item{warnings}{Whether to display warning messages (defaults to TRUE).}
 }
 \value{
 A data.table containing the validation summary of all possible fields

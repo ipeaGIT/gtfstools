@@ -8,13 +8,14 @@
 #'   against the GTFS specification (without the \code{.txt} extension). If
 #'   \code{NULL} (the default) the provided GTFS is validated against all
 #'   possible GTFS text files.
-#' @param quiet Whether to display warning messages (the default) or not.
+#' @param quiet Whether to hide log messages (defaults to TRUE).
+#' @param warnings Whether to display warning messages (defaults to TRUE).
 #'
 #' @return A data.table containing the validation summary of all possible fields
 #'   from the specified files.
 #'
 #' @export
-validate_gtfs <- function(gtfs, files, quiet) {
+validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
 
   gtfs_metadata <- get_gtfs_meta()
 
@@ -116,7 +117,7 @@ validate_gtfs <- function(gtfs, files, quiet) {
 
   files_problems <- validation_result[validation_details == "missing_req_file"]
 
-  if (nrow(files_problems) >= 1 & !quiet) {
+  if (nrow(files_problems) >= 1 & warnings) {
 
     warning(
       paste0(
@@ -129,7 +130,7 @@ validate_gtfs <- function(gtfs, files, quiet) {
 
   fields_problems <- validation_result[validation_details == "missing_req_field"]
 
-  if (nrow(fields_problems) >= 1 & !quiet) {
+  if (nrow(fields_problems) >= 1 & warnings) {
 
     problematic_files <- unique(fields_problems$file)
 
@@ -151,6 +152,8 @@ validate_gtfs <- function(gtfs, files, quiet) {
     )
 
   }
+
+  if (nrow(fields_problems) == 0 & !quiet) message("Valid gtfs data structure.")
 
   return(validation_result)
 

@@ -4,7 +4,7 @@
 \alias{read_gtfs}
 \title{Read and validate GTFS files}
 \usage{
-read_gtfs(path, files = NULL, quiet = FALSE)
+read_gtfs(path, files = NULL, quiet = TRUE, warnings = TRUE)
 }
 \arguments{
 \item{path}{The path to a GTFS \code{.zip} file.}
@@ -13,7 +13,9 @@ read_gtfs(path, files = NULL, quiet = FALSE)
 GTFS (without the \code{.txt} extension). If \code{NULL} (the default) all
 existing files are read.}
 
-\item{quiet}{Whether to display warning messages (the default) or not.}
+\item{quiet}{Whether to hide log messages and progress bars (defaults to TRUE).}
+
+\item{warnings}{Whether to display warning messages (defaults to TRUE).}
 }
 \value{
 A GTFS object: a list of data.tables in which each index represents a
