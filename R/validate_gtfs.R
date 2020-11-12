@@ -23,29 +23,41 @@ validate_gtfs <- function(gtfs, files, quiet) {
   # if any files have been specified in read_gtfs, only validate those
 
   if (is.null(files)) {
-
     files_to_validate <- names(gtfs_metadata)
-
   } else {
-
-    checkmate::assert_names(files, subset.of = sub(".txt", "", names(gtfs_metadata)))
     files_to_validate <- paste0(files, ".txt")
-
   }
 
   # build validation dt for each file
 
   validation_result <- lapply(files_to_validate, function(filename) {
 
-    file                  <- sub(".txt", "", filename)
-    file_provided_status  <- file %in% names(gtfs)
-    file_spec             <- gtfs_metadata[[filename]]$file_spec
-    field                 <- gtfs_metadata[[filename]]$field
-    field_spec            <- gtfs_metadata[[filename]]$field_spec[field]
-    field_provided_status <- field %in% names(gtfs[[file]])
+    file_metadata <- gtfs_metadata[[filename]]
+    file          <- sub(".txt", "", filename)
+
+    # if metadata is null then file is undocumented. validate it as an "extra" file
+    # https://developers.google.com/transit/gtfs/reference
+
+    if (is.null(file_metadata)) {
+
+      file_provided_status  <- TRUE
+      file_spec             <- "ext"
+      field                 <- names(gtfs[[file]])
+      field_spec            <- "ext"
+      field_provided_status <- TRUE
+
+    } else {
+
+      file_provided_status  <- file %in% names(gtfs)
+      file_spec             <- file_metadata$file_spec
+      field                 <- file_metadata$field
+      field_spec            <- file_metadata$field_spec[field]
+      field_provided_status <- field %in% names(gtfs[[file]])
+
+    }
 
     data.table::data.table(
-      file = sub(".txt", "", filename),
+      file,
       file_spec,
       file_provided_status,
       field,

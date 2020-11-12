@@ -93,34 +93,41 @@ read_gtfs <- function(path, files = NULL, quiet = FALSE) {
 read_files <- function(file, temp_dir) {
 
   gtfs_metadata <- get_gtfs_meta()
-
-  # check if given file is a valid gtfs file
-
-  all_possible_files <- names(gtfs_metadata)
-
-  checkmate::assert_names(file, subset.of = all_possible_files, .var.name = file)
-
   file_metadata <- gtfs_metadata[[file]]
 
-  # read first row to know what columns to read
+  # if metadata is null then file is undocumented. read everything as character
+  # https://developers.google.com/transit/gtfs/reference
 
-  sample_dt   <- suppressWarnings(
-    data.table::fread(file.path(temp_dir, file), nrows = 1)
-  )
+  if (is.null(file_metadata)) {
 
-  # if file is completely empty (without even a header) return NULL data.table
+    full_dt <- data.table::fread(
+      file.path(temp_dir, file),
+      colClasses = "character"
+    )
 
-  if (ncol(sample_dt) == 0) return(data.table::data.table(NULL))
+  } else {
 
-  # read full file. if a parsing warning has been thrown save it
+    # read first row to know what columns to read
 
-  col_to_read <- names(sample_dt)
-  col_classes <- file_metadata$coltype[col_to_read]
+    sample_dt <- suppressWarnings(
+      data.table::fread(file.path(temp_dir, file), nrows = 1)
+    )
 
-  full_dt <- tryCatch(
-    data.table::fread(file.path(temp_dir, file), select = col_classes),
-    warning = function(w) w
-  )
+    # if file is completely empty (without even a header) return NULL data.table
+
+    if (ncol(sample_dt) == 0) return(data.table::data.table(NULL))
+
+    # read full file. if a parsing warning has been thrown save it
+
+    col_to_read <- names(sample_dt)
+    col_classes <- file_metadata$coltype[col_to_read]
+
+    full_dt <- tryCatch(
+      data.table::fread(file.path(temp_dir, file), select = col_classes),
+      warning = function(w) w
+    )
+
+  }
 
   return(full_dt)
 
