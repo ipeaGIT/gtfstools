@@ -17,5 +17,6 @@ Imports:
     checkmate,
     methods,
     data.table,
-    hms
+    hms,
+    zip
 RoxygenNote: 7.1.1
