@@ -1,7 +1,7 @@
 #' Read and validate GTFS files
 #'
-#' Reads GTFS text files from a zip file and validates them against GTFS
-#' specifications.
+#' Reads GTFS text files from either a local \code{.zip} file or an URL and
+#' validates them against GTFS specifications.
 #'
 #' @param path The path to a GTFS \code{.zip} file.
 #' @param files A character vector containing the text files to be read from the
@@ -13,12 +13,29 @@
 #' @return A GTFS object: a list of data.tables in which each index represents a
 #'   GTFS text file.
 #'
+#' @seealso \code{\link{validate_gtfs}}
+#'
 #' @export
 read_gtfs <- function(path, files = NULL, quiet = TRUE, warnings = TRUE) {
 
-  # unzip files to temporary folder - remove temp_dir on exit
+  checkmate::assert_string(path)
 
-  checkmate::assert_file_exists(path)
+  # check if path is an url. if so, download the gtfs from it
+
+  if (grepl('http[s]?://.*', path)) {
+
+    temp_file <- tempfile(pattern = "gtfs", fileext = ".zip")
+
+    utils::download.file(path, temp_file, method = "auto", quiet = quiet)
+    on.exit(file.remove(temp_file))
+
+    path <- temp_file
+
+  }
+
+  # unzip files to temporary folder
+
+  checkmate::assert_file_exists(path, extension = "zip")
 
   files_in_gtfs <- zip::zip_list(path)$filename
 
@@ -35,7 +52,7 @@ read_gtfs <- function(path, files = NULL, quiet = TRUE, warnings = TRUE) {
   }
 
   temp_dir <- file.path(tempdir(), "gtfsdir")
-  on.exit(unlink(temp_dir, recursive = TRUE))
+  on.exit(unlink(temp_dir, recursive = TRUE), add = TRUE)
 
   zip::unzip(path, files = files_to_read, exdir = temp_dir, overwrite = TRUE)
 

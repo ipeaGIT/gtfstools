@@ -22,6 +22,9 @@ A GTFS object: a list of data.tables in which each index represents a
   GTFS text file.
 }
 \description{
-Reads GTFS text files from a zip file and validates them against GTFS
-specifications.
+Reads GTFS text files from either a local \code{.zip} file or an URL and
+validates them against GTFS specifications.
+}
+\seealso{
+\code{\link{validate_gtfs}}
 }
