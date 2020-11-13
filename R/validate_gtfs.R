@@ -1,6 +1,6 @@
 #' Validate GTFS file
 #'
-#' Validates the GTFS file against GTFS specifications and raises warnings if
+#' Validates the GTFS object against GTFS specifications and raises warnings if
 #' required files/fields are not found.
 #'
 #' @param gtfs A GTFS object as created by \code{read_gtfs}.
@@ -12,7 +12,31 @@
 #' @param warnings Whether to display warning messages (defaults to TRUE).
 #'
 #' @return A data.table containing the validation summary of all possible fields
-#'   from the specified files.
+#' from the specified files.
+#'
+#' @section Details:
+#' GTFS object's files and fields are validated against the GTFS specifications
+#' as documented in \href{https://developers.google.com/transit/gtfs/reference}{
+#' Google's Static GTFS Reference}:
+#' \itemize{
+#'   \item GTFS feeds are considered valid if they include all required files
+#'     and fields. If a required file/field is missing the function (optionally)
+#'     raises a warning.
+#'   \item Optional files/fields are listed in the reference above but are not
+#'     required, thus no warning is raised if they are missing.
+#'   \item Extra files/fields are those who are not listed in the reference
+#'     above (either because they refer to a specific GTFS extension or due to
+#'     any other reason).
+#' }
+#' Note that some files (\code{calendar.txt}, \code{calendar_dates.txt} and
+#' \code{feed_info.txt}) are conditionally required. This means that:
+#' \itemize{
+#'   \item \code{calendar.txt} is initially set as a required file. If it's not
+#'     present, however, it becomes optional and \code{calendar_dates.txt}
+#'     (originally set as optional) becomes required.
+#'   \item \code{feed_info.txt} is initially set as an optional file. If
+#'     \code{translations.txt} is present, however, it becomes required.
+#' }
 #'
 #' @export
 validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
@@ -43,7 +67,6 @@ validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
     file          <- sub(".txt", "", filename)
 
     # if metadata is null then file is undocumented. validate it as an "extra" file
-    # https://developers.google.com/transit/gtfs/reference
 
     if (is.null(file_metadata)) {
 
@@ -55,10 +78,22 @@ validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
 
     } else {
 
+      # undocumented fields are labeled as "extra" fields
+
+      provided_fields   <- names(gtfs[[file]])
+      documented_fields <- file_metadata$field
+
       file_provided_status  <- file %in% names(gtfs)
       file_spec             <- file_metadata$file_spec
-      field                 <- file_metadata$field
-      field_spec            <- file_metadata$field_spec[field]
+      field                 <- c(
+        documented_fields,
+        setdiff(provided_fields, documented_fields)
+      )
+      field_spec            <- ifelse(
+        field %in% documented_fields,
+        file_metadata$field_spec[field],
+        "ext"
+      )
       field_provided_status <- field %in% names(gtfs[[file]])
 
     }
@@ -76,15 +111,20 @@ validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
 
   validation_result <- data.table::rbindlist(validation_result)
 
-  # checks for the missing calendar.txt exception
-  # see https://developers.google.com/transit/gtfs/reference/#calendar_datestxt
-  # if the exception is true then calendar.txt is set to optional
+  # checks if calendar.txt is missing. if it is then it becomes optional and
+  # calendar_dates.txt becomes required
 
   if (! "calendar" %in% names(gtfs)) {
 
     validation_result[file == "calendar", file_spec := "opt"]
     validation_result[file == "calendar_dates", file_spec := "req"]
 
+  }
+
+  # checks if translations.txt is provided. if it is, feed_info.txt becomes required
+
+  if ("translations" %in% names(gtfs)) {
+    validation_result[file == "feed_info", file_spec := "req"]
   }
 
   # checks for validation status and details
@@ -117,6 +157,20 @@ validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
   validation_result[
     file_provided_status & !field_provided_status & field_spec == "opt",
     `:=`(validation_status = "info", validation_details = "missing_opt_field")
+  ]
+
+  # if file is provided but undocumented in gtfs specifications, mark as a info
+
+  validation_result[
+    file_spec == "ext",
+    `:=`(validation_status = "info", validation_details = "undocumented_file")
+  ]
+
+  # if field is provided but undocumented in gtfs specifications, mark as a info
+
+  validation_result[
+    file_spec != "ext" & field_spec == "ext",
+    `:=`(validation_status = "info", validation_details = "undocumented_field")
   ]
 
   # raises warnings if problems are found
