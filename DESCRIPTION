@@ -16,5 +16,6 @@ Imports:
     utils,
     checkmate,
     methods,
-    data.table
+    data.table,
+    hms
 RoxygenNote: 7.1.1

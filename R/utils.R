@@ -17,12 +17,16 @@ string_to_hms <- function(string) {
     integer(1)
   )
 
+  # "" strings result in seconds_to_midnight = 0. find those and replace to NA
+
   index_na <- which(lengths(split_string) == 0)
   seconds_from_midgnight[index_na] <- NA_integer_
 
   return(hms::hms(seconds = seconds_from_midgnight))
 
 }
+
+
 
 #' Create GTFS metadata
 #'
