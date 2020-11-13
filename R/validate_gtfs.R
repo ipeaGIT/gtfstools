@@ -24,9 +24,15 @@ validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
   # if any files have been specified in read_gtfs, only validate those
 
   if (is.null(files)) {
-    files_to_validate <- names(gtfs_metadata)
+
+    specified_files   <- names(gtfs_metadata)
+    extra_files       <- setdiff(paste0(names(gtfs), ".txt"), names(gtfs_metadata))
+    files_to_validate <- c(specified_files, extra_files)
+
   } else {
+
     files_to_validate <- paste0(files, ".txt")
+
   }
 
   # build validation dt for each file
