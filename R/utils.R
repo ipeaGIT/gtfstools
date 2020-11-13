@@ -1,3 +1,29 @@
+#' Convert string to time
+#'
+#' Converts strings in the "HH:MM:SS" format to \code{hms}.
+#'
+#' @param string A string in "HH:MM:SS" format.
+#'
+#' @return An \code{hms} object.
+string_to_hms <- function(string) {
+
+  checkmate::assert_character(string)
+
+  split_string <- strsplit(string, ":")
+
+  seconds_from_midgnight <- vapply(
+    split_string,
+    function(i) sum(as.integer(i) * c(3600L, 60L, 1L)),
+    integer(1)
+  )
+
+  index_na <- which(lengths(split_string) == 0)
+  seconds_from_midgnight[index_na] <- NA_integer_
+
+  return(hms::hms(seconds = seconds_from_midgnight))
+
+}
+
 #' Create GTFS metadata
 #'
 #' Creates GTFS metadata (a list including all possible fields for each text
@@ -8,6 +34,9 @@ get_gtfs_meta <- function() {
 
   methods::setClass("fDate")
   methods::setAs("character", "fDate", function(from) as.Date(from, format = "%Y%m%d"))
+
+  methods::setClass("fTime")
+  methods::setAs("character", "fTime", function(from) string_to_hms(from))
 
   # required files ----------------------------------------------------------
 
@@ -116,7 +145,8 @@ get_gtfs_meta <- function() {
     "trip_id",
     "arrival_time",
     "departure_time",
-    "stop_id", "stop_sequence",
+    "stop_id",
+    "stop_sequence",
     "stop_headsign",
     "pickup_type",
     "drop_off_type",
@@ -139,6 +169,7 @@ get_gtfs_meta <- function() {
   )
   stop_times$coltype[integer_fields] <- "integer"
   stop_times$coltype["shape_dist_traveled"] <- "double"
+  stop_times$coltype[c("arrival_time", "departure_time")] <- "fTime"
   stop_times$file_spec <- "req"
 
   # calendar
@@ -155,7 +186,7 @@ get_gtfs_meta <- function() {
     "start_date",
     "end_date"
   )
-  calendar$field_spec <- rep("req", times = length(calendar$field))
+  calendar$field_spec <- rep("req", length(calendar$field))
   names(calendar$field_spec) <- calendar$field
   calendar$coltype <- c("character", rep("integer", 7), rep("fDate", 2))
   names(calendar$coltype) <- calendar$field
@@ -233,7 +264,7 @@ get_gtfs_meta <- function() {
   )
   frequencies$field_spec <- c("req", "req", "req", "req", "opt")
   names(frequencies$field_spec) <- frequencies$field
-  frequencies$coltype <- c(rep("character", 3), rep("integer", 2))
+  frequencies$coltype <- c("character", rep("fTime", 2), rep("integer", 2))
   names(frequencies$coltype) <- frequencies$field
   frequencies$file_spec <- "opt"
 
