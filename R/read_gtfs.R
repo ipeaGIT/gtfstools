@@ -16,11 +16,11 @@
 #' @export
 read_gtfs <- function(path, files = NULL, quiet = TRUE, warnings = TRUE) {
 
-  # unzip files
+  # unzip files to temporary folder - remove temp_dir on exit
 
   checkmate::assert_file_exists(path)
 
-  files_in_gtfs <- unzip(path, list = TRUE)$Name
+  files_in_gtfs <- zip::zip_list(path)$filename
 
   if (is.null(files)) {
 
@@ -35,8 +35,9 @@ read_gtfs <- function(path, files = NULL, quiet = TRUE, warnings = TRUE) {
   }
 
   temp_dir <- file.path(tempdir(), "gtfsdir")
+  on.exit(unlink(temp_dir, recursive = TRUE))
 
-  utils::unzip(path, files = files_to_read, exdir = temp_dir, overwrite = TRUE)
+  zip::unzip(path, files = files_to_read, exdir = temp_dir, overwrite = TRUE)
 
   if (!quiet) {
     message(
@@ -47,10 +48,6 @@ read_gtfs <- function(path, files = NULL, quiet = TRUE, warnings = TRUE) {
       )
     )
   }
-
-  # removes temp_dir on exit (either due to error or natural function end)
-
-  on.exit(unlink(temp_dir, recursive = TRUE))
 
   # read files into list and assign GTFS class
 
@@ -155,6 +152,13 @@ read_files <- function(file, temp_dir, quiet) {
 
     col_to_read <- names(sample_dt)
     col_classes <- file_metadata$coltype[col_to_read]
+
+    # substitute NA elements in col_classes with undocumented column names and
+    # "character" as the default column type
+
+    extra_col <- setdiff(col_to_read, names(col_classes))
+    col_classes[is.na(col_classes)] <- "character"
+    names(col_classes)[is.na(names(col_classes))] <- extra_col
 
     full_dt <- tryCatch(
       data.table::fread(file.path(temp_dir, file), select = col_classes),
