@@ -21,6 +21,9 @@ write_gtfs <- function(gtfs, path, optional = TRUE, extra = TRUE, overwrite = TR
 
   checkmate::assert_class(gtfs, "gtfs")
   checkmate::assert_path_for_output(path, overwrite = overwrite, extension = "zip")
+  checkmate::assert_logical(optional)
+  checkmate::assert_logical(extra)
+  checkmate::assert_logical(overwrite)
 
   # write files to temporary folder - remove temp_dir on exit
 

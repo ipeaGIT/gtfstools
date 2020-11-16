@@ -19,6 +19,8 @@
 read_gtfs <- function(path, files = NULL, quiet = TRUE, warnings = TRUE) {
 
   checkmate::assert_string(path)
+  checkmate::assert_logical(quiet)
+  checkmate::assert_logical(warnings)
 
   # check if path is an url. if so, download the gtfs from it
 
