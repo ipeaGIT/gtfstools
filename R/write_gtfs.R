@@ -19,6 +19,8 @@
 #' @export
 write_gtfs <- function(gtfs, path, optional = TRUE, extra = TRUE, overwrite = TRUE) {
 
+  # input checking
+
   checkmate::assert_class(gtfs, "gtfs")
   checkmate::assert_path_for_output(path, overwrite = overwrite, extension = "zip")
   checkmate::assert_logical(optional)

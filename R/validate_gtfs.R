@@ -43,9 +43,12 @@ validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
 
   gtfs_metadata <- get_gtfs_meta()
 
+  # input checking
+
   checkmate::assert_class(gtfs, "gtfs")
   checkmate::assert_logical(quiet)
   checkmate::assert_logical(warnings)
+  checkmate::assert_character(files, null.ok = TRUE)
 
   # if any files have been specified in read_gtfs, only validate those
 
@@ -56,8 +59,6 @@ validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
     files_to_validate <- c(specified_files, extra_files)
 
   } else {
-
-    checkmate::assert_character(files)
 
     files_to_validate <- paste0(files, ".txt")
 

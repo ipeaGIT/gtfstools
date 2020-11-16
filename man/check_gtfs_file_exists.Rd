@@ -16,6 +16,7 @@ If the check is successful, returns \code{TRUE} invisibly. Else,
   returns a string with error message.
 }
 \description{
-Checks for the existence of a given file in a GTFS object. Must be used in
-conjunction with \code{\link[checkmate]{assert}}.
+Checks for the existence of a given file (as represented by a
+\code{data.table}) in a GTFS object. Must be used in conjunction with
+\code{\link[checkmate]{assert}}.
 }
