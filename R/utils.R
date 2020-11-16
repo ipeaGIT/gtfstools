@@ -76,12 +76,6 @@ string_to_hms <- function(string) {
 #' @return A GTFS metadata list.
 get_gtfs_meta <- function() {
 
-  methods::setClass("fDate")
-  methods::setAs("character", "fDate", function(from) as.Date(from, format = "%Y%m%d"))
-
-  methods::setClass("fTime")
-  methods::setAs("character", "fTime", function(from) string_to_hms(from))
-
   # required files ----------------------------------------------------------
 
   # agency
@@ -213,7 +207,7 @@ get_gtfs_meta <- function() {
   )
   stop_times$coltype[integer_fields] <- "integer"
   stop_times$coltype["shape_dist_traveled"] <- "double"
-  stop_times$coltype[c("arrival_time", "departure_time")] <- "fTime"
+  stop_times$coltype[c("arrival_time", "departure_time")] <- "time"
   stop_times$file_spec <- "req"
 
   # calendar
@@ -232,7 +226,7 @@ get_gtfs_meta <- function() {
   )
   calendar$field_spec <- rep("req", length(calendar$field))
   names(calendar$field_spec) <- calendar$field
-  calendar$coltype <- c("character", rep("integer", 7), rep("fDate", 2))
+  calendar$coltype <- c("character", rep("integer", 7), rep("date", 2))
   names(calendar$coltype) <- calendar$field
   calendar$file_spec <- "req"
 
@@ -243,7 +237,7 @@ get_gtfs_meta <- function() {
   calendar_dates$field <- c("service_id", "date", "exception_type")
   calendar_dates$field_spec <- c("req", "req", "req")
   names(calendar_dates$field_spec) <- calendar_dates$field
-  calendar_dates$coltype <- c("character", "fDate", "integer")
+  calendar_dates$coltype <- c("character", "date", "integer")
   names(calendar_dates$coltype) <- calendar_dates$field
   calendar_dates$file_spec <- "opt"
 
@@ -308,7 +302,7 @@ get_gtfs_meta <- function() {
   )
   frequencies$field_spec <- c("req", "req", "req", "req", "opt")
   names(frequencies$field_spec) <- frequencies$field
-  frequencies$coltype <- c("character", rep("fTime", 2), rep("integer", 2))
+  frequencies$coltype <- c("character", rep("time", 2), rep("integer", 2))
   names(frequencies$coltype) <- frequencies$field
   frequencies$file_spec <- "opt"
 
@@ -381,7 +375,7 @@ get_gtfs_meta <- function() {
   names(feed_info$field_spec) <- feed_info$field
   feed_info$coltype <- rep("character", length(feed_info$field))
   names(feed_info$coltype) <- feed_info$field
-  feed_info$coltype[c("feed_start_date", "feed_end_date")] <- "fDate"
+  feed_info$coltype[c("feed_start_date", "feed_end_date")] <- "date"
   feed_info$file_spec <- "opt"
 
   # translations
