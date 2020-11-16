@@ -33,13 +33,21 @@ get_trip_geometry <- function(gtfs,
   checkmate::assert_names(file, subset.of = c("shapes", "stop_times"))
   checkmate::assert_numeric(crs)
 
-  checkmate::assert(check_gtfs_file_exists(gtfs, "trips"))
-
   # create linestrings from shapes
 
   if ("shapes" %in% file) {
 
-    checkmate::assert(check_gtfs_file_exists(gtfs, "shapes"))
+    # check if required fields and files exist
+
+    checkmate::assert(
+      check_gtfs_field_exists(gtfs, "trips", c("trip_id", "shape_id")),
+      check_gtfs_field_exists(
+        gtfs,
+        "shapes",
+        c("shape_id", "shape_pt_lat", "shape_pt_lon", "shape_pt_sequence")
+      ),
+      combine = "and"
+    )
 
     if (!is.null(trip_id)) {
 
@@ -53,6 +61,8 @@ get_trip_geometry <- function(gtfs,
     }
 
     relevant_shapes <- unique(trips$shape_id)
+
+    # generate geometry
 
     shapes_sf <- gtfs$shapes[shape_id %chin% relevant_shapes]
     shapes_sf <- shapes_sf[order(shape_id, shape_pt_sequence)]
@@ -73,13 +83,26 @@ get_trip_geometry <- function(gtfs,
 
   if ("stop_times" %in% file) {
 
-    checkmate::assert(check_gtfs_file_exists(gtfs, c("stops", "stop_times")))
+    # check if required fields and files exist
+
+    checkmate::assert(
+      check_gtfs_field_exists(gtfs, "trips", "trip_id"),
+      check_gtfs_field_exists(
+        gtfs, "stop_times", c("trip_id", "stop_id", "stop_sequence")
+      ),
+      check_gtfs_field_exists(
+        gtfs, "stops", c("stop_id", "stop_lat", "stop_lon")
+      ),
+      combine = "and"
+    )
 
     if (!is.null(trip_id)) {
       relevant_trips <- trip_id
     } else {
       relevant_trips <- unique(gtfs$trips$trip_id)
     }
+
+    # generate geometry
 
     stop_times_sf <- gtfs$stop_times[trip_id %chin% relevant_trips]
     stop_times_sf <- stop_times_sf[order(trip_id, stop_sequence)]

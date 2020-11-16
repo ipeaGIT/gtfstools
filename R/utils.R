@@ -12,8 +12,6 @@
 #'   returns a string with error message.
 check_gtfs_field_exists <- function(gtfs, file, field) {
 
-  # input checking
-
   checkmate::assert_class(gtfs, "gtfs")
   checkmate::assert_string(file)
   checkmate::assert_character(field)
@@ -61,8 +59,6 @@ check_gtfs_field_exists <- function(gtfs, file, field) {
 #' @return If the check is successful, returns \code{TRUE} invisibly. Else,
 #'   returns a string with error message.
 check_gtfs_file_exists <- function(gtfs, file) {
-
-  # input checking
 
   checkmate::assert_class(gtfs, "gtfs")
   checkmate::assert_character(file)

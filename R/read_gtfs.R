@@ -18,8 +18,6 @@
 #' @export
 read_gtfs <- function(path, files = NULL, quiet = TRUE, warnings = TRUE) {
 
-  # input checking
-
   checkmate::assert_string(path)
   checkmate::assert_logical(quiet)
   checkmate::assert_logical(warnings)
