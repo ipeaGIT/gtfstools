@@ -4,7 +4,7 @@
 #' includes optional and extra \code{.txt} files (check \code{\link{validate_gtfs}}
 #' documentation to check what are optional/extra files).
 #'
-#' @param gtfs A GTFS object as created by \code{read_gtfs}.
+#' @param gtfs A GTFS object as created by \code{\link{read_gtfs}}.
 #' @param path The path to the \code{.zip} file in which the feed should be
 #'   written to.
 #' @param optional Whether to write optional \code{.txt}. Defaults to TRUE.

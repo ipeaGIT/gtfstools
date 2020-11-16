@@ -3,7 +3,7 @@
 #' Validates the GTFS object against GTFS specifications and raises warnings if
 #' required files/fields are not found.
 #'
-#' @param gtfs A GTFS object as created by \code{read_gtfs}.
+#' @param gtfs A GTFS object as created by \code{\link{read_gtfs}}.
 #' @param files A character vector containing the text files to be validated
 #'   against the GTFS specification (without the \code{.txt} extension). If
 #'   \code{NULL} (the default) the provided GTFS is validated against all

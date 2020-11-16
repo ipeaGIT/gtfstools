@@ -7,7 +7,7 @@
 validate_gtfs(gtfs, files = NULL, quiet = TRUE, warnings = TRUE)
 }
 \arguments{
-\item{gtfs}{A GTFS object as created by \code{read_gtfs}.}
+\item{gtfs}{A GTFS object as created by \code{\link{read_gtfs}}.}
 
 \item{files}{A character vector containing the text files to be validated
 against the GTFS specification (without the \code{.txt} extension). If

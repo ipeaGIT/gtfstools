@@ -7,7 +7,7 @@
 write_gtfs(gtfs, path, optional = TRUE, extra = TRUE, overwrite = TRUE)
 }
 \arguments{
-\item{gtfs}{A GTFS object as created by \code{read_gtfs}.}
+\item{gtfs}{A GTFS object as created by \code{\link{read_gtfs}}.}
 
 \item{path}{The path to the \code{.zip} file in which the feed should be
 written to.}

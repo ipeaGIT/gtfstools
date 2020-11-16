@@ -1,3 +1,43 @@
+#' Check for GTFS text file existence
+#'
+#' Checks for the existence of a given file in a GTFS object. Must be used in
+#' conjunction with \code{\link[checkmate]{assert}}.
+#'
+#' @param gtfs A GTFS object as created by \code{\link{read_gtfs}}.
+#' @param file File to check existence of.
+#'
+#' @return If the check is successful, returns \code{TRUE} invisibly. Else,
+#'   returns a string with error message.
+check_gtfs_file_exists <- function(gtfs, file) {
+
+  checkmate::assert_class(gtfs, "gtfs")
+  checkmate::assert_character(file)
+
+  non_existent_file <- file[! file %chin% names(gtfs)]
+
+  if (identical(non_existent_file, character(0))) {
+
+    return(invisible(TRUE))
+
+  } else {
+
+    error_message <- ifelse(
+      length(non_existent_file) == 1,
+      paste0("Must contain '", non_existent_file, "' file"),
+      paste0(
+        "Must contain the following files: ",
+        paste0("'", non_existent_file, "'", collapse = ", ")
+      )
+    )
+
+    return(error_message)
+
+  }
+
+}
+
+
+
 #' Convert string to time
 #'
 #' Converts strings in the "HH:MM:SS" format to \code{hms}.

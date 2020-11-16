@@ -26,7 +26,7 @@ stop_to_stop_length <- function(gtfs,
 
   # calculate the geometry of segment between stops
 
-  segments <- trip_geometry(gtfs, trip_id = trip_id, file, crs) %>%
+  segments <- get_trip_geometry(gtfs, trip_id = trip_id, file, crs) %>%
     nngeo::st_segments(progress = FALSE) %>%
     dplyr::group_by(trip_id) %>%
     dplyr::mutate(segment = 1:dplyr::n()) %>%
