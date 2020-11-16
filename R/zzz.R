@@ -23,6 +23,8 @@ utils::globalVariables(
     "field_spec",
     "validation_details",
     "i.stop_lat",
-    "i.stop_lon"
+    "i.stop_lon",
+    "arrival_time",
+    "departure_time"
   )
 )

@@ -18,5 +18,6 @@ Imports:
     methods,
     data.table,
     hms,
-    zip
+    zip,
+    units
 RoxygenNote: 7.1.1
