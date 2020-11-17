@@ -19,6 +19,21 @@
 #'   GTFS object invisibly (note that in this case the original GTFS object is
 #'   altered).
 #'
+#' @examples
+#' data_path <- system.file("extdata/poa_gtfs.zip", package = "gtfstools")
+#'
+#' gtfs <- read_gtfs(data_path)
+#'
+#' gtfs_new_speed <- set_trip_speed(gtfs, trip_id = "274-2@1#640", 50)
+#' gtfs_new_speed$stop_times[trip_id == "274-2@1#640"]
+#'
+#' # original gtfs remains unchanged
+#' gtfs$stop_times[trip_id == "274-2@1#640"]
+#'
+#' # now do it by reference
+#' set_trip_speed(gtfs, trip_id = "274-2@1#640", 50, by_reference = TRUE)
+#' gtfs$stop_times[trip_id == "274-2@1#640"]
+#'
 #' @export
 set_trip_speed <- function(gtfs, trip_id, speed, unit = "km/h", by_reference = FALSE) {
 

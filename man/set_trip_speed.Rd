@@ -32,3 +32,19 @@ If \code{by_reference} is set to \code{FALSE}, returns a GTFS object
 Sets the average speed of each specified \code{trip_id} by changing the
 \code{arrival_time} and \code{departure_time} columns in \code{stop_times}.
 }
+\examples{
+data_path <- system.file("extdata/poa_gtfs.zip", package = "gtfstools")
+
+gtfs <- read_gtfs(data_path)
+
+gtfs_new_speed <- set_trip_speed(gtfs, trip_id = "274-2@1#640", 50)
+gtfs_new_speed$stop_times[trip_id == "274-2@1#640"]
+
+# original gtfs remains unchanged
+gtfs$stop_times[trip_id == "274-2@1#640"]
+
+# now do it by reference
+set_trip_speed(gtfs, trip_id = "274-2@1#640", 50, by_reference = TRUE)
+gtfs$stop_times[trip_id == "274-2@1#640"]
+
+}
