@@ -105,7 +105,7 @@ string_to_hms <- function(string) {
 
   checkmate::assert_character(string)
 
-  split_string <- strsplit(string, ":")
+  split_string <- strsplit(string, ":", fixed = TRUE)
 
   seconds_from_midgnight <- vapply(
     split_string,
@@ -119,5 +119,35 @@ string_to_hms <- function(string) {
   seconds_from_midgnight[index_na] <- NA_integer_
 
   return(hms::hms(seconds = seconds_from_midgnight))
+
+}
+
+
+
+#' Convert time to string
+#'
+#' Converts objects of class \code{hms} to strings in the "HH:MM:SS" format.
+#'
+#' @param time An \code{hms} object.
+#'
+#' @return A time-representing string..
+hms_to_string <- function(time) {
+
+  checkmate::assert_class(time, c("hms", "difftime"))
+
+  time_seconds <- as.integer(time)
+
+  time_string <- data.table::fifelse(
+    is.na(time_seconds),
+    NA_character_,
+    paste(
+      formatC(time_seconds %/% 3600, width = 2, format = "d", flag = 0),
+      formatC((time_seconds %% 3600) %/% 60, width = 2, format = "d", flag = 0),
+      formatC((time_seconds %% 3600) %% 60, width = 2, format = "d", flag = 0),
+      sep = ":"
+    )
+  )
+
+  return(time_string)
 
 }
