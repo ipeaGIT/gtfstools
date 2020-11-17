@@ -68,13 +68,6 @@ read_gtfs <- function(path, files = NULL, quiet = TRUE, warnings = TRUE) {
     )
   }
 
-  # set classes and methods to read dates and times as formatted in GTFS
-
-  methods::setClass("date")
-  methods::setClass("time")
-  methods::setAs("character", "date", function(from) as.Date(from, format = "%Y%m%d"))
-  methods::setAs("character", "time", function(from) string_to_hms(from))
-
   # read files into list and assign GTFS class
 
   gtfs <- lapply(files_to_read, read_files, temp_dir, quiet)

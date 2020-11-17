@@ -172,8 +172,8 @@ gtfs_metadata <- lapply(
     coltype <- rep("character", length(field))
     coltype <- ifelse(field %in% integer_fields, "integer", coltype)
     coltype <- ifelse(field %in% double_fields, "double", coltype)
-    coltype <- ifelse(field %in% time_fields, "time", coltype)
-    coltype <- ifelse(field %in% date_fields, "date", coltype)
+    coltype <- ifelse(field %in% time_fields, "gtfs_time", coltype)
+    coltype <- ifelse(field %in% date_fields, "gtfs_date", coltype)
     coltype <- stats::setNames(coltype, nm = field)
 
     file_spec <- ifelse(file %in% required_files, "req", "opt")

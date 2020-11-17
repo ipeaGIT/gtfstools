@@ -1,3 +1,9 @@
+# set classes and methods to read dates and times as formatted in GTFS
+methods::setClass("gtfs_date")
+methods::setClass("gtfs_time")
+methods::setAs("character", "gtfs_date", function(from) as.Date(from, format = "%Y%m%d"))
+methods::setAs("character", "gtfs_time", function(from) string_to_hms(from))
+
 #' Check for field existence in a GTFS text file
 #'
 #' Checks for the existence of a given field in a GTFS text file (represented by
