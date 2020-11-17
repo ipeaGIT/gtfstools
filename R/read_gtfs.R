@@ -129,7 +129,8 @@ read_gtfs <- function(path, files = NULL, quiet = TRUE, warnings = TRUE) {
 #'   any parsing warnings were thrown.
 read_files <- function(file, temp_dir, quiet) {
 
-  gtfs_metadata <- get_gtfs_meta()
+  # uses internal data gtfs_metadata - check data-raw/gtfs_metadata.R
+
   file_metadata <- gtfs_metadata[[file]]
 
   if (!quiet) message(paste0("Reading ", file))

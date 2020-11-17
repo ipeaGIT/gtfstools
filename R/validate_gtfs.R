@@ -41,8 +41,6 @@
 #' @export
 validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
 
-  gtfs_metadata <- get_gtfs_meta()
-
   # input checking
 
   checkmate::assert_class(gtfs, "gtfs")
@@ -51,6 +49,7 @@ validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
   checkmate::assert_character(files, null.ok = TRUE)
 
   # if any files have been specified in read_gtfs, only validate those
+  # uses internal data gtfs_metadata - check data-raw/gtfs_metadata.R
 
   if (is.null(files)) {
 
