@@ -38,6 +38,19 @@
 #'     \code{translations.txt} is present, however, it becomes required.
 #' }
 #'
+#' @examples
+#' data_path <- system.file("extdata/poa_gtfs.zip", package = "gtfstools")
+#'
+#' gtfs <- read_gtfs(data_path)
+#' attr(gtfs, "validation_result")
+#'
+#' gtfs$shapes <- NULL
+#' validation_result <- validate_gtfs(gtfs)
+#'
+#' # should raise a warning
+#' gtfs$stop_times <- NULL
+#' validation_result <- validate_gtfs(gtfs)
+#'
 #' @export
 validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
 

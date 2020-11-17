@@ -52,3 +52,17 @@ Note that some files (\code{calendar.txt}, \code{calendar_dates.txt} and
 }
 }
 
+\examples{
+data_path <- system.file("extdata/poa_gtfs.zip", package = "gtfstools")
+
+gtfs <- read_gtfs(data_path)
+attr(gtfs, "validation_result")
+
+gtfs$shapes <- NULL
+validation_result <- validate_gtfs(gtfs)
+
+# should raise a warning
+gtfs$stop_times <- NULL
+validation_result <- validate_gtfs(gtfs)
+
+}

@@ -22,6 +22,19 @@
 #' with \code{shapes} tends to be much higher than when created with
 #' \code{stop_times}.
 #'
+#' @examples
+#' data_path <- system.file("extdata/poa_gtfs.zip", package = "gtfstools")
+#'
+#' gtfs <- read_gtfs(data_path)
+#'
+#' trip_geometries <- get_trip_geometry(gtfs)
+#' trip_geometries
+#'
+#' trip_ids <- c("274-2@1#640", "262-2@1#1427")
+#' trip_geometries <- get_trip_geometry(gtfs, trip_id = trip_ids)
+#' trip_geometries
+#' plot(trip_geometries["origin_file"])
+#'
 #' @export
 get_trip_geometry <- function(gtfs,
                               trip_id = NULL,

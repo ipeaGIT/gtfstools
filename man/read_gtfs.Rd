@@ -25,6 +25,16 @@ A GTFS object: a list of data.tables in which each index represents a
 Reads GTFS text files from either a local \code{.zip} file or an URL and
 validates them against GTFS specifications.
 }
+\examples{
+data_path <- system.file("extdata/poa_gtfs.zip", package = "gtfstools")
+
+gtfs <- read_gtfs(data_path)
+names(gtfs)
+
+gtfs <- read_gtfs(data_path, files = c("trips", "stop_times"))
+names(gtfs)
+
+}
 \seealso{
 \code{\link{validate_gtfs}}
 }

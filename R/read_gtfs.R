@@ -15,6 +15,15 @@
 #'
 #' @seealso \code{\link{validate_gtfs}}
 #'
+#' @examples
+#' data_path <- system.file("extdata/poa_gtfs.zip", package = "gtfstools")
+#'
+#' gtfs <- read_gtfs(data_path)
+#' names(gtfs)
+#'
+#' gtfs <- read_gtfs(data_path, files = c("trips", "stop_times"))
+#' names(gtfs)
+#'
 #' @export
 read_gtfs <- function(path, files = NULL, quiet = TRUE, warnings = TRUE) {
 

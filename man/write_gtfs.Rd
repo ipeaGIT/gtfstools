@@ -27,6 +27,26 @@ Writes in-memory GTFS objects as GTFS \code{.zip} files. Conditionally
 includes optional and extra \code{.txt} files (check \code{\link{validate_gtfs}}
 documentation to check what are optional/extra files).
 }
+\examples{
+data_path <- system.file("extdata/poa_gtfs.zip", package = "gtfstools")
+
+gtfs <- read_gtfs(data_path)
+
+tmp_dir <- tempdir()
+list.files(tmp_dir)
+
+tmp_file <- tempfile(pattern = "gtfs", tmpdir = tmp_dir, fileext = ".zip")
+write_gtfs(gtfs, tmp_file)
+list.files(tmp_dir)
+
+gtfs_all_files <- read_gtfs(tmp_file)
+names(gtfs_all_files)
+
+write_gtfs(gtfs_all_files, tmp_file, optional = FALSE)
+gtfs_no_opt <- read_gtfs(tmp_file)
+names(gtfs_no_opt)
+
+}
 \seealso{
 \code{\link{validate_gtfs}}
 }
