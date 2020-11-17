@@ -27,13 +27,13 @@
 #'
 #' gtfs <- read_gtfs(data_path)
 #'
-#' trip_geometries <- get_trip_geometry(gtfs)
-#' trip_geometries
+#' trip_geometry <- get_trip_geometry(gtfs)
+#' head(trip_geometry)
 #'
 #' trip_ids <- c("274-2@1#640", "262-2@1#1427")
-#' trip_geometries <- get_trip_geometry(gtfs, trip_id = trip_ids)
-#' trip_geometries
-#' plot(trip_geometries["origin_file"])
+#' trip_geometry <- get_trip_geometry(gtfs, trip_id = trip_ids)
+#' trip_geometry
+#' plot(trip_geometry["origin_file"])
 #'
 #' @export
 get_trip_geometry <- function(gtfs,

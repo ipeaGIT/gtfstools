@@ -30,3 +30,19 @@ arrival time and its first departure time, as specified in the
 \code{stop_times} file.
 }
 
+\examples{
+data_path <- system.file("extdata/poa_gtfs.zip", package = "gtfstools")
+
+gtfs <- read_gtfs(data_path)
+
+trip_duration <- get_trip_duration(gtfs)
+head(trip_duration)
+
+trip_ids <- c("274-2@1#640", "262-2@1#1427")
+trip_duration <- get_trip_duration(gtfs, trip_id = trip_ids)
+trip_duration
+
+trip_duration <- get_trip_duration(gtfs, trip_id = trip_ids, unit = "hours")
+trip_duration
+
+}
