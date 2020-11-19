@@ -215,6 +215,7 @@ extract_warning_message <- function(warning_log) {
 
   possible_warnings <- c(
     "Detected \\d+ column names but the data has \\d+ columns \\(i\\.e\\. invalid file\\)\\.",
+    "Detected \\d+ column names but the data has \\d+ columns.",
     "Stopped early on line \\d+\\. Expected \\d+ fields but found \\d+\\."
   )
 
