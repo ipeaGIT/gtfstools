@@ -33,3 +33,19 @@ between its arrival time and its departure time, as specified in the
 \code{stop_times} file.
 }
 
+\examples{
+data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
+
+gtfs <- read_gtfs(data_path)
+
+trip_segment_dur <- get_trip_segment_duration(gtfs)
+head(trip_segment_dur)
+
+trip_ids <- c("CPTM L07-0", "METRÃƒâ€ L5-0")
+trip_segment_dur <- get_trip_segment_duration(gtfs, trip_id = trip_ids)
+trip_segment_dur
+
+trip_segment_dur <- get_trip_segment_duration(gtfs, trip_ids, unit = "s")
+trip_segment_dur
+
+}
