@@ -1,4 +1,3 @@
-#' @importFrom dplyr %>%
 #' @importFrom data.table := .I .SD %chin%
 NULL
 

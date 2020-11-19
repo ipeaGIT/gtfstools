@@ -8,18 +8,15 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
-    tidytransit,
-    sfheaders,
-    dplyr,
-    sf,
-    nngeo,
-    utils,
     checkmate,
-    methods,
     data.table,
-    hms,
-    zip,
-    units
+    lwgeom,
+    methods,
+    sf,
+    sfheaders,
+    units,
+    utils,
+    zip
 RoxygenNote: 7.1.1
 Depends: 
     R (>= 2.10)
