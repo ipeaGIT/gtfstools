@@ -124,19 +124,19 @@ set_trip_speed <- function(gtfs, trip_id, speed, unit = "km/h", by_reference = F
   stop_times[min_stops_index, arrival_time := departure_time]
 
   first_departure <- stop_times[min_stops_index, departure_time]
-  first_departure <- as.numeric(first_departure)
+  first_departure <- string_to_seconds(first_departure)
 
   # substitute last stop arrival and departure_time by first_departure plus duration
 
   trip_duration <-  as.integer(trip_duration * 3600)
   last_arrival  <- first_departure + trip_duration
-  last_arrival  <- hms::hms(seconds = last_arrival)
+  last_arrival  <- seconds_to_string(last_arrival)
 
   stop_times[max_stops_index, `:=`(arrival_time = last_arrival, departure_time = last_arrival)]
 
-  # substitute given trip_id's intermediate stops arrival and departure time by NA
+  # substitute given trip_id's intermediate stops arrival and departure time by ""
 
-  stop_times[na_time_stops_index, `:=`(arrival_time = NA, departure_time = NA)]
+  stop_times[na_time_stops_index, `:=`(arrival_time = "", departure_time = "")]
 
   # if by_reference is TRUE, return gtfs invisibly
 

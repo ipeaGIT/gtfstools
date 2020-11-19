@@ -1,8 +1,6 @@
-# set classes and methods to read dates and times as formatted in GTFS
+# set classes and methods to read dates as formatted in GTFS
 methods::setClass("gtfs_date")
-methods::setClass("gtfs_time")
 methods::setAs("character", "gtfs_date", function(from) as.Date(from, format = "%Y%m%d"))
-methods::setAs("character", "gtfs_time", function(from) string_to_hms(from))
 
 #' Check for field existence in a GTFS text file
 #'
@@ -94,14 +92,14 @@ check_gtfs_file_exists <- function(gtfs, file) {
 
 
 
-#' Convert string to time
+#' Convert time string to seconds after midnight
 #'
-#' Converts strings in the "HH:MM:SS" format to \code{hms}.
+#' Converts strings in the "HH:MM:SS" format to seconds after midnight.
 #'
 #' @param string A string in "HH:MM:SS" format.
 #'
-#' @return An \code{hms} object.
-string_to_hms <- function(string) {
+#' @return The seconds after midnight of a given time string as an integer.
+string_to_seconds <- function(string) {
 
   checkmate::assert_character(string)
 
@@ -118,32 +116,31 @@ string_to_hms <- function(string) {
   index_na <- which(lengths(split_string) == 0)
   seconds_from_midgnight[index_na] <- NA_integer_
 
-  return(hms::hms(seconds = seconds_from_midgnight))
+  return(seconds_from_midgnight)
 
 }
 
 
 
-#' Convert time to string
+#' Convert seconds after midnight to time string
 #'
-#' Converts objects of class \code{hms} to strings in the "HH:MM:SS" format.
+#' Converts seconds after midnight as integers to strings in the "HH:MM:SS"
+#' format.
 #'
-#' @param time An \code{hms} object.
+#' @param seconds An integer.
 #'
-#' @return A time-representing string..
-hms_to_string <- function(time) {
+#' @return A time-representing string.
+seconds_to_string <- function(seconds) {
 
-  checkmate::assert_class(time, c("hms", "difftime"))
-
-  time_seconds <- as.integer(time)
+  checkmate::assert_integer(seconds)
 
   time_string <- data.table::fifelse(
-    is.na(time_seconds),
-    NA_character_,
+    is.na(seconds),
+    "",
     paste(
-      formatC(time_seconds %/% 3600, width = 2, format = "d", flag = 0),
-      formatC((time_seconds %% 3600) %/% 60, width = 2, format = "d", flag = 0),
-      formatC((time_seconds %% 3600) %% 60, width = 2, format = "d", flag = 0),
+      formatC(seconds %/% 3600, width = 2, format = "d", flag = 0),
+      formatC((seconds %% 3600) %/% 60, width = 2, format = "d", flag = 0),
+      formatC((seconds %% 3600) %% 60, width = 2, format = "d", flag = 0),
       sep = ":"
     )
   )

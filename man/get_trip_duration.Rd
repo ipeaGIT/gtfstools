@@ -4,7 +4,7 @@
 \alias{get_trip_duration}
 \title{Get trip duration}
 \usage{
-get_trip_duration(gtfs, trip_id = NULL, unit = "mins")
+get_trip_duration(gtfs, trip_id = NULL, unit = "min")
 }
 \arguments{
 \item{gtfs}{A GTFS object as created by \code{\link{read_gtfs}}.}
@@ -14,8 +14,8 @@ durations calculated. If \code{NULL} (the default) the function calculates
 the duration of every \code{trip_id} in the GTFS.}
 
 \item{unit}{A string representing the time unit in which the durations are
-desired. One of \code{"secs"}, \code{"mins"} (the default), \code{"hours"}
-or \code{"days"}.}
+desired. One of \code{"s"} (seconds), \code{"min"} (minutes, the default),
+\code{"h"} (hours) or \code{"d"} (days).}
 }
 \value{
 A \code{data.table} containing the duration of each specified trip.
@@ -42,7 +42,7 @@ trip_ids <- c("274-2@1#640", "262-2@1#1427")
 trip_duration <- get_trip_duration(gtfs, trip_id = trip_ids)
 trip_duration
 
-trip_duration <- get_trip_duration(gtfs, trip_id = trip_ids, unit = "hours")
+trip_duration <- get_trip_duration(gtfs, trip_id = trip_ids, unit = "h")
 trip_duration
 
 }

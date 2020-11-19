@@ -6,8 +6,8 @@ utils::globalVariables(
   c(
     ".",
     "stop_sequence",
-    "departure_time_hms",
-    "arrival_time_hms",
+    "departure_time_secs",
+    "arrival_time_secs",
     "last_stop_departure",
     "segment",
     "duration",

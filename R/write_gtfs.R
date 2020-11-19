@@ -84,17 +84,6 @@ write_gtfs <- function(gtfs, path, optional = TRUE, extra = TRUE, overwrite = TR
 
     }
 
-    # format hms back to HH:MM:SS
-
-    time_cols <- names(which(col_classes == "hms"))
-
-    if (length(time_cols) > 0) {
-
-      dt <- data.table::copy(dt)
-      dt[, (time_cols) := lapply(.SD, hms_to_string), .SDcols = time_cols]
-
-    }
-
     # write files
 
     file_path <- file.path(temp_dir, paste0(file, ".txt"))

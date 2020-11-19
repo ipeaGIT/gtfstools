@@ -7,8 +7,8 @@
 #'   durations calculated. If \code{NULL} (the default) the function calculates
 #'   the duration of every \code{trip_id} in the GTFS.
 #' @param unit A string representing the time unit in which the durations are
-#'   desired. One of \code{"secs"}, \code{"mins"} (the default), \code{"hours"}
-#'   or \code{"days"}.
+#'   desired. One of \code{"s"} (seconds), \code{"min"} (minutes, the default),
+#'   \code{"h"} (hours) or \code{"d"} (days).
 #'
 #' @return A \code{data.table} containing the duration of each specified trip.
 #'
@@ -29,17 +29,17 @@
 #' trip_duration <- get_trip_duration(gtfs, trip_id = trip_ids)
 #' trip_duration
 #'
-#' trip_duration <- get_trip_duration(gtfs, trip_id = trip_ids, unit = "hours")
+#' trip_duration <- get_trip_duration(gtfs, trip_id = trip_ids, unit = "h")
 #' trip_duration
 #'
 #' @export
-get_trip_duration <- function(gtfs, trip_id = NULL, unit = "mins") {
+get_trip_duration <- function(gtfs, trip_id = NULL, unit = "min") {
 
   checkmate::assert_class(gtfs, "gtfs")
   checkmate::assert_character(trip_id, null.ok = TRUE)
   checkmate::assert(
     checkmate::check_string(unit),
-    checkmate::check_names(unit, subset.of = c("secs", "mins", "hours", "days")),
+    checkmate::check_names(unit, subset.of = c("s", "min", "h", "d")),
     combine = "and"
   )
 
@@ -59,14 +59,34 @@ get_trip_duration <- function(gtfs, trip_id = NULL, unit = "mins") {
     relevant_trips <- unique(gtfs$stop_times$trip_id)
   }
 
+  # create auxiliay columns
+
+  gtfs$stop_times[
+    trip_id %chin% relevant_trips,
+    `:=`(
+      arrival_time_secs = string_to_seconds(arrival_time),
+      departure_time_secs = string_to_seconds(departure_time)
+    )
+  ]
+
   # calculate durations
 
   durations <- gtfs$stop_times[
     trip_id %chin% relevant_trips,
-    .(duration = as.numeric(max(arrival_time, na.rm = TRUE), units = unit) - as.numeric(min(departure_time, na.rm = TRUE), units = unit)),
+    .(duration = max(arrival_time_secs, na.rm = TRUE) - min(departure_time_secs, na.rm = TRUE)),
     keyby = trip_id
   ]
 
-  return(durations)
+  # clean up gtfs
+
+  gtfs$stop_times[, `:=`(arrival_time_secs = NULL, departure_time_secs = NULL)]
+
+  # convert duration to desired unit
+
+  if (unit != "s") {
+    durations[, duration := as.numeric(units::set_units(units::as_units(duration, "s"), unit, mode = "standard"))]
+  }
+
+  return(durations[])
 
 }
