@@ -28,7 +28,7 @@
 #' trip_segment_dur <- get_trip_segment_duration(gtfs)
 #' head(trip_segment_dur)
 #'
-#' trip_ids <- c("CPTM L07-0", "METRÃ” L5-0")
+#' trip_ids <- c("CPTM L07-0", "2002-10-0")
 #' trip_segment_dur <- get_trip_segment_duration(gtfs, trip_id = trip_ids)
 #' trip_segment_dur
 #'
