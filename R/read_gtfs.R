@@ -38,7 +38,8 @@ read_gtfs <- function(path, files = NULL, quiet = TRUE, warnings = TRUE) {
     temp_file <- tempfile(pattern = "gtfs", fileext = ".zip")
 
     utils::download.file(path, temp_file, method = "auto", quiet = quiet)
-    on.exit(file.remove(temp_file))
+
+    if (!quiet) message(paste0("File downloaded to ", normalizePath(temp_file)))
 
     path <- temp_file
 
@@ -62,17 +63,17 @@ read_gtfs <- function(path, files = NULL, quiet = TRUE, warnings = TRUE) {
 
   }
 
-  temp_dir <- file.path(tempdir(), "gtfsdir")
-  on.exit(unlink(temp_dir, recursive = TRUE), add = TRUE)
-
+  temp_dir <- file.path(tempdir(), "gt_gtfsdir")
+  unlink(temp_dir, recursive = TRUE)
   zip::unzip(path, files = files_to_read, exdir = temp_dir, overwrite = TRUE)
 
   if (!quiet) {
     message(
       paste0(
-        "Unzipped the following files to directory ", temp_dir, ":\n",
-        paste0("> ", files_to_read, collapse = "\n"),
-        "\n"
+        "Unzipped the following files to directory ",
+        normalizePath(temp_dir),
+        ":\n",
+        paste0("> ", files_to_read, collapse = "\n")
       )
     )
   }

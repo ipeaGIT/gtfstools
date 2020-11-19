@@ -23,14 +23,14 @@
 #' \code{stop_times}.
 #'
 #' @examples
-#' data_path <- system.file("extdata/poa_gtfs.zip", package = "gtfstools")
+#' data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 #'
 #' gtfs <- read_gtfs(data_path)
 #'
 #' trip_geometry <- get_trip_geometry(gtfs)
 #' head(trip_geometry)
 #'
-#' trip_ids <- c("274-2@1#640", "262-2@1#1427")
+#' trip_ids <- c("CPTM L07-0", "2002-10-0")
 #' trip_geometry <- get_trip_geometry(gtfs, trip_id = trip_ids)
 #' trip_geometry
 #' plot(trip_geometry["origin_file"])
