@@ -1,39 +1,27 @@
-#' Get trip duration
+#' Get trip segments' duration
 #'
-#' Returns the duration of each specified \code{trip_id}.
+#' Returns the duration of segments between stops of each specified
+#' \code{trip_id}.
 #'
 #' @param gtfs A GTFS object as created by \code{\link{read_gtfs}}.
 #' @param trip_id A string vector including the \code{trip_id}s to have their
-#'   durations calculated. If \code{NULL} (the default) the function calculates
-#'   the duration of every \code{trip_id} in the GTFS.
+#'   segments' durations calculated. If \code{NULL} (the default) the function
+#'   calculates the segments' duration of every \code{trip_id} in the GTFS.
 #' @param unit A string representing the time unit in which the durations are
 #'   desired. One of \code{"s"} (seconds), \code{"min"} (minutes, the default),
 #'   \code{"h"} (hours) or \code{"d"} (days).
 #'
-#' @return A \code{data.table} containing the duration of each specified trip.
+#' @return A \code{data.table} containing the segments' duration of each
+#'   specified trip.
 #'
 #' @section Details:
-#' The duration of a trip is defined as the time difference between its last
-#' arrival time and its first departure time, as specified in the
+#' A trip segment is defined as the path between two subsequent stops in the
+#' same trip. The  duration of a segment is defined as the time difference
+#' between its arrival time and its departure time, as specified in the
 #' \code{stop_times} file.
 #'
-#' @examples
-#' data_path <- system.file("extdata/poa_gtfs.zip", package = "gtfstools")
-#'
-#' gtfs <- read_gtfs(data_path)
-#'
-#' trip_duration <- get_trip_duration(gtfs)
-#' head(trip_duration)
-#'
-#' trip_ids <- c("274-2@1#640", "262-2@1#1427")
-#' trip_duration <- get_trip_duration(gtfs, trip_id = trip_ids)
-#' trip_duration
-#'
-#' trip_duration <- get_trip_duration(gtfs, trip_id = trip_ids, unit = "h")
-#' trip_duration
-#'
 #' @export
-get_trip_duration <- function(gtfs, trip_id = NULL, unit = "min") {
+get_trip_segment_duration <- function(gtfs, trip_id = NULL, unit = "min") {
 
   checkmate::assert_class(gtfs, "gtfs")
   checkmate::assert_character(trip_id, null.ok = TRUE)
@@ -53,7 +41,7 @@ get_trip_duration <- function(gtfs, trip_id = NULL, unit = "min") {
     )
   )
 
-  if (!is.null(trip_id)) {
+  if (! is.null(trip_id)) {
     relevant_trips <- trip_id
   } else {
     relevant_trips <- unique(gtfs$stop_times$trip_id)
@@ -64,7 +52,7 @@ get_trip_duration <- function(gtfs, trip_id = NULL, unit = "min") {
   durations <- gtfs$stop_times[trip_id %chin% relevant_trips]
 
   durations[
-    trip_id %chin% relevant_trips,
+    ,
     `:=`(
       arrival_time_secs = string_to_seconds(arrival_time),
       departure_time_secs = string_to_seconds(departure_time)
@@ -73,13 +61,20 @@ get_trip_duration <- function(gtfs, trip_id = NULL, unit = "min") {
 
   # calculate durations
 
-  durations <- durations[
-    trip_id %chin% relevant_trips,
-    .(duration = max(arrival_time_secs, na.rm = TRUE) - min(departure_time_secs, na.rm = TRUE)),
-    keyby = trip_id
+  durations <- durations[order(trip_id, stop_sequence)]
+  durations[, last_stop_departure := data.table::shift(departure_time_secs, 1L, type = "lag")]
+  durations <- durations[stop_sequence != 1]
+  durations[
+    ,
+    `:=`(
+      segment = stop_sequence - 1,
+      duration = arrival_time_secs - last_stop_departure
+    )
   ]
 
-  # convert duration to desired unit
+  # select desired columns and convert duration to desired unit
+
+  durations <- durations[, .(trip_id, segment, duration)]
 
   if (unit != "s") {
     durations[, duration := as.numeric(units::set_units(units::as_units(duration, "s"), unit, mode = "standard"))]
