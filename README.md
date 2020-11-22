@@ -1,7 +1,7 @@
 # gtfstools
 
 [![CRAN status](https://www.r-pkg.org/badges/version/gtfstools)](https://CRAN.R-project.org/package=gtfstools)
-[![Build Status](https://travis-ci.com/ipeaGIT/gtfstools.svg?branch=master)](https://travis-ci.com/ipeaGIT/gtfstools)
+[![B status](https://github.com/ipeaGIT/gtfstools/workflows/R-CMD-check/badge.svg)](https://github.com/ipeaGIT/gtfstools/actions?query=workflow%3AR-CMD-check)
 [![Codecov test coverage](https://codecov.io/gh/ipeaGIT/gtfstools/branch/master/graph/badge.svg)](https://codecov.io/gh/ipeaGIT/gtfstools?branch=master)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
