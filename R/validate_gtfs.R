@@ -72,6 +72,8 @@ validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
 
   } else {
 
+    checkmate::assert_names(files, subset.of = names(gtfs))
+
     files_to_validate <- paste0(files, ".txt")
 
   }
