@@ -18,6 +18,8 @@ extra_file_validation <- validate_gtfs(extra_file_gtfs)
 extra_field_gtfs <- gtfs
 extra_field_gtfs$calendar <- data.table::copy(gtfs$calendar)
 extra_field_gtfs$calendar[, extra_field := "ola"]
+extra_field_gtfs$shapes <- data.table::copy(gtfs$shapes)
+extra_field_gtfs$shapes[, additional_field := 2]
 extra_field_validation <- validate_gtfs(extra_field_gtfs)
 
 specified_files <- c(
@@ -190,7 +192,7 @@ test_that("validate_gtfs validates all fields from desired files", {
 
 })
 
-test_that("validate_gtfs recognize extra files and fields as extra", {
+test_that("validate_gtfs recognizes extra files and fields as extra", {
 
   # extra file
 
@@ -211,11 +213,59 @@ test_that("validate_gtfs recognize extra files and fields as extra", {
     length(extra_file_validation[file == "extra_file"]$field)
   )
 
-  # extra field
+  # extra field in required and optional files
 
   expect_equal(
     extra_field_validation[file == "calendar" & field == "extra_field"]$field_spec,
     "ext"
   )
+  expect_equal(
+    extra_field_validation[file == "shapes" & field == "additional_field"]$field_spec,
+    "ext"
+  )
+  expect_equal(
+    sum(extra_field_validation[file == "calendar"]$field_spec == "ext"),
+    1
+  )
+  expect_equal(
+    sum(extra_field_validation[file == "shapes"]$field_spec == "ext"),
+    1
+  )
+  expect_true(
+    extra_field_validation[file == "calendar" & field == "extra_field"]$field_provided_status,
+  )
+  expect_true(
+    extra_field_validation[file == "shapes" & field == "additional_field"]$field_provided_status,
+  )
+
+})
+
+test_that("validate_gtfs attributes right validation status and details", {
+
+  ok_status <- full_validation[
+    file_provided_status == TRUE & field_provided_status == TRUE
+  ]
+  expect_equal(sum(ok_status$validation_status == "ok"), nrow(ok_status))
+  expect_equal(sum(is.na(ok_status$validation_details)), nrow(ok_status))
+
+  file_info_status <- full_validation[
+    file_spec == "opt" & file_provided_status == FALSE
+  ]
+  expect_equal(sum(file_info_status$validation_status == "info"), nrow(file_info_status))
+  expect_equal(sum(file_info_status$validation_details == "missing_opt_file"), nrow(file_info_status))
+
+  ## add missing required file case
+
+  ## add extra file case
+
+  field_info_status <- full_validation[
+    file_spec == "req" & file_provided_status == TRUE & field_provided_status == FALSE & field_spec == "opt"
+  ]
+  expect_equal(sum(field_info_status$validation_status == "info"), nrow(field_info_status))
+  expect_equal(sum(field_info_status$validation_details == "missing_opt_field"), nrow(field_info_status))
+
+  ## add missing required field case
+
+  ## add extra field case
 
 })
