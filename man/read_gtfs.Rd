@@ -26,7 +26,7 @@ Reads GTFS text files from either a local \code{.zip} file or an URL and
 validates them against GTFS specifications.
 }
 \examples{
-data_path <- system.file("extdata/poa_gtfs.zip", package = "gtfstools")
+data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 
 gtfs <- read_gtfs(data_path)
 names(gtfs)

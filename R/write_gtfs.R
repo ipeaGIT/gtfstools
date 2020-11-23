@@ -11,14 +11,16 @@
 #' @param extra Whether to write extra \code{.txt}. Defaults to TRUE.
 #' @param overwrite Whether to overwrite existing \code{.zip} file. Defaults to
 #'   TRUE.
+#' @param quiet Whether to hide log messages and progress bars (defaults to TRUE).
+#' @param warnings Whether to display warning messages (defaults to TRUE).
 #'
-#' @return Invisibly returns the provided GTFS object.
+#' @return Invisibly returns the provided GTFS object with an updated
+#'   \code{validation_result} attribute.
 #'
 #' @seealso \code{\link{validate_gtfs}}
 #'
 #' @examples
-#' data_path <- system.file("extdata/poa_gtfs.zip", package = "gtfstools")
-#'
+#' data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 #' gtfs <- read_gtfs(data_path)
 #'
 #' tmp_dir <- tempdir()
@@ -36,7 +38,13 @@
 #' names(gtfs_no_opt)
 #'
 #' @export
-write_gtfs <- function(gtfs, path, optional = TRUE, extra = TRUE, overwrite = TRUE) {
+write_gtfs <- function(gtfs,
+                       path,
+                       optional = TRUE,
+                       extra = TRUE,
+                       overwrite = TRUE,
+                       quiet = TRUE,
+                       warnings = TRUE) {
 
   checkmate::assert_class(gtfs, "gtfs")
   checkmate::assert_path_for_output(path, overwrite = overwrite, extension = "zip")
@@ -44,11 +52,16 @@ write_gtfs <- function(gtfs, path, optional = TRUE, extra = TRUE, overwrite = TR
   checkmate::assert_logical(extra)
   checkmate::assert_logical(overwrite)
 
-  # write files to temporary folder - remove temp_dir on exit
+  # validate gtfs
 
-  temp_dir <- file.path(tempdir(), "gtfsdir")
+  validation_result <- validate_gtfs(gtfs, files = NULL, quiet = quiet, warnings = warnings)
+  attr(gtfs, "validation_result") <- validation_result
+
+  # write files to temporary folder
+
+  temp_dir <- file.path(tempdir(), "gt_gtfsdir")
+  unlink(temp_dir, recursive = TRUE)
   dir.create(temp_dir)
-  on.exit(unlink(temp_dir, recursive = TRUE))
 
   # figure out what files should be written
 
@@ -62,13 +75,20 @@ write_gtfs <- function(gtfs, path, optional = TRUE, extra = TRUE, overwrite = TR
   )
 
   files_to_write <- files_in_gtfs
+
+  # optional/ext files are those marked as "opt"/"ext" in the validation attribute
+
   optional_files <- files_to_write[files_specs[files_to_write] == "opt"]
   extra_files    <- files_to_write[files_specs[files_to_write] == "ext"]
 
   if (!optional) files_to_write <- files_to_write[! files_to_write %in% optional_files]
   if (!extra)    files_to_write <- files_to_write[! files_to_write %in% extra_files]
 
+  if (!quiet) message(paste0("Writing .txt files to ", normalizePath(temp_dir), ":"))
+
   for (file in files_to_write) {
+
+    if (!quiet) message("> ", paste0(file, ".txt"))
 
     dt <- gtfs[[file]]
     col_classes <- vapply(dt, function(i) class(i)[1], character(1))
@@ -88,13 +108,17 @@ write_gtfs <- function(gtfs, path, optional = TRUE, extra = TRUE, overwrite = TR
 
     file_path <- file.path(temp_dir, paste0(file, ".txt"))
 
-    data.table::fwrite(dt, file_path)
+    data.table::fwrite(dt, file_path, showProgress = !quiet)
 
   }
 
   # zip files
 
   zip::zipr(path, file.path(temp_dir, paste0(files_to_write, ".txt")))
+
+  if (!quiet) {
+    message(paste0("GTFS file successfully zipped to ", normalizePath(path)))
+  }
 
   return(invisible(gtfs))
 

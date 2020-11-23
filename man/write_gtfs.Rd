@@ -4,7 +4,15 @@
 \alias{write_gtfs}
 \title{Write GTFS files}
 \usage{
-write_gtfs(gtfs, path, optional = TRUE, extra = TRUE, overwrite = TRUE)
+write_gtfs(
+  gtfs,
+  path,
+  optional = TRUE,
+  extra = TRUE,
+  overwrite = TRUE,
+  quiet = TRUE,
+  warnings = TRUE
+)
 }
 \arguments{
 \item{gtfs}{A GTFS object as created by \code{\link{read_gtfs}}.}
@@ -18,9 +26,14 @@ written to.}
 
 \item{overwrite}{Whether to overwrite existing \code{.zip} file. Defaults to
 TRUE.}
+
+\item{quiet}{Whether to hide log messages and progress bars (defaults to TRUE).}
+
+\item{warnings}{Whether to display warning messages (defaults to TRUE).}
 }
 \value{
-Invisibly returns the provided GTFS object.
+Invisibly returns the provided GTFS object with an updated
+  \code{validation_result} attribute.
 }
 \description{
 Writes in-memory GTFS objects as GTFS \code{.zip} files. Conditionally
@@ -28,8 +41,7 @@ includes optional and extra \code{.txt} files (check \code{\link{validate_gtfs}}
 documentation to check what are optional/extra files).
 }
 \examples{
-data_path <- system.file("extdata/poa_gtfs.zip", package = "gtfstools")
-
+data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 
 tmp_dir <- tempdir()

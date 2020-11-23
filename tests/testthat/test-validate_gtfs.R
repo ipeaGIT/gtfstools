@@ -174,14 +174,13 @@ test_that("validate_gtfs results in a data.table with right column types", {
 
   # columns' types
 
-  expect_vector(full_validation$file, ptype = character())
-  expect_vector(full_validation$file_spec, ptype = character())
-  expect_vector(full_validation$file_provided_status, ptype = logical())
-  expect_vector(full_validation$field, ptype = character())
-  expect_vector(full_validation$field_spec, ptype = character())
-  expect_vector(full_validation$field_provided_status, ptype = logical())
-  expect_vector(full_validation$validation_status, ptype = character())
-  expect_vector(full_validation$validation_details, ptype = character())
+  expect_equal(class(full_validation$file), "character")
+  expect_equal(class(full_validation$file_provided_status), "logical")
+  expect_equal(class(full_validation$field), "character")
+  expect_equal(class(full_validation$field_spec), "character")
+  expect_equal(class(full_validation$field_provided_status), "logical")
+  expect_equal(class(full_validation$validation_status), "character")
+  expect_equal(class(full_validation$validation_details), "character")
 
 })
 

@@ -39,7 +39,7 @@
 #' }
 #'
 #' @examples
-#' data_path <- system.file("extdata/poa_gtfs.zip", package = "gtfstools")
+#' data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 #'
 #' gtfs <- read_gtfs(data_path)
 #' attr(gtfs, "validation_result")
