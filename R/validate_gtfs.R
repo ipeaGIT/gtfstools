@@ -232,7 +232,9 @@ validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
 
   }
 
-  if (nrow(fields_problems) == 0 & !quiet) message("Valid gtfs data structure.")
+  if (nrow(files_problems) == 0 & nrow(fields_problems) == 0 & !quiet) {
+    message("Valid gtfs data structure.")
+  }
 
   return(validation_result)
 
