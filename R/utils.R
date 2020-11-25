@@ -16,7 +16,7 @@ methods::setAs("character", "gtfs_date", function(from) as.Date(from, format = "
 #'   returns a string with error message.
 check_gtfs_field_exists <- function(gtfs, file, field) {
 
-  checkmate::assert_class(gtfs, "gtfs")
+  checkmate::assert_class(gtfs, "dt_gtfs")
   checkmate::assert_string(file)
   checkmate::assert_character(field)
 
@@ -64,7 +64,7 @@ check_gtfs_field_exists <- function(gtfs, file, field) {
 #'   returns a string with error message.
 check_gtfs_file_exists <- function(gtfs, file) {
 
-  checkmate::assert_class(gtfs, "gtfs")
+  checkmate::assert_class(gtfs, "dt_gtfs")
   checkmate::assert_character(file)
 
   non_existent_file <- file[! file %chin% names(gtfs)]

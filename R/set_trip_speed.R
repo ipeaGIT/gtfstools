@@ -39,7 +39,7 @@ set_trip_speed <- function(gtfs, trip_id, speed, unit = "km/h", by_reference = F
 
   env <- environment()
 
-  checkmate::assert_class(gtfs, "gtfs")
+  checkmate::assert_class(gtfs, "dt_gtfs")
   checkmate::assert_character(trip_id)
   checkmate::assert(
     checkmate::check_numeric(speed, len = 1),

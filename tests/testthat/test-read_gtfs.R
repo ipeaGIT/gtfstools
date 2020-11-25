@@ -104,10 +104,10 @@ test_that("read_gtfs results in a gtfs object (if no parsing failure happens)", 
 
   # a gtfs object is a list with "gtfs" class
 
-  expect_s3_class(gtfs, "gtfs")
-  expect_s3_class(et_gtfs, "gtfs")
-  expect_s3_class(ef_gtfs, "gtfs")
-  expect_s3_class(ext_gtfs, "gtfs")
+  expect_s3_class(gtfs, "dt_gtfs")
+  expect_s3_class(et_gtfs, "dt_gtfs")
+  expect_s3_class(ef_gtfs, "dt_gtfs")
+  expect_s3_class(ext_gtfs, "dt_gtfs")
   expect_type(gtfs, "list")
   expect_type(et_gtfs, "list")
   expect_type(ef_gtfs, "list")

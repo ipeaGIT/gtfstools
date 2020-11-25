@@ -56,7 +56,7 @@ validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
 
   # input checking
 
-  checkmate::assert_class(gtfs, "gtfs")
+  checkmate::assert_class(gtfs, "dt_gtfs")
   checkmate::assert_logical(quiet)
   checkmate::assert_logical(warnings)
   checkmate::assert_character(files, null.ok = TRUE)

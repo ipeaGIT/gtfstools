@@ -41,7 +41,7 @@ get_trip_geometry <- function(gtfs,
                               file = c("shapes", "stop_times"),
                               crs = 4326) {
 
-  checkmate::assert_class(gtfs, "gtfs")
+  checkmate::assert_class(gtfs, "dt_gtfs")
   checkmate::assert_character(trip_id, null.ok = TRUE)
   checkmate::assert_names(file, subset.of = c("shapes", "stop_times"))
   checkmate::assert_numeric(crs)

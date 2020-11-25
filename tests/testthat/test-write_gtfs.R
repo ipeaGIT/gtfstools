@@ -53,7 +53,7 @@ test_that("write_gtfs raises an errors when file already exists and should not b
 test_that("write_gtfs outputs a .zip file and invisibly returns the provided gtfs", {
   unlink(temp_file)
   expect_false(file.exists(temp_file))
-  expect_s3_class(write_gtfs(gtfs, temp_file), "gtfs")
+  expect_s3_class(write_gtfs(gtfs, temp_file), "dt_gtfs")
   expect_true(file.exists(temp_file))
 })
 

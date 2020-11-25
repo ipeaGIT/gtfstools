@@ -82,7 +82,7 @@ read_gtfs <- function(path, files = NULL, quiet = TRUE, warnings = TRUE) {
 
   gtfs <- lapply(files_to_read, read_files, temp_dir, quiet)
   gtfs <- stats::setNames(gtfs, sub(".txt", "", files_to_read))
-  class(gtfs) <- "gtfs"
+  class(gtfs) <- "dt_gtfs"
 
   # check if any parsing warnings were thrown
 
