@@ -18,14 +18,14 @@
 #' \code{stop_times} file.
 #'
 #' @examples
-#' data_path <- system.file("extdata/poa_gtfs.zip", package = "gtfstools")
+#' data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 #'
 #' gtfs <- read_gtfs(data_path)
 #'
 #' trip_duration <- get_trip_duration(gtfs)
 #' head(trip_duration)
 #'
-#' trip_ids <- c("274-2@1#640", "262-2@1#1427")
+#' trip_ids <- c("CPTM L07-0", "2002-10-0")
 #' trip_duration <- get_trip_duration(gtfs, trip_id = trip_ids)
 #' trip_duration
 #'
@@ -53,10 +53,30 @@ get_trip_duration <- function(gtfs, trip_id = NULL, unit = "min") {
     )
   )
 
+  # select trip_ids to get duration
+
   if (!is.null(trip_id)) {
     relevant_trips <- trip_id
   } else {
     relevant_trips <- unique(gtfs$stop_times$trip_id)
+  }
+
+  # raise warning if given trip_id doesn't exist in stop_times
+
+  if (!is.null(trip_id)) {
+
+    invalid_trip_id <- trip_id[! trip_id %chin% unique(gtfs$stop_times$trip_id)]
+
+    if (!identical(invalid_trip_id, character(0))) {
+
+      warning(
+        paste0(
+          "'stop_times' doesn't contain the following trip_id(s): "),
+          paste0("'", invalid_trip_id, "'", collapse = ", ")
+        )
+
+    }
+
   }
 
   # create auxiliary columns if needed
@@ -64,7 +84,7 @@ get_trip_duration <- function(gtfs, trip_id = NULL, unit = "min") {
   durations <- gtfs$stop_times[trip_id %chin% relevant_trips]
 
   durations[
-    trip_id %chin% relevant_trips,
+    ,
     `:=`(
       arrival_time_secs = string_to_seconds(arrival_time),
       departure_time_secs = string_to_seconds(departure_time)
@@ -74,7 +94,7 @@ get_trip_duration <- function(gtfs, trip_id = NULL, unit = "min") {
   # calculate durations
 
   durations <- durations[
-    trip_id %chin% relevant_trips,
+    ,
     .(duration = max(arrival_time_secs, na.rm = TRUE) - min(departure_time_secs, na.rm = TRUE)),
     keyby = trip_id
   ]
