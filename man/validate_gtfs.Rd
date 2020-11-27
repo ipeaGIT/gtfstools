@@ -19,8 +19,9 @@ possible GTFS text files.}
 \item{warnings}{Whether to display warning messages (defaults to TRUE).}
 }
 \value{
-A data.table containing the validation summary of all possible fields
-from the specified files.
+A GTFS object with a \code{validation_result} attribute. This
+  attribute is a \code{data.table} containing the validation summary of all
+  possible fields from the specified files.
 }
 \description{
 Validates the GTFS object against GTFS specifications and raises warnings if

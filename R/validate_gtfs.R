@@ -11,8 +11,9 @@
 #' @param quiet Whether to hide log messages (defaults to TRUE).
 #' @param warnings Whether to display warning messages (defaults to TRUE).
 #'
-#' @return A data.table containing the validation summary of all possible fields
-#' from the specified files.
+#' @return A GTFS object with a \code{validation_result} attribute. This
+#'   attribute is a \code{data.table} containing the validation summary of all
+#'   possible fields from the specified files.
 #'
 #' @section Details:
 #' GTFS object's files and fields are validated against the GTFS specifications
@@ -236,6 +237,10 @@ validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
     message("Valid gtfs data structure.")
   }
 
-  return(validation_result)
+  # attach validation_result as an attribute of the given gtfs
+
+  attr(gtfs, "validation_result") <- validation_result
+
+  return(gtfs)
 
 }

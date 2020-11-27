@@ -111,8 +111,7 @@ read_gtfs <- function(path, files = NULL, quiet = TRUE, warnings = TRUE) {
 
   # if not, validate given GTFS structure against specifications
 
-  validation_result <- validate_gtfs(gtfs, files, quiet, warnings)
-  attr(gtfs, "validation_result") <- validation_result
+  gtfs <- validate_gtfs(gtfs, files, quiet, warnings)
 
   return(gtfs)
 

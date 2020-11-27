@@ -54,8 +54,7 @@ write_gtfs <- function(gtfs,
 
   # validate gtfs
 
-  validation_result <- validate_gtfs(gtfs, files = NULL, quiet = quiet, warnings = warnings)
-  attr(gtfs, "validation_result") <- validation_result
+  gtfs <- validate_gtfs(gtfs, files = NULL, quiet = quiet, warnings = warnings)
 
   # write files to temporary folder
 

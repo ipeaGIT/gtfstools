@@ -1,4 +1,4 @@
-context("Read GTFS")
+context("Write GTFS")
 
 # setup -------------------------------------------------------------------
 
@@ -95,6 +95,24 @@ test_that("write_gtfs outputs a gtfs with the desired files", {
     sum(sub(".txt", "", files_in_gtfs) %in% required_files),
     length(files_in_gtfs)
   )
+
+})
+
+test_that("write_gtfs doesn't change original gtfs (only validation_result attribute)", {
+
+  no_validation_gtfs <- gtfs
+  attr(no_validation_gtfs, "validation_result") <- NULL
+  pre_write_no_validation_gtfs <- no_validation_gtfs
+
+  written_gtfs <- write_gtfs(no_validation_gtfs, temp_file)
+
+  expect_identical(no_validation_gtfs, pre_write_no_validation_gtfs)
+  expect_false(identical(no_validation_gtfs, written_gtfs))
+
+  # the difference between written_gtfs and no_validation_gtfs is the validation_result
+
+  attr(no_validation_gtfs, "validation_result") <- attr(written_gtfs, "validation_result")
+  expect_identical(no_validation_gtfs, written_gtfs)
 
 })
 

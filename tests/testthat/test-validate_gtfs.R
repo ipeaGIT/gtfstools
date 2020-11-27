@@ -8,28 +8,37 @@ data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 
 full_validation <- validate_gtfs(gtfs)
+full_validation <- attr(full_validation, "validation_result")
+
 partial_validation_1 <- validate_gtfs(gtfs, "stop_times")
+partial_validation_1 <- attr(partial_validation_1, "validation_result")
+
 partial_validation_2 <- validate_gtfs(gtfs, c("stop_times", "agency"))
+partial_validation_2 <- attr(partial_validation_2, "validation_result")
 
 extra_file_gtfs <- gtfs
 extra_file_gtfs$extra_file <- extra_file_gtfs$calendar
-extra_file_validation <- validate_gtfs(extra_file_gtfs)
+extra_file_gtfs <- validate_gtfs(extra_file_gtfs)
+extra_file_validation <- attr(extra_file_gtfs, "validation_result")
 
 extra_field_gtfs <- gtfs
 extra_field_gtfs$calendar <- data.table::copy(gtfs$calendar)
 extra_field_gtfs$calendar[, extra_field := "ola"]
 extra_field_gtfs$shapes <- data.table::copy(gtfs$shapes)
 extra_field_gtfs$shapes[, additional_field := 2]
-extra_field_validation <- validate_gtfs(extra_field_gtfs)
+extra_field_gtfs <- validate_gtfs(extra_field_gtfs)
+extra_field_validation <- attr(extra_field_gtfs, "validation_result")
 
 missing_req_file_gtfs <- gtfs
 missing_req_file_gtfs$agency <- NULL
-missing_req_file_validation <- validate_gtfs(missing_req_file_gtfs, warnings = FALSE)
+missing_req_file_gtfs <- validate_gtfs(missing_req_file_gtfs, warnings = FALSE)
+missing_req_file_validation <- attr(missing_req_file_gtfs, "validation_result")
 
 missing_req_field_gtfs <- gtfs
 missing_req_field_gtfs$stop_times <- data.table::copy(gtfs$stop_times)
 missing_req_field_gtfs$stop_times[, trip_id := NULL]
-missing_req_field_validation <- validate_gtfs(missing_req_field_gtfs, warnings = FALSE)
+missing_req_field_gtfs <- validate_gtfs(missing_req_field_gtfs, warnings = FALSE)
+missing_req_field_validation <- attr(missing_req_field_gtfs, "validation_result")
 
 specified_files <- c(
   "agency", "stops", "routes", "trips", "stop_times", "calendar",
@@ -166,7 +175,11 @@ test_that("validate_gtfs raises warnings and messages adequately", {
   expect_warning(validate_gtfs(missing_req_field_gtfs))
 })
 
-test_that("validate_gtfs results in a data.table with right column types", {
+test_that("validate_gtfs results in a dt_gtfs, and validation_result has right column types", {
+
+  # validate_gtfs results in a dt_gtfs
+
+  expect_s3_class(validate_gtfs(gtfs), "dt_gtfs")
 
   # validation result is a data.table
 
@@ -181,6 +194,24 @@ test_that("validate_gtfs results in a data.table with right column types", {
   expect_equal(class(full_validation$field_provided_status), "logical")
   expect_equal(class(full_validation$validation_status), "character")
   expect_equal(class(full_validation$validation_details), "character")
+
+})
+
+test_that("validate_gtfs doesn't change original gtfs (only validation_result attribute)", {
+
+  no_validation_gtfs <- gtfs
+  attr(no_validation_gtfs, "validation_result") <- NULL
+  pre_validation_no_validation_gtfs <- no_validation_gtfs
+
+  validated_gtfs <- validate_gtfs(no_validation_gtfs)
+
+  expect_identical(no_validation_gtfs, pre_validation_no_validation_gtfs)
+  expect_false(identical(no_validation_gtfs, validated_gtfs))
+
+  # the difference between validated_gtfs and no_validation_gtfs is the validation_result
+
+  attr(no_validation_gtfs, "validation_result") <- attr(validated_gtfs, "validation_result")
+  expect_identical(no_validation_gtfs, validated_gtfs)
 
 })
 
@@ -205,7 +236,8 @@ test_that("validate_gtfs validates against the correct files", {
 
 test_that("validate_gtfs validates all fields from desired files", {
 
-  full_validation <- validate_gtfs(gtfs)
+  # full validation
+
   validated_files <- unique(full_validation$file)
   invisible(lapply(
     validated_files,
@@ -218,14 +250,16 @@ test_that("validate_gtfs validates all fields from desired files", {
     }
   ))
 
-  partial_validation_1 <- validate_gtfs(gtfs, "stop_times")
+  # partial validation 1 - only stop_times
+
   supposed_fields <- stop_times_field
   expect_equal(
     sum(partial_validation_1$field %in% supposed_fields),
     length(supposed_fields)
   )
 
-  partial_validation_2 <- validate_gtfs(gtfs, c("stop_times", "agency"))
+  # partial validation 2 - stop_times and agency
+
   validated_files <- unique(partial_validation_2$file)
   invisible(lapply(
     validated_files,
@@ -364,7 +398,8 @@ test_that("validate_gtfs handles calendar.txt absence and translations.txt prese
 
   no_calendar_gtfs <- gtfs
   no_calendar_gtfs$calendar <- NULL
-  no_calendar_validation <- validate_gtfs(no_calendar_gtfs, warnings = FALSE)
+  no_calendar_gtfs <- validate_gtfs(no_calendar_gtfs, warnings = FALSE)
+  no_calendar_validation <- attr(no_calendar_gtfs, "validation_result")
 
   expect_equal(
     sum(no_calendar_validation[file == "calendar"]$file_spec == "opt"),
@@ -387,7 +422,8 @@ test_that("validate_gtfs handles calendar.txt absence and translations.txt prese
 
   translations_gtfs <- gtfs
   translations_gtfs$translations <- data.table::data.table(NULL)
-  translations_validation <- validate_gtfs(translations_gtfs, warnings = FALSE)
+  translations_gtfs <- validate_gtfs(translations_gtfs, warnings = FALSE)
+  translations_validation <- attr(translations_gtfs, "validation_result")
 
   expect_equal(
     sum(translations_validation[file == "feed_info"]$file_spec == "req"),
