@@ -44,7 +44,11 @@ get_trip_geometry <- function(gtfs,
   checkmate::assert_class(gtfs, "dt_gtfs")
   checkmate::assert_character(trip_id, null.ok = TRUE)
   checkmate::assert_names(file, subset.of = c("shapes", "stop_times"))
-  checkmate::assert_numeric(crs)
+  checkmate::assert(
+    checkmate::check_numeric(crs),
+    checkmate::check_class(crs, "crs"),
+    combine = "or"
+  )
 
   # create linestrings from shapes
 
