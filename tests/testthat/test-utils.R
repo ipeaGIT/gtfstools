@@ -102,3 +102,58 @@ test_that("seconds_to_string generates strings correctly", {
   expect_identical(seconds_to_string(90000L), "25:00:00")
   expect_identical(seconds_to_string(3661L), "01:01:01")
 })
+
+
+# copy_gtfs_without_file --------------------------------------------------
+
+
+test_that("copy_gtfs_without_file raises errors due to incorrect input types", {
+  expect_error(copy_gtfs_without_file(no_class_gtfs, "shapes"))
+  expect_error(copy_gtfs_without_file(gtfs, as.factor("shapes")))
+})
+
+test_that("copy_gtfs_without_file raises errors if non-existent file is given", {
+  expect_error(copy_gtfs_without_file(gtfs, "non-existent file"))
+})
+
+test_that("copy_gtfs_without_file outputs a gtfs without given file", {
+  gtfs_copy <- copy_gtfs_without_file(gtfs, "shapes")
+  expect_s3_class(gtfs_copy, "dt_gtfs")
+  expect_identical(names(gtfs_copy), names(gtfs)[names(gtfs) != "shapes"])
+})
+
+
+# copy_gtfs_without_field -------------------------------------------------
+
+
+test_that("copy_gtfs_without_field raises errors due to incorrect input types", {
+  expect_error(copy_gtfs_without_file(no_class_gtfs, "shapes", "shape_id"))
+  expect_error(copy_gtfs_without_file(gtfs, as.factor("shapes"), "shape_id"))
+  expect_error(copy_gtfs_without_file(gtfs, "shapes", as.factor("shape_id")))
+})
+
+test_that("copy_gtfs_without_field raises errors if non-existent file/field is given", {
+  expect_error(copy_gtfs_without_file(gtfs, "non-existent file", "shape_id"))
+  expect_error(copy_gtfs_without_file(gtfs, "shapes", "non-existent field"))
+})
+
+test_that("copy_gtfs_without_field outputs a gtfs without the given field", {
+  gtfs_copy <- copy_gtfs_without_field(gtfs, "shapes", "shape_id")
+  expect_s3_class(gtfs_copy, "dt_gtfs")
+  expect_identical(
+    names(gtfs_copy$shapes),
+    names(gtfs$shapes)[names(gtfs$shapes) != "shape_id"]
+  )
+})
+
+test_that("copy_gtfs_without_field outputs doesn't change original file", {
+  shapes_before <- data.table::copy(gtfs$shapes)
+  gtfs_copy <- copy_gtfs_without_field(gtfs, "shapes", "shape_id")
+  shapes_after <- data.table::copy(gtfs$shapes)
+  expect_identical(shapes_before, shapes_after)
+})
+
+
+
+
+

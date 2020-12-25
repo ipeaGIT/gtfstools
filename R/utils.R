@@ -148,3 +148,63 @@ seconds_to_string <- function(seconds) {
   return(time_string)
 
 }
+
+
+
+#' Make a GTFS copy without a given file
+#'
+#' Creates a copy of a GTFS object without a given file. Used for testing.
+#'
+#' @param gtfs The GTFS to be copied, as created by \code{\link{read_gtfs}}.
+#' @param file File to be removed.
+#'
+#' @return A GTFS object without the given file.
+copy_gtfs_without_file <- function(gtfs, file) {
+
+  checkmate::assert_class(gtfs, "dt_gtfs")
+  checkmate::assert_string(file)
+
+  # check if file exists
+
+  checkmate::assert(check_gtfs_file_exists(gtfs, file))
+
+  # remove file
+
+  gtfs_copy <- gtfs
+  gtfs_copy[[file]] <- NULL
+
+  return(gtfs_copy)
+
+}
+
+
+
+#' Make a GTFS copy without a given field from a given file
+#'
+#' Creates a copy of a GTFS object without a given field from a given file. Used
+#' for testing.
+#'
+#' @param gtfs The GTFS to be copied, as created by \code{\link{read_gtfs}}.
+#' @param file File from which the field must be removed.
+#' @param field Field to be removed.
+#'
+#' @return A GTFS object without the given field.
+copy_gtfs_without_field <- function(gtfs, file, field) {
+
+  checkmate::assert_class(gtfs, "dt_gtfs")
+  checkmate::assert_string(file)
+  checkmate::assert_string(field)
+
+  # check if field exists
+
+  checkmate::assert(check_gtfs_field_exists(gtfs, file, field))
+
+  # remove field
+
+  gtfs_copy <- gtfs
+  gtfs_copy[[file]] <- data.table::copy(gtfs[[file]])
+  gtfs_copy[[file]][, (field) := NULL]
+
+  return(gtfs_copy)
+
+}
