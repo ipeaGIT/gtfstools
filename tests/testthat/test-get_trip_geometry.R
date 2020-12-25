@@ -155,6 +155,28 @@ test_that("get_trip_geometry outputs an 'sf' object with correct crs", {
   expect_s3_class(sf_geom, "sf")
   expect_identical(sf::st_crs(sf_geom), sf::st_crs(point))
 
+  # should work even when all 'trip_id's given are not present in the gtfs
+
+  # default
+
+  point <- sf::st_sfc(sf::st_point(c(0, 0)), crs = 4326)
+
+  expect_warning(sf_geom <- get_trip_geometry(gtfs, c("ola")))
+  expect_s3_class(sf_geom, "sf")
+  expect_identical(sf::st_crs(sf_geom), sf::st_crs(point))
+
+  # different crs
+
+  point <- sf::st_sfc(sf::st_point(c(0, 0)), crs = 4674)
+
+  expect_warning(sf_geom <- get_trip_geometry(gtfs, c("ola"), crs = 4674))
+  expect_s3_class(sf_geom, "sf")
+  expect_identical(sf::st_crs(sf_geom), sf::st_crs(point))
+
+  expect_warning(sf_geom <- get_trip_geometry(gtfs, c("ola"), crs = sf::st_crs(point)))
+  expect_s3_class(sf_geom, "sf")
+  expect_identical(sf::st_crs(sf_geom), sf::st_crs(point))
+
 })
 
 test_that("get_trip_geometry doesn't change given gtfs (except for 'stop_times', 'shapes' and 'trips' indices)", {

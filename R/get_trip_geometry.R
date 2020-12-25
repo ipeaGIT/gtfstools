@@ -117,16 +117,26 @@ get_trip_geometry <- function(gtfs,
 
     relevant_shapes <- unique(trips$shape_id)
 
-    # generate geometry
+    # generate geometry - the condition for nrow == 0 prevents an sfheaders error
 
     shapes_sf <- gtfs$shapes[shape_id %chin% relevant_shapes]
     shapes_sf <- shapes_sf[order(shape_id, shape_pt_sequence)]
-    shapes_sf <- sfheaders::sf_linestring(
-      shapes_sf,
-      x = "shape_pt_lon",
-      y = "shape_pt_lat",
-      linestring_id = "shape_id"
-    )
+
+    if (nrow(shapes_sf) == 0) {
+
+      shapes_sf <- sf::st_sf(shape_id = character(), geometry = sf::st_sfc())
+
+    } else {
+
+      shapes_sf <- sfheaders::sf_linestring(
+        shapes_sf,
+        x = "shape_pt_lon",
+        y = "shape_pt_lat",
+        linestring_id = "shape_id"
+      )
+
+    }
+
     shapes_sf <- sf::st_set_crs(shapes_sf, crs)
     shapes_sf <- data.table::setDT(shapes_sf)[trips, on = "shape_id"]
     shapes_sf[, origin_file := "shapes"]
@@ -138,16 +148,29 @@ get_trip_geometry <- function(gtfs,
 
   if ("stop_times" %in% file) {
 
+    # generate geometry - the condition for nrow == 0 prevents an sfheaders error
+
     stop_times_sf <- gtfs$stop_times[trip_id %chin% relevant_trips]
     stop_times_sf <- stop_times_sf[order(trip_id, stop_sequence)]
     stop_times_sf[gtfs$stops, on = "stop_id", `:=`(stop_lat = i.stop_lat, stop_lon = i.stop_lon)]
-    stop_times_sf <- sfheaders::sf_linestring(
-      stop_times_sf,
-      x = "stop_lon",
-      y = "stop_lat",
-      linestring_id = "trip_id"
-    )
-    stop_times_sf <- data.table::setDT(sf::st_set_crs(stop_times_sf, crs))
+
+    if (nrow(stop_times_sf) == 0) {
+
+      stop_times_sf <- sf::st_sf(trip_id = character(), geometry = sf::st_sfc())
+
+    } else {
+
+      stop_times_sf <- sfheaders::sf_linestring(
+        stop_times_sf,
+        x = "stop_lon",
+        y = "stop_lat",
+        linestring_id = "trip_id"
+      )
+
+    }
+
+    stop_times_sf <- sf::st_set_crs(stop_times_sf, crs)
+    stop_times_sf <- data.table::setDT(stop_times_sf)
     stop_times_sf[, origin_file := "stop_times"]
 
   }
@@ -162,6 +185,8 @@ get_trip_geometry <- function(gtfs,
 
   final_sf <- final_sf[, .(trip_id, origin_file, geometry)]
   final_sf <- sf::st_as_sf(final_sf)
+
+
 
   if (crs != 4326) final_sf <- sf::st_transform(final_sf, crs)
 
