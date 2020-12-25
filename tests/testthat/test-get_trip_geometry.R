@@ -179,6 +179,33 @@ test_that("get_trip_geometry outputs an 'sf' object with correct crs", {
 
 })
 
+test_that("get_trip_geometry outputs an 'sf' object with correct columns' types", {
+
+  sf_geom <- get_trip_geometry(gtfs, "CPTM L07-0")
+
+  # result is an sf
+
+  expect_s3_class(sf_geom, "sf")
+
+  # columns' types
+
+  expect_equal(class(sf_geom$trip_id), "character")
+  expect_equal(class(sf_geom$origin_file), "character")
+  expect_identical(class(sf_geom$geometry), c("sfc_LINESTRING", "sfc"))
+
+  # should work even when all 'trip_id's given are not present in the gtfs
+  # (geometry class changes)
+
+  expect_warning(sf_geom <- get_trip_geometry(gtfs, "ola"))
+
+  expect_s3_class(sf_geom, "sf")
+
+  expect_equal(class(sf_geom$trip_id), "character")
+  expect_equal(class(sf_geom$origin_file), "character")
+  expect_identical(class(sf_geom$geometry), c("sfc_GEOMETRY", "sfc"))
+
+})
+
 test_that("get_trip_geometry doesn't change given gtfs (except for 'stop_times', 'shapes' and 'trips' indices)", {
 
   original_gtfs <- read_gtfs(data_path)

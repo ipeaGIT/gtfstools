@@ -52,19 +52,41 @@ get_trip_segment_duration <- function(gtfs, trip_id = NULL, unit = "min") {
     check_gtfs_field_exists(
       gtfs,
       "stop_times",
-      c("trip_id", "arrival_time", "departure_time")
+      c("trip_id", "arrival_time", "departure_time", "stop_sequence")
     )
   )
 
-  if (! is.null(trip_id)) {
+  # select 'trip_id's to get segment's duration of
+
+  if (!is.null(trip_id)) {
     relevant_trips <- trip_id
   } else {
     relevant_trips <- unique(gtfs$stop_times$trip_id)
   }
 
-  # create auxiliary columns if needed
+  # raise warning if a given trip_id doesn't exist in 'stop_times'
+
+  if (!is.null(trip_id)) {
+
+    invalid_trip_id <- trip_id[! trip_id %chin% unique(gtfs$stop_times$trip_id)]
+
+    if (!identical(invalid_trip_id, character(0))) {
+
+      warning(
+        paste0(
+          "'stop_times' doesn't contain the following trip_id(s): "),
+        paste0("'", invalid_trip_id, "'", collapse = ", ")
+      )
+
+    }
+
+  }
+
+  # create object with filtered 'stop_times'
 
   durations <- gtfs$stop_times[trip_id %chin% relevant_trips]
+
+  # create auxiliary columns if needed
 
   durations[
     ,
@@ -82,7 +104,7 @@ get_trip_segment_duration <- function(gtfs, trip_id = NULL, unit = "min") {
   durations[
     ,
     `:=`(
-      segment = stop_sequence - 1,
+      segment = stop_sequence - 1L,
       duration = arrival_time_secs - last_stop_departure
     )
   ]

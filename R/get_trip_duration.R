@@ -79,9 +79,22 @@ get_trip_duration <- function(gtfs, trip_id = NULL, unit = "min") {
 
   }
 
-  # create auxiliary columns if needed
+  # create object with filtered stop_times. if empty, return an empty data.table
 
   durations <- gtfs$stop_times[trip_id %chin% relevant_trips]
+
+  if (nrow(durations) == 0) {
+
+    durations <- data.table::data.table(
+      trip_id = character(),
+      duration = numeric()
+    )
+
+    return(durations)
+
+  }
+
+  # create auxiliary columns if needed
 
   durations[
     ,

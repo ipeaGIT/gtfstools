@@ -26,28 +26,15 @@ test_that("get_trip_duration raises errors due to incorrect input types/value", 
 
 test_that("get_trip_duration raises errors if gtfs doesn't have required files/fields", {
 
-  # create gtfs with no stop_times
+  # create gtfs without 'stop_times'
 
-  no_stop_times_gtfs <- gtfs
-  no_stop_times_gtfs$stop_times <- NULL
+  no_stop_times_gtfs <- copy_gtfs_without_file(gtfs, "stop_times")
 
-  # create gtfs with no 'trip_id' column in stop_times
+  # create gtfs without relevant fields
 
-  no_st_tripid_gtfs <- gtfs
-  no_st_tripid_gtfs$stop_times <- data.table::copy(gtfs$stop_times)
-  no_st_tripid_gtfs$stop_times[, trip_id := NULL]
-
-  # create gtfs with no 'arrival_time' column in stop_times
-
-  no_st_arrtime_gtfs <- gtfs
-  no_st_arrtime_gtfs$stop_times <- data.table::copy(gtfs$stop_times)
-  no_st_arrtime_gtfs$stop_times[, arrival_time := NULL]
-
-  # create gtfs with no 'departure_time' column in stop_times
-
-  no_st_deptime_gtfs <- gtfs
-  no_st_deptime_gtfs$stop_times <- data.table::copy(gtfs$stop_times)
-  no_st_deptime_gtfs$stop_times[, departure_time := NULL]
+  no_st_tripid_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "trip_id")
+  no_st_arrtime_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "arrival_time")
+  no_st_deptime_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "departure_time")
 
   expect_error(get_trip_duration(no_stop_times_gtfs))
   expect_error(get_trip_duration(no_st_tripid_gtfs))
@@ -56,9 +43,9 @@ test_that("get_trip_duration raises errors if gtfs doesn't have required files/f
 
 })
 
-test_that("get_trip_duration calculates the duration of correct trip_id's", {
+test_that("get_trip_duration calculates the duration of correct 'trip_id's", {
 
-  # if trip_id = NULL all trips in stop_times have their durations calculated
+  # if trip_id = NULL all trips in stop_times have their duration calculated
 
   all_trip_ids <- unique(gtfs$stop_times$trip_id)
   duration_all_trip_ids <- get_trip_duration(gtfs)
@@ -67,7 +54,7 @@ test_that("get_trip_duration calculates the duration of correct trip_id's", {
   # else only the duration of (valid) trip_ids are calculated
 
   selected_trip_ids <- c("CPTM L07-0", "ola")
-  suppressWarnings(
+  expect_warning(
     duration_selected_trip_ids <- get_trip_duration(gtfs, selected_trip_ids)
   )
   expect_equal(1, nrow(duration_selected_trip_ids))
@@ -79,17 +66,27 @@ test_that("get_trip_duration raises warnings if a non_existent trip_id is given"
   expect_warning(get_trip_duration(gtfs, "ola"))
 })
 
-test_that("get_trip_duration doesn't change given gtfs (except for stop_times index)", {
-
-  original_gtfs <- read_gtfs(data_path)
-  gtfs <- read_gtfs(data_path)
-  expect_identical(original_gtfs, gtfs)
+test_that("get_trip_duration outputs a data.table with adequate columns' classes", {
 
   durations <- get_trip_duration(gtfs, "CPTM L07-0")
-  expect_false(identical(original_gtfs, gtfs))
 
-  data.table::setindex(gtfs$stop_times, NULL)
-  expect_identical(original_gtfs, gtfs)
+  # result is a data.table
+
+  expect_s3_class(durations, "data.table")
+
+  # columns' types
+
+  expect_equal(class(durations$trip_id), "character")
+  expect_equal(class(durations$duration), "numeric")
+
+  # should work even if no given 'trip_id's are present in 'stop_times'
+
+  expect_warning(durations <- get_trip_duration(gtfs, "ola"))
+
+  expect_s3_class(durations, "data.table")
+
+  expect_equal(class(durations$trip_id), "character")
+  expect_equal(class(durations$duration), "numeric")
 
 })
 
@@ -117,5 +114,19 @@ test_that("get_trip_duration outputs duration in the correct unit", {
   expect_equal(seconds_durations$duration / 60, minutes_durations$duration)
   expect_equal(seconds_durations$duration / 3600, hours_durations$duration)
   expect_equal(seconds_durations$duration / 86400, days_durations$duration)
+
+})
+
+test_that("get_trip_duration doesn't change given gtfs (except for stop_times index)", {
+
+  original_gtfs <- read_gtfs(data_path)
+  gtfs <- read_gtfs(data_path)
+  expect_identical(original_gtfs, gtfs)
+
+  durations <- get_trip_duration(gtfs, "CPTM L07-0")
+  expect_false(identical(original_gtfs, gtfs))
+
+  data.table::setindex(gtfs$stop_times, NULL)
+  expect_identical(original_gtfs, gtfs)
 
 })
