@@ -119,7 +119,6 @@ test_that("get_trip_geometry returns the geometries of correct 'trip_id's", {
 
 test_that("get_trip_geometry raises warnings if a non_existent trip_id is given", {
   expect_warning(get_trip_geometry(gtfs, c("CPTM L07-0", "ola")))
-  expect_warning(get_trip_geometry(gtfs, "ola"))
 })
 
 test_that("get_trip_geometry returns the geometries created by the given 'file'", {
