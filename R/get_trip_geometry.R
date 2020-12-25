@@ -66,6 +66,8 @@ get_trip_geometry <- function(gtfs,
       combine = "and"
     )
 
+    # select shape_ids to get geometry of
+
     if (!is.null(trip_id)) {
 
       env   <- environment()
@@ -78,6 +80,24 @@ get_trip_geometry <- function(gtfs,
     }
 
     relevant_shapes <- unique(trips$shape_id)
+
+    # raise warning if a given 'trip_id' doesn't exist in 'trips'
+
+    if (!is.null(trip_id)) {
+
+      invalid_trip_id <- trip_id[! trip_id %chin% unique(gtfs$trips$trip_id)]
+
+      if (!identical(invalid_trip_id, character(0))) {
+
+        warning(
+          paste0(
+            "'trips' doesn't contain the following trip_id(s): "),
+          paste0("'", invalid_trip_id, "'", collapse = ", ")
+        )
+
+      }
+
+    }
 
     # generate geometry
 
@@ -113,10 +133,30 @@ get_trip_geometry <- function(gtfs,
       combine = "and"
     )
 
+    # select trip_ids to get geometry of
+
     if (!is.null(trip_id)) {
       relevant_trips <- trip_id
     } else {
       relevant_trips <- unique(gtfs$trips$trip_id)
+    }
+
+    # raise warning if a given 'trip_id' doesn't exist in 'trips'
+
+    if (!is.null(trip_id)) {
+
+      invalid_trip_id <- trip_id[! trip_id %chin% unique(gtfs$trips$trip_id)]
+
+      if (!identical(invalid_trip_id, character(0))) {
+
+        warning(
+          paste0(
+            "'trips' doesn't contain the following trip_id(s): "),
+          paste0("'", invalid_trip_id, "'", collapse = ", ")
+        )
+
+      }
+
     }
 
     # generate geometry

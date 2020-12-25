@@ -53,7 +53,7 @@ get_trip_duration <- function(gtfs, trip_id = NULL, unit = "min") {
     )
   )
 
-  # select trip_ids to get duration
+  # select 'trip_id's to get duration of
 
   if (!is.null(trip_id)) {
     relevant_trips <- trip_id
@@ -61,7 +61,7 @@ get_trip_duration <- function(gtfs, trip_id = NULL, unit = "min") {
     relevant_trips <- unique(gtfs$stop_times$trip_id)
   }
 
-  # raise warning if given trip_id doesn't exist in stop_times
+  # raise warning if a given trip_id doesn't exist in 'stop_times'
 
   if (!is.null(trip_id)) {
 
