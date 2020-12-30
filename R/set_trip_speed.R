@@ -6,9 +6,9 @@
 #' @param gtfs A GTFS object as created by \code{\link{read_gtfs}}.
 #' @param trip_id A string vector including the \code{trip_id}s to have their
 #'   average speed set.
-#' @param speed A numeric representing the speed to be set. Its length either
-#'   equals 1, in which case the value is recycled for all \code{trip_id}s, or
-#'   equals \code{trip_id}'s length.
+#' @param speed A numeric representing the speed to be set. Its length must
+#'   either equal 1, in which case the value is recycled for all
+#'   \code{trip_id}s, or equal \code{trip_id}'s length.
 #' @param unit A string representing the unit in which the speed is given. One
 #'   of \code{"km/h"} (the default) or \code{"m/s"}.
 #' @param by_reference Whether to update \code{stop_times}' \code{data.table} by
@@ -19,20 +19,33 @@
 #'   GTFS object invisibly (note that in this case the original GTFS object is
 #'   altered).
 #'
+#' @section Details:
+#' The average speed is calculated as the difference between the arrival time at
+#' the last stop minus the departure time at the first top, over the trip's
+#' length (as calculated via \code{\link{get_trip_geometry}}, based on the
+#' \code{shapes} file). The arrival and departure times at all other stops (i.e.
+#' not the first neither the last) are set as \code{""}, which is written as
+#' \code{NA} with \code{\link{write_gtfs}}. Some transport routing software,
+#' such as \href{http://www.opentripplanner.org/}{OpenTripPlanner} and
+#' \href{https://github.com/conveyal/r5}{R5}, support specifying stop times like
+#' so. In such cases, they estimate arrival/departure times at the others stops
+#' based on the average speed as well. We plan to add that feature to this
+#' function in the future.
+#'
 #' @examples
-#' data_path <- system.file("extdata/poa_gtfs.zip", package = "gtfstools")
+#' data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 #'
 #' gtfs <- read_gtfs(data_path)
 #'
-#' gtfs_new_speed <- set_trip_speed(gtfs, trip_id = "274-2@1#640", 50)
-#' gtfs_new_speed$stop_times[trip_id == "274-2@1#640"]
+#' gtfs_new_speed <- set_trip_speed(gtfs, trip_id = "CPTM L07-0", 50)
+#' gtfs_new_speed$stop_times[trip_id == "CPTM L07-0"]
 #'
 #' # original gtfs remains unchanged
-#' gtfs$stop_times[trip_id == "274-2@1#640"]
+#' gtfs$stop_times[trip_id == "CPTM L07-0"]
 #'
 #' # now do it by reference
-#' set_trip_speed(gtfs, trip_id = "274-2@1#640", 50, by_reference = TRUE)
-#' gtfs$stop_times[trip_id == "274-2@1#640"]
+#' set_trip_speed(gtfs, trip_id = "CPTM L07-0", 50, by_reference = TRUE)
+#' gtfs$stop_times[trip_id == "CPTM L07-0"]
 #'
 #' @export
 set_trip_speed <- function(gtfs, trip_id, speed, unit = "km/h", by_reference = FALSE) {
@@ -65,9 +78,11 @@ set_trip_speed <- function(gtfs, trip_id, speed, unit = "km/h", by_reference = F
 
   # calculate the length of each given trip_id
 
-  trip_length <- get_trip_geometry(gtfs, trip_id, file = "shapes")
-  trip_length <- sf::st_length(trip_length)
-  trip_length <- as.numeric(units::set_units(trip_length, "km"))
+  trip_length     <- get_trip_geometry(gtfs, trip_id, file = "shapes")
+  trip_length_ids <- trip_length$trip_id
+  trip_length     <- sf::st_length(trip_length)
+  trip_length     <- as.numeric(units::set_units(trip_length, "km"))
+  trip_length     <- stats::setNames(trip_length, trip_length_ids)
 
   # set speed adequate unit (use km/h for calculations)
 
@@ -75,15 +90,12 @@ set_trip_speed <- function(gtfs, trip_id, speed, unit = "km/h", by_reference = F
 
   units(speed) <- unit
   speed        <- as.numeric(units::set_units(speed, "km/h"))
+  speed        <- stats::setNames(speed, trip_id)
 
-  # calculate each trip duration based on its length and given desired speed
+  # calculate each trip duration (in hours) based on its length and given
+  # desired speed. calculate only of those 'trip_id's that exist in 'stop_times'
 
-  trip_duration <- trip_length / speed
-
-  # order trip_duration in order to correctly assign speeds below in stop_times
-
-  trip_order    <- order(trip_id)
-  trip_duration <- trip_duration[trip_order]
+  trip_duration <- trip_length[trip_length_ids] / speed[trip_length_ids]
 
   # if by_reference is set to FALSE, make a copy of stop_times
 
@@ -98,19 +110,19 @@ set_trip_speed <- function(gtfs, trip_id, speed, unit = "km/h", by_reference = F
   # - first and last stops of each given trip_id
   # - the difference of above objects (thus the intermediate entries)
 
-  desired_trips_index <- stop_times[, .I[trip_id %chin% get("trip_id", envir = env)]]
+  desired_trips_index <- stop_times[, .I[trip_id %chin% trip_length_ids]]
 
   min_stops_index <- stop_times[
-    trip_id %chin% get("trip_id", envir = env),
+    trip_id %chin% trip_length_ids,
     .I[1],
-    keyby = trip_id
+    by = trip_id
   ]
   min_stops_index <- min_stops_index$V1
 
   max_stops_index <- stop_times[
-    trip_id %chin% get("trip_id", envir = env),
+    trip_id %chin% trip_length_ids,
     .I[max(stop_sequence)],
-    keyby = trip_id
+    by = trip_id
   ]
   max_stops_index <- max_stops_index$V1
 
@@ -128,7 +140,8 @@ set_trip_speed <- function(gtfs, trip_id, speed, unit = "km/h", by_reference = F
 
   # substitute last stop arrival and departure_time by first_departure plus duration
 
-  trip_duration <-  as.integer(trip_duration * 3600)
+  trip_duration <- as.integer(trip_duration * 3600)
+
   last_arrival  <- first_departure + trip_duration
   last_arrival  <- seconds_to_string(last_arrival)
 

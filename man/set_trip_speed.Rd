@@ -12,9 +12,9 @@ set_trip_speed(gtfs, trip_id, speed, unit = "km/h", by_reference = FALSE)
 \item{trip_id}{A string vector including the \code{trip_id}s to have their
 average speed set.}
 
-\item{speed}{A numeric representing the speed to be set. Its length either
-equals 1, in which case the value is recycled for all \code{trip_id}s, or
-equals \code{trip_id}'s length.}
+\item{speed}{A numeric representing the speed to be set. Its length must
+either equal 1, in which case the value is recycled for all
+\code{trip_id}s, or equal \code{trip_id}'s length.}
 
 \item{unit}{A string representing the unit in which the speed is given. One
 of \code{"km/h"} (the default) or \code{"m/s"}.}
@@ -32,19 +32,34 @@ If \code{by_reference} is set to \code{FALSE}, returns a GTFS object
 Sets the average speed of each specified \code{trip_id} by changing the
 \code{arrival_time} and \code{departure_time} columns in \code{stop_times}.
 }
+\section{Details}{
+
+The average speed is calculated as the difference between the arrival time at
+the last stop minus the departure time at the first top, over the trip's
+length (as calculated via \code{\link{get_trip_geometry}}, based on the
+\code{shapes} file). The arrival and departure times at all other stops (i.e.
+not the first neither the last) are set as \code{""}, which is written as
+\code{NA} with \code{\link{write_gtfs}}. Some transport routing software,
+such as \href{http://www.opentripplanner.org/}{OpenTripPlanner} and
+\href{https://github.com/conveyal/r5}{R5}, support specifying stop times like
+so. In such cases, they estimate arrival/departure times at the others stops
+based on the average speed as well. We plan to add that feature to this
+function in the future.
+}
+
 \examples{
-data_path <- system.file("extdata/poa_gtfs.zip", package = "gtfstools")
+data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 
 gtfs <- read_gtfs(data_path)
 
-gtfs_new_speed <- set_trip_speed(gtfs, trip_id = "274-2@1#640", 50)
-gtfs_new_speed$stop_times[trip_id == "274-2@1#640"]
+gtfs_new_speed <- set_trip_speed(gtfs, trip_id = "CPTM L07-0", 50)
+gtfs_new_speed$stop_times[trip_id == "CPTM L07-0"]
 
 # original gtfs remains unchanged
-gtfs$stop_times[trip_id == "274-2@1#640"]
+gtfs$stop_times[trip_id == "CPTM L07-0"]
 
 # now do it by reference
-set_trip_speed(gtfs, trip_id = "274-2@1#640", 50, by_reference = TRUE)
-gtfs$stop_times[trip_id == "274-2@1#640"]
+set_trip_speed(gtfs, trip_id = "CPTM L07-0", 50, by_reference = TRUE)
+gtfs$stop_times[trip_id == "CPTM L07-0"]
 
 }
