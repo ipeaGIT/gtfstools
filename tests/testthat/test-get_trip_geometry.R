@@ -179,7 +179,7 @@ test_that("get_trip_geometry outputs an 'sf' object with correct crs", {
 
 })
 
-test_that("get_trip_geometry outputs an 'sf' object with correct columns' types", {
+test_that("get_trip_geometry outputs an 'sf' object with correct column types", {
 
   sf_geom <- get_trip_geometry(gtfs, "CPTM L07-0")
 
@@ -187,14 +187,13 @@ test_that("get_trip_geometry outputs an 'sf' object with correct columns' types"
 
   expect_s3_class(sf_geom, "sf")
 
-  # columns' types
+  # column types
 
   expect_equal(class(sf_geom$trip_id), "character")
   expect_equal(class(sf_geom$origin_file), "character")
   expect_identical(class(sf_geom$geometry), c("sfc_LINESTRING", "sfc"))
 
   # should work even when all 'trip_id's given are not present in the gtfs
-  # (geometry class changes)
 
   expect_warning(sf_geom <- get_trip_geometry(gtfs, "ola"))
 
@@ -206,7 +205,7 @@ test_that("get_trip_geometry outputs an 'sf' object with correct columns' types"
 
 })
 
-test_that("get_trip_geometry doesn't change given gtfs (except for 'stop_times', 'shapes' and 'trips' indices)", {
+test_that("get_trip_geometry doesn't change given gtfs (except for 'stop_times' and 'shapes' indices)", {
 
   original_gtfs <- read_gtfs(data_path)
   gtfs <- read_gtfs(data_path)
@@ -217,7 +216,6 @@ test_that("get_trip_geometry doesn't change given gtfs (except for 'stop_times',
 
   data.table::setindex(gtfs$shapes, NULL)
   data.table::setindex(gtfs$stop_times, NULL)
-  data.table::setindex(gtfs$trips, NULL)
   expect_identical(original_gtfs, gtfs)
 
 })

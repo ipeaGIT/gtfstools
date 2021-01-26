@@ -35,7 +35,7 @@
 #' trip_speed <- get_trip_speed(gtfs, trip_id = trip_ids)
 #' trip_speed
 #'
-#' trip_speed <- get_trip_speed(gtfs, trip_id = trip_ids, file = "stop_times")
+#' trip_speed <- get_trip_speed(gtfs, trip_id = trip_ids, file = c("shapes", "stop_times"))
 #' trip_speed
 #'
 #' trip_speed <- get_trip_speed(gtfs, trip_id = trip_ids, unit = "m/s")
@@ -53,8 +53,22 @@ get_trip_speed <- function(gtfs, trip_id = NULL, file = "shapes", unit = "km/h")
     combine = "and"
   )
 
-  # generate desired geometries - checking for required files/fields done in
-  # get_trip_geometry
+  # check if fields and files required to estimate trip duration exist (a bit of
+  # an overlap, since these are also checked in a later get_trip_duration call,
+  # but it prevents cases where the files required to generate geometries are
+  # present but those required to estimate trip duration are not, which would
+  # cause errors to be thrown very late)
+
+  checkmate::assert(
+    check_gtfs_field_exists(
+      gtfs,
+      "stop_times",
+      c("trip_id", "arrival_time", "departure_time")
+    )
+  )
+
+  # generate desired geometries - checking for required files/fields is done
+  # pretty early into get_trip_geometry code
 
   trips_geometries <- get_trip_geometry(gtfs, trip_id, file)
 
@@ -72,8 +86,7 @@ get_trip_speed <- function(gtfs, trip_id = NULL, file = "shapes", unit = "km/h")
     length      = trips_length
   )
 
-  # calculate trips' duration - checking for required files/fields done in
-  # get_trip_duration
+  # calculate trips' duration
 
   existing_trips <- unique(trips_speed$trip_id)
 

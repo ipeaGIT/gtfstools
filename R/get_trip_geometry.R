@@ -195,8 +195,6 @@ get_trip_geometry <- function(gtfs,
   final_sf <- final_sf[, .(trip_id, origin_file, geometry)]
   final_sf <- sf::st_as_sf(final_sf)
 
-
-
   if (crs != 4326) final_sf <- sf::st_transform(final_sf, crs)
 
   return(final_sf)

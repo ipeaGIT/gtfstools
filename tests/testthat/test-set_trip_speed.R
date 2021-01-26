@@ -167,7 +167,7 @@ test_that("set_trip_speed outputs a dt_gtfs object", {
 
 })
 
-test_that("set_trip_speed doesn't 'by_reference' parameter works adequately", {
+test_that("set_trip_speed 'by_reference' parameter works adequately", {
 
   original_gtfs <- read_gtfs(data_path)
   gtfs <- read_gtfs(data_path)
