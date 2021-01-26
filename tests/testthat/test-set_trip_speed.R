@@ -88,69 +88,39 @@ test_that("set_trip_speed sets the speed of correct 'trip_id's", {
 
 test_that("set_trip_speed calculates speeds correctly", {
 
-  # to do: change this to use get_trip_speed() when implemented
-
   selected_trip_ids <- c("CPTM L07-0", "6450-51-0", "2105-10-0")
 
   new_speeds_gtfs <- set_trip_speed(gtfs, selected_trip_ids, 50)
 
-  trips_geom   <- get_trip_geometry(new_speeds_gtfs, selected_trip_ids, "shapes")
-  trips_length <- as.numeric(units::set_units(sf::st_length(trips_geom), "km"))
-  trips_duration <- get_trip_duration(new_speeds_gtfs, selected_trip_ids, "h")
-
-  trips_speeds <- data.table::as.data.table(trips_geom)[, geometry := NULL]
-  trips_speeds <- cbind(trips_speeds, length = trips_length)
-  trips_speeds[trips_duration, on = "trip_id", duration := i.duration]
-  trips_speeds[, speeds := length / duration]
+  trips_speeds <- get_trip_speed(new_speeds_gtfs, selected_trip_ids, "shapes")
 
   # all speeds should be around 50 km/h (there is some rounding error)
 
-  expect_identical(round(trips_speeds$speeds, 0), rep(50, 3))
+  expect_identical(round(trips_speeds$speed, 0), rep(50, 3))
 
   # it should also work with distinct unit (m/s)
 
   new_speeds_gtfs <- set_trip_speed(gtfs, selected_trip_ids, 50, unit = "m/s")
 
-  trips_geom   <- get_trip_geometry(new_speeds_gtfs, selected_trip_ids, "shapes")
-  trips_length <- as.numeric(units::set_units(sf::st_length(trips_geom), "m"))
-  trips_duration <- get_trip_duration(new_speeds_gtfs, selected_trip_ids, "s")
+  trips_speeds <- get_trip_speed(new_speeds_gtfs, selected_trip_ids, "shapes", "m/s")
 
-  trips_speeds <- data.table::as.data.table(trips_geom)[, geometry := NULL]
-  trips_speeds <- cbind(trips_speeds, length = trips_length)
-  trips_speeds[trips_duration, on = "trip_id", duration := i.duration]
-  trips_speeds[, speeds := length / duration]
-
-  expect_identical(round(trips_speeds$speeds, 0), rep(50, 3))
+  expect_identical(round(trips_speeds$speed, 0), rep(50, 3))
 
   # it should also work if distinct speeds are given
 
   new_speeds_gtfs <- set_trip_speed(gtfs, selected_trip_ids, c(50, 60, 70))
 
-  trips_geom   <- get_trip_geometry(new_speeds_gtfs, selected_trip_ids, "shapes")
-  trips_length <- as.numeric(units::set_units(sf::st_length(trips_geom), "km"))
-  trips_duration <- get_trip_duration(new_speeds_gtfs, selected_trip_ids, "h")
+  trips_speeds <- get_trip_speed(new_speeds_gtfs, selected_trip_ids, "shapes")
 
-  trips_speeds <- data.table::as.data.table(trips_geom)[, geometry := NULL]
-  trips_speeds <- cbind(trips_speeds, length = trips_length)
-  trips_speeds[trips_duration, on = "trip_id", duration := i.duration]
-  trips_speeds[, speeds := length / duration]
-
-  expect_identical(round(trips_speeds$speeds, 0), c(50, 70, 60))
+  expect_identical(round(trips_speeds$speed, 0), c(50, 70, 60))
 
   # and it should also work if distinct speeds are given with distinct unit (m/s)
 
   new_speeds_gtfs <- set_trip_speed(gtfs, selected_trip_ids, c(50, 60, 70), unit = "m/s")
 
-  trips_geom   <- get_trip_geometry(new_speeds_gtfs, selected_trip_ids, "shapes")
-  trips_length <- as.numeric(units::set_units(sf::st_length(trips_geom), "m"))
-  trips_duration <- get_trip_duration(new_speeds_gtfs, selected_trip_ids, "s")
+  trips_speeds <- get_trip_speed(new_speeds_gtfs, selected_trip_ids, "shapes", "m/s")
 
-  trips_speeds <- data.table::as.data.table(trips_geom)[, geometry := NULL]
-  trips_speeds <- cbind(trips_speeds, length = trips_length)
-  trips_speeds[trips_duration, on = "trip_id", duration := i.duration]
-  trips_speeds[, speeds := length / duration]
-
-  expect_identical(round(trips_speeds$speeds, 0), c(50, 70, 60))
+  expect_identical(round(trips_speeds$speed, 0), c(50, 70, 60))
 
 })
 

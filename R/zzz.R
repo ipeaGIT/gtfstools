@@ -24,6 +24,8 @@ utils::globalVariables(
     "i.stop_lat",
     "i.stop_lon",
     "arrival_time",
-    "departure_time"
+    "departure_time",
+    "i.duration",
+    "speed"
   )
 )

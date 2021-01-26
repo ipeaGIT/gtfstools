@@ -117,7 +117,7 @@ test_that("get_trip_geometry returns the geometries of correct 'trip_id's", {
 
 })
 
-test_that("get_trip_geometry raises warnings if a non_existent trip_id is given", {
+test_that("get_trip_geometry raises warnings if a non_existent 'trip_id' is given", {
   expect_warning(get_trip_geometry(gtfs, c("CPTM L07-0", "ola")))
 })
 
@@ -222,7 +222,7 @@ test_that("get_trip_geometry doesn't change given gtfs (except for 'stop_times',
 
 })
 
-test_that("get_trip_geometry returns empty sf if requested 'trip_id' isn't associated to a shape_id", {
+test_that("get_trip_geometry returns empty sf if requested 'trip_id' isn't associated to a 'shape_id'", {
 
   gtfs$trips[trip_id == "CPTM L07-0", shape_id := ""]
 

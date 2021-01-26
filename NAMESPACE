@@ -3,6 +3,7 @@
 export(get_trip_duration)
 export(get_trip_geometry)
 export(get_trip_segment_duration)
+export(get_trip_speed)
 export(read_gtfs)
 export(set_trip_speed)
 export(validate_gtfs)
