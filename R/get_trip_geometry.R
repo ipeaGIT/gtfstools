@@ -113,7 +113,7 @@ get_trip_geometry <- function(gtfs,
 
     # select shape_ids to get geometry of
 
-    trips <- gtfs$trips[trip_id %chin% relevant_trips]
+    trips <- gtfs$trips[trip_id %chin% relevant_trips & shape_id != ""]
 
     relevant_shapes <- unique(trips$shape_id)
 
@@ -124,7 +124,10 @@ get_trip_geometry <- function(gtfs,
 
     if (nrow(shapes_sf) == 0) {
 
-      shapes_sf <- sf::st_sf(shape_id = character(), geometry = sf::st_sfc())
+      empty_linestring <- sf::st_sfc()
+      class(empty_linestring)[1] <- "sfc_LINESTRING"
+
+      shapes_sf <- sf::st_sf(shape_id = character(), geometry = empty_linestring)
 
     } else {
 
@@ -156,7 +159,13 @@ get_trip_geometry <- function(gtfs,
 
     if (nrow(stop_times_sf) == 0) {
 
-      stop_times_sf <- sf::st_sf(trip_id = character(), geometry = sf::st_sfc())
+      empty_linestring <- sf::st_sfc()
+      class(empty_linestring)[1] <- "sfc_LINESTRING"
+
+      stop_times_sf <- sf::st_sf(
+        trip_id = character(),
+        geometry = empty_linestring
+      )
 
     } else {
 

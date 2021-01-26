@@ -202,7 +202,7 @@ test_that("get_trip_geometry outputs an 'sf' object with correct columns' types"
 
   expect_equal(class(sf_geom$trip_id), "character")
   expect_equal(class(sf_geom$origin_file), "character")
-  expect_identical(class(sf_geom$geometry), c("sfc_GEOMETRY", "sfc"))
+  expect_identical(class(sf_geom$geometry), c("sfc_LINESTRING", "sfc"))
 
 })
 
@@ -219,5 +219,23 @@ test_that("get_trip_geometry doesn't change given gtfs (except for 'stop_times',
   data.table::setindex(gtfs$stop_times, NULL)
   data.table::setindex(gtfs$trips, NULL)
   expect_identical(original_gtfs, gtfs)
+
+})
+
+test_that("get_trip_geometry returns empty sf if requested 'trip_id' isn't associated to a shape_id", {
+
+  gtfs$trips[trip_id == "CPTM L07-0", shape_id := ""]
+
+  # if request geometry from both files, output should only contain 'stop_times' geometry
+
+  sf_geom <- get_trip_geometry(gtfs, "CPTM L07-0")
+  expect_identical(sf_geom$origin_file, "stop_times")
+
+  # if request geometry from 'shapes', output should be an empty sf
+
+  sf_geom <- get_trip_geometry(gtfs, "CPTM L07-0", file = "shapes")
+  expect_s3_class(sf_geom, "sf")
+  expect_identical(class(sf_geom$geometry), c("sfc_LINESTRING", "sfc"))
+  expect_equal(nrow(sf_geom), 0)
 
 })
