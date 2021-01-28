@@ -2,7 +2,10 @@ Package: gtfstools
 Type: Package
 Title: GTFS Editing/Analysing Tools
 Version: 0.0.0.9000
-Authors@R: person(given = "Daniel", family = "Herszenhut", email = "dhersz@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-8066-1105"))
+Authors@R: c(
+            person(given = "Daniel", family = "Herszenhut", email = "dhersz@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-8066-1105")),
+            person("Ipea - Institute for Applied Economic Research", role = c("cph", "fnd"))
+            )
 Description: Utility functions for editing and analysing GTFS files.
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -23,3 +26,5 @@ Depends:
 Suggests: 
     covr,
     testthat
+URL: https://github.com/ipeaGIT/gtfstools
+BugReports: https://github.com/ipeaGIT/gtfstools/issues
