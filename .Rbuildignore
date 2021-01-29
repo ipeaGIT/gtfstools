@@ -5,3 +5,4 @@
 ^codecov\.yml$
 ^\.github$
 ^README\.Rmd$
+^codemeta\.json$
