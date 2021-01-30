@@ -14,6 +14,8 @@ methods::setAs("character", "gtfs_date", function(from) as.Date(from, format = "
 #'
 #' @return If the check is successful, returns \code{TRUE} invisibly. Else,
 #'   returns a string with error message.
+#'
+#' @noRd
 check_gtfs_field_exists <- function(gtfs, file, field) {
 
   checkmate::assert_class(gtfs, "dt_gtfs")
@@ -62,6 +64,8 @@ check_gtfs_field_exists <- function(gtfs, file, field) {
 #'
 #' @return If the check is successful, returns \code{TRUE} invisibly. Else,
 #'   returns a string with error message.
+#'
+#' @noRd
 check_gtfs_file_exists <- function(gtfs, file) {
 
   checkmate::assert_class(gtfs, "dt_gtfs")
@@ -99,6 +103,8 @@ check_gtfs_file_exists <- function(gtfs, file) {
 #' @param string A string in "HH:MM:SS" format.
 #'
 #' @return The seconds after midnight of a given time string as an integer.
+#'
+#' @noRd
 string_to_seconds <- function(string) {
 
   checkmate::assert_character(string)
@@ -130,6 +136,8 @@ string_to_seconds <- function(string) {
 #' @param seconds An integer.
 #'
 #' @return A time-representing string.
+#'
+#' @noRd
 seconds_to_string <- function(seconds) {
 
   checkmate::assert_integer(seconds)
@@ -159,6 +167,8 @@ seconds_to_string <- function(seconds) {
 #' @param file File to be removed.
 #'
 #' @return A GTFS object without the given file.
+#'
+#' @noRd
 copy_gtfs_without_file <- function(gtfs, file) {
 
   checkmate::assert_class(gtfs, "dt_gtfs")
@@ -189,6 +199,8 @@ copy_gtfs_without_file <- function(gtfs, file) {
 #' @param field Field to be removed.
 #'
 #' @return A GTFS object without the given field.
+#'
+#' @noRd
 copy_gtfs_without_field <- function(gtfs, file, field) {
 
   checkmate::assert_class(gtfs, "dt_gtfs")

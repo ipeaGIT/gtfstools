@@ -1,5 +1,8 @@
 {
-  "@context": ["https://doi.org/10.5063/schema/codemeta-2.0", "http://schema.org"],
+  "@context": [
+    "https://doi.org/10.5063/schema/codemeta-2.0",
+    "http://schema.org"
+  ],
   "@type": "SoftwareSourceCode",
   "identifier": "gtfstools",
   "description": "Utility functions for editing and analysing GTFS files.",
@@ -7,7 +10,7 @@
   "codeRepository": "https://github.com/ipeaGIT/gtfstools",
   "issueTracker": "https://github.com/ipeaGIT/gtfstools/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.0.0.9000",
+  "version": "0.0.0.9001",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -174,8 +177,12 @@
     }
   ],
   "readme": "https://github.com/ipeaGIT/gtfstools/blob/master/README.md",
-  "fileSize": "2118.262KB",
+  "fileSize": "2119.524KB",
   "contIntegration": "https://codecov.io/gh/ipeaGIT/gtfstools?branch=master",
   "developmentStatus": "https://www.tidyverse.org/lifecycle/#experimental",
-  "keywords": ["r", "gtfs"]
+  "keywords": [
+    "r",
+    "gtfs"
+  ],
+  "relatedLink": "https://ipeagit.github.io/gtfstools/"
 }
