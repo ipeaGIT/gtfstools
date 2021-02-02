@@ -1,15 +1,21 @@
-Package: gtfstools
 Type: Package
+Package: gtfstools
 Title: GTFS Editing/Analysing Tools
-Version: 0.0.0.9001
-Authors@R: c(
-            person(given = "Daniel", family = "Herszenhut", email = "dhersz@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-8066-1105")),
-            person("Ipea - Institute for Applied Economic Research", role = c("cph", "fnd"))
-            )
+Version: 0.0.0.9002
+Authors@R: 
+    c(person(given = "Daniel",
+             family = "Herszenhut",
+             role = c("aut", "cre"),
+             email = "dhersz@gmail.com",
+             comment = c(ORCID = "0000-0001-8066-1105")),
+      person(given = "Ipea - Institute for Applied Economic Research",
+             role = c("cph", "fnd")))
 Description: Utility functions for editing and analysing GTFS files.
 License: MIT + file LICENSE
-Encoding: UTF-8
-LazyData: true
+URL: https://ipeagit.github.io/gtfstools/
+BugReports: https://github.com/ipeaGIT/gtfstools/issues
+Depends: 
+    R (>= 2.10)
 Imports:
     checkmate,
     data.table,
@@ -20,11 +26,9 @@ Imports:
     units,
     utils,
     zip
-RoxygenNote: 7.1.1
-Depends: 
-    R (>= 2.10)
 Suggests: 
     covr,
     testthat
-URL: https://ipeagit.github.io/gtfstools/
-BugReports: https://github.com/ipeaGIT/gtfstools/issues
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
