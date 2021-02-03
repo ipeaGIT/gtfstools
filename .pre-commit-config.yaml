@@ -2,10 +2,11 @@
 # R specific hooks: https://github.com/lorenzwalthert/precommit
 repos:
 -   repo: https://github.com/dhersz/dhmisc
-    rev: v0.0.0.9005
+    rev: v0.0.0.9009
     hooks:
     -   id: mod-codemeta-description-updated
     -   id: mod-readme-rmd-rendered
+    -   id: version-bumped
 -   repo: local
     hooks:
     -   id: forbid-to-commit
