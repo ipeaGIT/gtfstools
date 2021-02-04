@@ -127,7 +127,11 @@ get_trip_geometry <- function(gtfs,
       empty_linestring <- sf::st_sfc()
       class(empty_linestring)[1] <- "sfc_LINESTRING"
 
-      shapes_sf <- sf::st_sf(shape_id = character(), geometry = empty_linestring)
+      shapes_sf <- sf::st_sf(
+        shape_id = character(),
+        geometry = empty_linestring,
+        stringsAsFactors = FALSE
+      )
 
     } else {
 
@@ -141,8 +145,7 @@ get_trip_geometry <- function(gtfs,
     }
 
     shapes_sf <- sf::st_set_crs(shapes_sf, crs)
-    data.table::setDT(shapes_sf)
-    shapes_sf <- shapes_sf[trips, on = "shape_id"]
+    shapes_sf <- data.table::setDT(shapes_sf)[trips, on = "shape_id"]
     shapes_sf[, origin_file := "shapes"]
     shapes_sf <- shapes_sf[, .(trip_id, origin_file, geometry)]
 
@@ -169,7 +172,8 @@ get_trip_geometry <- function(gtfs,
 
       stop_times_sf <- sf::st_sf(
         trip_id = character(),
-        geometry = empty_linestring
+        geometry = empty_linestring,
+        stringsAsFactors = FALSE
       )
 
     } else {
