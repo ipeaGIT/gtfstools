@@ -141,7 +141,8 @@ get_trip_geometry <- function(gtfs,
     }
 
     shapes_sf <- sf::st_set_crs(shapes_sf, crs)
-    shapes_sf <- data.table::setDT(shapes_sf)[trips, on = "shape_id"]
+    data.table::setDT(shapes_sf)
+    shapes_sf <- shapes_sf[trips, on = "shape_id"]
     shapes_sf[, origin_file := "shapes"]
     shapes_sf <- shapes_sf[, .(trip_id, origin_file, geometry)]
 
@@ -155,7 +156,11 @@ get_trip_geometry <- function(gtfs,
 
     stop_times_sf <- gtfs$stop_times[trip_id %chin% relevant_trips]
     stop_times_sf <- stop_times_sf[order(trip_id, stop_sequence)]
-    stop_times_sf[gtfs$stops, on = "stop_id", `:=`(stop_lat = i.stop_lat, stop_lon = i.stop_lon)]
+    stop_times_sf[
+      gtfs$stops,
+      on = "stop_id",
+      `:=`(stop_lat = i.stop_lat, stop_lon = i.stop_lon)
+    ]
 
     if (nrow(stop_times_sf) == 0) {
 
@@ -179,7 +184,7 @@ get_trip_geometry <- function(gtfs,
     }
 
     stop_times_sf <- sf::st_set_crs(stop_times_sf, crs)
-    stop_times_sf <- data.table::setDT(stop_times_sf)
+    data.table::setDT(stop_times_sf)
     stop_times_sf[, origin_file := "stop_times"]
 
   }
