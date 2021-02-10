@@ -18,13 +18,27 @@ existing files are read.}
 \item{warnings}{Whether to display warning messages (defaults to TRUE).}
 }
 \value{
-A GTFS object: a list of data.tables in which each index represents a
-  GTFS text file.
+A GTFS object: a \code{list} of \code{data.table}s in which each index
+  represents a GTFS text file. In case of parsing failures (e.g. files with
+  more/less columns than specified in the file header), the function throws
+  an error detailing where such failures occurred.
 }
 \description{
 Reads GTFS text files from either a local \code{.zip} file or an URL and
 validates them against GTFS specifications.
 }
+\section{Details}{
+
+The column types of each \code{data.table} in the final GTFS object conform
+as closely as possible to the \href{https://developers.google.com/transit/gtfs/reference}{Google's Static GTFS Reference}.
+Exceptions are date-related columns (such as \code{calendar.txt}'s
+\code{start_date} and \code{end_date}, for example), which are converted to
+\code{Date} objects, instead of being kept as \code{integer}s, allowing for
+easier data manipulation. These columns are converted back to
+\code{integer}s when writing the GTFS object to a \code{.zip} file using
+\code{\link{write_gtfs}}.
+}
+
 \examples{
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 

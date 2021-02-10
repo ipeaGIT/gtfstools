@@ -10,8 +10,20 @@
 #' @param quiet Whether to hide log messages and progress bars (defaults to TRUE).
 #' @param warnings Whether to display warning messages (defaults to TRUE).
 #'
-#' @return A GTFS object: a list of data.tables in which each index represents a
-#'   GTFS text file.
+#' @return A GTFS object: a \code{list} of \code{data.table}s in which each index
+#'   represents a GTFS text file. In case of parsing failures (e.g. files with
+#'   more/less columns than specified in the file header), the function throws
+#'   an error detailing where such failures occurred.
+#'
+#' @section Details:
+#' The column types of each \code{data.table} in the final GTFS object conform
+#' as closely as possible to the \href{https://developers.google.com/transit/gtfs/reference}{Google's Static GTFS Reference}.
+#' Exceptions are date-related columns (such as \code{calendar.txt}'s
+#' \code{start_date} and \code{end_date}, for example), which are converted to
+#' \code{Date} objects, instead of being kept as \code{integer}s, allowing for
+#' easier data manipulation. These columns are converted back to
+#' \code{integer}s when writing the GTFS object to a \code{.zip} file using
+#' \code{\link{write_gtfs}}.
 #'
 #' @seealso \code{\link{validate_gtfs}}
 #'
@@ -84,28 +96,36 @@ read_gtfs <- function(path, files = NULL, quiet = TRUE, warnings = TRUE) {
   gtfs <- stats::setNames(gtfs, sub(".txt", "", files_to_read))
   class(gtfs) <- "dt_gtfs"
 
-  # check if any parsing warnings were thrown
+  # check if any parsing warnings were thrown by data.table::fread
+  # if so, thrown an error detailing them
 
   files_class <- lapply(gtfs, class)
-  has_warning <- unlist(lapply(files_class, function(i) "warning" %in% i))
+  has_warning <- vapply(files_class, function(i) "warning" %in% i, logical(1))
 
-  if (sum(has_warning) >= 1) {
+  if (any(has_warning)) {
 
     gtfs_warnings <- gtfs[has_warning]
     gtfs_warnings <- lapply(gtfs_warnings, extract_warning_message)
 
-    if (warnings) {
-      warning(
-        paste0(
-          "Parsing failures while reading the following file(s): ",
-          paste(names(gtfs_warnings), collapse = ", ")
-        )
-      )
-    }
-
     if (!quiet) message("\nReturning parsing failures details.")
 
-    return(gtfs_warnings)
+    # compose error message
+
+    general_description <- paste0(
+      "Parsing failures while reading the following file(s): ",
+      paste0("'", names(gtfs_warnings), "'", collapse = ", ")
+    )
+
+    detailed_problems <- vapply(
+      seq.int(length(gtfs_warnings)),
+      function(i) paste0("'", names(gtfs_warnings)[i], "': ", gtfs_warnings[i]),
+      character(1)
+    )
+    detailed_problems <- paste(detailed_problems, collapse = "\n")
+
+    error_message <- paste0(general_description, "\n", detailed_problems)
+
+    stop(error_message)
 
   }
 
@@ -178,7 +198,7 @@ read_files <- function(file, temp_dir, quiet) {
 
     }
 
-    # read full file. if a parsing warning has been thrown save it
+    # read full file, specify column classes according to what columns should be read
 
     col_to_read <- names(sample_dt)
     col_classes <- file_metadata$coltype[col_to_read]
@@ -189,6 +209,9 @@ read_files <- function(file, temp_dir, quiet) {
     extra_col <- setdiff(col_to_read, names(col_classes))
     col_classes[is.na(col_classes)] <- "character"
     names(col_classes)[is.na(names(col_classes))] <- extra_col
+
+    # try reading the file. if any parsing warning is thrown, return the warning
+    # message to convert it in an error
 
     full_dt <- tryCatch(
       data.table::fread(file.path(temp_dir, file), select = col_classes),
@@ -219,7 +242,8 @@ extract_warning_message <- function(warning_log) {
   possible_warnings <- c(
     "Detected \\d+ column names but the data has \\d+ columns \\(i\\.e\\. invalid file\\)\\.",
     "Detected \\d+ column names but the data has \\d+ columns.",
-    "Stopped early on line \\d+\\. Expected \\d+ fields but found \\d+\\."
+    "Stopped early on line \\d+\\. Expected \\d+ fields but found \\d+\\.",
+    "Discarded single-line footer: <<.+>>"
   )
 
   warning_message <- regmatches(
