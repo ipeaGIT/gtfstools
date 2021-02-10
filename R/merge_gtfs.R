@@ -100,7 +100,7 @@ merge_gtfs <- function(..., files = NULL, quiet = TRUE, warnings = TRUE) {
 
       } else if (identical(files_to_merge, character(0))) {
 
-        stop("None of the GTFS to be merged contain the files specified in 'files'")
+        stop("None of the GTFS to be merged contain the files passed to 'files'")
 
       }
 

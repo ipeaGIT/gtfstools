@@ -5,9 +5,9 @@
 #'
 #' @param gtfs A GTFS object as created by \code{\link{read_gtfs}}.
 #' @param trip_id A string vector including the \code{trip_id}s to have their
-#'   segments' durations calculated. If \code{NULL} (the default) the function
+#'   segments' duration calculated. If \code{NULL} (the default) the function
 #'   calculates the segments' duration of every \code{trip_id} in the GTFS.
-#' @param unit A string representing the time unit in which the durations are
+#' @param unit A string representing the time unit in which the duration is
 #'   desired. One of \code{"s"} (seconds), \code{"min"} (minutes, the default),
 #'   \code{"h"} (hours) or \code{"d"} (days).
 #'
@@ -98,7 +98,12 @@ get_trip_segment_duration <- function(gtfs, trip_id = NULL, unit = "min") {
   # calculate durations
 
   durations <- durations[order(trip_id, stop_sequence)]
-  durations[, last_stop_departure := data.table::shift(departure_time_secs, 1L, type = "lag")]
+  durations[
+    ,
+    last_stop_departure := data.table::shift(
+      departure_time_secs, 1L, type = "lag"
+    )
+  ]
   durations <- durations[stop_sequence != 1]
   durations[
     ,
@@ -113,7 +118,14 @@ get_trip_segment_duration <- function(gtfs, trip_id = NULL, unit = "min") {
   durations <- durations[, .(trip_id, segment, duration)]
 
   if (unit != "s") {
-    durations[, duration := as.numeric(units::set_units(units::as_units(duration, "s"), unit, mode = "standard"))]
+    durations[
+      ,
+      duration := as.numeric(
+        units::set_units(
+          units::as_units(duration, "s"), unit, mode = "standard"
+        )
+      )
+    ]
   }
 
   return(durations[])

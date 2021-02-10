@@ -27,7 +27,8 @@ written to.}
 \item{overwrite}{Whether to overwrite existing \code{.zip} file. Defaults to
 TRUE.}
 
-\item{quiet}{Whether to hide log messages and progress bars (defaults to TRUE).}
+\item{quiet}{Whether to hide log messages and progress bars (defaults to
+TRUE).}
 
 \item{warnings}{Whether to display warning messages (defaults to TRUE).}
 }
@@ -37,8 +38,9 @@ Invisibly returns the provided GTFS object with an updated
 }
 \description{
 Writes in-memory GTFS objects as GTFS \code{.zip} files. Conditionally
-includes optional and extra \code{.txt} files (check \code{\link{validate_gtfs}}
-documentation to check what are optional/extra files).
+includes optional and extra \code{.txt} files (check
+\code{\link{validate_gtfs}} documentation to check what are optional/extra
+files).
 }
 \examples{
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")

@@ -33,9 +33,15 @@ test_that("get_trip_segment_duration raises errors if gtfs doesn't have required
   # create gtfs without relevant fields
 
   no_st_tripid_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "trip_id")
-  no_st_arrtime_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "arrival_time")
-  no_st_deptime_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "departure_time")
-  no_st_stopseq_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "stop_sequence")
+  no_st_arrtime_gtfs <- copy_gtfs_without_field(
+    gtfs, "stop_times", "arrival_time"
+  )
+  no_st_deptime_gtfs <- copy_gtfs_without_field(
+    gtfs, "stop_times", "departure_time"
+  )
+  no_st_stopseq_gtfs <- copy_gtfs_without_field(
+    gtfs, "stop_times", "stop_sequence"
+  )
 
   expect_error(get_trip_segment_duration(no_stop_times_gtfs))
   expect_error(get_trip_segment_duration(no_st_tripid_gtfs))
@@ -62,9 +68,9 @@ test_that("get_trip_segment_duration calculates the duration of correct 'trip_id
 
   selected_trip_ids <- c("CPTM L07-0", "ola")
   expect_warning(
-    duration_selected_trip_ids <- get_trip_segment_duration(gtfs, selected_trip_ids)
+    dur_selected_trip_ids <- get_trip_segment_duration(gtfs, selected_trip_ids)
   )
-  expect_equal(unique(duration_selected_trip_ids$trip_id), "CPTM L07-0")
+  expect_equal(unique(dur_selected_trip_ids$trip_id), "CPTM L07-0")
 
 })
 
@@ -157,18 +163,3 @@ test_that("get_trip_segment_duration doesn't change given gtfs (except for stop_
   expect_identical(original_gtfs, gtfs)
 
 })
-
-
-
-# check below here
-
-
-
-
-
-
-
-
-
-
-

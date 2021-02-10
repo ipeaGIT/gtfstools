@@ -17,7 +17,8 @@
 #'
 #' @section Details:
 #' The column types of each \code{data.table} in the final GTFS object conform
-#' as closely as possible to the \href{https://developers.google.com/transit/gtfs/reference}{Google's Static GTFS Reference}.
+#' as closely as possible to the
+#' \href{https://developers.google.com/transit/gtfs/reference}{Google's Static GTFS Reference}.
 #' Exceptions are date-related columns (such as \code{calendar.txt}'s
 #' \code{start_date} and \code{end_date}, for example), which are converted to
 #' \code{Date} objects, instead of being kept as \code{integer}s, allowing for
@@ -107,8 +108,6 @@ read_gtfs <- function(path, files = NULL, quiet = TRUE, warnings = TRUE) {
     gtfs_warnings <- gtfs[has_warning]
     gtfs_warnings <- lapply(gtfs_warnings, extract_warning_message)
 
-    if (!quiet) message("\nReturning parsing failures details.")
-
     # compose error message
 
     general_description <- paste0(
@@ -145,7 +144,8 @@ read_gtfs <- function(path, files = NULL, quiet = TRUE, warnings = TRUE) {
 #'
 #' @param file The name of the file (with \code{.txt} extension) to be read.
 #' @param temp_dir The path to the temporary folder where the GTFS was unzipped.
-#' @param quiet Whether to hide log messages and progress bars (defaults to TRUE).
+#' @param quiet Whether to hide log messages and progress bars (defaults to
+#'   TRUE).
 #'
 #' @return Either a data.table containing the desired file or a log message if
 #'   any parsing warnings were thrown.
@@ -198,7 +198,8 @@ read_files <- function(file, temp_dir, quiet) {
 
     }
 
-    # read full file, specify column classes according to what columns should be read
+    # read full file, specify column classes according to which columns should
+    # be read
 
     col_to_read <- names(sample_dt)
     col_classes <- file_metadata$coltype[col_to_read]

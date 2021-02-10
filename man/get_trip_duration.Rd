@@ -10,10 +10,10 @@ get_trip_duration(gtfs, trip_id = NULL, unit = "min")
 \item{gtfs}{A GTFS object as created by \code{\link{read_gtfs}}.}
 
 \item{trip_id}{A string vector including the \code{trip_id}s to have their
-durations calculated. If \code{NULL} (the default) the function calculates
+duration calculated. If \code{NULL} (the default) the function calculates
 the duration of every \code{trip_id} in the GTFS.}
 
-\item{unit}{A string representing the time unit in which the durations are
+\item{unit}{A string representing the time unit in which the duration is
 desired. One of \code{"s"} (seconds), \code{"min"} (minutes, the default),
 \code{"h"} (hours) or \code{"d"} (days).}
 }

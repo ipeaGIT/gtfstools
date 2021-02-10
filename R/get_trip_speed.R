@@ -32,17 +32,20 @@
 #' head(trip_speed)
 #'
 #' trip_ids <- c("CPTM L07-0", "2002-10-0")
-#' trip_speed <- get_trip_speed(gtfs, trip_id = trip_ids)
+#' trip_speed <- get_trip_speed(gtfs, trip_ids)
 #' trip_speed
 #'
-#' trip_speed <- get_trip_speed(gtfs, trip_id = trip_ids, file = c("shapes", "stop_times"))
+#' trip_speed <- get_trip_speed(gtfs, trip_ids, file = c("shapes", "stop_times"))
 #' trip_speed
 #'
-#' trip_speed <- get_trip_speed(gtfs, trip_id = trip_ids, unit = "m/s")
+#' trip_speed <- get_trip_speed(gtfs, trip_ids, unit = "m/s")
 #' trip_speed
 #'
 #' @export
-get_trip_speed <- function(gtfs, trip_id = NULL, file = "shapes", unit = "km/h") {
+get_trip_speed <- function(gtfs,
+                           trip_id = NULL,
+                           file = "shapes",
+                           unit = "km/h") {
 
   checkmate::assert_class(gtfs, "dt_gtfs")
   checkmate::assert_character(trip_id, null.ok = TRUE)

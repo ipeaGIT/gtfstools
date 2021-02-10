@@ -48,7 +48,11 @@
 #' gtfs$stop_times[trip_id == "CPTM L07-0"]
 #'
 #' @export
-set_trip_speed <- function(gtfs, trip_id, speed, unit = "km/h", by_reference = FALSE) {
+set_trip_speed <- function(gtfs,
+                           trip_id,
+                           speed,
+                           unit = "km/h",
+                           by_reference = FALSE) {
 
   env <- environment()
 
@@ -131,23 +135,28 @@ set_trip_speed <- function(gtfs, trip_id, speed, unit = "km/h", by_reference = F
     c(min_stops_index, max_stops_index)
   )
 
-  # make sure that first stop arrival_time equals departure_time and save value (in seconds)
+  # make sure that first stop arrival_time equals departure_time and save value
 
   stop_times[min_stops_index, arrival_time := departure_time]
 
   first_departure <- stop_times[min_stops_index, departure_time]
   first_departure <- string_to_seconds(first_departure)
 
-  # substitute last stop arrival and departure_time by first_departure plus duration
+  # substitute last stop arrival and departure_time by first_departure plus
+  # duration
 
   trip_duration <- as.integer(trip_duration * 3600)
 
   last_arrival  <- first_departure + trip_duration
   last_arrival  <- seconds_to_string(last_arrival)
 
-  stop_times[max_stops_index, `:=`(arrival_time = last_arrival, departure_time = last_arrival)]
+  stop_times[
+    max_stops_index,
+    `:=`(arrival_time = last_arrival, departure_time = last_arrival)
+  ]
 
-  # substitute given trip_id's intermediate stops arrival and departure time by ""
+  # substitute given 'trip_id's intermediate stops arrival and departure time
+  # by ""
 
   stop_times[na_time_stops_index, `:=`(arrival_time = "", departure_time = "")]
 

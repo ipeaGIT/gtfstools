@@ -30,7 +30,8 @@ validates them against GTFS specifications.
 \section{Details}{
 
 The column types of each \code{data.table} in the final GTFS object conform
-as closely as possible to the \href{https://developers.google.com/transit/gtfs/reference}{Google's Static GTFS Reference}.
+as closely as possible to the
+\href{https://developers.google.com/transit/gtfs/reference}{Google's Static GTFS Reference}.
 Exceptions are date-related columns (such as \code{calendar.txt}'s
 \code{start_date} and \code{end_date}, for example), which are converted to
 \code{Date} objects, instead of being kept as \code{integer}s, allowing for

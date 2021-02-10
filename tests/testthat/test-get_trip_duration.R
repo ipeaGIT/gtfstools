@@ -33,8 +33,12 @@ test_that("get_trip_duration raises errors if gtfs doesn't have required files/f
   # create gtfs without relevant fields
 
   no_st_tripid_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "trip_id")
-  no_st_arrtime_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "arrival_time")
-  no_st_deptime_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "departure_time")
+  no_st_arrtime_gtfs <- copy_gtfs_without_field(
+    gtfs, "stop_times", "arrival_time"
+  )
+  no_st_deptime_gtfs <- copy_gtfs_without_field(
+    gtfs, "stop_times", "departure_time"
+  )
 
   expect_error(get_trip_duration(no_stop_times_gtfs))
   expect_error(get_trip_duration(no_st_tripid_gtfs))
@@ -62,8 +66,10 @@ test_that("get_trip_duration calculates the duration of correct 'trip_id's", {
 })
 
 test_that("get_trip_duration raises warnings if a non_existent trip_id is given", {
+
   expect_warning(get_trip_duration(gtfs, c("CPTM L07-0", "ola")))
   expect_warning(get_trip_duration(gtfs, "ola"))
+
 })
 
 test_that("get_trip_duration outputs a data.table with adequate columns' classes", {
@@ -97,7 +103,10 @@ test_that("get_trip_duration calculates duration correctly", {
 
   modified_st_gtfs <- gtfs
   modified_st_gtfs$stop_times <- data.table::copy(gtfs$stop_times)
-  modified_st_gtfs$stop_times[trip_id == "CPTM L07-0", arrival_time := "24:00:00"]
+  modified_st_gtfs$stop_times[
+    trip_id == "CPTM L07-0",
+    arrival_time := "24:00:00"
+  ]
 
   durations <- get_trip_duration(modified_st_gtfs, "CPTM L07-0")
   expect_equal(durations$duration, 1200)

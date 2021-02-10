@@ -24,11 +24,20 @@ test_that("merge_gtfs raises errors due to incorrect input types", {
 
 test_that("merge_gtfs raises errors/warnings due to unavailable files passed to 'files'", {
 
-  # should throw a warning if a specified file doesn't exist (but not all of them)
-  expect_warning(merge_gtfs(spo_gtfs, poa_gtfs, files = c("shapes", "ola", "oie")))
+  # should throw a warning if a specified file doesn't exist
+  expect_warning(
+    merge_gtfs(spo_gtfs, poa_gtfs, files = c("shapes", "ola", "oie"))
+  )
 
   # but should not throw a warning if warnings = FALSE
-  expect_silent(merge_gtfs(spo_gtfs, poa_gtfs, files = c("shapes", "ola", "oie"), warnings = FALSE))
+  expect_silent(
+    merge_gtfs(
+      spo_gtfs,
+      poa_gtfs,
+      files = c("shapes", "ola", "oie"),
+      warnings = FALSE
+    )
+  )
 
   # should throw an error when none of the specified files exist
   expect_error(merge_gtfs(spo_gtfs, poa_gtfs, files = c("ola", "oie")))
@@ -48,7 +57,10 @@ test_that("merge_gtfs results in a GTFS object", {
 
   # and should also work when files = something else
   expect_s3_class(merge_gtfs(spo_gtfs, poa_gtfs, files = "shapes"), "dt_gtfs")
-  expect_s3_class(merge_gtfs(list(spo_gtfs, poa_gtfs), files = "shapes"), "dt_gtfs")
+  expect_s3_class(
+    merge_gtfs(list(spo_gtfs, poa_gtfs), files = "shapes"),
+    "dt_gtfs"
+  )
 
   # even if a non-existent file is passed to 'files' (but not all of them)
   expect_warning(
@@ -104,18 +116,18 @@ test_that("merge_gtfs merges the adequate 'files'", {
 
   # when files = something else, only the specified files should be merged
 
-  merged_gtfs_small <- merge_gtfs(spo_gtfs, poa_gtfs, files = "shapes")
-  expect_identical(names(merged_gtfs_small), "shapes")
+  merged_gtfs <- merge_gtfs(spo_gtfs, poa_gtfs, files = "shapes")
+  expect_identical(names(merged_gtfs), "shapes")
 
-  merged_gtfs_small <- merge_gtfs(spo_gtfs, poa_gtfs, files = c("shapes", "stops"))
-  expect_identical(names(merged_gtfs_small), c("shapes", "stops"))
+  merged_gtfs <- merge_gtfs(spo_gtfs, poa_gtfs, files = c("shapes", "stops"))
+  expect_identical(names(merged_gtfs), c("shapes", "stops"))
 
   # should work even if a non-existant file is passed to 'files'
 
   expect_warning(
-    merged_gtfs_small <- merge_gtfs(spo_gtfs, poa_gtfs, files = c("shapes", "oie"))
+    merged_gtfs <- merge_gtfs(spo_gtfs, poa_gtfs, files = c("shapes", "oie"))
   )
-  expect_identical(names(merged_gtfs_small), "shapes")
+  expect_identical(names(merged_gtfs), "shapes")
 
 })
 
@@ -142,7 +154,11 @@ test_that("merge_gtfs bind the rows of each GTFS object adequately", {
 
   for (filename in merged_gtfs_names){
 
-    merged_by_hand <- rbind(spo_gtfs[[filename]], poa_gtfs[[filename]], fill = TRUE)
+    merged_by_hand <- rbind(
+      spo_gtfs[[filename]],
+      poa_gtfs[[filename]],
+      fill = TRUE
+    )
     col_classes    <- vapply(merged_by_hand, class, character(1))
     is_char        <- which(col_classes == "character")
 

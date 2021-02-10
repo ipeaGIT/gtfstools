@@ -1,6 +1,10 @@
 # set classes and methods to read dates as formatted in GTFS
 methods::setClass("gtfs_date")
-methods::setAs("character", "gtfs_date", function(from) as.Date(from, format = "%Y%m%d"))
+methods::setAs(
+  "character",
+  "gtfs_date",
+  function(from) as.Date(from, format = "%Y%m%d")
+)
 
 #' Check for field existence in a GTFS text file
 #'

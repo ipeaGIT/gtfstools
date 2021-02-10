@@ -4,9 +4,9 @@
 #'
 #' @param gtfs A GTFS object as created by \code{\link{read_gtfs}}.
 #' @param trip_id A string vector including the \code{trip_id}s to have their
-#'   durations calculated. If \code{NULL} (the default) the function calculates
+#'   duration calculated. If \code{NULL} (the default) the function calculates
 #'   the duration of every \code{trip_id} in the GTFS.
-#' @param unit A string representing the time unit in which the durations are
+#' @param unit A string representing the time unit in which the duration is
 #'   desired. One of \code{"s"} (seconds), \code{"min"} (minutes, the default),
 #'   \code{"h"} (hours) or \code{"d"} (days).
 #'
@@ -108,14 +108,23 @@ get_trip_duration <- function(gtfs, trip_id = NULL, unit = "min") {
 
   durations <- durations[
     ,
-    .(duration = max(arrival_time_secs, na.rm = TRUE) - min(departure_time_secs, na.rm = TRUE)),
+    .(
+      duration = max(arrival_time_secs, na.rm = TRUE) - min(departure_time_secs, na.rm = TRUE)
+    ),
     keyby = trip_id
   ]
 
   # convert duration to desired unit
 
   if (unit != "s") {
-    durations[, duration := as.numeric(units::set_units(units::as_units(duration, "s"), unit, mode = "standard"))]
+    durations[
+      ,
+      duration := as.numeric(
+        units::set_units(
+          units::as_units(duration, "s"), unit, mode = "standard"
+        )
+      )
+    ]
   }
 
   return(durations[])

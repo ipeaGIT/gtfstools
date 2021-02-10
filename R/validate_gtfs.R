@@ -68,8 +68,8 @@ validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
 
   if (is.null(files)) {
 
-    specified_files   <- names(gtfs_metadata)
-    extra_files       <- setdiff(paste0(names(gtfs), ".txt"), names(gtfs_metadata))
+    specified_files <- names(gtfs_metadata)
+    extra_files <- setdiff(paste0(names(gtfs), ".txt"), names(gtfs_metadata))
     files_to_validate <- c(specified_files, extra_files)
 
   } else {
@@ -87,7 +87,8 @@ validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
     file_metadata <- gtfs_metadata[[filename]]
     file          <- sub(".txt", "", filename)
 
-    # if metadata is null then file is undocumented. validate it as an "extra" file
+    # if metadata is null then file is undocumented.
+    # validate it as an "extra" file
 
     if (is.null(file_metadata)) {
 
@@ -142,7 +143,8 @@ validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
 
   }
 
-  # checks if translations.txt is provided. if it is, feed_info.txt becomes required
+  # checks if translations.txt is provided.
+  # if it is, feed_info.txt becomes required
 
   if ("translations" %in% names(gtfs)) {
     validation_result[file == "feed_info", file_spec := "req"]
@@ -150,7 +152,10 @@ validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
 
   # checks for validation status and details
 
-  validation_result[, `:=`(validation_status = "ok", validation_details = NA_character_)]
+  validation_result[
+    ,
+    `:=`(validation_status = "ok", validation_details = NA_character_)
+  ]
 
   # if file is not provided and is required, mark as a problem
 
@@ -226,7 +231,10 @@ validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
       paste0(
         "Invalid feed. ",
         paste0(
-          "Missing required field(s) in ", problematic_files, ": ", problematic_fields,
+          "Missing required field(s) in ",
+          problematic_files,
+          ": ",
+          problematic_fields,
           collapse = ". "
         )
       )

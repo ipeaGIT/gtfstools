@@ -1,8 +1,9 @@
 #' Write GTFS files
 #'
 #' Writes in-memory GTFS objects as GTFS \code{.zip} files. Conditionally
-#' includes optional and extra \code{.txt} files (check \code{\link{validate_gtfs}}
-#' documentation to check what are optional/extra files).
+#' includes optional and extra \code{.txt} files (check
+#' \code{\link{validate_gtfs}} documentation to check what are optional/extra
+#' files).
 #'
 #' @param gtfs A GTFS object as created by \code{\link{read_gtfs}}.
 #' @param path The path to the \code{.zip} file in which the feed should be
@@ -11,7 +12,8 @@
 #' @param extra Whether to write extra \code{.txt}. Defaults to TRUE.
 #' @param overwrite Whether to overwrite existing \code{.zip} file. Defaults to
 #'   TRUE.
-#' @param quiet Whether to hide log messages and progress bars (defaults to TRUE).
+#' @param quiet Whether to hide log messages and progress bars (defaults to
+#'   TRUE).
 #' @param warnings Whether to display warning messages (defaults to TRUE).
 #'
 #' @return Invisibly returns the provided GTFS object with an updated
@@ -48,7 +50,11 @@ write_gtfs <- function(gtfs,
                        warnings = TRUE) {
 
   checkmate::assert_class(gtfs, "dt_gtfs")
-  checkmate::assert_path_for_output(path, overwrite = overwrite, extension = "zip")
+  checkmate::assert_path_for_output(
+    path,
+    overwrite = overwrite,
+    extension = "zip"
+  )
   checkmate::assert_logical(optional)
   checkmate::assert_logical(extra)
   checkmate::assert_logical(overwrite)
@@ -76,15 +82,20 @@ write_gtfs <- function(gtfs,
 
   files_to_write <- files_in_gtfs
 
-  # optional/ext files are those marked as "opt"/"ext" in the validation attribute
+  # optional/extra files are those marked as "opt"/"ext" in the validation
+  # attribute
 
   optional_files <- files_to_write[files_specs[files_to_write] == "opt"]
   extra_files    <- files_to_write[files_specs[files_to_write] == "ext"]
 
-  if (!optional) files_to_write <- files_to_write[! files_to_write %in% optional_files]
-  if (!extra)    files_to_write <- files_to_write[! files_to_write %in% extra_files]
+  if (!optional)
+    files_to_write <- files_to_write[! files_to_write %in% optional_files]
 
-  if (!quiet) message(paste0("Writing .txt files to ", normalizePath(temp_dir), ":"))
+  if (!extra)
+    files_to_write <- files_to_write[! files_to_write %in% extra_files]
+
+  if (!quiet)
+    message(paste0("Writing .txt files to ", normalizePath(temp_dir), ":"))
 
   for (file in files_to_write) {
 

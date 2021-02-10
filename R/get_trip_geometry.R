@@ -117,7 +117,7 @@ get_trip_geometry <- function(gtfs,
 
     relevant_shapes <- unique(trips$shape_id)
 
-    # generate geometry - the condition for nrow == 0 prevents an sfheaders error
+    # generate geometry; the condition for nrow == 0 prevents an sfheaders error
 
     shapes_sf <- gtfs$shapes[shape_id %chin% relevant_shapes]
     shapes_sf <- shapes_sf[order(shape_id, shape_pt_sequence)]
@@ -155,7 +155,7 @@ get_trip_geometry <- function(gtfs,
 
   if ("stop_times" %in% file) {
 
-    # generate geometry - the condition for nrow == 0 prevents an sfheaders error
+    # generate geometry; the condition for nrow == 0 prevents an sfheaders error
 
     stop_times_sf <- gtfs$stop_times[trip_id %chin% relevant_trips]
     stop_times_sf <- stop_times_sf[order(trip_id, stop_sequence)]
@@ -203,8 +203,6 @@ get_trip_geometry <- function(gtfs,
 
   final_sf <- final_sf[, .(trip_id, origin_file, geometry)]
   final_sf <- sf::st_as_sf(final_sf)
-
-  if (crs != 4326) final_sf <- sf::st_transform(final_sf, crs)
 
   return(final_sf)
 

@@ -37,14 +37,26 @@ test_that("get_trip_speed raises errors if gtfs doesn't have required files/fiel
   no_trp_tripid_gtfs <- copy_gtfs_without_field(gtfs, "trips", "trip_id")
   no_trp_shapeid_gtfs <- copy_gtfs_without_field(gtfs, "trips", "shape_id")
   no_shp_shapeid_gtfs <- copy_gtfs_without_field(gtfs, "shapes", "shape_id")
-  no_shp_shapeptlat_gtfs <- copy_gtfs_without_field(gtfs, "shapes", "shape_pt_lat")
-  no_shp_shapeptlon_gtfs <- copy_gtfs_without_field(gtfs, "shapes", "shape_pt_lon")
-  no_shp_shapeptseq_gtfs <- copy_gtfs_without_field(gtfs, "shapes", "shape_pt_sequence")
+  no_shp_shapeptlat_gtfs <- copy_gtfs_without_field(
+    gtfs, "shapes", "shape_pt_lat"
+  )
+  no_shp_shapeptlon_gtfs <- copy_gtfs_without_field(
+    gtfs, "shapes", "shape_pt_lon"
+  )
+  no_shp_shapeptseq_gtfs <- copy_gtfs_without_field(
+    gtfs, "shapes", "shape_pt_sequence"
+  )
   no_stt_tripid_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "trip_id")
   no_stt_stopid_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "stop_id")
-  no_stt_stopseqid_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "stop_sequence")
-  no_stt_arrtime_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "arrival_time")
-  no_stt_deptime_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "departure_time")
+  no_stt_stopseqid_gtfs <- copy_gtfs_without_field(
+    gtfs, "stop_times", "stop_sequence"
+  )
+  no_stt_arrtime_gtfs <- copy_gtfs_without_field(
+    gtfs, "stop_times", "arrival_time"
+  )
+  no_stt_deptime_gtfs <- copy_gtfs_without_field(
+    gtfs, "stop_times", "departure_time"
+  )
   no_sto_stopid_gtfs <- copy_gtfs_without_field(gtfs, "stops", "stop_id")
   no_sto_stoplat_gtfs <- copy_gtfs_without_field(gtfs, "stops", "stop_lat")
   no_sto_stoplon_gtfs <- copy_gtfs_without_field(gtfs, "stops", "stop_lon")
@@ -107,7 +119,11 @@ test_that("get_trip_speed calculates the speed based on correct 'file'", {
 
   shape_speed <- get_trip_speed(gtfs, "CPTM L07-0")
   stop_times_speed <- get_trip_speed(gtfs, "CPTM L07-0", file = "stop_times")
-  both_speed <- get_trip_speed(gtfs, "CPTM L07-0", file = c("shapes", "stop_times"))
+  both_speed <- get_trip_speed(
+    gtfs,
+    "CPTM L07-0",
+    file = c("shapes", "stop_times")
+  )
 
   expect_equal(unique(shape_speed$origin_file), "shapes")
   expect_equal(unique(stop_times_speed$origin_file), "stop_times")

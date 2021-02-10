@@ -19,7 +19,9 @@ test_that("set_trip_speed raises errors due to incorrect input types/value", {
   expect_error(set_trip_speed(no_class_gtfs, "CPTM L07-0", 50))
   expect_error(set_trip_speed(gtfs, as.factor("CPTM L07-0"), 50))
   expect_error(set_trip_speed(gtfs, "CPTM L07-0", "50"))
-  expect_error(set_trip_speed(gtfs, c("CPTM L07-0", "6450-51-0", "2105-10-0"), c(50, 60)))
+  expect_error(
+    set_trip_speed(gtfs, c("CPTM L07-0", "6450-51-0", "2105-10-0"), c(50, 60))
+  )
   expect_error(set_trip_speed(gtfs, "CPTM L07-0", 50, unit = "kms/h"))
   expect_error(set_trip_speed(gtfs, "CPTM L07-0", 50, by_reference = "TRUE"))
 
@@ -34,9 +36,15 @@ test_that("set_trip_speed raises errors if gtfs doesn't have required files/fiel
   # create gtfs without relevant fields
 
   no_st_tripid_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "trip_id")
-  no_st_arrtime_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "arrival_time")
-  no_st_deptime_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "departure_time")
-  no_st_stopseq_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "stop_sequence")
+  no_st_arrtime_gtfs <- copy_gtfs_without_field(
+    gtfs, "stop_times", "arrival_time"
+  )
+  no_st_deptime_gtfs <- copy_gtfs_without_field(
+    gtfs, "stop_times", "departure_time"
+  )
+  no_st_stopseq_gtfs <- copy_gtfs_without_field(
+    gtfs, "stop_times", "stop_sequence"
+  )
 
   expect_error(set_trip_speed(no_stop_times_gtfs, "CPTM L07-0", 50))
   expect_error(set_trip_speed(no_st_tripid_gtfs, "CPTM L07-0", 50))
@@ -102,7 +110,12 @@ test_that("set_trip_speed calculates speeds correctly", {
 
   new_speeds_gtfs <- set_trip_speed(gtfs, selected_trip_ids, 50, unit = "m/s")
 
-  trips_speeds <- get_trip_speed(new_speeds_gtfs, selected_trip_ids, "shapes", "m/s")
+  trips_speeds <- get_trip_speed(
+    new_speeds_gtfs,
+    selected_trip_ids,
+    file = "shapes",
+    unit = "m/s"
+  )
 
   expect_identical(round(trips_speeds$speed, 0), rep(50, 3))
 
@@ -116,9 +129,19 @@ test_that("set_trip_speed calculates speeds correctly", {
 
   # and it should also work if distinct speeds are given with distinct unit (m/s)
 
-  new_speeds_gtfs <- set_trip_speed(gtfs, selected_trip_ids, c(50, 60, 70), unit = "m/s")
+  new_speeds_gtfs <- set_trip_speed(
+    gtfs,
+    selected_trip_ids,
+    speed = c(50, 60, 70),
+    unit = "m/s"
+  )
 
-  trips_speeds <- get_trip_speed(new_speeds_gtfs, selected_trip_ids, "shapes", "m/s")
+  trips_speeds <- get_trip_speed(
+    new_speeds_gtfs,
+    selected_trip_ids,
+    file = "shapes",
+    unit = "m/s"
+  )
 
   expect_identical(round(trips_speeds$speed, 0), c(50, 70, 60))
 
@@ -141,7 +164,10 @@ test_that("set_trip_speed sets arrival_time and departure_time adequately", {
 
   # check if first/last stops' arrival and departure time are the same and not ""
 
-  expect_identical(first_last_stops$arrival_time, first_last_stops$departure_time)
+  expect_identical(
+    first_last_stops$arrival_time,
+    first_last_stops$departure_time
+  )
   expect_equal(sum(first_last_stops$arrival_time == ""), 0)
   expect_equal(sum(first_last_stops$departure_time == ""), 0)
 
@@ -162,7 +188,10 @@ test_that("set_trip_speed outputs a dt_gtfs object", {
 
   # by_reference = TRUE
 
-  expect_s3_class(set_trip_speed(gtfs, "CPTM L07-0", 50, by_reference = TRUE), "dt_gtfs")
+  expect_s3_class(
+    set_trip_speed(gtfs, "CPTM L07-0", 50, by_reference = TRUE),
+    "dt_gtfs"
+  )
   expect_s3_class(gtfs, "dt_gtfs")
 
 })
@@ -173,7 +202,8 @@ test_that("set_trip_speed 'by_reference' parameter works adequately", {
   gtfs <- read_gtfs(data_path)
   expect_identical(original_gtfs, gtfs)
 
-  # if by_reference == FALSE then the given gtfs should not be changed (other than 'shapes' and 'trips' indices)
+  # if by_reference = FALSE then the given gtfs should not be changed ('shapes'
+  # and 'trips' indices aside)
 
   new_speed_gtfs <- set_trip_speed(gtfs, "CPTM L07-0", 50)
   expect_false(identical(original_gtfs, gtfs))

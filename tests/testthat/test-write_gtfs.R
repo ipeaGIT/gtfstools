@@ -109,9 +109,12 @@ test_that("write_gtfs doesn't change original gtfs (only validation_result attri
   expect_identical(no_validation_gtfs, pre_write_no_validation_gtfs)
   expect_false(identical(no_validation_gtfs, written_gtfs))
 
-  # the difference between written_gtfs and no_validation_gtfs is the validation_result
+  # the difference between written_gtfs and no_validation_gtfs is the
+  # validation_result
 
-  attr(no_validation_gtfs, "validation_result") <- attr(written_gtfs, "validation_result")
+  validation_result <- attr(written_gtfs, "validation_result")
+  attr(no_validation_gtfs, "validation_result") <- validation_result
+
   expect_identical(no_validation_gtfs, written_gtfs)
 
 })
@@ -121,7 +124,12 @@ test_that("write_gtfs writes dates as YYYYMMDD", {
   write_gtfs(gtfs, temp_file)
 
   temp_dir <- tempdir()
-  zip::unzip(temp_file, files = "calendar.txt", exdir = temp_dir, overwrite = TRUE)
+  zip::unzip(
+    temp_file,
+    files = "calendar.txt",
+    exdir = temp_dir,
+    overwrite = TRUE
+  )
 
   written_calendar_path <- file.path(temp_dir, "calendar.txt")
   written_calendar      <- data.table::fread(
