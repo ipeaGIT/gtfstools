@@ -73,7 +73,7 @@ validates them against GTFS specifications." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9006</span>
       </span>
     </div>
 
@@ -146,8 +146,22 @@ existing files are read.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A GTFS object: a list of data.tables in which each index represents a
-  GTFS text file.</p>
+    <p>A GTFS object: a <code>list</code> of <code>data.table</code>s in which each index
+  represents a GTFS text file. In case of parsing failures (e.g. files with
+  more/less columns than specified in the file header), the function throws
+  an error detailing where such failures occurred.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    
+
+<p>The column types of each <code>data.table</code> in the final GTFS object conform
+as closely as possible to the <a href='https://developers.google.com/transit/gtfs/reference'>Google's Static GTFS Reference</a>.
+Exceptions are date-related columns (such as <code>calendar.txt</code>'s
+<code>start_date</code> and <code>end_date</code>, for example), which are converted to
+<code>Date</code> objects, instead of being kept as <code>integer</code>s, allowing for
+easier data manipulation. These columns are converted back to
+<code>integer</code>s when writing the GTFS object to a <code>.zip</code> file using
+<code><a href='write_gtfs.html'>write_gtfs</a></code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='validate_gtfs.html'>validate_gtfs</a></code></p></div>
