@@ -10,8 +10,15 @@
 #' @param quiet Whether to hide log messages (defaults to TRUE).
 #' @param warnings Whether to display warning messages (defaults to TRUE).
 #'
-#' @return Returns a GTFS object with an updated \code{validation_result}
-#'   attribute.
+#' @return Returns a GTFS object, with an updated \code{validation_result}
+#'   attribute, in which each \code{data.table} is the combination (by row) of
+#'   \code{data.table}s with the same name from the GTFS objects passed in
+#'   \code{...}.
+#'
+#' @section Details:
+#' Please note that this function does not disambiguate \code{ids} that may be
+#' repeated within different GTFS objects. Please let us know if you'd like to
+#' see this feature implemented.
 #'
 #' @seealso \code{\link{validate_gtfs}}
 #'
@@ -20,11 +27,16 @@
 #' poa_path <- system.file("extdata/poa_gtfs.zip", package = "gtfstools")
 #'
 #' spo_gtfs <- read_gtfs(spo_path)
+#' names(spo_gtfs)
+#'
 #' poa_gtfs <- read_gtfs(poa_path)
+#' names(poa_gtfs)
 #'
-#' merge_gtfs(spo_gtfs, poa_gtfs)
+#' merged_gtfs <- merge_gtfs(spo_gtfs, poa_gtfs)
+#' names(merged_gtfs)
 #'
-#' merge_gtfs(list(spo_gtfs, poa_gtfs))
+#' # use a list() to programatically merge many GTFS objects
+#' merged_gtfs <- merge_gtfs(list(spo_gtfs, poa_gtfs))
 #'
 #' @export
 merge_gtfs <- function(..., files = NULL, quiet = TRUE, warnings = TRUE) {

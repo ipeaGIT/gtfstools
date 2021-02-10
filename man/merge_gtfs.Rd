@@ -19,22 +19,36 @@ default) all files are merged.}
 \item{warnings}{Whether to display warning messages (defaults to TRUE).}
 }
 \value{
-Returns a GTFS object with an updated \code{validation_result}
-  attribute.
+Returns a GTFS object, with an updated \code{validation_result}
+  attribute, in which each \code{data.table} is the combination (by row) of
+  \code{data.table}s with the same name from the GTFS objects passed in
+  \code{...}.
 }
 \description{
 Combines many GTFS file into a single one and validates the resulting object.
 }
+\section{Details}{
+
+Please note that this function does not disambiguate \code{ids} that may be
+repeated within different GTFS objects. Please let us know if you'd like to
+see this feature implemented.
+}
+
 \examples{
 spo_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 poa_path <- system.file("extdata/poa_gtfs.zip", package = "gtfstools")
 
 spo_gtfs <- read_gtfs(spo_path)
+names(spo_gtfs)
+
 poa_gtfs <- read_gtfs(poa_path)
+names(poa_gtfs)
 
-merge_gtfs(spo_gtfs, poa_gtfs)
+merged_gtfs <- merge_gtfs(spo_gtfs, poa_gtfs)
+names(merged_gtfs)
 
-merge_gtfs(list(spo_gtfs, poa_gtfs))
+# use a list() to programatically merge many GTFS objects
+merged_gtfs <- merge_gtfs(list(spo_gtfs, poa_gtfs))
 
 }
 \seealso{

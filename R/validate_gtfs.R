@@ -45,10 +45,11 @@
 #' gtfs <- read_gtfs(data_path)
 #' attr(gtfs, "validation_result")
 #'
+#' # should not raise a warning, because 'shapes' is not a required file
 #' gtfs$shapes <- NULL
 #' validation_result <- validate_gtfs(gtfs)
 #'
-#' # should raise a warning
+#' # should raise a warning, because 'stop_times' is a required file
 #' gtfs$stop_times <- NULL
 #' validation_result <- validate_gtfs(gtfs)
 #'

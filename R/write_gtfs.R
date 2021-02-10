@@ -23,7 +23,8 @@
 #' data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 #' gtfs <- read_gtfs(data_path)
 #'
-#' tmp_dir <- tempdir()
+#' tmp_dir <- file.path(tempdir(), "tmpdir")
+#' dir.create(tmp_dir)
 #' list.files(tmp_dir)
 #'
 #' tmp_file <- tempfile(pattern = "gtfs", tmpdir = tmp_dir, fileext = ".zip")

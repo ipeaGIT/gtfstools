@@ -41,11 +41,10 @@ gtfs <- read_gtfs(data_path)
 trip_segment_dur <- get_trip_segment_duration(gtfs)
 head(trip_segment_dur)
 
-trip_ids <- c("CPTM L07-0", "2002-10-0")
-trip_segment_dur <- get_trip_segment_duration(gtfs, trip_id = trip_ids)
+trip_segment_dur <- get_trip_segment_duration(gtfs, trip_id = "CPTM L07-0")
 trip_segment_dur
 
-trip_segment_dur <- get_trip_segment_duration(gtfs, trip_ids, unit = "s")
+trip_segment_dur <- get_trip_segment_duration(gtfs, "CPTM L07-0", unit = "s")
 trip_segment_dur
 
 }
