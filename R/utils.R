@@ -1,4 +1,11 @@
-# set classes and methods to read dates as formatted in GTFS
+#' Set class and method to read dates as formatted in GTFS to a 'Date' object
+#'
+#' This is a build-time dependency on methods, as opposed to a run-time
+#' dependency, thus requiring the importFrom tag to avoid a NOTE when checking
+#' the package on CRAN.
+#'
+#' @keywords internal
+#' @importFrom methods setClass setAs
 methods::setClass("gtfs_date")
 methods::setAs(
   "character",
