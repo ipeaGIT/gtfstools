@@ -36,19 +36,19 @@ see this feature implemented.
 
 \examples{
 spo_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
-poa_path <- system.file("extdata/poa_gtfs.zip", package = "gtfstools")
+ggl_path <- system.file("extdata/ggl_gtfs.zip", package = "gtfstools")
 
 spo_gtfs <- read_gtfs(spo_path)
 names(spo_gtfs)
 
-poa_gtfs <- read_gtfs(poa_path)
-names(poa_gtfs)
+ggl_gtfs <- read_gtfs(ggl_path)
+names(ggl_gtfs)
 
-merged_gtfs <- merge_gtfs(spo_gtfs, poa_gtfs)
+merged_gtfs <- merge_gtfs(spo_gtfs, ggl_gtfs)
 names(merged_gtfs)
 
 # use a list() to programatically merge many GTFS objects
-merged_gtfs <- merge_gtfs(list(spo_gtfs, poa_gtfs))
+merged_gtfs <- merge_gtfs(list(spo_gtfs, ggl_gtfs))
 
 }
 \seealso{
