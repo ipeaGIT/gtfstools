@@ -11,7 +11,7 @@ gtfs <- read_gtfs(data_path)
 # tests -------------------------------------------------------------------
 
 
-test_that("get_trip_geometry raises errors due to incorrect input types/value", {
+test_that("raises errors due to incorrect input types/value", {
 
   no_class_gtfs <- gtfs
   attr(no_class_gtfs, "class") <- NULL
@@ -23,7 +23,7 @@ test_that("get_trip_geometry raises errors due to incorrect input types/value", 
 
 })
 
-test_that("get_trip_duration raises errors if gtfs doesn't have required files/fields", {
+test_that("raises errors if gtfs doesn't have required files/fields", {
 
   # create gtfs objects without relevant files
 
@@ -134,7 +134,7 @@ test_that("get_trip_duration raises errors if gtfs doesn't have required files/f
 
 })
 
-test_that("get_trip_geometry returns the geometries of correct 'trip_id's", {
+test_that("returns the geometries of correct 'trip_id's", {
 
   # if 'trip_id' = NULL, all trips have their geometries returned
 
@@ -157,11 +157,11 @@ test_that("get_trip_geometry returns the geometries of correct 'trip_id's", {
 
 })
 
-test_that("get_trip_geometry raises warnings if a non_existent 'trip_id' is given", {
+test_that("raises warnings if a non_existent 'trip_id' is given", {
   expect_warning(get_trip_geometry(gtfs, c("CPTM L07-0", "ola")))
 })
 
-test_that("get_trip_geometry returns the geometries created by the given 'file'", {
+test_that("returns the geometries created by the given 'file'", {
 
   shape_geom <- get_trip_geometry(gtfs, "CPTM L07-0", file = "shapes")
   stop_times_geom <- get_trip_geometry(gtfs, "CPTM L07-0", file = "stop_times")
@@ -173,7 +173,7 @@ test_that("get_trip_geometry returns the geometries created by the given 'file'"
 
 })
 
-test_that("get_trip_geometry outputs an 'sf' object with correct crs", {
+test_that("outputs an 'sf' object with correct crs", {
 
   # crs is WGs by default
 
@@ -221,7 +221,7 @@ test_that("get_trip_geometry outputs an 'sf' object with correct crs", {
 
 })
 
-test_that("get_trip_geometry outputs an 'sf' object with correct column types", {
+test_that("outputs an 'sf' object with correct column types", {
 
   sf_geom <- get_trip_geometry(gtfs, "CPTM L07-0")
 
@@ -247,7 +247,8 @@ test_that("get_trip_geometry outputs an 'sf' object with correct column types", 
 
 })
 
-test_that("get_trip_geometry doesn't change given gtfs (except for 'stop_times' and 'shapes' indices)", {
+test_that("doesn't change given gtfs", {
+  # (except for 'stop_times' and 'shapes' indices)
 
   original_gtfs <- read_gtfs(data_path)
   gtfs <- read_gtfs(data_path)
@@ -262,7 +263,7 @@ test_that("get_trip_geometry doesn't change given gtfs (except for 'stop_times' 
 
 })
 
-test_that("get_trip_geometry returns empty sf if requested 'trip_id' isn't associated to a 'shape_id'", {
+test_that("returns empty sf if passed 'trip_id' isn't linked to a 'shape_id'", {
 
   gtfs$trips[trip_id == "CPTM L07-0", shape_id := ""]
 

@@ -1,0 +1,164 @@
+---
+title: "Introduction to gtfstools"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to gtfstools}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The General Transit Feed Specification (GTFS) data format defines a common scheme for describing transit systems, and is widely used by transit agencies around the world and consumed by many software applications. The **gtfstools** package makes handling GTFS data in **R** very easy and fast, offering many utility functions to read, manipulate, analyse and write transit feeds in such format.
+
+# GTFS feeds
+
+GTFS feeds exist in two main different forms: the GTFS *static* and the GTFS *realtime*. This package allows you to manipulate GTFS *static* feeds, the most common variation. These feeds are the collection of many `csv`-like files (with a `.txt` extension) contained in a single `.zip` file. A GTFS `.zip` file is composed by at least six required files, but may also contain a few other condtionally required and optional files:
+
+- Required: `agency.txt`, `stops.txt`, `routes.txt`, `trips.txt`, `stop_times.txt` 
+- Conditionally required: `calendar.txt`, `calendar_dates.txt`, `feed_info.txt`
+- Optional: `fare_attributes.txt`, `fare_rules.txt`, `shapes.txt`, `frequencies.txt`, `transfers.txt`, `pathways.txt`, `levels.txt`, `translations.txt`, `attributions.txt`
+
+Please check the official [GTFS reference](https://developers.google.com/transit/gtfs/reference) for more details on the specification.
+
+# Basic usage
+
+Before using **gtfstools** please make sure that you have it installed in your computer. You can download either the most stable version from CRAN or the development version from GitHub:
+
+```{r, eval = FALSE}
+# stable version
+install.packages("gtfstools")
+
+# development version
+remotes::install_github("ipeaGIT/gtfstools")
+```
+
+Then attach it to the current R session:
+
+```{r, message = FALSE}
+library(gtfstools)
+```
+
+Throughout this demonstration we will be using a few sample files included in the package:
+
+```{r}
+data_path <- system.file("extdata", package = "gtfstools")
+list.files(data_path)
+```
+
+- `ggl_gtfs.zip` has been manually built from the [example GTFS feed](https://developers.google.com/transit/gtfs/examples/gtfs-feed) provided by Google.
+- `spo_gtfs.zip` is a subset of the São Paulo's Mobility and Transport Municipal Secretary official feed, available [here](https://www.sptrans.com.br/desenvolvedores/).
+
+## Read feeds
+
+**gtfstools** reads feeds as a `list` of `data.table`s, a high-performance version of base **R**'s `data.frame`s. Thus reading, writing and manipulating GTFS objects created by **gtfstools** is very easy and fast even if some of your tables contain a few million rows.
+
+To read a feed use the `read_gtfs()` function. By default the function reads all `.txt` files contained in the main `.zip` file. It may be useful, however, to read only a couple of specific files, specially if you're dealing with some big data sets. To do so, specify which file you want to read in the `files` argument (*without* the `.txt` extension):
+
+```{r}
+spo_path <- file.path(data_path, "spo_gtfs.zip")
+
+# default behaviour
+spo_gtfs <- read_gtfs(spo_path)
+names(spo_gtfs)
+
+# only reads the 'shapes.txt' file
+spo_shapes <- read_gtfs(spo_path, files = "shapes")
+names(spo_shapes)
+```
+
+## Validate feeds
+
+Every feed read with `read_gtfs()` is validated against the official GTFS specification. This validation performs a few basic checks, such as looking for missing required files, looking for missing required fields (i.e. columns) within each file and keeping track of extra files and fields (i.e. files and fields that aren't listed in the official specification). The validation result is appended to each GTFS object as an attribute called `validation_result`.
+
+```{r}
+head(attr(spo_gtfs, "validation_result"))
+
+attr(spo_shapes, "validation_result")
+```
+
+You may have that `spo_gtfs`' `validation_result` is larger than `spo_shapes`'. Since we haven't specified which files we wanted to import when reading the former, the resulting feed is validated against every possible file in the specification. The latter, however, is only validated against the files that were specified in the `files` argument (in this case, `shapes`).
+
+To revalidate an existing GTFS object you can use the `validate_gtfs()` function, which returns the same GTFS object with an updated `validation_result` attribute. The function also takes a `files` argument, much like `read_gtfs()`, to specify which files you want to validate your GTFS against. Validating `spo_shapes` against all possible files (the default) generates a much larger `validation_result` object (and a warning, because the object is missing all required files):
+
+```{r}
+new_spo_shapes <- validate_gtfs(spo_shapes)
+
+nrow(attr(new_spo_shapes, "validation_result"))
+
+nrow(attr(spo_shapes, "validation_result"))
+```
+
+## Analyse feeds
+
+**gtfstools** also includes a few functions to prevent you from getting stuck with a few repetitive tasks: 
+
+`get_trip_geometry()` returns the geometry of each trip in a GTFS object as an `sf` object (please check [`{sf} webpage`](https://r-spatial.github.io/sf/) for more details). GTFS data allows you to generate geometries using two different methods: either converting the shapes described in the `shapes.txt` file to an `sf`, or linking the subsequent stops of each trip as described in the `stop_times.txt` along a straight line. While the former tends to yield more reliable and higher resolution geometries, it may be useful to compare the results of both methods to check if the trips described in `stop_times` actually resemble their actual shape:
+
+```{r}
+trip_geom <- get_trip_geometry(spo_gtfs, file = "shapes")
+plot(trip_geom$geometry)
+single_trip <- spo_gtfs$trips$trip_id[1]
+single_trip
+
+# 'file' argument defaults to c("shapes", "stop_times")
+both_geom <- get_trip_geometry(spo_gtfs, trip_id = single_trip)
+plot(both_geom["origin_file"])
+```
+
+`get_trip_duration()` returns the duration of each trip in a GTFS object, as specified in the `stop_times` file, in the temporal unit of your desire (either seconds, minutes, hours or days):
+
+```{r}
+trip_durtn <- get_trip_duration(spo_gtfs, unit = "s")
+head(trip_durtn)
+
+# 'unit' argument defaults to "min"
+single_durtn <- get_trip_duration(spo_gtfs, trip_id = single_trip)
+single_durtn
+```
+
+`get_trip_segment_duration()` is a similar function, that even takes the same arguments, but returns the duration of each trip *segment* (i.e. the time interval between two consecutive stops).
+
+```{r}
+trip_seg_durtn <- get_trip_segment_duration(spo_gtfs, unit = "s")
+head(trip_seg_durtn)
+
+single_seg_durtn <- get_trip_segment_duration(spo_gtfs, trip_id = single_trip)
+head(single_seg_durtn)
+```
+
+The quick example above shows how this function may help you diagnosing some problems in your GTFS data: apparently every single trip in `spo_gtfs` is composed by several equally long segments, which looks unreasonable.
+
+Finally, `get_trip_speed()` is a helper around `get_trip_geometry()` and `get_trip_duration()` that returns the average speed of each trip in a GTFS object.
+
+```{r}
+trip_speed <- get_trip_speed(spo_gtfs, unit = "m/s")
+head(trip_speed)
+
+# 'unit' argument defaults to "km/h"
+single_trip_speed <- get_trip_speed(spo_gtfs, trip_id = single_trip)
+single_trip_speed
+```
+
+## Manipulate feeds
+
+Each table inside a GTFS object can be easily manipulated using the usual `data.table` syntax. `{data.table}` provides many useful features, such as updating columns by reference, fast binary search, efficient data aggregation, and many others, that allows you to deal with large data sets very efficiently. Please check its [official website](https://rdatatable.gitlab.io/data.table/index.html) for more details on syntax and usage.
+
+Just remember that, since every GTFS object is a *`list`* of `data.table`s, you must refer to each table using the `$` operator. For example, this is how you'd remove the `headway_secs` column from the `frequencies` file and add it again afterwards:
+
+```{r}
+old_headway_secs <- spo_gtfs$frequencies$headway_secs
+
+spo_gtfs$frequencies[, headway_secs := NULL]
+head(spo_gtfs$frequencies)
+
+spo_gtfs$frequencies[, headway_secs := old_headway_secs]
+head(spo_gtfs$frequencies)
+```
+
+

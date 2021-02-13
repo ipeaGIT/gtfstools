@@ -52,7 +52,7 @@ ext_gtfs <- read_gtfs(ext_temp_file, warnings = FALSE)
 # tests -------------------------------------------------------------------
 
 
-test_that("read_gtfs raises errors due to incorrect input types", {
+test_that("raises errors due to incorrect input types", {
   expect_error(read_gtfs(as.factor(data_path)))
   expect_error(read_gtfs(data_path, files = NA))
   expect_error(read_gtfs(data_path, files = as.factor("stop_times")))
@@ -60,7 +60,7 @@ test_that("read_gtfs raises errors due to incorrect input types", {
   expect_error(read_gtfs(data_path, warnings = "TRUE"))
 })
 
-test_that("read_gtfs raises warnings and messages adequately", {
+test_that("raises warnings and messages adequately", {
   expect_silent(read_gtfs(data_path))
   expect_silent(read_gtfs(gtfs_url))
   expect_silent(read_gtfs(ef_temp_file, warning = FALSE))
@@ -72,7 +72,7 @@ test_that("read_gtfs raises warnings and messages adequately", {
   expect_warning(read_gtfs(ef_temp_file))
 })
 
-test_that("read_gtfs results in a gtfs object (if no parsing failure happens)", {
+test_that("results in a gtfs object (if no parsing failure happens)", {
 
   # a gtfs object is a list with "gtfs" class
 
@@ -85,7 +85,7 @@ test_that("read_gtfs results in a gtfs object (if no parsing failure happens)", 
   expect_type(ef_gtfs, "list")
   expect_type(ext_gtfs, "list")
 
-  # every object within list is a dt, even if it's originally an empty table/file
+  # all objects within list is a dt, even if it's originally an empty table/file
 
   invisible(lapply(gtfs, expect_s3_class, "data.table"))
   invisible(lapply(et_gtfs, expect_s3_class, "data.table"))
@@ -94,7 +94,7 @@ test_that("read_gtfs results in a gtfs object (if no parsing failure happens)", 
 
 })
 
-test_that("read_gtfs raises errors due to parsing failures", {
+test_that("raises errors due to parsing failures", {
 
   # create gtfs with file that results in parsing failure
 
@@ -126,7 +126,7 @@ test_that("read_gtfs raises errors due to parsing failures", {
 
 })
 
-test_that("read_gtfs reads expected files", {
+test_that("reads expected files", {
 
   files_in_zip <- sub(".txt", "", zip::zip_list(data_path)$filename)
   expect_equal(names(gtfs), files_in_zip)
@@ -138,7 +138,7 @@ test_that("read_gtfs reads expected files", {
 
 })
 
-test_that("read_gtfs reads all extra files' columns as character", {
+test_that("reads all extra files' columns as character", {
 
   # uses internal data gtfs_metadata - check data-raw/gtfs_metadata.R
 
@@ -151,6 +151,6 @@ test_that("read_gtfs reads all extra files' columns as character", {
 
 })
 
-test_that("read_gtfs validates gtfs on read", {
+test_that("validates gtfs on read", {
   expect_true("validation_result" %in% names(attributes(gtfs)))
 })

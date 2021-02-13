@@ -37,7 +37,10 @@ missing_req_file_validation <- attr(missing_req_file_gtfs, "validation_result")
 missing_req_field_gtfs <- gtfs
 missing_req_field_gtfs$stop_times <- data.table::copy(gtfs$stop_times)
 missing_req_field_gtfs$stop_times[, trip_id := NULL]
-missing_req_field_gtfs <- validate_gtfs(missing_req_field_gtfs, warnings = FALSE)
+missing_req_field_gtfs <- validate_gtfs(
+  missing_req_field_gtfs,
+  warnings = FALSE
+)
 missing_req_field_validation <- attr(missing_req_field_gtfs, "validation_result")
 
 specified_files <- c(
@@ -111,9 +114,9 @@ transfers_field <- c(
 )
 
 pathways_field <- c(
-  "pathway_id", "from_stop_id", "to_stop_id", "pathway_mode", "is_bidirectional",
-  "length", "traversal_time", "stair_count", "max_slope", "min_width",
-  "signposted_as", "reversed_signposted_as"
+  "pathway_id", "from_stop_id", "to_stop_id", "pathway_mode",
+  "is_bidirectional", "length", "traversal_time", "stair_count", "max_slope",
+  "min_width", "signposted_as", "reversed_signposted_as"
 )
 
 levels_field <- c("level_id", "level_index", "level_name")
@@ -138,7 +141,7 @@ attributions_field <- c(
 # tests -------------------------------------------------------------------
 
 
-test_that("validate_gtfs raises errors due to incorrect input types", {
+test_that("raises errors due to incorrect input types", {
 
   no_class_gtfs <- gtfs
   attr(no_class_gtfs, "class") <- NULL
@@ -151,12 +154,12 @@ test_that("validate_gtfs raises errors due to incorrect input types", {
 
 })
 
-test_that("validate_gtfs raises error due to non-existent/mistyped supplied file in gtfs", {
+test_that("raises error due to non-existent/mistyped supplied file in gtfs", {
   expect_error(validate_gtfs(gtfs, files = "agency.txt"))
   expect_error(validate_gtfs(gtfs, files = "non-existent-file"))
 })
 
-test_that("validate_gtfs raises warnings and messages adequately", {
+test_that("raises warnings and messages adequately", {
   expect_silent(validate_gtfs(gtfs))
   expect_silent(validate_gtfs(gtfs, "stop_times"))
   expect_silent(validate_gtfs(gtfs, c("stop_times", "agency")))
@@ -179,7 +182,7 @@ test_that("validate_gtfs raises warnings and messages adequately", {
   expect_warning(validate_gtfs(missing_req_field_gtfs))
 })
 
-test_that("validate_gtfs results in a dt_gtfs, and validation_result has right column types", {
+test_that("results in a dt_gtfs, and validation_result has right col types", {
 
   # validate_gtfs results in a dt_gtfs
 
@@ -201,7 +204,7 @@ test_that("validate_gtfs results in a dt_gtfs, and validation_result has right c
 
 })
 
-test_that("validate_gtfs doesn't change original gtfs (only validation_result attribute)", {
+test_that("doesn't change original gtfs (only validation_result attribute)", {
 
   no_validation_gtfs <- gtfs
   attr(no_validation_gtfs, "validation_result") <- NULL
@@ -222,7 +225,7 @@ test_that("validate_gtfs doesn't change original gtfs (only validation_result at
 
 })
 
-test_that("validate_gtfs validates against the correct files", {
+test_that("validates against the correct files", {
 
   # all files
 
@@ -241,7 +244,7 @@ test_that("validate_gtfs validates against the correct files", {
 
 })
 
-test_that("validate_gtfs validates all fields from desired files", {
+test_that("validates all fields from desired files", {
 
   # full validation
 
@@ -281,7 +284,7 @@ test_that("validate_gtfs validates all fields from desired files", {
 
 })
 
-test_that("validate_gtfs recognizes extra files and fields as extra", {
+test_that("recognizes extra files and fields as extra", {
 
   # extra file
 
@@ -329,7 +332,7 @@ test_that("validate_gtfs recognizes extra files and fields as extra", {
 
 })
 
-test_that("validate_gtfs attributes right validation status and details", {
+test_that("attributes right validation status and details", {
 
   # ok
 
@@ -423,7 +426,7 @@ test_that("validate_gtfs attributes right validation status and details", {
 
 })
 
-test_that("validate_gtfs handles calendar.txt absence and translations.txt presence adequately", {
+test_that("handles 'calendar' absence and 'translations' presence adequately", {
 
   # check first that calendar is required and calendar_dates is optional
 

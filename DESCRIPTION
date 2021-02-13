@@ -1,7 +1,7 @@
 Type: Package
 Package: gtfstools
 Title: GTFS Editing/Analysing Tools
-Version: 0.0.0.9010
+Version: 0.0.0.9011
 Authors@R: 
     c(person(given = "Daniel",
              family = "Herszenhut",
@@ -10,10 +10,12 @@ Authors@R:
              comment = c(ORCID = "0000-0001-8066-1105")),
       person(given = "Ipea - Institute for Applied Economic Research",
              role = c("cph", "fnd")))
-Description: Utility functions for editing, manipulating and
-    analysing General Transit Feed Specification (GTFS) files.
+Description: Utility functions for reading, manipulating,
+    analysing and writing transit feeds in the General Transit Feed
+    Specification (GTFS) data format.
 License: MIT + file LICENSE
-URL: https://ipeagit.github.io/gtfstools/
+URL: https://ipeagit.github.io/gtfstools/,
+    https://github.com/ipeaGIT/gtfstools
 BugReports: https://github.com/ipeaGIT/gtfstools/issues
 Depends: 
     R (>= 2.10)
@@ -29,7 +31,11 @@ Imports:
     zip
 Suggests: 
     covr,
+    knitr,
+    rmarkdown,
     testthat
+VignetteBuilder: 
+    knitr
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1

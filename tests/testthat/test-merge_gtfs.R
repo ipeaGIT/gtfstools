@@ -14,7 +14,7 @@ ggl_gtfs <- read_gtfs(ggl_path)
 # tests -------------------------------------------------------------------
 
 
-test_that("merge_gtfs raises errors due to incorrect input types", {
+test_that("raises errors due to incorrect input types", {
   expect_error(merge_gtfs("spo_gtfs", ggl_gtfs))
   expect_error(merge_gtfs(spo_gtfs, "ggl_gtfs"))
   expect_error(merge_gtfs(spo_gtfs, ggl_gtfs, files = 1))
@@ -22,7 +22,7 @@ test_that("merge_gtfs raises errors due to incorrect input types", {
   expect_error(merge_gtfs(spo_gtfs, ggl_gtfs, warnings = "TRUE"))
 })
 
-test_that("merge_gtfs raises errors/warnings due to unavailable files passed to 'files'", {
+test_that("raises errors/warnings due to unavailable files passed to 'files'", {
 
   # should throw a warning if a specified file doesn't exist
   expect_warning(
@@ -44,12 +44,12 @@ test_that("merge_gtfs raises errors/warnings due to unavailable files passed to 
 
 })
 
-test_that("merge_gtfs raises messages adequately", {
+test_that("raises messages adequately", {
   expect_silent(merge_gtfs(spo_gtfs, ggl_gtfs))
   expect_message(merge_gtfs(spo_gtfs, ggl_gtfs, quiet = FALSE))
 })
 
-test_that("merge_gtfs results in a GTFS object", {
+test_that("results in a GTFS object", {
 
   # should work when files = NULL
   expect_s3_class(merge_gtfs(spo_gtfs, ggl_gtfs), "dt_gtfs")
@@ -70,7 +70,7 @@ test_that("merge_gtfs results in a GTFS object", {
 
 })
 
-test_that("merge_gtfs results in a validated GTFS object (and only correct files are validated)", {
+test_that("results in a validated GTFS object", {
 
   # all files are validated if files = NULL
 
@@ -93,7 +93,7 @@ test_that("merge_gtfs results in a validated GTFS object (and only correct files
 
 })
 
-test_that("merge_gtfs merges the adequate 'files'", {
+test_that("merges the adequate 'files'", {
 
   # when files = NULL all files from all gtfs should be merged
 
@@ -131,7 +131,7 @@ test_that("merge_gtfs merges the adequate 'files'", {
 
 })
 
-test_that("merge_gtfs bind the rows of each GTFS object adequately", {
+test_that("bind the rows of each GTFS object adequately", {
 
   merged_gtfs       <- merge_gtfs(spo_gtfs, ggl_gtfs)
   merged_gtfs_names <- names(merged_gtfs)
@@ -182,7 +182,7 @@ test_that("merge_gtfs bind the rows of each GTFS object adequately", {
 
 })
 
-test_that("merge_gtfs does not change the original GTFS objects", {
+test_that("does not change the original GTFS objects", {
 
   spo_gtfs <- original_spo_gtfs <- read_gtfs(spo_path)
   ggl_gtfs <- original_ggl_gtfs <- read_gtfs(ggl_path)

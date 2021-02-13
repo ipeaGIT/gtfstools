@@ -11,7 +11,7 @@ gtfs <- read_gtfs(data_path)
 # tests -------------------------------------------------------------------
 
 
-test_that("set_trip_speed raises errors due to incorrect input types/value", {
+test_that("raises errors due to incorrect input types/value", {
 
   no_class_gtfs <- gtfs
   attr(no_class_gtfs, "class") <- NULL
@@ -27,7 +27,7 @@ test_that("set_trip_speed raises errors due to incorrect input types/value", {
 
 })
 
-test_that("set_trip_speed raises errors if gtfs doesn't have required files/fields", {
+test_that("raises errors if gtfs doesn't have required files/fields", {
 
   # create gtfs without 'stop_times'
 
@@ -54,12 +54,12 @@ test_that("set_trip_speed raises errors if gtfs doesn't have required files/fiel
 
 })
 
-test_that("set_trip_speed raises warnings if a non_existent trip_id is given", {
+test_that("raises warnings if a non_existent trip_id is given", {
   expect_warning(set_trip_speed(gtfs, c("CPTM L07-0", "ola"), 50))
   expect_warning(set_trip_speed(gtfs, "ola", 50))
 })
 
-test_that("set_trip_speed sets the speed of correct 'trip_id's", {
+test_that("sets the speed of correct 'trip_id's", {
 
   selected_trip_ids <- c("ola", "2105-10-0", "CPTM L07-0")
   expect_warning(
@@ -94,7 +94,7 @@ test_that("set_trip_speed sets the speed of correct 'trip_id's", {
 
 })
 
-test_that("set_trip_speed calculates speeds correctly", {
+test_that("calculates speeds correctly", {
 
   selected_trip_ids <- c("CPTM L07-0", "6450-51-0", "2105-10-0")
 
@@ -127,7 +127,7 @@ test_that("set_trip_speed calculates speeds correctly", {
 
   expect_identical(round(trips_speeds$speed, 0), c(50, 70, 60))
 
-  # and it should also work if distinct speeds are given with distinct unit (m/s)
+  # and should also work if distinct speeds are given with distinct unit (m/s)
 
   new_speeds_gtfs <- set_trip_speed(
     gtfs,
@@ -147,7 +147,7 @@ test_that("set_trip_speed calculates speeds correctly", {
 
 })
 
-test_that("set_trip_speed sets arrival_time and departure_time adequately", {
+test_that("sets arrival_time and departure_time adequately", {
 
   # modify base gtfs to make sure set_trip_speed sets 'arrival_time' and
   # 'departure_time' as the same value
@@ -162,7 +162,7 @@ test_that("set_trip_speed sets arrival_time and departure_time adequately", {
   first_last_stops    <- filtered_stop_times[stop_sequence %in% c(1, 18)]
   intermediate_stops  <- filtered_stop_times[! stop_sequence %in% c(1, 18)]
 
-  # check if first/last stops' arrival and departure time are the same and not ""
+  # check if first/last stops' arr. and dep. time are the same and not ""
 
   expect_identical(
     first_last_stops$arrival_time,
@@ -178,7 +178,7 @@ test_that("set_trip_speed sets arrival_time and departure_time adequately", {
 
 })
 
-test_that("set_trip_speed outputs a dt_gtfs object", {
+test_that("outputs a dt_gtfs object", {
 
   # by_reference = FALSE
 
@@ -196,7 +196,7 @@ test_that("set_trip_speed outputs a dt_gtfs object", {
 
 })
 
-test_that("set_trip_speed 'by_reference' parameter works adequately", {
+test_that("'by_reference' parameter works adequately", {
 
   original_gtfs <- read_gtfs(data_path)
   gtfs <- read_gtfs(data_path)

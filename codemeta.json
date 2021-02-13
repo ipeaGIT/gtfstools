@@ -5,12 +5,12 @@
   ],
   "@type": "SoftwareSourceCode",
   "identifier": "gtfstools",
-  "description": "Utility functions for editing, manipulating and\n    analysing General Transit Feed Specification (GTFS) files.",
+  "description": "Utility functions for reading, manipulating,\n    analysing and writing transit feeds in the General Transit Feed\n    Specification (GTFS) data format.",
   "name": "gtfstools: GTFS Editing/Analysing Tools",
   "codeRepository": "https://github.com/ipeaGIT/gtfstools",
   "issueTracker": "https://github.com/ipeaGIT/gtfstools/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.0.0.9010",
+  "version": "0.0.0.9011",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -60,6 +60,30 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=covr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "knitr",
+      "name": "knitr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=knitr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "rmarkdown",
+      "name": "rmarkdown",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
     },
     {
       "@type": "SoftwareApplication",
@@ -177,7 +201,7 @@
     }
   ],
   "readme": "https://github.com/ipeaGIT/gtfstools/blob/master/README.md",
-  "fileSize": "367.645KB",
+  "fileSize": "375.028KB",
   "contIntegration": "https://codecov.io/gh/ipeaGIT/gtfstools?branch=master",
   "developmentStatus": "https://www.tidyverse.org/lifecycle/#experimental",
   "keywords": [

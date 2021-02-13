@@ -28,7 +28,7 @@ optional_files <- setdiff(specified_files, required_files)
 # tests -------------------------------------------------------------------
 
 
-test_that("write_gtfs raises errors due to incorrect input types", {
+test_that("raises errors due to incorrect input types", {
 
   no_class_gtfs <- gtfs
   attr(no_class_gtfs, "class") <- NULL
@@ -45,26 +45,26 @@ test_that("write_gtfs raises errors due to incorrect input types", {
 
 })
 
-test_that("write_gtfs raises an errors when file already exists and should not be overwritten", {
+test_that("raises an errors if file exists and should not be overwritten", {
   invisible(file.create(temp_file))
   expect_error(write_gtfs(gtfs, temp_file, overwrite = FALSE))
 })
 
-test_that("write_gtfs outputs a .zip file and invisibly returns the provided gtfs", {
+test_that("outputs a .zip file and invisibly returns the provided gtfs", {
   unlink(temp_file)
   expect_false(file.exists(temp_file))
   expect_s3_class(write_gtfs(gtfs, temp_file), "dt_gtfs")
   expect_true(file.exists(temp_file))
 })
 
-test_that("write_gtfs raises messages and warnings adequately", {
+test_that("raises messages and warnings adequately", {
   expect_silent(write_gtfs(gtfs, temp_file))
   expect_silent(write_gtfs(no_stop_times_gtfs, temp_file, warnings = FALSE))
   expect_message(write_gtfs(gtfs, temp_file, quiet = FALSE))
   expect_warning(write_gtfs(no_stop_times_gtfs, temp_file, warnings = TRUE))
 })
 
-test_that("write_gtfs outputs a gtfs with the desired files", {
+test_that("outputs a gtfs with the desired files", {
 
   # check if all items are written by default
 
@@ -98,7 +98,7 @@ test_that("write_gtfs outputs a gtfs with the desired files", {
 
 })
 
-test_that("write_gtfs doesn't change original gtfs (only validation_result attribute)", {
+test_that("doesn't change original gtfs (only validation_result attribute)", {
 
   no_validation_gtfs <- gtfs
   attr(no_validation_gtfs, "validation_result") <- NULL
@@ -119,7 +119,7 @@ test_that("write_gtfs doesn't change original gtfs (only validation_result attri
 
 })
 
-test_that("write_gtfs writes dates as YYYYMMDD", {
+test_that("writes dates as YYYYMMDD", {
 
   write_gtfs(gtfs, temp_file)
 

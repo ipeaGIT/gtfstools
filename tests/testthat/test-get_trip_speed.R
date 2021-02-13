@@ -11,7 +11,7 @@ gtfs <- read_gtfs(data_path)
 # tests -------------------------------------------------------------------
 
 
-test_that("get_trip_speed raises errors due to incorrect input types/value", {
+test_that("raises errors due to incorrect input types/value", {
 
   no_class_gtfs <- gtfs
   attr(no_class_gtfs, "class") <- NULL
@@ -23,7 +23,7 @@ test_that("get_trip_speed raises errors due to incorrect input types/value", {
 
 })
 
-test_that("get_trip_speed raises errors if gtfs doesn't have required files/fields", {
+test_that("raises errors if gtfs doesn't have required files/fields", {
 
   # create gtfs without 'stop_times'
 
@@ -76,7 +76,9 @@ test_that("get_trip_speed raises errors if gtfs doesn't have required files/fiel
   expect_error(get_trip_speed(no_trp_tripid_gtfs, "CPTM L07-0", "stop_times"))
   expect_error(get_trip_speed(no_stt_tripid_gtfs, "CPTM L07-0", "stop_times"))
   expect_error(get_trip_speed(no_stt_stopid_gtfs, "CPTM L07-0", "stop_times"))
-  expect_error(get_trip_speed(no_stt_stopseqid_gtfs, "CPTM L07-0", "stop_times"))
+  expect_error(
+    get_trip_speed(no_stt_stopseqid_gtfs, "CPTM L07-0", "stop_times")
+  )
   expect_error(get_trip_speed(no_sto_stopid_gtfs, "CPTM L07-0", "stop_times"))
   expect_error(get_trip_speed(no_sto_stoplat_gtfs, "CPTM L07-0", "stop_times"))
   expect_error(get_trip_speed(no_sto_stoplon_gtfs, "CPTM L07-0", "stop_times"))
@@ -87,12 +89,12 @@ test_that("get_trip_speed raises errors if gtfs doesn't have required files/fiel
 
 })
 
-test_that("get_trip_speed raises warnings if a non_existent trip_id is given", {
+test_that("raises warnings if a non_existent trip_id is given", {
   expect_warning(get_trip_speed(gtfs, c("CPTM L07-0", "ola")))
   expect_warning(get_trip_speed(gtfs, "ola"))
 })
 
-test_that("get_trip_speed gets the speed of correct 'trip_id's", {
+test_that("gets the speed of correct 'trip_id's", {
 
   # if 'trip_id' = NULL, all trips have their geometries returned
 
@@ -115,7 +117,7 @@ test_that("get_trip_speed gets the speed of correct 'trip_id's", {
 
 })
 
-test_that("get_trip_speed calculates the speed based on correct 'file'", {
+test_that("calculates the speed based on correct 'file'", {
 
   shape_speed <- get_trip_speed(gtfs, "CPTM L07-0")
   stop_times_speed <- get_trip_speed(gtfs, "CPTM L07-0", file = "stop_times")
@@ -131,7 +133,7 @@ test_that("get_trip_speed calculates the speed based on correct 'file'", {
 
 })
 
-test_that("get_trip_speed outputs a 'data.table' with correct column types", {
+test_that("outputs a 'data.table' with correct column types", {
 
   speeds_dt <- get_trip_speed(gtfs, "CPTM L07-0")
 
@@ -157,7 +159,7 @@ test_that("get_trip_speed outputs a 'data.table' with correct column types", {
 
 })
 
-test_that("get_trip_speed outputs speeds in correct unit", {
+test_that("outputs speeds in correct unit", {
 
   # km/h
 
@@ -185,7 +187,8 @@ test_that("get_trip_speed outputs speeds in correct unit", {
 
 })
 
-test_that("get_trip_speed doesn't change given gtfs (except for 'stop_times' and 'shapes' indices)", {
+test_that("doesn't change given gtfs", {
+  # (except for 'stop_times' and 'shapes' indices)
 
   original_gtfs <- read_gtfs(data_path)
   gtfs <- read_gtfs(data_path)

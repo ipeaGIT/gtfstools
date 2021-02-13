@@ -11,7 +11,7 @@ gtfs <- read_gtfs(data_path)
 # tests -------------------------------------------------------------------
 
 
-test_that("get_trip_segment_duration raises errors due to incorrect input types/value", {
+test_that("raises errors due to incorrect input types/value", {
 
   no_class_gtfs <- gtfs
   attr(no_class_gtfs, "class") <- NULL
@@ -24,7 +24,7 @@ test_that("get_trip_segment_duration raises errors due to incorrect input types/
 
 })
 
-test_that("get_trip_segment_duration raises errors if gtfs doesn't have required files/fields", {
+test_that("raises errors if gtfs doesn't have required files/fields", {
 
   # create gtfs without 'stop_times'
 
@@ -51,7 +51,7 @@ test_that("get_trip_segment_duration raises errors if gtfs doesn't have required
 
 })
 
-test_that("get_trip_segment_duration calculates the duration of correct 'trip_id's", {
+test_that("calculates the duration of correct 'trip_id's", {
 
   # if trip_id = NULL, all trips in 'stop_times' have their duration calculated
 
@@ -74,12 +74,12 @@ test_that("get_trip_segment_duration calculates the duration of correct 'trip_id
 
 })
 
-test_that("get_trip_segment_duration raises warnings if a non_existent trip_id is given", {
+test_that("raises warnings if a non_existent trip_id is given", {
   expect_warning(get_trip_segment_duration(gtfs, c("CPTM L07-0", "ola")))
   expect_warning(get_trip_segment_duration(gtfs, "ola"))
 })
 
-test_that("get_trip_segment_duration outputs a data.table with adequate columns' classes", {
+test_that("outputs a data.table with adequate columns' classes", {
 
   segments_durations <- get_trip_segment_duration(gtfs, "CPTM L07-0")
 
@@ -105,7 +105,7 @@ test_that("get_trip_segment_duration outputs a data.table with adequate columns'
 
 })
 
-test_that("get_trip_segment_duration outputs duration in the correct unit", {
+test_that("outputs duration in the correct unit", {
 
   seconds_durations <- get_trip_segment_duration(gtfs, "CPTM L07-0", "s")
   minutes_durations <- get_trip_segment_duration(gtfs, "CPTM L07-0", "min")
@@ -118,7 +118,7 @@ test_that("get_trip_segment_duration outputs duration in the correct unit", {
 
 })
 
-test_that("get_trip_segment_duration outputs the correct number of segments", {
+test_that("outputs the correct number of segments", {
 
   segments_durations <- get_trip_segment_duration(gtfs, "CPTM L07-0")
 
@@ -131,10 +131,10 @@ test_that("get_trip_segment_duration outputs the correct number of segments", {
 
 })
 
-test_that("get_trip_segment_duration calculates duration correctly", {
+test_that("calculates duration correctly", {
 
-  segments_durations <- get_trip_segment_duration(gtfs, "CPTM L07-0", "min")
-  expect_identical(segments_durations$duration, rep(8, 17))
+  segments_duration <- get_trip_segment_duration(gtfs, "CPTM L07-0", "min")
+  expect_identical(segments_duration$duration, rep(8, 17))
 
   # should also work with 24+ hours times
 
@@ -145,12 +145,12 @@ test_that("get_trip_segment_duration calculates duration correctly", {
     arrival_time := "24:00:00"
   ]
 
-  segments_durations <- get_trip_segment_duration(modified_st_gtfs, "CPTM L07-0")
-  expect_identical(segments_durations$duration, c(rep(8, 16), 1072))
+  segments_duration <- get_trip_segment_duration(modified_st_gtfs, "CPTM L07-0")
+  expect_identical(segments_duration$duration, c(rep(8, 16), 1072))
 
 })
 
-test_that("get_trip_segment_duration doesn't change given gtfs (except for stop_times index)", {
+test_that("doesn't change given gtfs (except for stop_times index)", {
 
   original_gtfs <- read_gtfs(data_path)
   gtfs <- read_gtfs(data_path)

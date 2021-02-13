@@ -208,7 +208,7 @@ validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
     warning(
       paste0(
         "Invalid feed. Missing required file(s): ",
-        paste(paste0(unique(files_problems$file), ".txt"), collapse = ", ")
+        paste0("'", unique(files_problems$file), "'", collapse = ", ")
       )
     )
 
@@ -223,19 +223,20 @@ validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
     problematic_fields <- unlist(
       lapply(
         problematic_files,
-        function(i) paste(fields_problems[file == i]$field, collapse = ", ")
+        function(i)
+          paste0("'", fields_problems[file == i]$field, "'", collapse = ", ")
       )
     )
 
     warning(
       paste0(
-        "Invalid feed. ",
+        "Invalid feed.\n",
         paste0(
-          "Missing required field(s) in ",
+          "  Missing required field(s) in '",
           problematic_files,
-          ": ",
+          "': ",
           problematic_fields,
-          collapse = ". "
+          collapse = "\n"
         )
       )
     )

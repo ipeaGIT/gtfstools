@@ -11,7 +11,7 @@ gtfs <- read_gtfs(data_path)
 # tests -------------------------------------------------------------------
 
 
-test_that("get_trip_duration raises errors due to incorrect input types/value", {
+test_that("raises errors due to incorrect input types/value", {
 
   no_class_gtfs <- gtfs
   attr(no_class_gtfs, "class") <- NULL
@@ -24,7 +24,7 @@ test_that("get_trip_duration raises errors due to incorrect input types/value", 
 
 })
 
-test_that("get_trip_duration raises errors if gtfs doesn't have required files/fields", {
+test_that("raises errors if gtfs doesn't have required files/fields", {
 
   # create gtfs without 'stop_times'
 
@@ -47,7 +47,7 @@ test_that("get_trip_duration raises errors if gtfs doesn't have required files/f
 
 })
 
-test_that("get_trip_duration calculates the duration of correct 'trip_id's", {
+test_that("calculates the duration of correct 'trip_id's", {
 
   # if trip_id = NULL all trips in stop_times have their duration calculated
 
@@ -65,14 +65,14 @@ test_that("get_trip_duration calculates the duration of correct 'trip_id's", {
 
 })
 
-test_that("get_trip_duration raises warnings if a non_existent trip_id is given", {
+test_that("raises warnings if a non_existent trip_id is given", {
 
   expect_warning(get_trip_duration(gtfs, c("CPTM L07-0", "ola")))
   expect_warning(get_trip_duration(gtfs, "ola"))
 
 })
 
-test_that("get_trip_duration outputs a data.table with adequate columns' classes", {
+test_that("outputs a data.table with adequate columns' classes", {
 
   durations <- get_trip_duration(gtfs, "CPTM L07-0")
 
@@ -96,7 +96,7 @@ test_that("get_trip_duration outputs a data.table with adequate columns' classes
 
 })
 
-test_that("get_trip_duration calculates duration correctly", {
+test_that("calculates duration correctly", {
 
   durations <- get_trip_duration(gtfs, "CPTM L07-0")
   expect_equal(durations$duration, 136)
@@ -113,7 +113,7 @@ test_that("get_trip_duration calculates duration correctly", {
 
 })
 
-test_that("get_trip_duration outputs duration in the correct unit", {
+test_that("outputs duration in the correct unit", {
 
   seconds_durations <- get_trip_duration(gtfs, "CPTM L07-0", "s")
   minutes_durations <- get_trip_duration(gtfs, "CPTM L07-0", "min")
@@ -126,7 +126,7 @@ test_that("get_trip_duration outputs duration in the correct unit", {
 
 })
 
-test_that("get_trip_duration doesn't change given gtfs (except for stop_times index)", {
+test_that("doesn't change given gtfs (except for stop_times index)", {
 
   original_gtfs <- read_gtfs(data_path)
   gtfs <- read_gtfs(data_path)
