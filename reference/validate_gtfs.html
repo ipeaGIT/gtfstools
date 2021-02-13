@@ -73,7 +73,7 @@ required files/fields are not found." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9010</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9011</span>
       </span>
     </div>
 
@@ -84,6 +84,9 @@ required files/fields are not found." />
     <span class="fas fa-home fa-lg"></span>
      
   </a>
+</li>
+<li>
+  <a href="../articles/gtfstools.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -211,7 +214,7 @@ Google's Static GTFS Reference</a>:</p><ul>
 <span class='co'># should raise a warning, because 'stop_times' is a required file</span>
 <span class='va'>gtfs</span><span class='op'>$</span><span class='va'>stop_times</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
 <span class='va'>validation_result</span> <span class='op'>&lt;-</span> <span class='fu'>validate_gtfs</span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Invalid feed. Missing required file(s): stop_times.txt</span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Invalid feed. Missing required file(s): 'stop_times'</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
