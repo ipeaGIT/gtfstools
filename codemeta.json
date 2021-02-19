@@ -10,13 +10,13 @@
   "codeRepository": "https://github.com/ipeaGIT/gtfstools",
   "issueTracker": "https://github.com/ipeaGIT/gtfstools/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.0.0.9011",
+  "version": "0.0.0.9012",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.3 (2020-10-10)",
+  "runtimePlatform": "R version 4.0.4 (2021-02-15)",
   "author": [
     {
       "@type": "Person",
@@ -200,8 +200,7 @@
       "sameAs": "https://CRAN.R-project.org/package=zip"
     }
   ],
-  "readme": "https://github.com/ipeaGIT/gtfstools/blob/master/README.md",
-  "fileSize": "375.028KB",
+  "fileSize": "374.145KB",
   "contIntegration": "https://codecov.io/gh/ipeaGIT/gtfstools?branch=master",
   "developmentStatus": "https://www.tidyverse.org/lifecycle/#experimental",
   "keywords": [

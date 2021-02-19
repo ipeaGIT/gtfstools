@@ -26,11 +26,10 @@
 #' \code{shapes} file). The arrival and departure times at all other stops (i.e.
 #' not the first neither the last) are set as \code{""}, which is written as
 #' \code{NA} with \code{\link{write_gtfs}}. Some transport routing software,
-#' such as \href{http://www.opentripplanner.org/}{OpenTripPlanner} and
-#' \href{https://github.com/conveyal/r5}{R5}, support specifying stop times like
-#' so. In such cases, they estimate arrival/departure times at the others stops
-#' based on the average speed as well. We plan to add that feature to this
-#' function in the future.
+#' such as \href{http://www.opentripplanner.org/}{OpenTripPlanner}, support
+#' specifying stop times like so. In such cases, they estimate arrival/departure
+#' times at the others stops based on the average speed as well. We plan to add
+#' that feature to this function in the future.
 #'
 #' @examples
 #' data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")

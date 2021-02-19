@@ -30,15 +30,17 @@ This package requires a working installation of
 link](https://github.com/r-spatial/sf#installing) for more information
 on how to install it.
 
-## Basic usage
+## Usage
 
-*To be written.*
+Please read the introductory vignette for some basic usage:
+[Introduction to
+gtfstools](https://ipeagit.github.io/gtfstools/articles/gtfstools.html).
 
 ## Related packages
 
-  - [`{tidytransit}`](https://github.com/r-transit/tidytransit)
-  - [`{gtfs2gps}`](https://github.com/ipeaGIT/gtfs2gps)
-  - [`{gtfsrouter}`](https://github.com/ATFutures/gtfs-router)
+-   [`{tidytransit}`](https://github.com/r-transit/tidytransit)
+-   [`{gtfs2gps}`](https://github.com/ipeaGIT/gtfs2gps)
+-   [`{gtfsrouter}`](https://github.com/ATFutures/gtfs-router)
 
 ## Acknowledgement <a href="https://www.ipea.gov.br"><img align="right" src="man/figures/ipea_logo.png" alt="IPEA" width="300" /></a>
 
