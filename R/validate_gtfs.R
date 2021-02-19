@@ -175,7 +175,10 @@ validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
 
   validation_result[
     file_provided_status & !field_provided_status & field_spec == "req",
-    `:=`(validation_status = "problem", validation_details = "missing_req_field")
+    `:=`(
+      validation_status = "problem",
+      validation_details = "missing_req_field"
+    )
   ]
 
   # if file is provided but misses a optional field, mark as a info
@@ -214,7 +217,9 @@ validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
 
   }
 
-  fields_problems <- validation_result[validation_details == "missing_req_field"]
+  fields_problems <- validation_result[
+    validation_details == "missing_req_field"
+  ]
 
   if (nrow(fields_problems) >= 1 & warnings) {
 

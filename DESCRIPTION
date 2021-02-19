@@ -1,7 +1,7 @@
 Type: Package
 Package: gtfstools
 Title: GTFS Editing/Analysing Tools
-Version: 0.0.0.9012
+Version: 0.0.0.9013
 Authors@R: 
     c(person(given = "Daniel",
              family = "Herszenhut",
@@ -22,7 +22,6 @@ Depends:
 Imports:
     checkmate,
     data.table,
-    lwgeom,
     methods,
     sf,
     sfheaders,
@@ -32,6 +31,7 @@ Imports:
 Suggests: 
     covr,
     knitr,
+    lwgeom,
     rmarkdown,
     testthat
 VignetteBuilder: 

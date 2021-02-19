@@ -35,7 +35,11 @@
 #' trip_speed <- get_trip_speed(gtfs, trip_ids)
 #' trip_speed
 #'
-#' trip_speed <- get_trip_speed(gtfs, trip_ids, file = c("shapes", "stop_times"))
+#' trip_speed <- get_trip_speed(
+#'   gtfs,
+#'   trip_ids,
+#'   file = c("shapes", "stop_times")
+#' )
 #' trip_speed
 #'
 #' trip_speed <- get_trip_speed(gtfs, trip_ids, unit = "m/s")

@@ -10,7 +10,7 @@
   "codeRepository": "https://github.com/ipeaGIT/gtfstools",
   "issueTracker": "https://github.com/ipeaGIT/gtfstools/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.0.0.9012",
+  "version": "0.0.0.9013",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -75,6 +75,18 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "lwgeom",
+      "name": "lwgeom",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=lwgeom"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "rmarkdown",
       "name": "rmarkdown",
       "provider": {
@@ -128,18 +140,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=data.table"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "lwgeom",
-      "name": "lwgeom",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=lwgeom"
     },
     {
       "@type": "SoftwareApplication",
@@ -200,12 +200,13 @@
       "sameAs": "https://CRAN.R-project.org/package=zip"
     }
   ],
-  "fileSize": "374.145KB",
+  "fileSize": "373.609KB",
   "contIntegration": "https://codecov.io/gh/ipeaGIT/gtfstools?branch=master",
   "developmentStatus": "https://www.tidyverse.org/lifecycle/#experimental",
   "keywords": [
     "r",
     "gtfs"
   ],
-  "relatedLink": "https://ipeagit.github.io/gtfstools/"
+  "relatedLink": "https://ipeagit.github.io/gtfstools/",
+  "readme": "https://github.com/ipeaGIT/gtfstools/blob/master/README.md"
 }

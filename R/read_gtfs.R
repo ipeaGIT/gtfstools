@@ -7,13 +7,14 @@
 #' @param files A character vector containing the text files to be read from the
 #'   GTFS (without the \code{.txt} extension). If \code{NULL} (the default) all
 #'   existing files are read.
-#' @param quiet Whether to hide log messages and progress bars (defaults to TRUE).
+#' @param quiet Whether to hide log messages and progress bars (defaults to
+#'   TRUE).
 #' @param warnings Whether to display warning messages (defaults to TRUE).
 #'
-#' @return A GTFS object: a \code{list} of \code{data.table}s in which each index
-#'   represents a GTFS text file. In case of parsing failures (e.g. files with
-#'   more/less columns than specified in the file header), the function throws
-#'   an error detailing where such failures occurred.
+#' @return A GTFS object: a \code{list} of \code{data.table}s in which each
+#'   index represents a GTFS text file. In case of parsing failures (e.g. files
+#'   with more/less columns than specified in the file header), the function
+#'   throws an error detailing where such failures occurred.
 #'
 #' @section Details:
 #' The column types of each \code{data.table} in the final GTFS object conform
@@ -241,7 +242,10 @@ extract_warning_message <- function(warning_log) {
   warning_log <- as.character(warning_log)
 
   possible_warnings <- c(
-    "Detected \\d+ column names but the data has \\d+ columns \\(i\\.e\\. invalid file\\)\\.",
+    paste0(
+      "Detected \\d+ column names but the data has \\d+ columns ",
+      "\\(i\\.e\\. invalid file\\)\\."
+    ),
     "Detected \\d+ column names but the data has \\d+ columns.",
     "Stopped early on line \\d+\\. Expected \\d+ fields but found \\d+\\.",
     "Discarded single-line footer: <<.+>>"

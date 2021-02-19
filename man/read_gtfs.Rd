@@ -13,15 +13,16 @@ read_gtfs(path, files = NULL, quiet = TRUE, warnings = TRUE)
 GTFS (without the \code{.txt} extension). If \code{NULL} (the default) all
 existing files are read.}
 
-\item{quiet}{Whether to hide log messages and progress bars (defaults to TRUE).}
+\item{quiet}{Whether to hide log messages and progress bars (defaults to
+TRUE).}
 
 \item{warnings}{Whether to display warning messages (defaults to TRUE).}
 }
 \value{
-A GTFS object: a \code{list} of \code{data.table}s in which each index
-  represents a GTFS text file. In case of parsing failures (e.g. files with
-  more/less columns than specified in the file header), the function throws
-  an error detailing where such failures occurred.
+A GTFS object: a \code{list} of \code{data.table}s in which each
+  index represents a GTFS text file. In case of parsing failures (e.g. files
+  with more/less columns than specified in the file header), the function
+  throws an error detailing where such failures occurred.
 }
 \description{
 Reads GTFS text files from either a local \code{.zip} file or an URL and

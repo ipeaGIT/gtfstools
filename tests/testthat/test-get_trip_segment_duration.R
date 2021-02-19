@@ -59,10 +59,10 @@ test_that("calculates the duration of correct 'trip_id's", {
   all_trip_ids <- all_trip_ids[order(all_trip_ids)]
 
   seg_duration_all_trip_ids <- get_trip_segment_duration(gtfs)
-  trip_ids_from_duration <- unique(seg_duration_all_trip_ids$trip_id)
-  trip_ids_from_duration <- trip_ids_from_duration[order(trip_ids_from_duration)]
+  trip_ids_from_dur <- unique(seg_duration_all_trip_ids$trip_id)
+  trip_ids_from_dur <- trip_ids_from_dur[order(trip_ids_from_dur)]
 
-  expect_identical(all_trip_ids, trip_ids_from_duration)
+  expect_identical(all_trip_ids, trip_ids_from_dur)
 
   # else, only the duration of (valid) trip_ids are calculated
 

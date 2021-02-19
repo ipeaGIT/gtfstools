@@ -165,21 +165,21 @@ test_that("outputs speeds in correct unit", {
 
   kmh_speeds_dt <- get_trip_speed(gtfs, "CPTM L07-0", unit = "km/h")
 
-  trip_id_length <- sf::st_length(get_trip_geometry(gtfs, "CPTM L07-0", "shapes"))
-  trip_id_length <- as.numeric(units::set_units(trip_id_length, "km"))
+  trip_id_len <- sf::st_length(get_trip_geometry(gtfs, "CPTM L07-0", "shapes"))
+  trip_id_len <- as.numeric(units::set_units(trip_id_len, "km"))
   trip_id_duration <- get_trip_duration(gtfs, "CPTM L07-0", unit = "h")
 
-  expect_equal(trip_id_length / trip_id_duration$duration, kmh_speeds_dt$speed)
+  expect_equal(trip_id_len / trip_id_duration$duration, kmh_speeds_dt$speed)
 
   # m/s
 
   ms_speeds_dt <- get_trip_speed(gtfs, "CPTM L07-0", unit = "m/s")
 
-  trip_id_length <- sf::st_length(get_trip_geometry(gtfs, "CPTM L07-0", "shapes"))
-  trip_id_length <- as.numeric(units::set_units(trip_id_length, "m"))
+  trip_id_len <- sf::st_length(get_trip_geometry(gtfs, "CPTM L07-0", "shapes"))
+  trip_id_len <- as.numeric(units::set_units(trip_id_len, "m"))
   trip_id_duration <- get_trip_duration(gtfs, "CPTM L07-0", unit = "s")
 
-  expect_equal(trip_id_length / trip_id_duration$duration, ms_speeds_dt$speed)
+  expect_equal(trip_id_len / trip_id_duration$duration, ms_speeds_dt$speed)
 
   # km/h = 3.6 * m/s
 

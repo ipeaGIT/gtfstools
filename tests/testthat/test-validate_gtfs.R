@@ -7,19 +7,19 @@ context("Validate GTFS")
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 
-full_validation <- validate_gtfs(gtfs)
-full_validation <- attr(full_validation, "validation_result")
+full_val <- validate_gtfs(gtfs)
+full_val <- attr(full_val, "validation_result")
 
-partial_validation_1 <- validate_gtfs(gtfs, "stop_times")
-partial_validation_1 <- attr(partial_validation_1, "validation_result")
+partial_val_1 <- validate_gtfs(gtfs, "stop_times")
+partial_val_1 <- attr(partial_val_1, "validation_result")
 
-partial_validation_2 <- validate_gtfs(gtfs, c("stop_times", "agency"))
-partial_validation_2 <- attr(partial_validation_2, "validation_result")
+partial_val_2 <- validate_gtfs(gtfs, c("stop_times", "agency"))
+partial_val_2 <- attr(partial_val_2, "validation_result")
 
 extra_file_gtfs <- gtfs
 extra_file_gtfs$extra_file <- extra_file_gtfs$calendar
 extra_file_gtfs <- validate_gtfs(extra_file_gtfs)
-extra_file_validation <- attr(extra_file_gtfs, "validation_result")
+extra_file_val <- attr(extra_file_gtfs, "validation_result")
 
 extra_field_gtfs <- gtfs
 extra_field_gtfs$calendar <- data.table::copy(gtfs$calendar)
@@ -27,12 +27,12 @@ extra_field_gtfs$calendar[, extra_field := "ola"]
 extra_field_gtfs$shapes <- data.table::copy(gtfs$shapes)
 extra_field_gtfs$shapes[, additional_field := 2]
 extra_field_gtfs <- validate_gtfs(extra_field_gtfs)
-extra_field_validation <- attr(extra_field_gtfs, "validation_result")
+extra_field_val <- attr(extra_field_gtfs, "validation_result")
 
 missing_req_file_gtfs <- gtfs
 missing_req_file_gtfs$agency <- NULL
 missing_req_file_gtfs <- validate_gtfs(missing_req_file_gtfs, warnings = FALSE)
-missing_req_file_validation <- attr(missing_req_file_gtfs, "validation_result")
+missing_req_file_val <- attr(missing_req_file_gtfs, "validation_result")
 
 missing_req_field_gtfs <- gtfs
 missing_req_field_gtfs$stop_times <- data.table::copy(gtfs$stop_times)
@@ -41,7 +41,7 @@ missing_req_field_gtfs <- validate_gtfs(
   missing_req_field_gtfs,
   warnings = FALSE
 )
-missing_req_field_validation <- attr(missing_req_field_gtfs, "validation_result")
+missing_req_field_val <- attr(missing_req_field_gtfs, "validation_result")
 
 specified_files <- c(
   "agency", "stops", "routes", "trips", "stop_times", "calendar",
@@ -190,38 +190,38 @@ test_that("results in a dt_gtfs, and validation_result has right col types", {
 
   # validation result is a data.table
 
-  expect_s3_class(full_validation, "data.table")
+  expect_s3_class(full_val, "data.table")
 
   # columns' types
 
-  expect_equal(class(full_validation$file), "character")
-  expect_equal(class(full_validation$file_provided_status), "logical")
-  expect_equal(class(full_validation$field), "character")
-  expect_equal(class(full_validation$field_spec), "character")
-  expect_equal(class(full_validation$field_provided_status), "logical")
-  expect_equal(class(full_validation$validation_status), "character")
-  expect_equal(class(full_validation$validation_details), "character")
+  expect_equal(class(full_val$file), "character")
+  expect_equal(class(full_val$file_provided_status), "logical")
+  expect_equal(class(full_val$field), "character")
+  expect_equal(class(full_val$field_spec), "character")
+  expect_equal(class(full_val$field_provided_status), "logical")
+  expect_equal(class(full_val$validation_status), "character")
+  expect_equal(class(full_val$validation_details), "character")
 
 })
 
 test_that("doesn't change original gtfs (only validation_result attribute)", {
 
-  no_validation_gtfs <- gtfs
-  attr(no_validation_gtfs, "validation_result") <- NULL
-  pre_validation_no_validation_gtfs <- no_validation_gtfs
+  no_val_gtfs <- gtfs
+  attr(no_val_gtfs, "validation_result") <- NULL
+  pre_validation_no_val_gtfs <- no_val_gtfs
 
-  validated_gtfs <- validate_gtfs(no_validation_gtfs)
+  validated_gtfs <- validate_gtfs(no_val_gtfs)
 
-  expect_identical(no_validation_gtfs, pre_validation_no_validation_gtfs)
-  expect_false(identical(no_validation_gtfs, validated_gtfs))
+  expect_identical(no_val_gtfs, pre_validation_no_val_gtfs)
+  expect_false(identical(no_val_gtfs, validated_gtfs))
 
-  # the difference between validated_gtfs and no_validation_gtfs is the
+  # the difference between validated_gtfs and no_val_gtfs is the
   # validation_result
 
-  validation_result <- attr(validated_gtfs, "validation_result")
-  attr(no_validation_gtfs, "validation_result") <- validation_result
+  val_result <- attr(validated_gtfs, "validation_result")
+  attr(no_val_gtfs, "validation_result") <- val_result
 
-  expect_identical(no_validation_gtfs, validated_gtfs)
+  expect_identical(no_val_gtfs, validated_gtfs)
 
 })
 
@@ -229,17 +229,17 @@ test_that("validates against the correct files", {
 
   # all files
 
-  validated_files <- unique(full_validation$file)
+  validated_files <- unique(full_val$file)
   expect_equal(sum(validated_files %in% specified_files), 17)
 
   # only stop_times
 
-  validated_files <- unique(partial_validation_1$file)
+  validated_files <- unique(partial_val_1$file)
   expect_true(validated_files == "stop_times")
 
   # only stop_times and agency
 
-  validated_files <- unique(partial_validation_2$file)
+  validated_files <- unique(partial_val_2$file)
   expect_equal(sum(validated_files %in% c("stop_times", "agency")), 2)
 
 })
@@ -248,13 +248,13 @@ test_that("validates all fields from desired files", {
 
   # full validation
 
-  validated_files <- unique(full_validation$file)
+  validated_files <- unique(full_val$file)
   invisible(lapply(
     validated_files,
     function (i) {
       supposed_fields <- get(paste0(i, "_field"))
       expect_equal(
-        sum(full_validation[file == i]$field %in% supposed_fields),
+        sum(full_val[file == i]$field %in% supposed_fields),
         length(supposed_fields)
       )
     }
@@ -264,19 +264,19 @@ test_that("validates all fields from desired files", {
 
   supposed_fields <- stop_times_field
   expect_equal(
-    sum(partial_validation_1$field %in% supposed_fields),
+    sum(partial_val_1$field %in% supposed_fields),
     length(supposed_fields)
   )
 
   # partial validation 2 - stop_times and agency
 
-  validated_files <- unique(partial_validation_2$file)
+  validated_files <- unique(partial_val_2$file)
   invisible(lapply(
     validated_files,
     function (i) {
       supposed_fields <- get(paste0(i, "_field"))
       expect_equal(
-        sum(full_validation[file == i]$field %in% supposed_fields),
+        sum(full_val[file == i]$field %in% supposed_fields),
         length(supposed_fields)
       )
     }
@@ -289,54 +289,54 @@ test_that("recognizes extra files and fields as extra", {
   # extra file
 
   expect_equal(
-    sum(extra_file_validation[file == "extra_file"]$file_spec == "ext"),
-    length(extra_file_validation[file == "extra_file"]$field)
+    sum(extra_file_val[file == "extra_file"]$file_spec == "ext"),
+    length(extra_file_val[file == "extra_file"]$field)
   )
   expect_equal(
-    sum(extra_file_validation[file == "extra_file"]$field_spec == "ext"),
-    length(extra_file_validation[file == "extra_file"]$field)
+    sum(extra_file_val[file == "extra_file"]$field_spec == "ext"),
+    length(extra_file_val[file == "extra_file"]$field)
   )
   expect_equal(
-    sum(extra_file_validation[file == "extra_file"]$file_provided_status == TRUE),
-    length(extra_file_validation[file == "extra_file"]$field)
+    sum(extra_file_val[file == "extra_file"]$file_provided_status == TRUE),
+    length(extra_file_val[file == "extra_file"]$field)
   )
   expect_equal(
-    sum(extra_file_validation[file == "extra_file"]$field_provided_status == TRUE),
-    length(extra_file_validation[file == "extra_file"]$field)
+    sum(extra_file_val[file == "extra_file"]$field_provided_status == TRUE),
+    length(extra_file_val[file == "extra_file"]$field)
   )
 
   # extra field in required and optional files
 
   expect_equal(
-    extra_field_validation[file == "calendar" & field == "extra_field"]$field_spec,
+    extra_field_val[file == "calendar" & field == "extra_field"]$field_spec,
     "ext"
   )
   expect_equal(
-    extra_field_validation[file == "shapes" & field == "additional_field"]$field_spec,
+    extra_field_val[file == "shapes" & field == "additional_field"]$field_spec,
     "ext"
   )
   expect_equal(
-    sum(extra_field_validation[file == "calendar"]$field_spec == "ext"),
+    sum(extra_field_val[file == "calendar"]$field_spec == "ext"),
     1
   )
   expect_equal(
-    sum(extra_field_validation[file == "shapes"]$field_spec == "ext"),
+    sum(extra_field_val[file == "shapes"]$field_spec == "ext"),
     1
   )
   expect_true(
-    extra_field_validation[file == "calendar" & field == "extra_field"]$field_provided_status,
+    extra_field_val[file == "calendar" & field == "extra_field"]$field_provided_status,
   )
   expect_true(
-    extra_field_validation[file == "shapes" & field == "additional_field"]$field_provided_status,
+    extra_field_val[file == "shapes" & field == "additional_field"]$field_provided_status,
   )
 
 })
 
-test_that("attributes right validation status and details", {
+test_that("attributes have right validation status and details", {
 
   # ok
 
-  ok_status <- full_validation[
+  ok_status <- full_val[
     file_provided_status == TRUE & field_provided_status == TRUE
   ]
   expect_equal(sum(ok_status$validation_status == "ok"), nrow(ok_status))
@@ -344,7 +344,7 @@ test_that("attributes right validation status and details", {
 
   # info: missing_opt_file
 
-  file_info_status <- full_validation[
+  file_info_status <- full_val[
     file_spec == "opt" & file_provided_status == FALSE
   ]
   expect_equal(
@@ -358,7 +358,7 @@ test_that("attributes right validation status and details", {
 
   # problem: missing_req_file
 
-  file_problem_status <- missing_req_file_validation[
+  file_problem_status <- missing_req_file_val[
     file_spec == "req" & file_provided_status == FALSE
   ]
   expect_equal(
@@ -372,7 +372,7 @@ test_that("attributes right validation status and details", {
 
   # info: undocumented_file
 
-  file_extra_status <- extra_file_validation[file_spec == "ext"]
+  file_extra_status <- extra_file_val[file_spec == "ext"]
   expect_equal(
     sum(file_extra_status$validation_status == "info"),
     nrow(file_extra_status)
@@ -384,7 +384,7 @@ test_that("attributes right validation status and details", {
 
   # info: missing_opt_field
 
-  field_info_status <- full_validation[
+  field_info_status <- full_val[
     file_spec == "req" & file_provided_status == TRUE & field_provided_status == FALSE & field_spec == "opt"
   ]
   expect_equal(
@@ -398,7 +398,7 @@ test_that("attributes right validation status and details", {
 
   # problem: missing_req_field
 
-  field_problem_status <- missing_req_field_validation[
+  field_problem_status <- missing_req_field_val[
     file_provided_status == TRUE & field_spec == "req" & field_provided_status == FALSE
   ]
   expect_equal(
@@ -412,7 +412,7 @@ test_that("attributes right validation status and details", {
 
   # info: undocumented_field
 
-  field_extra_status <- extra_field_validation[
+  field_extra_status <- extra_field_val[
     file_spec != "ext" & field_spec == "ext"
   ]
   expect_equal(
@@ -431,13 +431,13 @@ test_that("handles 'calendar' absence and 'translations' presence adequately", {
   # check first that calendar is required and calendar_dates is optional
 
   expect_equal(
-    sum(full_validation[file == "calendar"]$file_spec == "req"),
-    nrow(full_validation[file == "calendar"])
+    sum(full_val[file == "calendar"]$file_spec == "req"),
+    nrow(full_val[file == "calendar"])
   )
 
   expect_equal(
-    sum(full_validation[file == "calendar_dates"]$file_spec == "opt"),
-    nrow(full_validation[file == "calendar_dates"])
+    sum(full_val[file == "calendar_dates"]$file_spec == "opt"),
+    nrow(full_val[file == "calendar_dates"])
   )
 
   # remove calendar and check that calendar is now optional and calendar_dates
@@ -446,23 +446,23 @@ test_that("handles 'calendar' absence and 'translations' presence adequately", {
   no_calendar_gtfs <- gtfs
   no_calendar_gtfs$calendar <- NULL
   no_calendar_gtfs <- validate_gtfs(no_calendar_gtfs, warnings = FALSE)
-  no_calendar_validation <- attr(no_calendar_gtfs, "validation_result")
+  no_calendar_val <- attr(no_calendar_gtfs, "validation_result")
 
   expect_equal(
-    sum(no_calendar_validation[file == "calendar"]$file_spec == "opt"),
-    nrow(no_calendar_validation[file == "calendar"])
+    sum(no_calendar_val[file == "calendar"]$file_spec == "opt"),
+    nrow(no_calendar_val[file == "calendar"])
   )
 
   expect_equal(
-    sum(no_calendar_validation[file == "calendar_dates"]$file_spec == "req"),
-    nrow(no_calendar_validation[file == "calendar_dates"])
+    sum(no_calendar_val[file == "calendar_dates"]$file_spec == "req"),
+    nrow(no_calendar_val[file == "calendar_dates"])
   )
 
   # check that feed_info is optional
 
   expect_equal(
-    sum(full_validation[file == "feed_info"]$file_spec == "opt"),
-    nrow(full_validation[file == "feed_info"])
+    sum(full_val[file == "feed_info"]$file_spec == "opt"),
+    nrow(full_val[file == "feed_info"])
   )
 
   # adds empty translations and check that feed_info becomes required
@@ -470,11 +470,11 @@ test_that("handles 'calendar' absence and 'translations' presence adequately", {
   translations_gtfs <- gtfs
   translations_gtfs$translations <- data.table::data.table(NULL)
   translations_gtfs <- validate_gtfs(translations_gtfs, warnings = FALSE)
-  translations_validation <- attr(translations_gtfs, "validation_result")
+  translations_val <- attr(translations_gtfs, "validation_result")
 
   expect_equal(
-    sum(translations_validation[file == "feed_info"]$file_spec == "req"),
-    nrow(translations_validation[file == "feed_info"])
+    sum(translations_val[file == "feed_info"]$file_spec == "req"),
+    nrow(translations_val[file == "feed_info"])
   )
 
 })

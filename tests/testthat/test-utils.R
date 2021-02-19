@@ -54,7 +54,8 @@ test_that("raises errors due to incorrect input types", {
 test_that("outputs TRUE if file and fields exist and an error message if not", {
   expect_true(check_gtfs_field_exists(gtfs, "stop_times", "arrival_time"))
   expect_type(
-    check_gtfs_field_exists(gtfs, "stop_times", "non-existent field"), "character"
+    check_gtfs_field_exists(gtfs, "stop_times", "non-existent field"),
+    "character"
   )
   expect_type(
     check_gtfs_field_exists(
@@ -75,7 +76,9 @@ test_that("outputs TRUE if file and fields exist and an error message if not", {
 })
 
 test_that("raises an error if the file doesn't exist", {
-  expect_error(check_gtfs_field_exists(gtfs, "non_existent file", "arrival_time"))
+  expect_error(
+    check_gtfs_field_exists(gtfs, "non_existent file", "arrival_time")
+  )
 })
 
 
