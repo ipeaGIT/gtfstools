@@ -1,3 +1,7 @@
+## Resubmission
+
+This is a resubmission. I have changed an invalid URL in the README.md file to follow moved content appropriately.
+
 ## Test environments
 
 - Local Ubuntu 20.04 installation (R 4.0.4)
