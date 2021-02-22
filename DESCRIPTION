@@ -1,7 +1,8 @@
 Type: Package
 Package: gtfstools
-Title: GTFS Editing/Analysing Tools
-Version: 0.0.0.9013
+Title: General Transit Feed Specification (GTFS) Editing and
+    Analysing Tools
+Version: 0.1.0
 Authors@R: 
     c(person(given = "Daniel",
              family = "Herszenhut",
@@ -10,9 +11,9 @@ Authors@R:
              comment = c(ORCID = "0000-0001-8066-1105")),
       person(given = "Ipea - Institute for Applied Economic Research",
              role = c("cph", "fnd")))
-Description: Utility functions for reading, manipulating,
-    analysing and writing transit feeds in the General Transit Feed
-    Specification (GTFS) data format.
+Description: Utility functions to read, manipulate, analyse and
+    write transit feeds in the General Transit Feed Specification (GTFS)
+    data format.
 License: MIT + file LICENSE
 URL: https://ipeagit.github.io/gtfstools/,
     https://github.com/ipeaGIT/gtfstools
