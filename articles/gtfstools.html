@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9013</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -115,7 +115,7 @@
 <span class="co">#&gt; [1] "ggl_gtfs.zip" "spo_gtfs.zip"</span></code></pre></div>
 <ul>
 <li>
-<code>ggl_gtfs.zip</code> has been manually built from the <a href="https://developers.google.com/transit/gtfs/examples/gtfs-feed">example GTFS feed</a> provided by Google.</li>
+<code>ggl_gtfs.zip</code> has been manually built from the <a href="https://developers.google.com/transit/gtfs/examples/gtfs-feed">example GTFS feed</a> provided by Google. The files samples are licensed under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 License</a>.</li>
 <li>
 <code>spo_gtfs.zip</code> is a subset of the São Paulo’s Mobility and Transport Municipal Secretary official feed, available <a href="https://www.sptrans.com.br/desenvolvedores/">here</a>.</li>
 </ul>
@@ -265,7 +265,7 @@
 <div id="manipulate-feeds" class="section level2">
 <h2 class="hasAnchor">
 <a href="#manipulate-feeds" class="anchor"></a>Manipulate feeds</h2>
-<p>Each table inside a GTFS object can be easily manipulated using the usual <code>data.table</code> syntax. <a href="https://Rdatatable.gitlab.io/data.table">data.table</a> provides many useful features, such as updating columns by reference, fast binary search, efficient data aggregation, and many others, that allows you to deal with large data sets very efficiently. Please check its <a href="https://rdatatable.gitlab.io/data.table/index.html">official website</a> for more details on syntax and usage.</p>
+<p>Each table inside a GTFS object can be easily manipulated using the usual <code>data.table</code> syntax. <a href="https://r-datatable.com">data.table</a> provides many useful features, such as updating columns by reference, fast binary search, efficient data aggregation, and many others, that allows you to deal with large data sets very efficiently. Please check its <a href="https://rdatatable.gitlab.io/data.table/index.html">official website</a> for more details on syntax and usage.</p>
 <p>Just remember that, since every GTFS object is a <em><code>list</code></em> of <code>data.table</code>s, you must refer to each table using the <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code> operator. For example, this is how you’d remove the <code>headway_secs</code> column from the <code>frequencies</code> file and add it again afterwards:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">old_headway_secs</span> <span class="op">&lt;-</span> <span class="va">spo_gtfs</span><span class="op">$</span><span class="va">frequencies</span><span class="op">$</span><span class="va">headway_secs</span>
