@@ -22,9 +22,16 @@ knitr::opts_chunk$set(
 
 ## Installation
 
+Stable version:
+
+```{r, eval = FALSE}
+install.packages("gtfstools")
+```
+
 Development version:
 
-```{r, eval=FALSE}
+```{r, eval = FALSE}
+# install.packages("remotes")
 remotes::install_github("ipeaGIT/gtfstools")
 ```
 

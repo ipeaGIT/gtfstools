@@ -31,8 +31,8 @@ Please check the official [GTFS reference](https://developers.google.com/transit
 Before using **gtfstools** please make sure that you have it installed in your computer. You can download either the most stable version from CRAN or the development version from GitHub:
 
 ```{r, eval = FALSE}
-# stable version - not yet available
-# install.packages("gtfstools")
+# stable version
+install.packages("gtfstools")
 
 # development version
 remotes::install_github("ipeaGIT/gtfstools")

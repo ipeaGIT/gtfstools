@@ -19,9 +19,16 @@ and [`{gtfs2gps}`](https://github.com/ipeaGIT/gtfs2gps).
 
 ## Installation
 
+Stable version:
+
+``` r
+install.packages("gtfstools")
+```
+
 Development version:
 
 ``` r
+# install.packages("remotes")
 remotes::install_github("ipeaGIT/gtfstools")
 ```
 
