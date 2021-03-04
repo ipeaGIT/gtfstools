@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Articles • gtfstools</title>
+<title>Test for field existence in a GTFS text file — test_field_exists • gtfstools</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,9 @@
 
 
 
-<meta property="og:title" content="Articles" />
+<meta property="og:title" content="Test for field existence in a GTFS text file — test_field_exists" />
+<meta property="og:description" content="Test for the existence of a given field in a GTFS text file (represented by
+a column in a data.table)." />
 
 
 
@@ -58,7 +60,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-article-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -113,18 +115,44 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Articles</h1>
+    <h1>Test for field existence in a GTFS text file</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ipeaGIT/gtfstools/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
+    <div class="hidden name"><code>test_field_exists.Rd</code></div>
     </div>
 
-    <div class="section ">
-      <h3>All vignettes</h3>
-      <p class="section-desc"></p>
-
-      <dl>
-        <dt><a href="gtfstools.html">Introduction to gtfstools</a></dt>
-        <dd></dt>
-      </dl>
+    <div class="ref-description">
+    <p>Test for the existence of a given field in a GTFS text file (represented by
+a column in a <code>data.table</code>).</p>
     </div>
+
+    <pre class="usage"><span class='fu'>test_field_exists</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>file</span>, <span class='va'>field</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>gtfs</th>
+      <td><p>A GTFS object as created by <code><a href='read_gtfs.html'>read_gtfs</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>file</th>
+      <td><p>File in which the field should exist.</p></td>
+    </tr>
+    <tr>
+      <th>field</th>
+      <td><p>Field to check existence of.</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p><code>TRUE</code>, if the check is successful, and <code>FALSE</code> otherwise.</p>
+
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
