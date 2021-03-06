@@ -10,7 +10,7 @@
 #'                 gtfs data. A `route_id`can be either a string or a number,
 #'                 depending on the GTF input.
 #' @param keep Logical. Whether the passed `route_ids` should be kept (Defaults
-#'             to `TRUE`), or whether they shoud be droped.
+#'             to `TRUE`), or whether they should be dropped.
 #'
 #' @return Returns a GTFS object with filtered routes, trips, shapes, stops,
 #'         stop_times and frequencies.
