@@ -21,10 +21,10 @@
 #' gtfs <- read_gtfs(data_path)
 #'
 #'# filter: Keep selected routes
-#' subset1 <- filter_route_id(gtfs, route_ids=c("6450-51", "CPTM L11"), keep = T)
+#' subset1 <- filter_route_id(gtfs, route_ids=c("6450-51", "CPTM L11"), keep = TRUE)
 #'
 #'# filter: Drop selected routes
-#' subset2 <- filter_route_id(gtfs, route_ids=c("6450-51", "CPTM L11"), keep = F)
+#' subset2 <- filter_route_id(gtfs, route_ids=c("6450-51", "CPTM L11"), keep = FALSE)
 #'
 #' @export
 filter_route_id <- function(gtfs, route_ids, keep = TRUE) {

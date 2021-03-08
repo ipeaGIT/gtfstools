@@ -14,10 +14,11 @@ gtfs data. A `route_id`can be either a string or a number,
 depending on the GTF input.}
 
 \item{keep}{Logical. Whether the passed `route_ids` should be kept (Defaults
-to `TRUE`), or whether they shoud be droped.}
+to `TRUE`), or whether they should be dropped.}
 }
 \value{
-A filtered GTFS object
+Returns a GTFS object with filtered routes, trips, shapes, stops,
+        stop_times and frequencies.
 }
 \description{
 Filter a GTFS data by its route ids, subsetting routes
@@ -30,9 +31,9 @@ data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 
 # filter: Keep selected routes
-subset1 <- filter_route_id(gtfs, route_ids=c("6450-51", "CPTM L11"), keep = T)
+subset1 <- filter_route_id(gtfs, route_ids=c("6450-51", "CPTM L11"), keep = TRUE)
 
 # filter: Drop selected routes
-subset2 <- filter_route_id(gtfs, route_ids=c("6450-51", "CPTM L11"), keep = F)
+subset2 <- filter_route_id(gtfs, route_ids=c("6450-51", "CPTM L11"), keep = FALSE)
 
 }

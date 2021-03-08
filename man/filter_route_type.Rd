@@ -46,10 +46,10 @@ data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 
 # filter: Keep selected route types
-subset1 <- filter_route_type(gtfs, route_types=c(2, 3), keep = T)
+subset1 <- filter_route_type(gtfs, route_types=c(2, 3), keep = TRUE)
 
 # filter: Drop selected route types
-subset2 <- filter_route_type(gtfs, route_types=c(2, 3), keep = F)
+subset2 <- filter_route_type(gtfs, route_types=c(2, 3), keep = FALSE)
 
 }
 \concept{filter functions}

@@ -45,6 +45,10 @@ utils::globalVariables(
     "arrival_time",
     "departure_time",
     "i.duration",
-    "speed"
-  )
+    "speed",
+    "route_id",
+    "trip_id",
+    "stop_id",
+    "route_type"
+    )
 )
