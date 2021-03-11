@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • gtfstools</title>
+<title>Filter GTFS data by route ids — filter_route_id • gtfstools</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Filter GTFS data by route ids — filter_route_id" />
+<meta property="og:description" content="Filter a GTFS data by its route ids, subsetting routes
+and trips. It also removes the unnecessary stop_times, shapes, frequencies
+(if exist in a feed), and stops accordingly." />
 
 
 
@@ -58,7 +61,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -111,109 +114,59 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Filter GTFS data by route ids</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ipeaGIT/gtfstools/blob/master/R/filter_route_id.R'><code>R/filter_route_id.R</code></a></small>
+    <div class="hidden name"><code>filter_route_id.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Filter a GTFS data by its route ids, subsetting routes
+and trips. It also removes the unnecessary stop_times, shapes, frequencies
+(if exist in a feed), and stops accordingly.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>filter_route_id</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>route_ids</span>, keep <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="filter_route_id.html">filter_route_id()</a></code> </p>
-        </td>
-        <td><p>Filter GTFS data by route ids</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="filter_route_type.html">filter_route_type()</a></code> </p>
-        </td>
-        <td><p>Filter GTFS data by route type (transport mode)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_trip_duration.html">get_trip_duration()</a></code> </p>
-        </td>
-        <td><p>Get trip duration</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_trip_geometry.html">get_trip_geometry()</a></code> </p>
-        </td>
-        <td><p>Get trip geometry</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_trip_segment_duration.html">get_trip_segment_duration()</a></code> </p>
-        </td>
-        <td><p>Get trip segments' duration</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_trip_speed.html">get_trip_speed()</a></code> </p>
-        </td>
-        <td><p>Get trip speed</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="gtfstools.html">gtfstools</a></code> </p>
-        </td>
-        <td><p>gtfstools: General Transit Feed Specification (GTFS) Editing and Analysing
-Tools</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="merge_gtfs.html">merge_gtfs()</a></code> </p>
-        </td>
-        <td><p>Merge GTFS files</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="read_gtfs.html">read_gtfs()</a></code> </p>
-        </td>
-        <td><p>Read and validate GTFS files</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="set_trip_speed.html">set_trip_speed()</a></code> </p>
-        </td>
-        <td><p>Set trip average speed</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="validate_gtfs.html">validate_gtfs()</a></code> </p>
-        </td>
-        <td><p>Validate GTFS file</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="write_gtfs.html">write_gtfs()</a></code> </p>
-        </td>
-        <td><p>Write GTFS files</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>gtfs</th>
+      <td><p>A GTFS object as created by <code><a href='read_gtfs.html'>read_gtfs</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>route_ids</th>
+      <td><p>A vector of route ids belonging to the routes of the
+gtfs data. A `route_id`can be either a string or a number,
+depending on the GTF input.</p></td>
+    </tr>
+    <tr>
+      <th>keep</th>
+      <td><p>Logical. Whether the passed `route_ids` should be kept (Defaults
+to `TRUE`), or whether they should be dropped.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Returns a GTFS object with filtered routes, trips, shapes, stops,
+        stop_times and frequencies.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># read gtfs</span>
+<span class='va'>data_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/spo_gtfs.zip"</span>, package <span class='op'>=</span> <span class='st'>"gtfstools"</span><span class='op'>)</span>
+<span class='va'>gtfs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_gtfs.html'>read_gtfs</a></span><span class='op'>(</span><span class='va'>data_path</span><span class='op'>)</span>
+
+<span class='co'># filter: Keep selected routes</span>
+<span class='va'>subset1</span> <span class='op'>&lt;-</span> <span class='fu'>filter_route_id</span><span class='op'>(</span><span class='va'>gtfs</span>, route_ids<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"6450-51"</span>, <span class='st'>"CPTM L11"</span><span class='op'>)</span>, keep <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+
+<span class='co'># filter: Drop selected routes</span>
+<span class='va'>subset2</span> <span class='op'>&lt;-</span> <span class='fu'>filter_route_id</span><span class='op'>(</span><span class='va'>gtfs</span>, route_ids<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"6450-51"</span>, <span class='st'>"CPTM L11"</span><span class='op'>)</span>, keep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
