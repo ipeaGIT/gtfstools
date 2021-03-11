@@ -53,6 +53,9 @@ list.files(data_path)
 
 - `ggl_gtfs.zip` has been manually built from the [example GTFS feed](https://developers.google.com/transit/gtfs/examples/gtfs-feed) provided by Google. The files samples are licensed under [Creative Commons Attribution 4.0 License](https://creativecommons.org/licenses/by/4.0/).
 - `spo_gtfs.zip` is a subset of the São Paulo's Mobility and Transport Municipal Secretary official feed, available [here](https://www.sptrans.com.br/desenvolvedores/).
+- `ber_gtfs.zip` is a subset of Berlin's GTFS, available [here](https://daten.berlin.de/datensaetze/vbb-fahrplandaten-gtfs).
+- `for_gtfs.zip` is a subset of Fortaleza's GTFS, in Brazil, available [here](http://datapoa.com.br/organization/eptc).
+- `poa_gtfs.zip` is a subset of Porto Alegre's GTFS, in Brazil, available [here](https://dados.fortaleza.ce.gov.br/catalogo/dataset/informacoes-de-transporte-publico-municipal-conforme-especificacoes-google).
 
 ## Read feeds
 
