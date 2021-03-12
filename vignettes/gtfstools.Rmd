@@ -139,15 +139,20 @@ head(single_seg_durtn)
 
 The quick example above shows how this function may help you diagnosing some problems in your GTFS data: apparently every single trip in `spo_gtfs` is composed by several equally long segments, which looks unreasonable.
 
-Finally, `get_trip_speed()` is a helper around `get_trip_geometry()` and `get_trip_duration()` that returns the average speed of each trip in a GTFS object.
+Finally, `get_trip_speed()` is a helper around `get_trip_geometry()` and `get_trip_duration()` that returns the average speed of each trip in a GTFS object:
 
 ```{r}
-trip_speed <- get_trip_speed(spo_gtfs, unit = "m/s")
-head(trip_speed)
-
-# 'unit' argument defaults to "km/h"
-single_trip_speed <- get_trip_speed(spo_gtfs, trip_id = single_trip)
-single_trip_speed
+# requires the 'lwgeom' package, an 'sf' dependency, to be installed
+if (requireNamespace("lwgeom", quietly = TRUE)) {
+  
+  trip_speed <- get_trip_speed(spo_gtfs, unit = "m/s")
+  head(trip_speed)
+  
+  # 'unit' argument defaults to "km/h"
+  single_trip_speed <- get_trip_speed(spo_gtfs, trip_id = single_trip)
+  single_trip_speed 
+  
+}
 ```
 
 ## Manipulate feeds
@@ -188,15 +193,20 @@ names(merged_files)
 ```{r}
 selected_trips <- c("CPTM L07-0", "2002-10-0")
 
-get_trip_speed(spo_gtfs, selected_trips)
-
-# 'speed' is recycled to all trips if only a single value is given
-new_speed_gtfs <- set_trip_speed(spo_gtfs, selected_trips, 50)
-get_trip_speed(new_speed_gtfs, selected_trips)
-
-# but you can also specify different speeds for each trip
-new_speed_gtfs <- set_trip_speed(spo_gtfs, selected_trips, c(30, 40))
-get_trip_speed(new_speed_gtfs, selected_trips)
+# requires the 'lwgeom' package, an 'sf' dependency, to be installed
+if (requireNamespace("lwgeom", quietly = TRUE)) {
+ 
+  get_trip_speed(spo_gtfs, selected_trips)
+  
+  # 'speed' is recycled to all trips if only a single value is given
+  new_speed_gtfs <- set_trip_speed(spo_gtfs, selected_trips, 50)
+  get_trip_speed(new_speed_gtfs, selected_trips)
+  
+  # but you can also specify different speeds for each trip
+  new_speed_gtfs <- set_trip_speed(spo_gtfs, selected_trips, c(30, 40))
+  get_trip_speed(new_speed_gtfs, selected_trips)
+   
+}
 ```
 
 ## <a name="write-feeds"></a> Write feeds
