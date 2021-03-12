@@ -74,7 +74,7 @@ both)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9002</span>
       </span>
     </div>
 
@@ -174,35 +174,28 @@ geometry generation differs depending on the chosen file.</p>
 
 <span class='va'>gtfs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_gtfs.html'>read_gtfs</a></span><span class='op'>(</span><span class='va'>data_path</span><span class='op'>)</span>
 
-<span class='va'>trip_speed</span> <span class='op'>&lt;-</span> <span class='fu'>get_trip_speed</span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Linking to GEOS 3.8.1, GDAL 3.1.4, PROJ 6.3.1</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>trip_speed</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;       trip_id origin_file    speed
-#&gt; 1: CPTM L07-0      shapes 26.74508
-#&gt; 2: CPTM L07-1      shapes 26.74508
-#&gt; 3: CPTM L08-0      shapes 17.06223
-#&gt; 4: CPTM L08-1      shapes 17.06223
-#&gt; 5: CPTM L09-0      shapes 37.44699
-#&gt; 6: CPTM L09-1      shapes 37.44699</div><div class='input'>
-<span class='va'>trip_ids</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"CPTM L07-0"</span>, <span class='st'>"2002-10-0"</span><span class='op'>)</span>
-<span class='va'>trip_speed</span> <span class='op'>&lt;-</span> <span class='fu'>get_trip_speed</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>trip_ids</span><span class='op'>)</span>
-<span class='va'>trip_speed</span>
-</div><div class='output co'>#&gt;       trip_id origin_file     speed
-#&gt; 1: CPTM L07-0      shapes 26.745082
-#&gt; 2:  2002-10-0      shapes  8.940513</div><div class='input'>
-<span class='va'>trip_speed</span> <span class='op'>&lt;-</span> <span class='fu'>get_trip_speed</span><span class='op'>(</span>
-  <span class='va'>gtfs</span>,
-  <span class='va'>trip_ids</span>,
-  file <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"shapes"</span>, <span class='st'>"stop_times"</span><span class='op'>)</span>
-<span class='op'>)</span>
-<span class='va'>trip_speed</span>
-</div><div class='output co'>#&gt;       trip_id origin_file     speed
-#&gt; 1: CPTM L07-0      shapes 26.745082
-#&gt; 2:  2002-10-0      shapes  8.940513
-#&gt; 3:  2002-10-0  stop_times  6.551409
-#&gt; 4: CPTM L07-0  stop_times 24.302994</div><div class='input'>
-<span class='va'>trip_speed</span> <span class='op'>&lt;-</span> <span class='fu'>get_trip_speed</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>trip_ids</span>, unit <span class='op'>=</span> <span class='st'>"m/s"</span><span class='op'>)</span>
-<span class='va'>trip_speed</span>
-</div><div class='output co'>#&gt;       trip_id origin_file    speed
+<span class='co'># the examples below require the 'lwgeom' package to be installed</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"lwgeom"</span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+
+  <span class='va'>trip_speed</span> <span class='op'>&lt;-</span> <span class='fu'>get_trip_speed</span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>trip_speed</span><span class='op'>)</span>
+
+  <span class='va'>trip_ids</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"CPTM L07-0"</span>, <span class='st'>"2002-10-0"</span><span class='op'>)</span>
+  <span class='va'>trip_speed</span> <span class='op'>&lt;-</span> <span class='fu'>get_trip_speed</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>trip_ids</span><span class='op'>)</span>
+  <span class='va'>trip_speed</span>
+
+  <span class='va'>trip_speed</span> <span class='op'>&lt;-</span> <span class='fu'>get_trip_speed</span><span class='op'>(</span>
+    <span class='va'>gtfs</span>,
+    <span class='va'>trip_ids</span>,
+    file <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"shapes"</span>, <span class='st'>"stop_times"</span><span class='op'>)</span>
+  <span class='op'>)</span>
+  <span class='va'>trip_speed</span>
+
+  <span class='va'>trip_speed</span> <span class='op'>&lt;-</span> <span class='fu'>get_trip_speed</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>trip_ids</span>, unit <span class='op'>=</span> <span class='st'>"m/s"</span><span class='op'>)</span>
+  <span class='va'>trip_speed</span>
+
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='message'>Linking to GEOS 3.8.1, GDAL 3.1.4, PROJ 6.3.1</span></div><div class='output co'>#&gt;       trip_id origin_file    speed
 #&gt; 1: CPTM L07-0      shapes 7.429190
 #&gt; 2:  2002-10-0      shapes 2.483476</div><div class='input'>
 </div></pre>
@@ -217,7 +210,7 @@ geometry generation differs depending on the chosen file.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Daniel Herszenhut, Ipea - Institute for Applied Economic Research.</p>
+  <p>Developed by Daniel Herszenhut, Rafael H. M. Pereira, Pedro R. Andrade, Joao Bazzo, Ipea - Institute for Applied Economic Research.</p>
 </div>
 
 <div class="pkgdown">

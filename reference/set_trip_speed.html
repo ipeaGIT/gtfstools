@@ -73,7 +73,7 @@ arrival_time and departure_time columns in stop_times." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9002</span>
       </span>
     </div>
 
@@ -183,51 +183,20 @@ that feature to this function in the future.</p>
 
 <span class='va'>gtfs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_gtfs.html'>read_gtfs</a></span><span class='op'>(</span><span class='va'>data_path</span><span class='op'>)</span>
 
-<span class='va'>gtfs_new_speed</span> <span class='op'>&lt;-</span> <span class='fu'>set_trip_speed</span><span class='op'>(</span><span class='va'>gtfs</span>, trip_id <span class='op'>=</span> <span class='st'>"CPTM L07-0"</span>, <span class='fl'>50</span><span class='op'>)</span>
-<span class='va'>gtfs_new_speed</span><span class='op'>$</span><span class='va'>stop_times</span><span class='op'>[</span><span class='va'>trip_id</span> <span class='op'>==</span> <span class='st'>"CPTM L07-0"</span><span class='op'>]</span>
-</div><div class='output co'>#&gt;        trip_id arrival_time departure_time stop_id stop_sequence
-#&gt;  1: CPTM L07-0     04:00:00       04:00:00   18940             1
-#&gt;  2: CPTM L07-0                               18920             2
-#&gt;  3: CPTM L07-0                               18919             3
-#&gt;  4: CPTM L07-0                               18917             4
-#&gt;  5: CPTM L07-0                               18916             5
-#&gt;  6: CPTM L07-0                               18965             6
-#&gt;  7: CPTM L07-0                               18923             7
-#&gt;  8: CPTM L07-0                               18922             8
-#&gt;  9: CPTM L07-0                             4114459             9
-#&gt; 10: CPTM L07-0                               18921            10
-#&gt; 11: CPTM L07-0                               18924            11
-#&gt; 12: CPTM L07-0                               18925            12
-#&gt; 13: CPTM L07-0                               18926            13
-#&gt; 14: CPTM L07-0                               18971            14
-#&gt; 15: CPTM L07-0                               18972            15
-#&gt; 16: CPTM L07-0                               18973            16
-#&gt; 17: CPTM L07-0                               18974            17
-#&gt; 18: CPTM L07-0     05:12:44       05:12:44   18975            18</div><div class='input'>
-<span class='co'># original gtfs remains unchanged</span>
-<span class='va'>gtfs</span><span class='op'>$</span><span class='va'>stop_times</span><span class='op'>[</span><span class='va'>trip_id</span> <span class='op'>==</span> <span class='st'>"CPTM L07-0"</span><span class='op'>]</span>
-</div><div class='output co'>#&gt;        trip_id arrival_time departure_time stop_id stop_sequence
-#&gt;  1: CPTM L07-0     04:00:00       04:00:00   18940             1
-#&gt;  2: CPTM L07-0     04:08:00       04:08:00   18920             2
-#&gt;  3: CPTM L07-0     04:16:00       04:16:00   18919             3
-#&gt;  4: CPTM L07-0     04:24:00       04:24:00   18917             4
-#&gt;  5: CPTM L07-0     04:32:00       04:32:00   18916             5
-#&gt;  6: CPTM L07-0     04:40:00       04:40:00   18965             6
-#&gt;  7: CPTM L07-0     04:48:00       04:48:00   18923             7
-#&gt;  8: CPTM L07-0     04:56:00       04:56:00   18922             8
-#&gt;  9: CPTM L07-0     05:04:00       05:04:00 4114459             9
-#&gt; 10: CPTM L07-0     05:12:00       05:12:00   18921            10
-#&gt; 11: CPTM L07-0     05:20:00       05:20:00   18924            11
-#&gt; 12: CPTM L07-0     05:28:00       05:28:00   18925            12
-#&gt; 13: CPTM L07-0     05:36:00       05:36:00   18926            13
-#&gt; 14: CPTM L07-0     05:44:00       05:44:00   18971            14
-#&gt; 15: CPTM L07-0     05:52:00       05:52:00   18972            15
-#&gt; 16: CPTM L07-0     06:00:00       06:00:00   18973            16
-#&gt; 17: CPTM L07-0     06:08:00       06:08:00   18974            17
-#&gt; 18: CPTM L07-0     06:16:00       06:16:00   18975            18</div><div class='input'>
-<span class='co'># now do it by reference</span>
-<span class='fu'>set_trip_speed</span><span class='op'>(</span><span class='va'>gtfs</span>, trip_id <span class='op'>=</span> <span class='st'>"CPTM L07-0"</span>, <span class='fl'>50</span>, by_reference <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='va'>gtfs</span><span class='op'>$</span><span class='va'>stop_times</span><span class='op'>[</span><span class='va'>trip_id</span> <span class='op'>==</span> <span class='st'>"CPTM L07-0"</span><span class='op'>]</span>
+<span class='co'># the examples below require the 'lwgeom' package to be installed</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"lwgeom"</span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+
+  <span class='va'>gtfs_new_speed</span> <span class='op'>&lt;-</span> <span class='fu'>set_trip_speed</span><span class='op'>(</span><span class='va'>gtfs</span>, trip_id <span class='op'>=</span> <span class='st'>"CPTM L07-0"</span>, <span class='fl'>50</span><span class='op'>)</span>
+  <span class='va'>gtfs_new_speed</span><span class='op'>$</span><span class='va'>stop_times</span><span class='op'>[</span><span class='va'>trip_id</span> <span class='op'>==</span> <span class='st'>"CPTM L07-0"</span><span class='op'>]</span>
+
+  <span class='co'># original gtfs remains unchanged</span>
+  <span class='va'>gtfs</span><span class='op'>$</span><span class='va'>stop_times</span><span class='op'>[</span><span class='va'>trip_id</span> <span class='op'>==</span> <span class='st'>"CPTM L07-0"</span><span class='op'>]</span>
+
+  <span class='co'># now do it by reference</span>
+  <span class='fu'>set_trip_speed</span><span class='op'>(</span><span class='va'>gtfs</span>, trip_id <span class='op'>=</span> <span class='st'>"CPTM L07-0"</span>, <span class='fl'>50</span>, by_reference <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+  <span class='va'>gtfs</span><span class='op'>$</span><span class='va'>stop_times</span><span class='op'>[</span><span class='va'>trip_id</span> <span class='op'>==</span> <span class='st'>"CPTM L07-0"</span><span class='op'>]</span>
+
+<span class='op'>}</span>
 </div><div class='output co'>#&gt;        trip_id arrival_time departure_time stop_id stop_sequence
 #&gt;  1: CPTM L07-0     04:00:00       04:00:00   18940             1
 #&gt;  2: CPTM L07-0                               18920             2
@@ -259,7 +228,7 @@ that feature to this function in the future.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Daniel Herszenhut, Ipea - Institute for Applied Economic Research.</p>
+  <p>Developed by Daniel Herszenhut, Rafael H. M. Pereira, Pedro R. Andrade, Joao Bazzo, Ipea - Institute for Applied Economic Research.</p>
 </div>
 
 <div class="pkgdown">
