@@ -28,7 +28,10 @@ install.packages("gtfstools")
 Development version:
 
 ``` r
-# install.packages("remotes")
+# either
+install.packages("gtfstools", repos = "https://dhersz.r-universe.dev")
+
+# or (requires the {remotes} package)
 remotes::install_github("ipeaGIT/gtfstools")
 ```
 
