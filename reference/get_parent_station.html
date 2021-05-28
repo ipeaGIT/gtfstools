@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Test for field existence in a GTFS text file — test_field_exists • gtfstools</title>
+<title>Get parent stations recursively — get_parent_station • gtfstools</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,10 @@
 
 
 
-<meta property="og:title" content="Test for field existence in a GTFS text file — test_field_exists" />
-<meta property="og:description" content="Test for the existence of a given field in a GTFS text file (represented by
-a column in a data.table)." />
+<meta property="og:title" content="Get parent stations recursively — get_parent_station" />
+<meta property="og:description" content="Returns the (recursive) parent stations of each specified stop_id.
+Recursive in this context means it returns all parents' parents (i.e. first
+parents, then parents' parents, and then their parents, and so on)." />
 
 
 
@@ -115,17 +116,18 @@ a column in a data.table)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Test for field existence in a GTFS text file</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ipeaGIT/gtfstools/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>test_field_exists.Rd</code></div>
+    <h1>Get parent stations recursively</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ipeaGIT/gtfstools/blob/master/R/get_parent_station.R'><code>R/get_parent_station.R</code></a></small>
+    <div class="hidden name"><code>get_parent_station.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Test for the existence of a given field in a GTFS text file (represented by
-a column in a <code>data.table</code>).</p>
+    <p>Returns the (recursive) parent stations of each specified <code>stop_id</code>.
+Recursive in this context means it returns all parents' parents (i.e. first
+parents, then parents' parents, and then their parents, and so on).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>test_field_exists</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>file</span>, <span class='va'>field</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_parent_station</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>stop_id</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -135,19 +137,37 @@ a column in a <code>data.table</code>).</p>
       <td><p>A GTFS object as created by <code><a href='read_gtfs.html'>read_gtfs</a></code>.</p></td>
     </tr>
     <tr>
-      <th>file</th>
-      <td><p>File in which the field should exist.</p></td>
-    </tr>
-    <tr>
-      <th>field</th>
-      <td><p>Field to check existence of.</p></td>
+      <th>stop_id</th>
+      <td><p>A string vector including the <code>stop_id</code>s to have their
+parents returned.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>TRUE</code>, if the check is successful, and <code>FALSE</code> otherwise.</p>
+    <p>A <code>data.table</code> containing the <code>stop_id</code>s and their
+  <code>parent_station</code>s. If a stop doesn't have a parent, its
+  <code>parent_station</code> is <code>""</code>.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>data_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/ggl_gtfs.zip"</span>, package <span class='op'>=</span> <span class='st'>"gtfstools"</span><span class='op'>)</span>
+
+<span class='va'>gtfs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_gtfs.html'>read_gtfs</a></span><span class='op'>(</span><span class='va'>data_path</span><span class='op'>)</span>
+
+<span class='va'>parents</span> <span class='op'>&lt;-</span> <span class='fu'>get_parent_station</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='st'>"N3"</span><span class='op'>)</span>
+<span class='va'>parents</span>
+</div><div class='output co'>#&gt;    stop_id parent_station
+#&gt; 1:      N3            F12
+#&gt; 2:     F12               </div><div class='input'>
+<span class='va'>parents</span> <span class='op'>&lt;-</span> <span class='fu'>get_parent_station</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"B1"</span>, <span class='st'>"B2"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>parents</span>
+</div><div class='output co'>#&gt;    stop_id parent_station
+#&gt; 1:      B1           F12S
+#&gt; 2:      B2           F12N
+#&gt; 3:    F12S            F12
+#&gt; 4:    F12N            F12
+#&gt; 5:     F12               </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
