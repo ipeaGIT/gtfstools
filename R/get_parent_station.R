@@ -17,14 +17,14 @@
 #'
 #' gtfs <- read_gtfs(data_path)
 #'
-#' parents <- get_parent_stations(gtfs, "N3")
+#' parents <- get_parent_station(gtfs, "N3")
 #' parents
 #'
-#' parents <- get_parent_stations(gtfs, c("B1", "B2"))
+#' parents <- get_parent_station(gtfs, c("B1", "B2"))
 #' parents
 #'
 #' @export
-get_parent_stations <- function(gtfs, stop_id) {
+get_parent_station <- function(gtfs, stop_id) {
 
   checkmate::assert_class(gtfs, "dt_gtfs")
   checkmate::assert_character(stop_id)
