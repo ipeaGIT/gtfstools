@@ -73,7 +73,7 @@ shapes or the stop_times file (or both)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9004</span>
       </span>
     </div>
 
@@ -179,10 +179,10 @@ with <code>shapes</code> tends to be much higher than when created with
 <span class='va'>trip_geometry</span> <span class='op'>&lt;-</span> <span class='fu'>get_trip_geometry</span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>trip_geometry</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Simple feature collection with 6 features and 2 fields
-#&gt; geometry type:  LINESTRING
-#&gt; dimension:      XY
-#&gt; bbox:           xmin: -46.98404 ymin: -23.73644 xmax: -46.63535 ymax: -23.19474
-#&gt; geographic CRS: WGS 84
+#&gt; Geometry type: LINESTRING
+#&gt; Dimension:     XY
+#&gt; Bounding box:  xmin: -46.98404 ymin: -23.73644 xmax: -46.63535 ymax: -23.19474
+#&gt; Geodetic CRS:  WGS 84
 #&gt;      trip_id origin_file                       geometry
 #&gt; 1 CPTM L07-0      shapes LINESTRING (-46.63535 -23.5...
 #&gt; 2 CPTM L07-1      shapes LINESTRING (-46.87255 -23.1...
@@ -194,10 +194,10 @@ with <code>shapes</code> tends to be much higher than when created with
 <span class='va'>trip_geometry</span> <span class='op'>&lt;-</span> <span class='fu'>get_trip_geometry</span><span class='op'>(</span><span class='va'>gtfs</span>, trip_id <span class='op'>=</span> <span class='va'>trip_ids</span><span class='op'>)</span>
 <span class='va'>trip_geometry</span>
 </div><div class='output co'>#&gt; Simple feature collection with 4 features and 2 fields
-#&gt; geometry type:  LINESTRING
-#&gt; dimension:      XY
-#&gt; bbox:           xmin: -46.87255 ymin: -23.55262 xmax: -46.62922 ymax: -23.19474
-#&gt; geographic CRS: WGS 84
+#&gt; Geometry type: LINESTRING
+#&gt; Dimension:     XY
+#&gt; Bounding box:  xmin: -46.87255 ymin: -23.55262 xmax: -46.62922 ymax: -23.19474
+#&gt; Geodetic CRS:  WGS 84
 #&gt;      trip_id origin_file                       geometry
 #&gt; 1 CPTM L07-0      shapes LINESTRING (-46.63535 -23.5...
 #&gt; 2  2002-10-0      shapes LINESTRING (-46.62963 -23.5...
