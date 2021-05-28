@@ -96,7 +96,7 @@ read_gtfs <- function(path, files = NULL, quiet = TRUE, warnings = TRUE) {
 
   gtfs <- lapply(files_to_read, read_files, temp_dir, quiet)
   gtfs <- stats::setNames(gtfs, sub(".txt", "", files_to_read))
-  class(gtfs) <- "dt_gtfs"
+  class(gtfs) <- c("dt_gtfs", "gtfs")
 
   # check if any parsing warnings were thrown by data.table::fread
   # if so, thrown an error detailing them

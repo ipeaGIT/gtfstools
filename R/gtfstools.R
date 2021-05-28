@@ -49,6 +49,7 @@ utils::globalVariables(
     "route_id",
     "trip_id",
     "stop_id",
-    "route_type"
-    )
+    "route_type",
+    "parent_station"
+  )
 )

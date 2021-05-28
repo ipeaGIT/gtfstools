@@ -3,6 +3,7 @@
 ## New features
 
 - `filter_route_id()`, `filter_route_type()`
+- `get_parent_station()`
 
 ## Bug fixes
 
