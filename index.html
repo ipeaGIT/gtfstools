@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9007</span>
       </span>
     </div>
 
@@ -89,7 +89,10 @@
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"gtfstools"</span><span class="op">)</span></code></pre></div>
 <p>Development version:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
+<code class="sourceCode R"><span class="co"># either</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"gtfstools"</span>, repos <span class="op">=</span> <span class="st">"https://dhersz.r-universe.dev"</span><span class="op">)</span>
+
+<span class="co"># or (requires the {remotes} package)</span>
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"ipeaGIT/gtfstools"</span><span class="op">)</span></code></pre></div>
 <p>This package requires a working installation of <a href="https://github.com/r-spatial/sf"><code>{sf}</code></a>. Please check <a href="https://github.com/r-spatial/sf#installing">this link</a> for more information on how to install it.</p>
 </div>

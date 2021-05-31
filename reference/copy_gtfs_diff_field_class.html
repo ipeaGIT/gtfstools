@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Page not found (404) • gtfstools</title>
+<title>Make a GTFS copy with a field of a different class — copy_gtfs_diff_field_class • gtfstools</title>
 
 
 <!-- jquery -->
@@ -18,8 +18,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
-<link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script>
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
@@ -33,13 +33,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="Page not found (404)" />
+<meta property="og:title" content="Make a GTFS copy with a field of a different class — copy_gtfs_diff_field_class" />
+<meta property="og:description" content="Creates a copy of a GTFS object while changing the class of a given field.
+Used for testing." />
 
 
 
@@ -58,7 +60,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-title-body">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -70,7 +72,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">gtfstools</a>
+        <a class="navbar-link" href="../index.html">gtfstools</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9007</span>
       </span>
     </div>
@@ -78,19 +80,19 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">
+  <a href="../index.html">
     <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="articles/gtfstools.html">Get started</a>
+  <a href="../articles/gtfstools.html">Get started</a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="news/index.html">Changelog</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -111,23 +113,52 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Page not found (404)</h1>
+    <h1>Make a GTFS copy with a field of a different class</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ipeaGIT/gtfstools/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
+    <div class="hidden name"><code>copy_gtfs_diff_field_class.Rd</code></div>
     </div>
 
-Content not found. Please use links in the navbar.
+    <div class="ref-description">
+    <p>Creates a copy of a GTFS object while changing the class of a given field.
+Used for testing.</p>
+    </div>
+
+    <pre class="usage"><span class='fu'>copy_gtfs_diff_field_class</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>file</span>, <span class='va'>field</span>, <span class='va'>class</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>gtfs</th>
+      <td><p>The GTFS to be copied, as created by <code><a href='read_gtfs.html'>read_gtfs</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>file</th>
+      <td><p>File whose field must have the class changed.</p></td>
+    </tr>
+    <tr>
+      <th>field</th>
+      <td><p>Field to have the class changed.</p></td>
+    </tr>
+    <tr>
+      <th>class</th>
+      <td><p>The desired class.</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A GTFS object with the field of desired class.</p>
 
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
-
 
 
       <footer>
