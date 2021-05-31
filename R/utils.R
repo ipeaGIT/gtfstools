@@ -179,7 +179,7 @@ seconds_to_string <- function(seconds) {
 #'
 #' @return A GTFS object without the given file.
 #'
-#' @noRd
+#' @keywords internal
 copy_gtfs_without_file <- function(gtfs, file) {
 
   checkmate::assert_class(gtfs, "dt_gtfs")
@@ -211,7 +211,7 @@ copy_gtfs_without_file <- function(gtfs, file) {
 #'
 #' @return A GTFS object without the given field.
 #'
-#' @noRd
+#' @keywords internal
 copy_gtfs_without_field <- function(gtfs, file, field) {
 
   checkmate::assert_class(gtfs, "dt_gtfs")
@@ -227,6 +227,49 @@ copy_gtfs_without_field <- function(gtfs, file, field) {
   gtfs_copy <- gtfs
   gtfs_copy[[file]] <- data.table::copy(gtfs[[file]])
   gtfs_copy[[file]][, (field) := NULL]
+
+  return(gtfs_copy)
+
+}
+
+
+
+#' Make a GTFS copy with a field of a different class
+#'
+#' Creates a copy of a GTFS object while changing the class of a given field.
+#' Used for testing.
+#'
+#' @param gtfs The GTFS to be copied, as created by \code{\link{read_gtfs}}.
+#' @param file File whose field must have the class changed.
+#' @param field Field to have the class changed.
+#' @param class The desired class.
+#'
+#' @return A GTFS object with the field of desired class.
+#'
+#' @keywords internal
+copy_gtfs_diff_field_class <- function(gtfs, file, field, class) {
+
+  checkmate::assert_class(gtfs, "dt_gtfs")
+  checkmate::assert_string(file)
+  checkmate::assert_string(field)
+  checkmate::assert_string(class)
+
+  # check if field exists
+
+  gtfsio::assert_fields_exist(gtfs, file, field)
+
+  # select the coercion function to use
+
+  if (class == "factor")
+    fn <- as.factor
+  if (class == "character")
+    fn <- as.character
+
+  # change field class
+
+  gtfs_copy <- gtfs
+  gtfs_copy[[file]] <- data.table::copy(gtfs[[file]])
+  gtfs_copy[[file]][, get("field") := fn(eval(parse(text = field)))]
 
   return(gtfs_copy)
 

@@ -4,6 +4,7 @@
 
 - `filter_route_id()`, `filter_route_type()`
 - `get_parent_station()`
+- `copy_gtfs_diff_field_class()`
 
 ## Bug fixes
 
