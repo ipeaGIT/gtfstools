@@ -1,0 +1,86 @@
+#' @title Filter GTFS data within a period of the day
+#'
+#' @description Updates a GTFS feed filtering only the routes, shapes, trips, stops,
+#'  agencies and services that are active within a given period of the day.
+#'
+#' @param gtfs A GTFS data.
+#' @param period_start A string of type "hh:mm" indicating start of the period (defaults to "00:00:01")
+#' @param period_end A string of type "hh:mm" indicating the end of the period (defaults to "23:59:59")
+#' @return A filtered GTFS data.
+#' @export
+#' @examples
+#' # read gtfs data
+#' gtfs1 <- read_gtfs(system.file("extdata/spo_gtfs.zip", package = "gtfstools"))
+#' gtfs_f1 <- filter_day_period(gtfs1, period_start = "10:00", period_end = "10:20")
+#' # midnight trips
+#' gtfs_f2 <- filter_day_period(gtfs1, period_start = "23:10", period_end = "02:00")
+filter_day_period <- function(gtfs, period_start = "00:00:01", period_end = "23:59:59"){
+
+  # gtfs <- read_gtfs(system.file("extdata/for_gtfs.zip", package = "gtfstools"))
+  # gtfs_f2 <- filter_day_period(gtfs2, period_start = "23:10", period_end = "02:00")
+
+  # ITime format
+  period_start <- data.table::as.ITime(period_start)
+  period_end <- data.table::as.ITime(period_end)
+
+  if(is.na(data.table::as.ITime(period_start))){ stop("Error: Invalid period_start input") }
+  if(is.na(data.table::as.ITime(period_end))){ stop("Error: Invalid period_end input") }
+
+
+
+  # 1) filter stop times
+  id_start <- which(data.table::as.ITime(gtfs$stop_times$departure_time) >= period_start)
+  id_end <- which(data.table::as.ITime(gtfs$stop_times$departure_time) <= period_end)
+  # 'id_inter' intersected 'id_start' and 'id_end'
+  id_inter <- c(id_start,id_end)
+
+  if(period_end > period_start){
+    id_inter <- id_inter[duplicated(id_inter)]
+  }else{ # condition for midnight trips
+    id_inter <- unique(id_inter)
+  }
+  # filter
+  gtfs$stop_times <- gtfs$stop_times[id_inter, ]
+
+  # Update frequencies
+  if(test_gtfs_freq(gtfs) == "frequency"){
+    # intersection 'id'
+    id_start <- which(data.table::as.ITime(gtfs$frequencies$end_time) >= period_start)
+    id_end <- which(data.table::as.ITime(gtfs$frequencies$start_time) <= period_end)
+    id_inter <- c(id_start,id_end)
+
+    if(period_end > period_start){
+      id_inter <- id_inter[duplicated(id_inter)]
+    }else{ # condition for midnight trips
+      id_inter <- unique(id_inter)
+    }
+
+    # filter
+    gtfs$frequencies <- gtfs$frequencies[ id_inter]
+  }
+
+  # Remaining unique stops and trips
+  unique_stops <- unique(gtfs$stop_times$stop_id)
+  unique_trips <- unique(gtfs$stop_times$trip_id)
+
+  # 2) filter STOPS and TRIPS
+  gtfs$stops <- gtfs$stops[ stop_id %chin% unique_stops ]
+  gtfs$trips <- gtfs$trips[ trip_id %chin% unique_trips ]
+
+  # unique values
+  unique_routes <- unique(gtfs$trips$route_id)
+  unique_shapes <- unique(gtfs$trips$shape_id)
+  unique_services <- unique(gtfs$trips$service_id)
+
+  # 3) filter ROUTES and SHAPES and SERVICES
+  gtfs$routes <- gtfs$routes[ route_id %chin% unique_routes ]
+  gtfs$shapes <- gtfs$shapes[ shape_id %chin% unique_shapes ]
+  gtfs$calendar <- gtfs$calendar[ service_id %chin% unique_services ]
+
+  # 4) filter AGENCY
+  if(!is.null(gtfs$agency) && !is.null(unique(gtfs$routes$agency_id)))
+    gtfs$agency <- gtfs$agency[ agency_id %chin% unique(gtfs$routes$agency_id) ]
+
+  # return fun output
+  return(gtfs)
+}
