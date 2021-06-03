@@ -208,10 +208,26 @@ test_that("raises errors if non-existent file/field is given", {
 })
 
 test_that("outputs a gtfs with field of desired class", {
+
+  # converting to factor
+
   gtfs_copy <- copy_gtfs_diff_field_class(gtfs, "stops", "stop_id", "factor")
   expect_s3_class(gtfs_copy, "dt_gtfs")
   expect_vector(gtfs$stops$stop_id, character(0))
   expect_s3_class(gtfs_copy$stops$stop_id, "factor")
+
+  # and to character
+
+  gtfs_copy <- copy_gtfs_diff_field_class(
+    gtfs,
+    "stops",
+    "stop_lat",
+    "character"
+  )
+  expect_s3_class(gtfs_copy, "dt_gtfs")
+  expect_vector(gtfs$stops$stop_lat, numeric(0))
+  expect_vector(gtfs_copy$stops$stop_lat, character(0))
+
 })
 
 test_that("function call doesn't change original file", {

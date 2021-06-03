@@ -44,11 +44,28 @@ get_parent_station <- function(gtfs, stop_id) {
   parents <- gtfs$stops$parent_station
   names(parents) <- gtfs$stops$stop_id
 
+  # raise warning if passed 'stop_id' doesn't exist in 'stops'
+  # and remove invalid ids from 'stop_id'
+
+  invalid_stop_id <- stop_id[! stop_id %chin% gtfs$stops$stop_id]
+
+  if (!identical(invalid_stop_id, character(0))) {
+
+    warning(
+      paste0(
+        "'stops' doesn't contain the following stop_id(s): "),
+      paste0("'", invalid_stop_id, "'", collapse = ", ")
+    )
+
+  }
+
+  stop_id <- setdiff(stop_id, invalid_stop_id)
+
   # create the data.table where parent stops will be stored
 
   result <- data.table::data.table(
     stop_id = stop_id,
-    parent_station = NA_character_
+    parent_station = rep(NA_character_, length(stop_id))
   )
 
   # get the parent stations of each stop
