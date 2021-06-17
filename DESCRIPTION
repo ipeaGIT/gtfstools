@@ -50,6 +50,9 @@ Suggests:
     lwgeom,
     rmarkdown,
     testthat
+LinkingTo:
+    cpp11
+NeedsCompilation: yes
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
