@@ -9,6 +9,7 @@ status](https://github.com/ipeaGIT/gtfstools/workflows/R-CMD-check/badge.svg)](h
 coverage](https://codecov.io/gh/ipeaGIT/gtfstools/branch/master/graph/badge.svg)](https://codecov.io/gh/ipeaGIT/gtfstools?branch=master)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+[![CRAN/METACRAN Total downloads](http://cranlogs.r-pkg.org/badges/grand-total/gtfstools?color=yellow)](https://CRAN.R-project.org/package=gtfstools)
 
 **gtfstools** offers a set of convenient tools for editing and analysing
 transit feeds in GTFS format. Feeds are read as a `list` of
