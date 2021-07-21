@@ -7,3 +7,4 @@ vignettes/*.html
 vignettes/*.R
 *.o
 *.so
+*.swp
