@@ -10,15 +10,15 @@ filter_route_id(gtfs, route_ids, keep = TRUE)
 \item{gtfs}{A GTFS object as created by \code{\link{read_gtfs}}.}
 
 \item{route_ids}{A vector of route ids belonging to the routes of the
-gtfs data. A `route_id`can be either a string or a number,
+gtfs data. A \code{route_id}can be either a string or a number,
 depending on the GTF input.}
 
-\item{keep}{Logical. Whether the passed `route_ids` should be kept (Defaults
-to `TRUE`), or whether they should be dropped.}
+\item{keep}{Logical. Whether the passed \code{route_ids} should be kept (Defaults
+to \code{TRUE}), or whether they should be dropped.}
 }
 \value{
 Returns a GTFS object with filtered routes, trips, shapes, stops,
-        stop_times and frequencies.
+stop_times and frequencies.
 }
 \description{
 Filter a GTFS data by its route ids, subsetting routes

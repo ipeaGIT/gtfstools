@@ -15,10 +15,10 @@ General Transit Feed Specification (GTFS) data format.
 
 Please check the introductory vignette for basic usage:
 \itemize{
-  \item{Run \code{vignette("gtfstools")};}
-  \item{Alternatively, check it on
-    \href{https://ipeagit.github.io/gtfstools/articles/gtfstools.html}{
-    \code{{gtfstools}} website}.}
+\item{Run \code{vignette("gtfstools")};}
+\item{Alternatively, check it on
+\href{https://ipeagit.github.io/gtfstools/articles/gtfstools.html}{
+\code{{gtfstools}} website}.}
 }
 }
 

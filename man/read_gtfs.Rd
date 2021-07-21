@@ -20,9 +20,9 @@ TRUE).}
 }
 \value{
 A GTFS object: a \code{list} of \code{data.table}s in which each
-  index represents a GTFS text file. In case of parsing failures (e.g. files
-  with more/less columns than specified in the file header), the function
-  throws an error detailing where such failures occurred.
+index represents a GTFS text file. In case of parsing failures (e.g. files
+with more/less columns than specified in the file header), the function
+throws an error detailing where such failures occurred.
 }
 \description{
 Reads GTFS text files from either a local \code{.zip} file or an URL and

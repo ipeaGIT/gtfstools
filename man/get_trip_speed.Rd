@@ -22,7 +22,7 @@ Either \code{"km/h"} (the default) or \code{"m/s"}.}
 }
 \value{
 A \code{data.table} containing the duration of each specified trip
-  and the file from which geometries were generated.
+and the file from which geometries were generated.
 }
 \description{
 Returns the speed of each specified \code{trip_id}, based on the geometry

@@ -2,6 +2,7 @@
 
 export(filter_route_id)
 export(filter_route_type)
+export(filter_trip_id)
 export(get_parent_station)
 export(get_trip_duration)
 export(get_trip_geometry)

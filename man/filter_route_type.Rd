@@ -11,14 +11,14 @@ filter_route_type(gtfs, route_types, keep = TRUE)
 
 \item{route_types}{A vector of route types belonging to the routes of the
 GTFS data. Each transport mode is associated with a
-`route_type` number. See Details.}
+\code{route_type} number. See Details.}
 
-\item{keep}{Logical. Whether the passed `route_ids` should be kept (Defaults
-to `TRUE`), or whether they should be dropped.}
+\item{keep}{Logical. Whether the passed \code{route_ids} should be kept (Defaults
+to \code{TRUE}), or whether they should be dropped.}
 }
 \value{
 Returns a GTFS object with filtered routes, trips, shapes, stops,
-        stop_times and frequencies.
+stop_times and frequencies.
 }
 \description{
 Filter a GTFS data byits route type (transport mode), subsetting routes
@@ -27,7 +27,7 @@ and trips. It also removes the unnecessary stop_times, shapes, frequencies
 }
 \details{
 Route types:
-|**`route_type`**|**Transport mode**| Note |
+|\strong{\code{route_type}}|\strong{Transport mode}| Note |
 |-----|-----|-----|
 |0  | Tram, Streetcar, Light rail | Any light rail or street level system within a metropolitan area |
 |1  | Subway, Metro | Any underground rail system within a metropolitan area |

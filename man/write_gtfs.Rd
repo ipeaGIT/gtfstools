@@ -34,7 +34,7 @@ TRUE).}
 }
 \value{
 Invisibly returns the provided GTFS object with an updated
-  \code{validation_result} attribute.
+\code{validation_result} attribute.
 }
 \description{
 Writes in-memory GTFS objects as GTFS \code{.zip} files. Conditionally

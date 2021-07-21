@@ -14,8 +14,8 @@ parents returned.}
 }
 \value{
 A \code{data.table} containing the \code{stop_id}s and their
-  \code{parent_station}s. If a stop doesn't have a parent, its
-  \code{parent_station} is \code{""}.
+\code{parent_station}s. If a stop doesn't have a parent, its
+\code{parent_station} is \code{""}.
 }
 \description{
 Returns the (recursive) parent stations of each specified \code{stop_id}.

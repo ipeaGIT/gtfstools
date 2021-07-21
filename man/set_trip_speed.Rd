@@ -24,9 +24,9 @@ reference. Defaults to \code{FALSE}.}
 }
 \value{
 If \code{by_reference} is set to \code{FALSE}, returns a GTFS object
-  with the time columns of its \code{stop_times} adjusted. Else, returns a
-  GTFS object invisibly (note that in this case the original GTFS object is
-  altered).
+with the time columns of its \code{stop_times} adjusted. Else, returns a
+GTFS object invisibly (note that in this case the original GTFS object is
+altered).
 }
 \description{
 Sets the average speed of each specified \code{trip_id} by changing the

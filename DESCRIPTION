@@ -2,7 +2,7 @@ Type: Package
 Package: gtfstools
 Title: General Transit Feed Specification (GTFS) Editing and Analysing
     Tools
-Version: 0.1.0.9009
+Version: 0.1.0.9010
 Authors@R: 
     c(person(given = "Daniel",
              family = "Herszenhut",
@@ -52,9 +52,10 @@ Suggests:
     testthat
 LinkingTo:
     cpp11
-NeedsCompilation: yes
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
 LazyData: true
+NeedsCompilation: yes
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
