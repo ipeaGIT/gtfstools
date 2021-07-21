@@ -74,7 +74,7 @@ and trips. It also removes the unnecessary stop_times, shapes, frequencies
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9009</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9016</span>
       </span>
     </div>
 
@@ -139,20 +139,20 @@ and trips. It also removes the unnecessary stop_times, shapes, frequencies
     <tr>
       <th>route_ids</th>
       <td><p>A vector of route ids belonging to the routes of the
-gtfs data. A `route_id`can be either a string or a number,
+gtfs data. A <code>route_id</code>can be either a string or a number,
 depending on the GTF input.</p></td>
     </tr>
     <tr>
       <th>keep</th>
-      <td><p>Logical. Whether the passed `route_ids` should be kept (Defaults
-to `TRUE`), or whether they should be dropped.</p></td>
+      <td><p>Logical. Whether the passed <code>route_ids</code> should be kept (Defaults
+to <code>TRUE</code>), or whether they should be dropped.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Returns a GTFS object with filtered routes, trips, shapes, stops,
-        stop_times and frequencies.</p>
+stop_times and frequencies.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># read gtfs</span>

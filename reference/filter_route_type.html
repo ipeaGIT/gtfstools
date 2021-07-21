@@ -74,7 +74,7 @@ and trips. It also removes the unnecessary stop_times, shapes, frequencies
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9009</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9016</span>
       </span>
     </div>
 
@@ -140,23 +140,23 @@ and trips. It also removes the unnecessary stop_times, shapes, frequencies
       <th>route_types</th>
       <td><p>A vector of route types belonging to the routes of the
 GTFS data. Each transport mode is associated with a
-`route_type` number. See Details.</p></td>
+<code>route_type</code> number. See Details.</p></td>
     </tr>
     <tr>
       <th>keep</th>
-      <td><p>Logical. Whether the passed `route_ids` should be kept (Defaults
-to `TRUE`), or whether they should be dropped.</p></td>
+      <td><p>Logical. Whether the passed <code>route_ids</code> should be kept (Defaults
+to <code>TRUE</code>), or whether they should be dropped.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Returns a GTFS object with filtered routes, trips, shapes, stops,
-        stop_times and frequencies.</p>
+stop_times and frequencies.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Route types:
-|**`route_type`**|**Transport mode**| Note |
+|<strong><code>route_type</code></strong>|<strong>Transport mode</strong>| Note |
 |-----|-----|-----|
 |0  | Tram, Streetcar, Light rail | Any light rail or street level system within a metropolitan area |
 |1  | Subway, Metro | Any underground rail system within a metropolitan area |

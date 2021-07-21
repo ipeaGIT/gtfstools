@@ -73,7 +73,7 @@ required files/fields are not found." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9009</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9016</span>
       </span>
     </div>
 
@@ -154,8 +154,8 @@ possible GTFS text files.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A GTFS object with a <code>validation_result</code> attribute. This
-  attribute is a <code>data.table</code> containing the validation summary of all
-  possible fields from the specified files.</p>
+attribute is a <code>data.table</code> containing the validation summary of all
+possible fields from the specified files.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
@@ -164,20 +164,20 @@ possible GTFS text files.</p></td>
 as documented in <a href='https://developers.google.com/transit/gtfs/reference'>
 Google's Static GTFS Reference</a>:</p><ul>
 <li><p>GTFS feeds are considered valid if they include all required files
-    and fields. If a required file/field is missing the function (optionally)
-    raises a warning.</p></li>
+and fields. If a required file/field is missing the function (optionally)
+raises a warning.</p></li>
 <li><p>Optional files/fields are listed in the reference above but are not
-    required, thus no warning is raised if they are missing.</p></li>
+required, thus no warning is raised if they are missing.</p></li>
 <li><p>Extra files/fields are those who are not listed in the reference
-    above (either because they refer to a specific GTFS extension or due to
-    any other reason).</p></li>
+above (either because they refer to a specific GTFS extension or due to
+any other reason).</p></li>
 </ul><p>Note that some files (<code>calendar.txt</code>, <code>calendar_dates.txt</code> and
 <code>feed_info.txt</code>) are conditionally required. This means that:</p><ul>
 <li><p><code>calendar.txt</code> is initially set as a required file. If it's not
-    present, however, it becomes optional and <code>calendar_dates.txt</code>
-    (originally set as optional) becomes required.</p></li>
+present, however, it becomes optional and <code>calendar_dates.txt</code>
+(originally set as optional) becomes required.</p></li>
 <li><p><code>feed_info.txt</code> is initially set as an optional file. If
-    <code>translations.txt</code> is present, however, it becomes required.</p></li>
+<code>translations.txt</code> is present, however, it becomes required.</p></li>
 </ul>
 
 
