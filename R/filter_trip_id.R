@@ -1,7 +1,7 @@
 #' Filter GTFS data by `trip_id`
 #'
-#' Filters a GTFS object by `trip_id`s - i.e. it keeps the entries that relate
-#' to such ids in each file.
+#' Filters a GTFS object by `trip_id`s, keeping (or dropping) the entries that
+#' relate to such ids in each file.
 #'
 #' @param gtfs A GTFS object.
 #' @param trip_id A character vector. The `trip_id`s used to filter the data.

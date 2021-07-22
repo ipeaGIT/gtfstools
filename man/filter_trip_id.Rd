@@ -19,8 +19,8 @@ The GTFS object passed to the \code{gtfs} parameter, after the filtering
 process.
 }
 \description{
-Filters a GTFS object by \code{trip_id}s - i.e. it keeps the entries that relate
-to such ids in each file.
+Filters a GTFS object by \code{trip_id}s, keeping (or dropping) the entries that
+relate to such ids in each file.
 }
 \examples{
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
