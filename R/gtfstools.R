@@ -54,6 +54,8 @@ utils::globalVariables(
     "parent_station",
     "agency_id",
     "fare_id",
-    "service_id"
+    "service_id",
+    "start_date",
+    "end_date"
   )
 )
