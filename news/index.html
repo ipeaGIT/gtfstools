@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9020</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9021</span>
       </span>
     </div>
 
@@ -129,7 +129,9 @@
 <code><a href="../reference/filter_route_id.html">filter_route_id()</a></code>, <code><a href="../reference/filter_route_type.html">filter_route_type()</a></code>
 </li>
 <li><code><a href="../reference/get_parent_station.html">get_parent_station()</a></code></li>
-<li><code><a href="../reference/copy_gtfs_diff_field_class.html">copy_gtfs_diff_field_class()</a></code></li>
+<li>New parameters to <code><a href="../reference/read_gtfs.html">read_gtfs()</a></code>: <code>fields</code> and <code>skip</code>. The <code>warnings</code> parameter was removed.</li>
+<li>Not exported: <code><a href="../reference/copy_gtfs_diff_field_class.html">copy_gtfs_diff_field_class()</a></code>, <code><a href="../reference/convert_from_standard.html">convert_from_standard()</a></code>, <code><a href="../reference/convert_to_standard.html">convert_to_standard()</a></code>
+</li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">
@@ -145,6 +147,15 @@
 <a href="#notes" class="anchor"></a>Notes</h2>
 <ul>
 <li>Some utility functions previously provided by <a href="https://github.com/ipeaGIT/gtfs2gps"><code>{gtfs2gps}</code></a> will now be exported by <a href="https://ipeagit.github.io/gtfstools/">gtfstools</a>. Huge thanks to the whole <code>{gtfs2gps}</code> crew (Rafael Pereira <a href='https://github.com/rafapereirabr'>@rafapereirabr</a>, Pedro Andrade <a href='https://github.com/pedro-andrade-inpe'>@pedro-andrade-inpe</a> and João Bazzo <a href='https://github.com/Joaobazzo'>@Joaobazzo</a>)!</li>
+<li>The package now imports <a href="https://r-transit.github.io/gtfsio/">gtfsio</a>, and many functions now heavily rely on it, such as <code><a href="../reference/read_gtfs.html">read_gtfs()</a></code> and <code><a href="../reference/write_gtfs.html">write_gtfs()</a></code>.</li>
+</ul>
+</div>
+<div id="potentially-breaking-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#potentially-breaking-changes" class="anchor"></a>Potentially breaking changes</h2>
+<ul>
+<li>
+<code><a href="../reference/validate_gtfs.html">validate_gtfs()</a></code> is deprecated. All functions that used to use it will not do so from 0.2.0 onwards, and <code><a href="../reference/validate_gtfs.html">validate_gtfs()</a></code> will be flagged as deprecated until 0.3.0, when it will get removed from the package.</li>
 </ul>
 </div>
 </div>

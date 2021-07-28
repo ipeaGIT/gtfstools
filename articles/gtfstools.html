@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9020</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9021</span>
       </span>
     </div>
 
@@ -154,34 +154,10 @@
 <p>Every feed read with <code><a href="../reference/read_gtfs.html">read_gtfs()</a></code> is validated against the official GTFS specification. This validation performs a few basic checks, such as looking for missing required files, looking for missing required fields (i.e. columns) within each file and keeping track of extra files and fields (i.e. files and fields that aren’t listed in the official specification). The validation result is appended to each GTFS object as an attribute called <code>validation_result</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">spo_gtfs</span>, <span class="st">"validation_result"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;      file file_spec file_provided_status           field field_spec</span>
-<span class="co">#&gt; 1: agency       req                 TRUE       agency_id        opt</span>
-<span class="co">#&gt; 2: agency       req                 TRUE     agency_name        req</span>
-<span class="co">#&gt; 3: agency       req                 TRUE      agency_url        req</span>
-<span class="co">#&gt; 4: agency       req                 TRUE agency_timezone        req</span>
-<span class="co">#&gt; 5: agency       req                 TRUE     agency_lang        opt</span>
-<span class="co">#&gt; 6: agency       req                 TRUE    agency_phone        opt</span>
-<span class="co">#&gt;    field_provided_status validation_status validation_details</span>
-<span class="co">#&gt; 1:                  TRUE                ok               &lt;NA&gt;</span>
-<span class="co">#&gt; 2:                  TRUE                ok               &lt;NA&gt;</span>
-<span class="co">#&gt; 3:                  TRUE                ok               &lt;NA&gt;</span>
-<span class="co">#&gt; 4:                  TRUE                ok               &lt;NA&gt;</span>
-<span class="co">#&gt; 5:                  TRUE                ok               &lt;NA&gt;</span>
-<span class="co">#&gt; 6:                 FALSE              info  missing_opt_field</span>
+<span class="co">#&gt; NULL</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">spo_shapes</span>, <span class="st">"validation_result"</span><span class="op">)</span>
-<span class="co">#&gt;      file file_spec file_provided_status               field field_spec</span>
-<span class="co">#&gt; 1: shapes       opt                 TRUE            shape_id        req</span>
-<span class="co">#&gt; 2: shapes       opt                 TRUE        shape_pt_lat        req</span>
-<span class="co">#&gt; 3: shapes       opt                 TRUE        shape_pt_lon        req</span>
-<span class="co">#&gt; 4: shapes       opt                 TRUE   shape_pt_sequence        req</span>
-<span class="co">#&gt; 5: shapes       opt                 TRUE shape_dist_traveled        opt</span>
-<span class="co">#&gt;    field_provided_status validation_status validation_details</span>
-<span class="co">#&gt; 1:                  TRUE                ok               &lt;NA&gt;</span>
-<span class="co">#&gt; 2:                  TRUE                ok               &lt;NA&gt;</span>
-<span class="co">#&gt; 3:                  TRUE                ok               &lt;NA&gt;</span>
-<span class="co">#&gt; 4:                  TRUE                ok               &lt;NA&gt;</span>
-<span class="co">#&gt; 5:                  TRUE                ok               &lt;NA&gt;</span></code></pre></div>
+<span class="co">#&gt; NULL</span></code></pre></div>
 <p>You may have noticed that <code>spo_gtfs</code>’ <code>validation_result</code> is larger than <code>spo_shapes</code>’. Since we haven’t specified which files we wanted to import when reading the former, the resulting feed is validated against every possible file in the specification. The latter, however, is only validated against the files that were specified in the <code>files</code> argument (in this case, <code>shapes</code>).</p>
 <p>To revalidate an existing GTFS object you can use the <code><a href="../reference/validate_gtfs.html">validate_gtfs()</a></code> function, which returns the same GTFS object with an updated <code>validation_result</code> attribute. The function also takes a <code>files</code> argument, much like <code><a href="../reference/read_gtfs.html">read_gtfs()</a></code>, to specify which files you want to validate your GTFS against. Validating <code>spo_shapes</code> against all possible files (the default) generates a much larger <code>validation_result</code> object (and a warning, because the object is missing all required files):</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -193,7 +169,7 @@
 <span class="co">#&gt; [1] 136</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">spo_shapes</span>, <span class="st">"validation_result"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] 5</span></code></pre></div>
+<span class="co">#&gt; NULL</span></code></pre></div>
 </div>
 <div id="analyse-feeds" class="section level2">
 <h2 class="hasAnchor">

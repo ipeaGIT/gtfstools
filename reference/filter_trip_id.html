@@ -73,7 +73,7 @@ relate to such ids in each file." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9020</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9021</span>
       </span>
     </div>
 
@@ -156,15 +156,15 @@ process.</p>
 <span class='va'>trip_ids</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"CPTM L07-0"</span>, <span class='st'>"2002-10-0"</span><span class='op'>)</span>
 
 <span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 832384 bytes</div><div class='input'>
+</div><div class='output co'>#&gt; 811232 bytes</div><div class='input'>
 <span class='co'># keeps entries related to passed trip_ids</span>
 <span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_trip_id</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>trip_ids</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>smaller_gtfs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 94136 bytes</div><div class='input'>
+</div><div class='output co'>#&gt; 72984 bytes</div><div class='input'>
 <span class='co'># drops entries related to passed trip_ids</span>
 <span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_trip_id</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>trip_ids</span>, keep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>smaller_gtfs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 789872 bytes</div><div class='input'>
+</div><div class='output co'>#&gt; 768720 bytes</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

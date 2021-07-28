@@ -73,7 +73,7 @@ required files/fields are not found." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9020</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9021</span>
       </span>
     </div>
 
@@ -186,30 +186,7 @@ present, however, it becomes optional and <code>calendar_dates.txt</code>
 
 <span class='va'>gtfs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_gtfs.html'>read_gtfs</a></span><span class='op'>(</span><span class='va'>data_path</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='st'>"validation_result"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;              file file_spec file_provided_status             field field_spec
-#&gt;   1:       agency       req                 TRUE         agency_id        opt
-#&gt;   2:       agency       req                 TRUE       agency_name        req
-#&gt;   3:       agency       req                 TRUE        agency_url        req
-#&gt;   4:       agency       req                 TRUE   agency_timezone        req
-#&gt;   5:       agency       req                 TRUE       agency_lang        opt
-#&gt;  ---                                                                         
-#&gt; 132: attributions       opt                FALSE       is_operator        opt
-#&gt; 133: attributions       opt                FALSE      is_authority        opt
-#&gt; 134: attributions       opt                FALSE   attribution_url        opt
-#&gt; 135: attributions       opt                FALSE attribution_email        opt
-#&gt; 136: attributions       opt                FALSE attribution_phone        opt
-#&gt;      field_provided_status validation_status validation_details
-#&gt;   1:                  TRUE                ok               &lt;NA&gt;
-#&gt;   2:                  TRUE                ok               &lt;NA&gt;
-#&gt;   3:                  TRUE                ok               &lt;NA&gt;
-#&gt;   4:                  TRUE                ok               &lt;NA&gt;
-#&gt;   5:                  TRUE                ok               &lt;NA&gt;
-#&gt;  ---                                                           
-#&gt; 132:                 FALSE              info   missing_opt_file
-#&gt; 133:                 FALSE              info   missing_opt_file
-#&gt; 134:                 FALSE              info   missing_opt_file
-#&gt; 135:                 FALSE              info   missing_opt_file
-#&gt; 136:                 FALSE              info   missing_opt_file</div><div class='input'>
+</div><div class='output co'>#&gt; NULL</div><div class='input'>
 <span class='co'># should not raise a warning, because 'shapes' is not a required file</span>
 <span class='va'>gtfs</span><span class='op'>$</span><span class='va'>shapes</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
 <span class='va'>validation_result</span> <span class='op'>&lt;-</span> <span class='fu'>validate_gtfs</span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span>
