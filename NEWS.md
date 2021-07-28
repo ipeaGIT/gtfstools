@@ -4,7 +4,8 @@
 
 - `filter_route_id()`, `filter_route_type()`
 - `get_parent_station()`
-- `copy_gtfs_diff_field_class()`
+- New parameters to `read_gtfs()`: `fields` and `skip`. The `warnings` parameter was removed.
+- Not exported: `copy_gtfs_diff_field_class()`, `convert_from_standard()`, `convert_to_standard()`
 
 ## Bug fixes
 
@@ -14,6 +15,11 @@
 ## Notes
 
 - Some utility functions previously provided by [`{gtfs2gps}`](https://github.com/ipeaGIT/gtfs2gps) will now be exported by `{gtfstools}`. Huge thanks to the whole `{gtfs2gps}` crew (Rafael Pereira @rafapereirabr, Pedro Andrade @pedro-andrade-inpe and João Bazzo @Joaobazzo)!
+- The package now imports `{gtfsio}`, and many functions now heavily rely on it, such as `read_gtfs()` and `write_gtfs()`.
+
+## Potentially breaking changes
+
+- `validate_gtfs()` is deprecated. All functions that used to use it will not do so from 0.2.0 onwards, and `validate_gtfs()` will be flagged as deprecated until 0.3.0, when it will get removed from the package.
 
 # gtfstools 0.1.0
 
