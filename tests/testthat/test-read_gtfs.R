@@ -168,6 +168,8 @@ test_that("date fields are converted to Date objects", {
 
   unconverted_gtfs <- gtfsio::import_gtfs(ggl_path)
   class(unconverted_gtfs) <- c("dt_gtfs", "gtfs")
+  # once new version of gtfsio gets pushed the line above will have to change to
+  # class(unconverted_gtfs) <- c("dt_gtfs", "gtfs", "list")
 
   expect_identical(ggl_gtfs, unconverted_gtfs)
 })
