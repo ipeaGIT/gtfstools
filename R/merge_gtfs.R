@@ -53,7 +53,14 @@ merge_gtfs <- function(..., files = NULL, quiet = TRUE, warnings = TRUE) {
 
   is_list_gtfs <- vapply(
     gtfs_objects,
-    function(i) checkmate::test_class(i, "list"),
+    function(list_element) {
+      is_gtfs_object <- vapply(
+        list_element,
+        function(i) checkmate::test_class(i, "dt_gtfs"),
+        logical(1)
+      )
+      all(is_gtfs_object)
+    },
     logical(1)
   )
 
