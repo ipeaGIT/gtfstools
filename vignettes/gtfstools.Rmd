@@ -211,7 +211,7 @@ if (requireNamespace("lwgeom", quietly = TRUE)) {
 
 ## <a name="write-feeds"></a> Write feeds
 
-Finally, `write_gtfs()` allows you to save your GTFS objects to disk. It defaults to writing every single table inside the object as a `.txt` file, but you can conditionally exclude optional or extra files if you so wish:
+Finally, `write_gtfs()` allows you to save your GTFS objects to disk. It defaults to writing every single table inside the object as a `.txt` file, but you can conditionally exclude files if you so wish:
 
 ```{r}
 temp_dir <- file.path(tempdir(), "gttools_vig")
@@ -224,7 +224,7 @@ write_gtfs(spo_gtfs, filename)
 list.files(temp_dir)
 zip::zip_list(filename)$filename
 
-write_gtfs(spo_gtfs, filename, optional = FALSE)
+write_gtfs(spo_gtfs, filename, files = c("stop_times", "trips", "calendar"))
 zip::zip_list(filename)$filename
 ```
 

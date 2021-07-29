@@ -10,7 +10,7 @@
   "codeRepository": "https://github.com/ipeaGIT/gtfstools",
   "issueTracker": "https://github.com/ipeaGIT/gtfstools/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.1.0.9023",
+  "version": "0.1.0.9024",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",

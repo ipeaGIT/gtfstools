@@ -25,7 +25,7 @@ read from the GTFS, without the \code{.txt} extension. If \code{NULL} (the defau
 no files are skipped. Cannot be used if \code{files} is already set.}
 
 \item{quiet}{Whether to hide log messages and progress bars (defaults to
-TRUE).}
+\code{TRUE}).}
 }
 \value{
 A \code{data.table}-based GTFS object: a \code{list} of \code{data.table}s in which
@@ -62,3 +62,8 @@ names(gtfs)
 names(gtfs$agency)
 
 }
+\seealso{
+Other io functions: 
+\code{\link{write_gtfs}()}
+}
+\concept{io functions}

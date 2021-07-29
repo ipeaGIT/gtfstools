@@ -5,6 +5,7 @@
 - `filter_route_id()`, `filter_route_type()`
 - `get_parent_station()`
 - New parameters to `read_gtfs()`: `fields` and `skip`. The `warnings` parameter was removed.
+- New parameters to `write_gtfs()`: `files`, `standard_only` and `as_dir`. They substitute the previously existent `optional` and `extra`. The `warnings` parameter was removed too.
 - Not exported: `copy_gtfs_diff_field_class()`, `convert_from_standard()`, `convert_to_standard()`
 
 ## Bug fixes
@@ -20,6 +21,7 @@
 ## Potentially breaking changes
 
 - `validate_gtfs()` is deprecated. All functions that used to use it will not do so from 0.2.0 onwards, and `validate_gtfs()` will be flagged as deprecated until 0.3.0, when it will get removed from the package.
+- `write_gtfs()` parameters went through major changes - the `optional` and `extra` params were substituted by the more general `files` and `standard_only`, and the `warnings` parameter was dropped.
 
 # gtfstools 0.1.0
 
