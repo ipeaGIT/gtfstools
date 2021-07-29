@@ -40,10 +40,7 @@
 
 
 <meta property="og:title" content="Write GTFS files — write_gtfs" />
-<meta property="og:description" content="Writes in-memory GTFS objects as GTFS .zip files. Conditionally
-includes optional and extra .txt files (check
-validate_gtfs documentation to check what are optional/extra
-files)." />
+<meta property="og:description" content="Writes GTFS objects as GTFS .zip files." />
 
 
 
@@ -75,7 +72,7 @@ files)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9021</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9024</span>
       </span>
     </div>
 
@@ -123,20 +120,17 @@ files)." />
     </div>
 
     <div class="ref-description">
-    <p>Writes in-memory GTFS objects as GTFS <code>.zip</code> files. Conditionally
-includes optional and extra <code>.txt</code> files (check
-<code><a href='validate_gtfs.html'>validate_gtfs</a></code> documentation to check what are optional/extra
-files).</p>
+    <p>Writes GTFS objects as GTFS <code>.zip</code> files.</p>
     </div>
 
     <pre class="usage"><span class='fu'>write_gtfs</span><span class='op'>(</span>
   <span class='va'>gtfs</span>,
   <span class='va'>path</span>,
-  optional <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  extra <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  files <span class='op'>=</span> <span class='cn'>NULL</span>,
+  standard_only <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  as_dir <span class='op'>=</span> <span class='cn'>FALSE</span>,
   overwrite <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  quiet <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  warnings <span class='op'>=</span> <span class='cn'>TRUE</span>
+  quiet <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -148,40 +142,46 @@ files).</p>
     </tr>
     <tr>
       <th>path</th>
-      <td><p>The path to the <code>.zip</code> file in which the feed should be
-written to.</p></td>
+      <td><p>The path to the <code>.zip</code> file in which the feed should be written
+to.</p></td>
     </tr>
     <tr>
-      <th>optional</th>
-      <td><p>Whether to write optional <code>.txt</code>. Defaults to TRUE.</p></td>
+      <th>files</th>
+      <td><p>A character vector containing the name of the elements to be
+written to the feed. If <code>NULL</code> (the default), all elements inside the GTFS
+object are written.</p></td>
     </tr>
     <tr>
-      <th>extra</th>
-      <td><p>Whether to write extra <code>.txt</code>. Defaults to TRUE.</p></td>
+      <th>standard_only</th>
+      <td><p>Whether to write only standard files and fields
+(defaults to <code>FALSE</code>, which doesn't drop extra files and fields).</p></td>
+    </tr>
+    <tr>
+      <th>as_dir</th>
+      <td><p>Whether to write the feed as a directory, instead of a <code>.zip</code>
+file (defaults to <code>FALSE</code>, which means that the field is written as a zip
+file).</p></td>
     </tr>
     <tr>
       <th>overwrite</th>
-      <td><p>Whether to overwrite existing <code>.zip</code> file. Defaults to
-TRUE.</p></td>
+      <td><p>Whether to overwrite existing <code>.zip</code> file (defaults to
+<code>TRUE</code>).</p></td>
     </tr>
     <tr>
       <th>quiet</th>
       <td><p>Whether to hide log messages and progress bars (defaults to
-TRUE).</p></td>
-    </tr>
-    <tr>
-      <th>warnings</th>
-      <td><p>Whether to display warning messages (defaults to TRUE).</p></td>
+<code>TRUE</code>).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Invisibly returns the provided GTFS object with an updated
-<code>validation_result</code> attribute.</p>
+    <p>Invisibly returns the same GTFS object passed to the <code>gtfs</code>
+parameter.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='validate_gtfs.html'>validate_gtfs</a></code></p></div>
+    <div class='dont-index'><p>Other io functions: 
+<code><a href='read_gtfs.html'>read_gtfs</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>data_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/spo_gtfs.zip"</span>, package <span class='op'>=</span> <span class='st'>"gtfstools"</span><span class='op'>)</span>
@@ -194,16 +194,15 @@ TRUE).</p></td>
 <span class='va'>tmp_file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span>pattern <span class='op'>=</span> <span class='st'>"gtfs"</span>, tmpdir <span class='op'>=</span> <span class='va'>tmp_dir</span>, fileext <span class='op'>=</span> <span class='st'>".zip"</span><span class='op'>)</span>
 <span class='fu'>write_gtfs</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>tmp_file</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='va'>tmp_dir</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "gtfs39863600b86b.zip"</div><div class='input'>
+</div><div class='output co'>#&gt; [1] "gtfs2fef189fd422.zip"</div><div class='input'>
 <span class='va'>gtfs_all_files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_gtfs.html'>read_gtfs</a></span><span class='op'>(</span><span class='va'>tmp_file</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>gtfs_all_files</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "agency"      "calendar"    "frequencies" "routes"      "shapes"     
 #&gt; [6] "stop_times"  "stops"       "trips"      </div><div class='input'>
-<span class='fu'>write_gtfs</span><span class='op'>(</span><span class='va'>gtfs_all_files</span>, <span class='va'>tmp_file</span>, optional <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-<span class='va'>gtfs_no_opt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_gtfs.html'>read_gtfs</a></span><span class='op'>(</span><span class='va'>tmp_file</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>gtfs_no_opt</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "agency"     "calendar"   "routes"     "stop_times" "stops"     
-#&gt; [6] "trips"     </div><div class='input'>
+<span class='fu'>write_gtfs</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>tmp_file</span>, files <span class='op'>=</span> <span class='st'>"stop_times"</span><span class='op'>)</span>
+<span class='va'>gtfs_stop_times</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_gtfs.html'>read_gtfs</a></span><span class='op'>(</span><span class='va'>tmp_file</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>gtfs_stop_times</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "stop_times"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
