@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9026</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9027</span>
       </span>
     </div>
 
@@ -129,8 +129,8 @@
 <code><a href="../reference/filter_route_id.html">filter_route_id()</a></code>, <code><a href="../reference/filter_route_type.html">filter_route_type()</a></code>
 </li>
 <li><code><a href="../reference/get_parent_station.html">get_parent_station()</a></code></li>
-<li>New parameters to <code><a href="../reference/read_gtfs.html">read_gtfs()</a></code>: <code>fields</code> and <code>skip</code>. The <code>warnings</code> parameter was removed.</li>
-<li>New parameters to <code><a href="../reference/write_gtfs.html">write_gtfs()</a></code>: <code>files</code>, <code>standard_only</code> and <code>as_dir</code>. They substitute the previously existent <code>optional</code> and <code>extra</code>. The <code>warnings</code> parameter was removed too.</li>
+<li>New parameters to <code><a href="../reference/read_gtfs.html">read_gtfs()</a></code>: <code>fields</code> and <code>skip</code>. The <code>warnings</code> parameter was flagged as deprecated.</li>
+<li>New parameters to <code><a href="../reference/write_gtfs.html">write_gtfs()</a></code>: <code>files</code>, <code>standard_only</code> and <code>as_dir</code>. They substitute the previously existent <code>optional</code> and <code>extra</code>, which were flagged as deprecated. The <code>warnings</code> parameter was flagged as deprecated too.</li>
 <li>Not exported: <code><a href="../reference/copy_gtfs_diff_field_class.html">copy_gtfs_diff_field_class()</a></code>, <code><a href="../reference/convert_from_standard.html">convert_from_standard()</a></code>, <code><a href="../reference/convert_to_standard.html">convert_to_standard()</a></code>
 </li>
 </ul>
@@ -157,7 +157,7 @@
 <ul>
 <li>Functions no longer validate GTFS objects on usage. <code><a href="../reference/validate_gtfs.html">validate_gtfs()</a></code> will be flagged as deprecated as well, since I plan to heavily change its usability and outputs in future versions.</li>
 <li>
-<code><a href="../reference/write_gtfs.html">write_gtfs()</a></code> parameters went through major changes - the <code>optional</code> and <code>extra</code> params were substituted by the more general <code>files</code> and <code>standard_only</code>, and the <code>warnings</code> parameter was dropped.</li>
+<code><a href="../reference/write_gtfs.html">write_gtfs()</a></code> parameters went through major changes - the <code>optional</code> and <code>extra</code> params were flagged as deprecated and substituted by the more general <code>files</code> and <code>standard_only</code>.</li>
 </ul>
 </div>
 </div>
