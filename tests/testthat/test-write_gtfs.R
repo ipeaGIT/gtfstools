@@ -130,3 +130,9 @@ test_that("writes dates as YYYYMMDD", {
   # expect_identical(original_ggl_gtfs, written_ggl_gtfs)
 
 })
+
+test_that("'optinal', 'extra' and 'warnings' arguments are deprecated", {
+  expect_warning(write_gtfs(gtfs, temp_file, optional = TRUE))
+  expect_warning(write_gtfs(gtfs, temp_file, extra  = TRUE))
+  expect_warning(write_gtfs(gtfs, temp_file, warnings = TRUE))
+})

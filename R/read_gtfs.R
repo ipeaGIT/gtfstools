@@ -17,6 +17,7 @@
 #'   no files are skipped. Cannot be used if `files` is already set.
 #' @param quiet Whether to hide log messages and progress bars (defaults to
 #'   `TRUE`).
+#' @param warnings DEPRECATED. Whether to display warning messages.
 #'
 #' @return A `data.table`-based GTFS object: a `list` of `data.table`s in which
 #' each table represents a GTFS text file.
@@ -54,7 +55,8 @@ read_gtfs <- function(path,
                       files = NULL,
                       fields = NULL,
                       skip = NULL,
-                      quiet = TRUE) {
+                      quiet = TRUE,
+                      warnings) {
 
   # inputs are more thoroughly check in gtfsio::import_gtfs()
 
@@ -63,6 +65,12 @@ read_gtfs <- function(path,
   checkmate::assert_list(fields, null.ok = TRUE)
   checkmate::assert_character(skip, null.ok = TRUE)
   checkmate::assert_logical(quiet)
+
+  if (!missing(warnings))
+    warning(
+      "Argument 'warnings' is deprecated and has no effect. ",
+      "The argument will be completely removed from v0.3.0 onwards."
+    )
 
   # read gtfs file using {gtfsio} and convert relevant fields from standard type
 

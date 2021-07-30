@@ -17,6 +17,11 @@
 #'   `TRUE`).
 #' @param quiet Whether to hide log messages and progress bars (defaults to
 #'   `TRUE`).
+#' @param optional DEPRECATED, use `files` instead. Whether to write optional
+#'   `.txt`.
+#' @param extra DEPRECATED, use `files` and `standard_only` instead. Whether to
+#'   write extra `.txt`.
+#' @param warnings DEPRECATED. Whether to display warning messages.
 #'
 #' @return Invisibly returns the same GTFS object passed to the `gtfs`
 #' parameter.
@@ -29,8 +34,7 @@
 #'
 #' tmp_dir <- file.path(tempdir(), "tmpdir")
 #' dir.create(tmp_dir)
-#' list.files(tmp_dir)
-#'
+#' list.files(tmp_dir) #'
 #' tmp_file <- tempfile(pattern = "gtfs", tmpdir = tmp_dir, fileext = ".zip")
 #' write_gtfs(gtfs, tmp_file)
 #' list.files(tmp_dir)
@@ -49,7 +53,10 @@ write_gtfs <- function(gtfs,
                        standard_only = FALSE,
                        as_dir = FALSE,
                        overwrite = TRUE,
-                       quiet = TRUE) {
+                       quiet = TRUE,
+                       optional,
+                       extra,
+                       warnings) {
 
   # inputs are more thoroughly checked on gtfsio::export_gtfs()
 
@@ -63,6 +70,25 @@ write_gtfs <- function(gtfs,
   checkmate::assert_logical(standard_only)
   checkmate::assert_logical(as_dir)
   checkmate::assert_logical(overwrite)
+
+  if (!missing(optional))
+    warning(
+      "Argument 'optional' is deprecated and has no effect, use 'files' ",
+      "instead. The argument will be completely removed from v0.3.0 onwards."
+    )
+
+  if (!missing(extra))
+    warning(
+      "Argument 'extra' is deprecated and has no effect, use 'files' and ",
+      "'standard_only' instead. ",
+      "The argument will be completely removed from v0.3.0 onwards."
+    )
+
+  if (!missing(warnings))
+    warning(
+      "Argument 'warnings' is deprecated and has no effect. ",
+      "The argument will be completely removed from v0.3.0 onwards."
+    )
 
   # convert relevant fields to standard types and write result using {gtfsio}
 

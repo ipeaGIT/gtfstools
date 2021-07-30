@@ -11,7 +11,10 @@ write_gtfs(
   standard_only = FALSE,
   as_dir = FALSE,
   overwrite = TRUE,
-  quiet = TRUE
+  quiet = TRUE,
+  optional,
+  extra,
+  warnings
 )
 }
 \arguments{
@@ -36,6 +39,14 @@ file).}
 
 \item{quiet}{Whether to hide log messages and progress bars (defaults to
 \code{TRUE}).}
+
+\item{optional}{DEPRECATED, use \code{files} instead. Whether to write optional
+\code{.txt}.}
+
+\item{extra}{DEPRECATED, use \code{files} and \code{standard_only} instead. Whether to
+write extra \code{.txt}.}
+
+\item{warnings}{DEPRECATED. Whether to display warning messages.}
 }
 \value{
 Invisibly returns the same GTFS object passed to the \code{gtfs}
@@ -50,8 +61,7 @@ gtfs <- read_gtfs(data_path)
 
 tmp_dir <- file.path(tempdir(), "tmpdir")
 dir.create(tmp_dir)
-list.files(tmp_dir)
-
+list.files(tmp_dir) #'
 tmp_file <- tempfile(pattern = "gtfs", tmpdir = tmp_dir, fileext = ".zip")
 write_gtfs(gtfs, tmp_file)
 list.files(tmp_dir)

@@ -169,3 +169,7 @@ test_that("date fields are converted to Date objects", {
   unconverted_gtfs <- gtfsio::import_gtfs(ggl_path)
   expect_identical(unclass(ggl_gtfs), unclass(unconverted_gtfs))
 })
+
+test_that("'warnings' arguments is deprecated", {
+  expect_warning(read_gtfs(data_path, warnings = TRUE))
+})

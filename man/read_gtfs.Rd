@@ -4,7 +4,14 @@
 \alias{read_gtfs}
 \title{Read GTFS files}
 \usage{
-read_gtfs(path, files = NULL, fields = NULL, skip = NULL, quiet = TRUE)
+read_gtfs(
+  path,
+  files = NULL,
+  fields = NULL,
+  skip = NULL,
+  quiet = TRUE,
+  warnings
+)
 }
 \arguments{
 \item{path}{The path to a GTFS \code{.zip} file.}
@@ -26,6 +33,8 @@ no files are skipped. Cannot be used if \code{files} is already set.}
 
 \item{quiet}{Whether to hide log messages and progress bars (defaults to
 \code{TRUE}).}
+
+\item{warnings}{DEPRECATED. Whether to display warning messages.}
 }
 \value{
 A \code{data.table}-based GTFS object: a \code{list} of \code{data.table}s in which
