@@ -1,11 +1,25 @@
 context("Validate GTFS")
 
-
-# setup -------------------------------------------------------------------
-
+# validate_gtfs() is deprecated, so basically this whole file will be skipped,
+# as adjusting the tests would be kinda pointless and very tiresome
 
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
+
+expect_warning(validate_gtfs(gtfs))
+
+a_warning <- tryCatch(
+  validate_gtfs(gtfs),
+  warning = function(cnd) cnd
+)
+
+expect_s3_class(a_warning, "deprecatedWarning")
+
+testthat::skip("Skipping validate_gtfs() tests because it is now deprecated.")
+
+
+
+# setup -------------------------------------------------------------------
 
 full_val <- validate_gtfs(gtfs)
 full_val <- attr(full_val, "validation_result")
@@ -139,7 +153,6 @@ attributions_field <- c(
 
 
 # tests -------------------------------------------------------------------
-
 
 test_that("raises errors due to incorrect input types", {
 
@@ -477,4 +490,8 @@ test_that("handles 'calendar' absence and 'translations' presence adequately", {
     nrow(translations_val[file == "feed_info"])
   )
 
+})
+
+test_that("it is deprecated", {
+  expect_warning(validate_gtfs(gtfs))
 })

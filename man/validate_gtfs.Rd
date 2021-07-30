@@ -26,6 +26,10 @@ possible fields from the specified files.
 \description{
 Validates the GTFS object against GTFS specifications and raises warnings if
 required files/fields are not found.
+
+Important note: this function is considered deprecated. Use it with caution,
+and note that its usage and output may heavily change in future versions of
+\code{gtfstools}.
 }
 \section{Details}{
 

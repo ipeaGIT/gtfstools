@@ -25,7 +25,7 @@ attribute, in which each \code{data.table} is the combination (by row) of
 \code{...}.
 }
 \description{
-Combines many GTFS file into a single one and validates the resulting object.
+Combines many GTFS file into a single one.
 }
 \section{Details}{
 
@@ -50,7 +50,4 @@ names(merged_gtfs)
 # use a list() to programatically merge many GTFS objects
 merged_gtfs <- merge_gtfs(list(spo_gtfs, ggl_gtfs))
 
-}
-\seealso{
-\code{\link{validate_gtfs}}
 }

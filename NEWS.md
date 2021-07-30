@@ -20,7 +20,7 @@
 
 ## Potentially breaking changes
 
-- `validate_gtfs()` is deprecated. All functions that used to use it will not do so from 0.2.0 onwards, and `validate_gtfs()` will be flagged as deprecated until 0.3.0, when it will get removed from the package.
+- Functions no longer validate GTFS objects on usage. `validate_gtfs()` will be flagged as deprecated as well, since I plan to heavily change its usability and outputs in future versions.
 - `write_gtfs()` parameters went through major changes - the `optional` and `extra` params were substituted by the more general `files` and `standard_only`, and the `warnings` parameter was dropped.
 
 # gtfstools 0.1.0
