@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9025</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9026</span>
       </span>
     </div>
 
@@ -155,8 +155,7 @@
 <h2 class="hasAnchor">
 <a href="#potentially-breaking-changes" class="anchor"></a>Potentially breaking changes</h2>
 <ul>
-<li>
-<code><a href="../reference/validate_gtfs.html">validate_gtfs()</a></code> is deprecated. All functions that used to use it will not do so from 0.2.0 onwards, and <code><a href="../reference/validate_gtfs.html">validate_gtfs()</a></code> will be flagged as deprecated until 0.3.0, when it will get removed from the package.</li>
+<li>Functions no longer validate GTFS objects on usage. <code><a href="../reference/validate_gtfs.html">validate_gtfs()</a></code> will be flagged as deprecated as well, since I plan to heavily change its usability and outputs in future versions.</li>
 <li>
 <code><a href="../reference/write_gtfs.html">write_gtfs()</a></code> parameters went through major changes - the <code>optional</code> and <code>extra</code> params were substituted by the more general <code>files</code> and <code>standard_only</code>, and the <code>warnings</code> parameter was dropped.</li>
 </ul>

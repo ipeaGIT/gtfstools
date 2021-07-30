@@ -41,7 +41,10 @@
 
 <meta property="og:title" content="Validate GTFS file — validate_gtfs" />
 <meta property="og:description" content="Validates the GTFS object against GTFS specifications and raises warnings if
-required files/fields are not found." />
+required files/fields are not found.
+Important note: this function is considered deprecated. Use it with caution,
+and note that its usage and output may heavily change in future versions of
+gtfstools." />
 
 
 
@@ -73,7 +76,7 @@ required files/fields are not found." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9025</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9026</span>
       </span>
     </div>
 
@@ -123,6 +126,9 @@ required files/fields are not found." />
     <div class="ref-description">
     <p>Validates the GTFS object against GTFS specifications and raises warnings if
 required files/fields are not found.</p>
+<p>Important note: this function is considered deprecated. Use it with caution,
+and note that its usage and output may heavily change in future versions of
+<code>gtfstools</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>validate_gtfs</span><span class='op'>(</span><span class='va'>gtfs</span>, files <span class='op'>=</span> <span class='cn'>NULL</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span>, warnings <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
@@ -190,11 +196,11 @@ present, however, it becomes optional and <code>calendar_dates.txt</code>
 <span class='co'># should not raise a warning, because 'shapes' is not a required file</span>
 <span class='va'>gtfs</span><span class='op'>$</span><span class='va'>shapes</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
 <span class='va'>validation_result</span> <span class='op'>&lt;-</span> <span class='fu'>validate_gtfs</span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; <span class='warning'>Warning: 'validate_gtfs()' is deprecated. Its usage and output will probably change on future gtfstools versions.</span></div><div class='input'>
 <span class='co'># should raise a warning, because 'stop_times' is a required file</span>
 <span class='va'>gtfs</span><span class='op'>$</span><span class='va'>stop_times</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
 <span class='va'>validation_result</span> <span class='op'>&lt;-</span> <span class='fu'>validate_gtfs</span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Invalid feed. Missing required file(s): 'stop_times'</span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: 'validate_gtfs()' is deprecated. Its usage and output will probably change on future gtfstools versions.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Invalid feed. Missing required file(s): 'stop_times'</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
