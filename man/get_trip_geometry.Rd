@@ -21,7 +21,8 @@ geometries for every \code{trip_id} in the GTFS.}
 \item{file}{The file from which geometries should be generated. By default
 uses both \code{shapes} and \code{stop_times}.}
 
-\item{crs}{The CRS of the resulting object. Defaults to 4326 (WGS 84).}
+\item{crs}{The CRS of the resulting object, either as an EPSG code or as an
+\code{crs} object. Defaults to 4326 (WGS 84).}
 }
 \value{
 A \code{LINESTRING sf}.

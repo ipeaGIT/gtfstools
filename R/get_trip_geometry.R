@@ -9,7 +9,8 @@
 #'   geometries for every \code{trip_id} in the GTFS.
 #' @param file The file from which geometries should be generated. By default
 #'   uses both \code{shapes} and \code{stop_times}.
-#' @param crs The CRS of the resulting object. Defaults to 4326 (WGS 84).
+#' @param crs The CRS of the resulting object, either as an EPSG code or as an
+#'   `crs` object. Defaults to 4326 (WGS 84).
 #'
 #' @return A \code{LINESTRING sf}.
 #'
