@@ -2,8 +2,11 @@
 
 ## New features
 
-- `filter_route_id()`, `filter_route_type()`
 - `get_parent_station()`
+- New function `convert_stops_to_sf()`.
+- New function `convert_shapes_to_sf()`.
+- New function `filter_route_type()`.
+- New function `filter_route_id()`. 
 - New parameters to `read_gtfs()`: `fields` and `skip`. The `warnings` parameter was flagged as deprecated.
 - New parameters to `write_gtfs()`: `files`, `standard_only` and `as_dir`. They substitute the previously existent `optional` and `extra`, which were flagged as deprecated. The `warnings` parameter was flagged as deprecated too.
 - Not exported: `copy_gtfs_diff_field_class()`, `convert_from_standard()`, `convert_to_standard()`
