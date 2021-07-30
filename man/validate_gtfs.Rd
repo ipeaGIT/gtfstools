@@ -20,12 +20,16 @@ possible GTFS text files.}
 }
 \value{
 A GTFS object with a \code{validation_result} attribute. This
-  attribute is a \code{data.table} containing the validation summary of all
-  possible fields from the specified files.
+attribute is a \code{data.table} containing the validation summary of all
+possible fields from the specified files.
 }
 \description{
 Validates the GTFS object against GTFS specifications and raises warnings if
 required files/fields are not found.
+
+Important note: this function is considered deprecated. Use it with caution,
+and note that its usage and output may heavily change in future versions of
+\code{gtfstools}.
 }
 \section{Details}{
 
@@ -33,23 +37,23 @@ GTFS object's files and fields are validated against the GTFS specifications
 as documented in \href{https://developers.google.com/transit/gtfs/reference}{
 Google's Static GTFS Reference}:
 \itemize{
-  \item GTFS feeds are considered valid if they include all required files
-    and fields. If a required file/field is missing the function (optionally)
-    raises a warning.
-  \item Optional files/fields are listed in the reference above but are not
-    required, thus no warning is raised if they are missing.
-  \item Extra files/fields are those who are not listed in the reference
-    above (either because they refer to a specific GTFS extension or due to
-    any other reason).
+\item GTFS feeds are considered valid if they include all required files
+and fields. If a required file/field is missing the function (optionally)
+raises a warning.
+\item Optional files/fields are listed in the reference above but are not
+required, thus no warning is raised if they are missing.
+\item Extra files/fields are those who are not listed in the reference
+above (either because they refer to a specific GTFS extension or due to
+any other reason).
 }
 Note that some files (\code{calendar.txt}, \code{calendar_dates.txt} and
 \code{feed_info.txt}) are conditionally required. This means that:
 \itemize{
-  \item \code{calendar.txt} is initially set as a required file. If it's not
-    present, however, it becomes optional and \code{calendar_dates.txt}
-    (originally set as optional) becomes required.
-  \item \code{feed_info.txt} is initially set as an optional file. If
-    \code{translations.txt} is present, however, it becomes required.
+\item \code{calendar.txt} is initially set as a required file. If it's not
+present, however, it becomes optional and \code{calendar_dates.txt}
+(originally set as optional) becomes required.
+\item \code{feed_info.txt} is initially set as an optional file. If
+\code{translations.txt} is present, however, it becomes required.
 }
 }
 

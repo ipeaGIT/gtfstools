@@ -1,7 +1,13 @@
 #' Validate GTFS file
 #'
+#' @description
+#'
 #' Validates the GTFS object against GTFS specifications and raises warnings if
 #' required files/fields are not found.
+#'
+#' Important note: this function is considered deprecated. Use it with caution,
+#' and note that its usage and output may heavily change in future versions of
+#' `gtfstools`.
 #'
 #' @param gtfs A GTFS object as created by \code{\link{read_gtfs}}.
 #' @param files A character vector containing the text files to be validated
@@ -55,6 +61,13 @@
 #'
 #' @export
 validate_gtfs <- function(gtfs, files = NULL, quiet = TRUE, warnings = TRUE) {
+
+  .Deprecated(
+    msg = paste0(
+      "'validate_gtfs()' is deprecated. ",
+      "Its usage and output will probably change on future gtfstools versions."
+    )
+  )
 
   # input checking
 

@@ -176,3 +176,63 @@ test_that("outputs doesn't change original file", {
   shapes_after <- data.table::copy(gtfs$shapes)
   expect_identical(shapes_before, shapes_after)
 })
+
+
+# copy_gtfs_diff_field_class ----------------------------------------------
+
+
+context("Copy GTFS with a field of a different class")
+
+test_that("raises errors due to incorrect input types", {
+  expect_error(
+    copy_gtfs_diff_field_class(no_class_gtfs, "stops", "stop_id", "factor")
+  )
+  expect_error(
+    copy_gtfs_diff_field_class(gtfs, as.factor("stops"), "stop_id", "factor")
+  )
+  expect_error(
+    copy_gtfs_diff_field_class(gtfs, "stops", as.factor("stop_id"), "factor")
+  )
+  expect_error(
+    copy_gtfs_diff_field_class(gtfs, "stops", "stop_id", as.factor("factor"))
+  )
+})
+
+test_that("raises errors if non-existent file/field is given", {
+  expect_error(
+    copy_gtfs_diff_field_class(gtfs, "wrong_file", "stop_id", "factor")
+  )
+  expect_error(
+    copy_gtfs_diff_field_class(gtfs, "stops", "wrong_field", "factor")
+  )
+})
+
+test_that("outputs a gtfs with field of desired class", {
+
+  # converting to factor
+
+  gtfs_copy <- copy_gtfs_diff_field_class(gtfs, "stops", "stop_id", "factor")
+  expect_s3_class(gtfs_copy, "dt_gtfs")
+  expect_vector(gtfs$stops$stop_id, character(0))
+  expect_s3_class(gtfs_copy$stops$stop_id, "factor")
+
+  # and to character
+
+  gtfs_copy <- copy_gtfs_diff_field_class(
+    gtfs,
+    "stops",
+    "stop_lat",
+    "character"
+  )
+  expect_s3_class(gtfs_copy, "dt_gtfs")
+  expect_vector(gtfs$stops$stop_lat, numeric(0))
+  expect_vector(gtfs_copy$stops$stop_lat, character(0))
+
+})
+
+test_that("function call doesn't change original file", {
+  stops_before <- data.table::copy(gtfs$stops)
+  gtfs_copy <- copy_gtfs_diff_field_class(gtfs, "stops", "stop_id", "factor")
+  stops_after <- data.table::copy(gtfs$stops)
+  expect_identical(stops_before, stops_after)
+})

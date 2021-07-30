@@ -31,7 +31,7 @@ zip::unzip(data_path, exdir = ef_temp_dir, overwrite = TRUE)
 file.remove(file.path(ef_temp_dir, "trips.txt"))
 file.create(file.path(ef_temp_dir, "trips.txt"))
 zip::zipr(ef_temp_file, file.path(ef_temp_dir, list.files(ef_temp_dir)))
-ef_gtfs <- read_gtfs(ef_temp_file, warnings = FALSE)
+suppressWarnings(ef_gtfs <- read_gtfs(ef_temp_file))
 
 # create gtfs with extra file
 
@@ -46,7 +46,30 @@ calendar_txt <- file.path(ext_temp_dir, "calendar.txt")
 calendar_extra_txt <- file.path(ext_temp_dir, "calendar_extra.txt")
 file.copy(from = calendar_txt, to = calendar_extra_txt)
 zip::zipr(ext_temp_file, file.path(ext_temp_dir, list.files(ext_temp_dir)))
-ext_gtfs <- read_gtfs(ext_temp_file, warnings = FALSE)
+ext_gtfs <- read_gtfs(ext_temp_file)
+
+# create gtfs with file that results in parsing failure
+
+pf_temp_file <- tempfile(pattern = "gtfs", fileext = ".zip")
+on.exit(file.remove(pf_temp_file), add = TRUE)
+
+pf_temp_dir <- file.path(tempdir(), "test_pf_gtfsdir")
+on.exit(unlink(pf_temp_dir, recursive = TRUE), add = TRUE)
+
+zip::unzip(data_path, exdir = pf_temp_dir, overwrite = TRUE)
+agency_txt <- file.path(pf_temp_dir, "agency.txt")
+invisible(file.remove(agency_txt))
+invisible(file.create(agency_txt))
+writeLines(
+  c(
+    "agency_id,agency_name,agency_url,agency_timezone,agency_lang,extracol",
+    "1,SPTRANS,http://www.sptrans.com.br/?versao=011019,America/Sao_Paulo,pt",
+    "1,SPTRANS,http://www.sptrans.com.br/?versao=011019,America/Sao_Paulo,pt"
+  ),
+  agency_txt
+)
+zip::zipr(pf_temp_file, file.path(pf_temp_dir, list.files(pf_temp_dir)))
+suppressWarnings(pf_gtfs <- read_gtfs(pf_temp_file))
 
 
 # tests -------------------------------------------------------------------
@@ -56,77 +79,61 @@ test_that("raises errors due to incorrect input types", {
   expect_error(read_gtfs(as.factor(data_path)))
   expect_error(read_gtfs(data_path, files = NA))
   expect_error(read_gtfs(data_path, files = as.factor("stop_times")))
+  expect_error(read_gtfs(data_path, fields = NA))
+  expect_error(read_gtfs(data_path, skip = as.factor("stop_times")))
   expect_error(read_gtfs(data_path, quiet = "TRUE"))
-  expect_error(read_gtfs(data_path, warnings = "TRUE"))
 })
 
 test_that("raises warnings and messages adequately", {
   expect_silent(read_gtfs(data_path))
   expect_silent(read_gtfs(gtfs_url))
-  expect_silent(read_gtfs(ef_temp_file, warning = FALSE))
   expect_silent(read_gtfs(ext_temp_file))
+
   expect_message(read_gtfs(data_path, quiet = FALSE))
   expect_message(read_gtfs(gtfs_url, quiet = FALSE))
-  expect_message(read_gtfs(ef_temp_file, quiet = FALSE, warnings = FALSE))
   expect_message(read_gtfs(ext_temp_file, quiet = FALSE))
+  expect_message(
+    suppressWarnings(read_gtfs(ef_temp_file, quiet = FALSE))
+  )
+
+  # empty-file-related warning
   expect_warning(read_gtfs(ef_temp_file))
+
+  # parsing-failure-related warning
+  expect_warning(read_gtfs(pf_temp_file))
 })
 
-test_that("results in a gtfs object (if no parsing failure happens)", {
+test_that("results in a dt_gtfs object", {
 
-  # a gtfs object is a list with "gtfs" class
+  # a dt_gtfs object is a list with "dt_gtfs" and "gtfs" classes
 
-  expect_s3_class(gtfs, "dt_gtfs")
-  expect_s3_class(et_gtfs, "dt_gtfs")
-  expect_s3_class(ef_gtfs, "dt_gtfs")
-  expect_s3_class(ext_gtfs, "dt_gtfs")
+  dt_gtfs_class <- c("dt_gtfs", "gtfs")
+
+  expect_s3_class(gtfs, dt_gtfs_class)
+  expect_s3_class(et_gtfs, dt_gtfs_class)
+  expect_s3_class(ef_gtfs, dt_gtfs_class)
+  expect_s3_class(ext_gtfs, dt_gtfs_class)
+  expect_s3_class(pf_gtfs, dt_gtfs_class)
+
   expect_type(gtfs, "list")
   expect_type(et_gtfs, "list")
   expect_type(ef_gtfs, "list")
   expect_type(ext_gtfs, "list")
+  expect_type(pf_gtfs, "list")
 
-  # all objects within list is a dt, even if it's originally an empty table/file
+  # all objects within the objects are data.tables, even if they originally are
+  # empty tables/files
 
   invisible(lapply(gtfs, expect_s3_class, "data.table"))
   invisible(lapply(et_gtfs, expect_s3_class, "data.table"))
   invisible(lapply(ef_gtfs, expect_s3_class, "data.table"))
   invisible(lapply(ext_gtfs, expect_s3_class, "data.table"))
+  invisible(lapply(pf_gtfs, expect_s3_class, "data.table"))
 
 })
 
-test_that("raises errors due to parsing failures", {
-
-  # create gtfs with file that results in parsing failure
-
-  pf_temp_file <- tempfile(pattern = "gtfs", fileext = ".zip")
-  on.exit(file.remove(pf_temp_file), add = TRUE)
-
-  pf_temp_dir <- file.path(tempdir(), "test_pf_gtfsdir")
-  on.exit(unlink(pf_temp_dir, recursive = TRUE), add = TRUE)
-
-  zip::unzip(data_path, exdir = pf_temp_dir, overwrite = TRUE)
-  agency_txt <- file.path(pf_temp_dir, "agency.txt")
-  file.remove(agency_txt)
-  file.create(agency_txt)
-  agency_txt_con <- file(agency_txt)
-  writeLines(
-    c(
-      "agency_id,agency_name,agency_url,agency_timezone,agency_lang,extracol",
-      "1,SPTRANS,http://www.sptrans.com.br/?versao=011019,America/Sao_Paulo,pt",
-      "1,SPTRANS,http://www.sptrans.com.br/?versao=011019,America/Sao_Paulo,pt"
-    ),
-    agency_txt_con
-  )
-  close(agency_txt_con)
-  zip::zipr(pf_temp_file, file.path(pf_temp_dir, list.files(pf_temp_dir)))
-
-  # actual test
-
-  expect_error(pf_gtfs <- read_gtfs(pf_temp_file, warnings = FALSE))
-
-})
-
-test_that("reads expected files", {
+test_that("reads expected files and fields", {
+  # this is more thoroughly checked on {gtfsio}
 
   files_in_zip <- sub(".txt", "", zip::zip_list(data_path)$filename)
   expect_equal(names(gtfs), files_in_zip)
@@ -134,23 +141,35 @@ test_that("reads expected files", {
   one_file_gtfs <- read_gtfs(data_path, "agency")
   expect_equal(names(one_file_gtfs), "agency")
 
-  expect_error(read_gtfs(data_path, "non_existent_file"))
+  all_but_one_gtfs <- read_gtfs(data_path, skip = "agency")
+  expect_equal(
+    names(all_but_one_gtfs),
+    setdiff(files_in_zip, "agency")
+  )
 
+  agency_id_gtfs <- read_gtfs(data_path, fields = list(agency = "agency_id"))
+  expect_equal(names(agency_id_gtfs), files_in_zip)
+  expect_equal(names(agency_id_gtfs$agency), "agency_id")
 })
 
-test_that("reads all extra files' columns as character", {
+test_that("date fields are converted to Date objects", {
+  ggl_path <- system.file("extdata/ggl_gtfs.zip", package = "gtfstools")
+  ggl_gtfs <- read_gtfs(ggl_path)
 
-  # uses internal data gtfs_metadata - check data-raw/gtfs_metadata.R
+  expect_s3_class(ggl_gtfs$calendar$start_date, "Date")
+  expect_s3_class(ggl_gtfs$calendar$end_date, "Date")
+  expect_s3_class(ggl_gtfs$calendar_dates$date, "Date")
 
-  all_files <- names(ext_gtfs)
-  ext_files <- all_files[! all_files %in% sub(".txt", "", names(gtfs_metadata))]
+  # and that other than that the rest remains unaltered
 
-  for (file in ext_files) {
-    invisible(lapply(ext_gtfs[[file]], expect_type, "character"))
-  }
+  ggl_gtfs$calendar[, start_date := date_to_integer(start_date)]
+  ggl_gtfs$calendar[, end_date := date_to_integer(end_date)]
+  ggl_gtfs$calendar_dates[, date := date_to_integer(date)]
 
+  unconverted_gtfs <- gtfsio::import_gtfs(ggl_path)
+  expect_identical(unclass(ggl_gtfs), unclass(unconverted_gtfs))
 })
 
-test_that("validates gtfs on read", {
-  expect_true("validation_result" %in% names(attributes(gtfs)))
+test_that("'warnings' arguments is deprecated", {
+  expect_warning(read_gtfs(data_path, warnings = TRUE))
 })

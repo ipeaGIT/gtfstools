@@ -1,19 +1,33 @@
 Type: Package
 Package: gtfstools
-Title: General Transit Feed Specification (GTFS) Editing and
-    Analysing Tools
-Version: 0.1.0.9000
+Title: General Transit Feed Specification (GTFS) Editing and Analysing
+    Tools
+Version: 0.1.0.9028
 Authors@R: 
     c(person(given = "Daniel",
              family = "Herszenhut",
              role = c("aut", "cre"),
              email = "dhersz@gmail.com",
              comment = c(ORCID = "0000-0001-8066-1105")),
+      person(given = "Rafael H. M.",
+             family = "Pereira",
+             role = "aut",
+             email = "rafa.pereira.br@gmail.com",
+             comment = c(ORCID = "0000-0003-2125-7465")),
+      person(given = "Pedro R.",
+             family = "Andrade",
+             role = "aut",
+             email = "pedro.andrade@inpe.br",
+             comment = c(ORCID = "0000-0001-8675-4046")),
+      person(given = "Joao",
+             family = "Bazzo",
+             role = "aut",
+             comment = c(ORCID = "0000-0003-4536-5006")),
       person(given = "Ipea - Institute for Applied Economic Research",
              role = c("cph", "fnd")))
-Description: Utility functions to read, manipulate, analyse and
-    write transit feeds in the General Transit Feed Specification (GTFS)
-    data format.
+Description: Utility functions to read, manipulate, analyse and write
+    transit feeds in the General Transit Feed Specification (GTFS) data
+    format.
 License: MIT + file LICENSE
 URL: https://ipeagit.github.io/gtfstools/,
     https://github.com/ipeaGIT/gtfstools
@@ -23,6 +37,7 @@ Depends:
 Imports:
     checkmate,
     data.table,
+    gtfsio,
     methods,
     sf,
     sfheaders,
@@ -35,8 +50,12 @@ Suggests:
     lwgeom,
     rmarkdown,
     testthat
+LinkingTo:
+    cpp11
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
 LazyData: true
+NeedsCompilation: yes
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1

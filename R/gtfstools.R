@@ -16,6 +16,7 @@
 #' @docType package
 #' @name gtfstools
 #' @aliases gtfstools-package
+#' @useDynLib gtfstools, .registration = TRUE
 #'
 #' @importFrom data.table := .I .SD %chin%
 "_PACKAGE"
@@ -49,6 +50,12 @@ utils::globalVariables(
     "route_id",
     "trip_id",
     "stop_id",
-    "route_type"
-    )
+    "route_type",
+    "parent_station",
+    "agency_id",
+    "fare_id",
+    "service_id",
+    "start_date",
+    "end_date"
+  )
 )

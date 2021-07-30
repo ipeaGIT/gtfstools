@@ -1,0 +1,115 @@
+#' Convert a standards-compliant GTFS into a gtfstools' GTFS
+#'
+#' Converts a standards-compliant GTFS into a gtfstools' GTFS (i.e. one in which
+#' date fields are Date objects, not integers).
+#'
+#' @param gtfs A GTFS object.
+#'
+#' @return The GTFS object passed to the `gtfs` parameter, after converting the
+#' relevant fields.
+#'
+#' @keywords internal
+convert_from_standard <- function(gtfs) {
+  # input checking
+  checkmate::assert_class(gtfs, "dt_gtfs")
+
+  # create a copy of 'gtfs' to prevent the original object from being modified
+  # by data.table assignments
+  new_gtfs <- gtfs
+
+  # convert 'calendar_dates' date field from integer to Date
+  if (gtfsio::check_fields_exist(gtfs, "calendar_dates", fields = "date")) {
+    new_gtfs$calendar_dates <- data.table::copy(gtfs$calendar_dates)
+    new_gtfs$calendar_dates[, date := integer_to_date(date)]
+  }
+
+  # convert 'calendar' date fields from integer to Date
+  if (gtfsio::check_files_exist(gtfs, "calendar")) {
+    new_gtfs$calendar <- data.table::copy(gtfs$calendar)
+
+    if (gtfsio::check_fields_exist(gtfs, "calendar", "start_date"))
+      new_gtfs$calendar[, start_date := integer_to_date(start_date)]
+
+    if (gtfsio::check_fields_exist(gtfs, "calendar", "end_date"))
+      new_gtfs$calendar[, end_date := integer_to_date(end_date)]
+  }
+
+  return(new_gtfs)
+}
+
+
+#' Convert an integer vector into a Date vector
+#'
+#' @keywords internal
+integer_to_date <- function(field) {
+  as.Date(as.character(field), format = "%Y%m%d")
+}
+
+
+#' Convert a gtfstools' GTFS into a standards-compliant GTFS
+#'
+#' Converts a gtfstools' GTFS into a standards-compliant GTFS (i.e. date fields
+#' are converted from Date to integer).
+#'
+#' @param gtfs A GTFS object.
+#'
+#' @return The GTFS object passed to the `gtfs` parameter, after converting the
+#' relevant fields.
+#'
+#' @keywords internal
+convert_to_standard <- function(gtfs) {
+  # input checking
+  checkmate::assert_class(gtfs, "dt_gtfs")
+
+  # create a copy of 'gtfs' to prevent the original object from being modified
+  # by data.table assignments
+  new_gtfs <- gtfs
+
+  # convert 'calendar_dates' date field from Date to integer
+  if (gtfsio::check_fields_exist(gtfs, "calendar_dates", fields = "date")) {
+    gtfsio::assert_fields_types(
+      gtfs,
+      "calendar_dates",
+      fields = "date",
+      types = "Date"
+    )
+
+    new_gtfs$calendar_dates <- data.table::copy(gtfs$calendar_dates)
+    new_gtfs$calendar_dates[, date := date_to_integer(date)]
+  }
+
+  # convert 'calendar' date fields from Date to integer
+  if (gtfsio::check_files_exist(gtfs, "calendar")) {
+    new_gtfs$calendar <- data.table::copy(gtfs$calendar)
+
+    if (gtfsio::check_fields_exist(gtfs, "calendar", "start_date")) {
+      gtfsio::assert_fields_types(
+        gtfs,
+        "calendar",
+        fields = "start_date",
+        types = "Date"
+      )
+      new_gtfs$calendar[, start_date := date_to_integer(start_date)]
+    }
+
+    if (gtfsio::check_fields_exist(gtfs, "calendar", "end_date")) {
+      gtfsio::assert_fields_types(
+        gtfs,
+        "calendar",
+        fields = "end_date",
+        types = "Date"
+      )
+      new_gtfs$calendar[, end_date := date_to_integer(end_date)]
+    }
+  }
+
+  return(new_gtfs)
+}
+
+
+#' Convert a Date vector into an integer vector
+#'
+#' @keywords internal
+date_to_integer <- function(field) {
+  as.integer(strftime(field, format = "%Y%m%d"))
+}

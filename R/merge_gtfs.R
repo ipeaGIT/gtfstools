@@ -1,6 +1,6 @@
 #' Merge GTFS files
 #'
-#' Combines many GTFS file into a single one and validates the resulting object.
+#' Combines many GTFS file into a single one.
 #'
 #' @param ... GTFS objects, as created by \code{\link{read_gtfs}}, to be merged.
 #'   Each argument can either be a GTFS or a list of GTFS objects.
@@ -19,8 +19,6 @@
 #' Please note that this function does not disambiguate \code{ids} that may be
 #' repeated within different GTFS objects. Please let us know if you'd like to
 #' see this feature implemented.
-#'
-#' @seealso \code{\link{validate_gtfs}}
 #'
 #' @examples
 #' spo_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
@@ -53,7 +51,14 @@ merge_gtfs <- function(..., files = NULL, quiet = TRUE, warnings = TRUE) {
 
   is_list_gtfs <- vapply(
     gtfs_objects,
-    function(i) checkmate::test_class(i, "list"),
+    function(list_element) {
+      is_gtfs_object <- vapply(
+        list_element,
+        function(i) checkmate::test_class(i, "dt_gtfs"),
+        logical(1)
+      )
+      all(is_gtfs_object)
+    },
     logical(1)
   )
 
@@ -68,8 +73,8 @@ merge_gtfs <- function(..., files = NULL, quiet = TRUE, warnings = TRUE) {
     lapply(gtfs_objects, checkmate::assert_class, "dt_gtfs", .var.name = "...")
   )
 
-  # only merge and validate the data.tables specified by 'files'
-  # if 'files' is NULL, then merge and validate all possible files
+  # only merge the tables specified by 'files'
+  # if 'files' is NULL, then merge all possible files.
   # if not, check if the GTFS to be merged contain the files.
   # * if some of them are missing, throw a warning.
   # * if all of them are missing, throw an error
@@ -80,12 +85,11 @@ merge_gtfs <- function(..., files = NULL, quiet = TRUE, warnings = TRUE) {
   if (is.null(files)) {
 
     files_to_merge    <- files_within_gtfs
-    files_to_validate <- files
 
   } else {
 
     invalid_files  <- files[! files %chin% files_within_gtfs]
-    files_to_merge <- files_to_validate <- files[! files %chin% invalid_files]
+    files_to_merge <- files[! files %chin% invalid_files]
 
     if (!identical(invalid_files, character(0))) {
 
@@ -150,10 +154,6 @@ merge_gtfs <- function(..., files = NULL, quiet = TRUE, warnings = TRUE) {
     }
 
   }
-
-  # validate final gtfs
-
-  merged_gtfs <- validate_gtfs(merged_gtfs, files_to_validate, quiet, warnings)
 
   return(merged_gtfs)
 

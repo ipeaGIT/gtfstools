@@ -20,12 +20,12 @@ default) all files are merged.}
 }
 \value{
 Returns a GTFS object, with an updated \code{validation_result}
-  attribute, in which each \code{data.table} is the combination (by row) of
-  \code{data.table}s with the same name from the GTFS objects passed in
-  \code{...}.
+attribute, in which each \code{data.table} is the combination (by row) of
+\code{data.table}s with the same name from the GTFS objects passed in
+\code{...}.
 }
 \description{
-Combines many GTFS file into a single one and validates the resulting object.
+Combines many GTFS file into a single one.
 }
 \section{Details}{
 
@@ -50,7 +50,4 @@ names(merged_gtfs)
 # use a list() to programatically merge many GTFS objects
 merged_gtfs <- merge_gtfs(list(spo_gtfs, ggl_gtfs))
 
-}
-\seealso{
-\code{\link{validate_gtfs}}
 }

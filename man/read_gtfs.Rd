@@ -2,43 +2,56 @@
 % Please edit documentation in R/read_gtfs.R
 \name{read_gtfs}
 \alias{read_gtfs}
-\title{Read and validate GTFS files}
+\title{Read GTFS files}
 \usage{
-read_gtfs(path, files = NULL, quiet = TRUE, warnings = TRUE)
+read_gtfs(
+  path,
+  files = NULL,
+  fields = NULL,
+  skip = NULL,
+  quiet = TRUE,
+  warnings
+)
 }
 \arguments{
 \item{path}{The path to a GTFS \code{.zip} file.}
 
 \item{files}{A character vector containing the text files to be read from the
-GTFS (without the \code{.txt} extension). If \code{NULL} (the default) all
-existing files are read.}
+GTFS (without the \code{.txt} extension). If \code{NULL} (the default) all existing
+files are read.}
+
+\item{fields}{A named list containing the fields to be read from each text
+file, in the format \code{list(file = c("field1", "field2"))}. If \code{NULL} (the
+default), all fields from the files specified in \code{files} are read. If a
+file is specified in \code{files} but not in \code{fields}, all fields from that file
+will be read (i.e. you may specify in \code{fields} only files whose fields you
+want to subset).}
+
+\item{skip}{A character vector containing the text files that should not be
+read from the GTFS, without the \code{.txt} extension. If \code{NULL} (the default),
+no files are skipped. Cannot be used if \code{files} is already set.}
 
 \item{quiet}{Whether to hide log messages and progress bars (defaults to
-TRUE).}
+\code{TRUE}).}
 
-\item{warnings}{Whether to display warning messages (defaults to TRUE).}
+\item{warnings}{DEPRECATED. Whether to display warning messages.}
 }
 \value{
-A GTFS object: a \code{list} of \code{data.table}s in which each
-  index represents a GTFS text file. In case of parsing failures (e.g. files
-  with more/less columns than specified in the file header), the function
-  throws an error detailing where such failures occurred.
+A \code{data.table}-based GTFS object: a \code{list} of \code{data.table}s in which
+each table represents a GTFS text file.
 }
 \description{
-Reads GTFS text files from either a local \code{.zip} file or an URL and
-validates them against GTFS specifications.
+Reads GTFS text files from either a local \code{.zip} file or an URL.
 }
 \section{Details}{
 
-The column types of each \code{data.table} in the final GTFS object conform
-as closely as possible to the
-\href{https://developers.google.com/transit/gtfs/reference}{Google's Static GTFS Reference}.
-Exceptions are date-related columns (such as \code{calendar.txt}'s
-\code{start_date} and \code{end_date}, for example), which are converted to
-\code{Date} objects, instead of being kept as \code{integer}s, allowing for
-easier data manipulation. These columns are converted back to
-\code{integer}s when writing the GTFS object to a \code{.zip} file using
-\code{\link{write_gtfs}}.
+The column types of each \code{data.table} in the final GTFS object conform as
+closely as possible to the \href{https://developers.google.com/transit/gtfs/reference}{Google's Static GTFS Reference}. Exceptions are
+date-related columns (such as \code{calendar.txt}'s \code{start_date} and \code{end_date},
+for example), which are converted to \code{Date} objects, instead of being kept as
+\code{integer}s, allowing for easier data manipulation. These columns are
+converted back to \code{integer}s when writing the GTFS object to a \code{.zip} file
+using \code{\link{write_gtfs}}.
 }
 
 \examples{
@@ -50,7 +63,16 @@ names(gtfs)
 gtfs <- read_gtfs(data_path, files = c("trips", "stop_times"))
 names(gtfs)
 
+gtfs <- read_gtfs(data_path, skip = "trips")
+names(gtfs)
+
+gtfs <- read_gtfs(data_path, fields = list(agency = "agency_id"))
+names(gtfs)
+names(gtfs$agency)
+
 }
 \seealso{
-\code{\link{validate_gtfs}}
+Other io functions: 
+\code{\link{write_gtfs}()}
 }
+\concept{io functions}

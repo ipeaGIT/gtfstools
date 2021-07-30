@@ -7,40 +7,53 @@
 write_gtfs(
   gtfs,
   path,
-  optional = TRUE,
-  extra = TRUE,
+  files = NULL,
+  standard_only = FALSE,
+  as_dir = FALSE,
   overwrite = TRUE,
   quiet = TRUE,
-  warnings = TRUE
+  optional,
+  extra,
+  warnings
 )
 }
 \arguments{
 \item{gtfs}{A GTFS object as created by \code{\link{read_gtfs}}.}
 
-\item{path}{The path to the \code{.zip} file in which the feed should be
-written to.}
+\item{path}{The path to the \code{.zip} file in which the feed should be written
+to.}
 
-\item{optional}{Whether to write optional \code{.txt}. Defaults to TRUE.}
+\item{files}{A character vector containing the name of the elements to be
+written to the feed. If \code{NULL} (the default), all elements inside the GTFS
+object are written.}
 
-\item{extra}{Whether to write extra \code{.txt}. Defaults to TRUE.}
+\item{standard_only}{Whether to write only standard files and fields
+(defaults to \code{FALSE}, which doesn't drop extra files and fields).}
 
-\item{overwrite}{Whether to overwrite existing \code{.zip} file. Defaults to
-TRUE.}
+\item{as_dir}{Whether to write the feed as a directory, instead of a \code{.zip}
+file (defaults to \code{FALSE}, which means that the field is written as a zip
+file).}
+
+\item{overwrite}{Whether to overwrite existing \code{.zip} file (defaults to
+\code{TRUE}).}
 
 \item{quiet}{Whether to hide log messages and progress bars (defaults to
-TRUE).}
+\code{TRUE}).}
 
-\item{warnings}{Whether to display warning messages (defaults to TRUE).}
+\item{optional}{DEPRECATED, use \code{files} instead. Whether to write optional
+\code{.txt}.}
+
+\item{extra}{DEPRECATED, use \code{files} and \code{standard_only} instead. Whether to
+write extra \code{.txt}.}
+
+\item{warnings}{DEPRECATED. Whether to display warning messages.}
 }
 \value{
-Invisibly returns the provided GTFS object with an updated
-  \code{validation_result} attribute.
+Invisibly returns the same GTFS object passed to the \code{gtfs}
+parameter.
 }
 \description{
-Writes in-memory GTFS objects as GTFS \code{.zip} files. Conditionally
-includes optional and extra \code{.txt} files (check
-\code{\link{validate_gtfs}} documentation to check what are optional/extra
-files).
+Writes GTFS objects as GTFS \code{.zip} files.
 }
 \examples{
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
@@ -48,8 +61,7 @@ gtfs <- read_gtfs(data_path)
 
 tmp_dir <- file.path(tempdir(), "tmpdir")
 dir.create(tmp_dir)
-list.files(tmp_dir)
-
+list.files(tmp_dir) #'
 tmp_file <- tempfile(pattern = "gtfs", tmpdir = tmp_dir, fileext = ".zip")
 write_gtfs(gtfs, tmp_file)
 list.files(tmp_dir)
@@ -57,11 +69,13 @@ list.files(tmp_dir)
 gtfs_all_files <- read_gtfs(tmp_file)
 names(gtfs_all_files)
 
-write_gtfs(gtfs_all_files, tmp_file, optional = FALSE)
-gtfs_no_opt <- read_gtfs(tmp_file)
-names(gtfs_no_opt)
+write_gtfs(gtfs, tmp_file, files = "stop_times")
+gtfs_stop_times <- read_gtfs(tmp_file)
+names(gtfs_stop_times)
 
 }
 \seealso{
-\code{\link{validate_gtfs}}
+Other io functions: 
+\code{\link{read_gtfs}()}
 }
+\concept{io functions}

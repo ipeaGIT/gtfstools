@@ -1,4 +1,8 @@
-library(testthat)
-library(gtfstools)
+if (requireNamespace("testthat", quietly = TRUE)) {
 
-test_check("gtfstools")
+  library(testthat)
+  library(gtfstools)
+
+  test_check("gtfstools")
+
+}

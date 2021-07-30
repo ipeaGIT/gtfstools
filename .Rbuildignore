@@ -9,3 +9,4 @@
 ^\.pre-commit-config\.yaml$
 ^cran-comments\.md$
 ^CRAN-RELEASE$
+^\.lintr$

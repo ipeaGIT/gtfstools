@@ -19,7 +19,7 @@ desired. One of \code{"s"} (seconds), \code{"min"} (minutes, the default),
 }
 \value{
 A \code{data.table} containing the segments' duration of each
-  specified trip.
+specified trip.
 }
 \description{
 Returns the duration of segments between stops of each specified

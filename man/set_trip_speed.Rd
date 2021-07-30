@@ -24,9 +24,9 @@ reference. Defaults to \code{FALSE}.}
 }
 \value{
 If \code{by_reference} is set to \code{FALSE}, returns a GTFS object
-  with the time columns of its \code{stop_times} adjusted. Else, returns a
-  GTFS object invisibly (note that in this case the original GTFS object is
-  altered).
+with the time columns of its \code{stop_times} adjusted. Else, returns a
+GTFS object invisibly (note that in this case the original GTFS object is
+altered).
 }
 \description{
 Sets the average speed of each specified \code{trip_id} by changing the
@@ -51,14 +51,19 @@ data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 
 gtfs <- read_gtfs(data_path)
 
-gtfs_new_speed <- set_trip_speed(gtfs, trip_id = "CPTM L07-0", 50)
-gtfs_new_speed$stop_times[trip_id == "CPTM L07-0"]
+# the examples below require the 'lwgeom' package to be installed
+if (requireNamespace("lwgeom", quietly = TRUE)) {
 
-# original gtfs remains unchanged
-gtfs$stop_times[trip_id == "CPTM L07-0"]
+  gtfs_new_speed <- set_trip_speed(gtfs, trip_id = "CPTM L07-0", 50)
+  gtfs_new_speed$stop_times[trip_id == "CPTM L07-0"]
 
-# now do it by reference
-set_trip_speed(gtfs, trip_id = "CPTM L07-0", 50, by_reference = TRUE)
-gtfs$stop_times[trip_id == "CPTM L07-0"]
+  # original gtfs remains unchanged
+  gtfs$stop_times[trip_id == "CPTM L07-0"]
+
+  # now do it by reference
+  set_trip_speed(gtfs, trip_id = "CPTM L07-0", 50, by_reference = TRUE)
+  gtfs$stop_times[trip_id == "CPTM L07-0"]
+
+}
 
 }
