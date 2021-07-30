@@ -1,4 +1,4 @@
-#' Filter GTFS data by `trip_id`
+#' Filter GTFS object by `trip_id`
 #'
 #' Filters a GTFS object by `trip_id`s, keeping (or dropping) the entries that
 #' relate to such ids in each file.
@@ -10,6 +10,8 @@
 #'
 #' @return The GTFS object passed to the `gtfs` parameter, after the filtering
 #' process.
+#'
+#' @family filtering functions
 #'
 #' @examples
 #' data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
@@ -93,6 +95,13 @@ filter_trip_id <- function(gtfs, trip_id, keep = TRUE) {
     }
 
     # 'routes' and 'fare_rules' (route_id)
+    # note that following the 'routes' route we can filter agency via routes ->
+    # agency_id, but following 'fare_rules' route we can filter agency via
+    # fare_rules -> fare_id -> fare_attributes -> agency_id
+    # so we create a 'relevant_agencies' vector that holds the relevant
+    # agency_ids from both options and use all of them to filter agency later
+
+    relevant_agencies <- vector("character", length = 0L)
 
     if (gtfsio::check_fields_exist(gtfs, "routes", "route_id")) {
 
@@ -101,20 +110,16 @@ filter_trip_id <- function(gtfs, trip_id, keep = TRUE) {
 
       # 'routes' allows us to filter by 'agency_id'. but 'agency_id' is
       # conditionally required, which means that if it doesn't exist in 'routes'
-      # it's because there's only one agency.
-      # so we shouldn't filter it out if 'relevant_agencies' happens to be NULL
+      # it might be because there's only one agency.
+      # so we assume that if 'relevant_agencies_routes' happens to be NULL we
+      # should keep the agency file untouched
 
-      relevant_agencies <- unique(gtfs$routes$agency_id)
+      relevant_agencies_routes <- unique(gtfs$routes$agency_id)
 
-      # 'agency' (agency_id)
+      if (is.null(relevant_agencies_routes))
+        relevant_agencies_routes <- unique(gtfs$agency$agency_id)
 
-      if (gtfsio::check_fields_exist(gtfs, "agency", "agency_id") &
-          !is.null(relevant_agencies)) {
-
-        gtfsio::assert_fields_types(gtfs, "agency", "agency_id", "character")
-        gtfs$agency <- gtfs$agency[agency_id %chin% relevant_agencies]
-
-      }
+      relevant_agencies <- c(relevant_agencies, relevant_agencies_routes)
 
     }
 
@@ -141,7 +146,32 @@ filter_trip_id <- function(gtfs, trip_id, keep = TRUE) {
           fare_id %chin% relevant_fares
         ]
 
+        # 'fare_attributes' allows us to filter by 'agency_id'. again,
+        # 'agency_id' is conditionally required, so we assume that we should
+        # keep all agency_ids if 'relevant_agencies_fare_att' happens to be NULL
+
+        relevant_agencies_fare_att <- unique(gtfs$fare_attributes$agency_id)
+
+        if (is.null(relevant_agencies_fare_att))
+          relevant_agencies_fare_att <- unique(gtfs$agency$agency_id)
+
+        relevant_agencies <- c(relevant_agencies, relevant_agencies_fare_att)
+
       }
+
+    }
+
+    # 'agency' (agency_id, that comes both from routes and fare_attributes)
+
+    if (gtfsio::check_fields_exist(gtfs, "agency", "agency_id") &
+        length(relevant_agencies) > 0) {
+
+      # keeping only unique agency_ids from relevant_agencies, since it may come
+      # from two differente sources
+      relevant_agencies <- unique(relevant_agencies)
+
+      gtfsio::assert_fields_types(gtfs, "agency", "agency_id", "character")
+      gtfs$agency <- gtfs$agency[agency_id %chin% relevant_agencies]
 
     }
 

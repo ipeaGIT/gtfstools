@@ -2,7 +2,7 @@
 % Please edit documentation in R/filter_trip_id.R
 \name{filter_trip_id}
 \alias{filter_trip_id}
-\title{Filter GTFS data by \code{trip_id}}
+\title{Filter GTFS object by \code{trip_id}}
 \usage{
 filter_trip_id(gtfs, trip_id, keep = TRUE)
 }
@@ -38,3 +38,8 @@ smaller_gtfs <- filter_trip_id(gtfs, trip_ids, keep = FALSE)
 object.size(smaller_gtfs)
 
 }
+\seealso{
+Other filtering functions: 
+\code{\link{filter_route_id}()}
+}
+\concept{filtering functions}
