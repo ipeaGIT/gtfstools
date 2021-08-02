@@ -2,21 +2,24 @@
 % Please edit documentation in R/convert_stops_to_sf.R
 \name{convert_stops_to_sf}
 \alias{convert_stops_to_sf}
-\title{Convert GTFS stops to simple feature object}
+\title{Convert \code{stops} table to simple feature object}
 \usage{
-convert_stops_to_sf(gtfs, crs = 4326)
+convert_stops_to_sf(gtfs, stop_id = NULL, crs = 4326)
 }
 \arguments{
-\item{gtfs}{A GTFS object as created by \code{\link{read_gtfs}}.}
+\item{gtfs}{A GTFS object.}
 
-\item{crs}{The coordinate reference system (CRS) represented as an EPSG code.
-Defaults to 4326 (latlong WGS84).}
+\item{stop_id}{A character vector including the \code{stop_id}s to be converted.
+If \code{NULL} (the default), all stops are converted.}
+
+\item{crs}{The CRS of the resulting object, either as an EPSG code or as an
+\code{crs} object. Defaults to 4326 (WGS 84).}
 }
 \value{
-A \code{POINT sf} object.
+A \verb{POINT sf} object.
 }
 \description{
-Returns the `stops.txt` data from a GTFS feed as a \code{POINT sf} object.
+Converts the \code{stops} table to a \verb{POINT sf} object.
 }
 \examples{
 # read gtfs
@@ -26,5 +29,7 @@ gtfs <- read_gtfs(data_path)
 stops_sf <- convert_stops_to_sf(gtfs)
 head(stops_sf)
 
+stops_sf <- convert_stops_to_sf(gtfs, stop_id = "18848")
+stops_sf
 
 }

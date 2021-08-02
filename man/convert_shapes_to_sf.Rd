@@ -16,7 +16,7 @@ Defaults to 4326 (latlong WGS84).}
 A \code{LINESTRING sf} object.
 }
 \description{
-Returns the `shapes.txt` data from a GTFS feed as a \code{LINESTRING sf} object.
+Returns the \code{shapes.txt} data from a GTFS feed as a \code{LINESTRING sf} object.
 }
 \examples{
 # read gtfs
