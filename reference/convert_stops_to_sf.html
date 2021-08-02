@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert GTFS stops to simple feature object — convert_stops_to_sf • gtfstools</title>
+<title>Convert stops table to simple feature object — convert_stops_to_sf • gtfstools</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Convert GTFS stops to simple feature object — convert_stops_to_sf" />
-<meta property="og:description" content="Returns the `stops.txt` data from a GTFS feed as a POINT sf object." />
+<meta property="og:title" content="Convert stops table to simple feature object — convert_stops_to_sf" />
+<meta property="og:description" content="Converts the stops table to a POINT sf object." />
 
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9028</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9030</span>
       </span>
     </div>
 
@@ -114,28 +114,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert GTFS stops to simple feature object</h1>
+    <h1>Convert <code>stops</code> table to simple feature object</h1>
     <small class="dont-index">Source: <a href='https://github.com/ipeaGIT/gtfstools/blob/master/R/convert_stops_to_sf.R'><code>R/convert_stops_to_sf.R</code></a></small>
     <div class="hidden name"><code>convert_stops_to_sf.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Returns the `stops.txt` data from a GTFS feed as a <code>POINT sf</code> object.</p>
+    <p>Converts the <code>stops</code> table to a <code>POINT sf</code> object.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>convert_stops_to_sf</span><span class='op'>(</span><span class='va'>gtfs</span>, crs <span class='op'>=</span> <span class='fl'>4326</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>convert_stops_to_sf</span><span class='op'>(</span><span class='va'>gtfs</span>, stop_id <span class='op'>=</span> <span class='cn'>NULL</span>, crs <span class='op'>=</span> <span class='fl'>4326</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>gtfs</th>
-      <td><p>A GTFS object as created by <code><a href='read_gtfs.html'>read_gtfs</a></code>.</p></td>
+      <td><p>A GTFS object.</p></td>
+    </tr>
+    <tr>
+      <th>stop_id</th>
+      <td><p>A character vector including the <code>stop_id</code>s to be converted.
+If <code>NULL</code> (the default), all stops are converted.</p></td>
     </tr>
     <tr>
       <th>crs</th>
-      <td><p>The coordinate reference system (CRS) represented as an EPSG code.
-Defaults to 4326 (latlong WGS84).</p></td>
+      <td><p>The CRS of the resulting object, either as an EPSG code or as an
+<code>crs</code> object. Defaults to 4326 (WGS 84).</p></td>
     </tr>
     </table>
 
@@ -162,7 +167,15 @@ Defaults to 4326 (latlong WGS84).</p></td>
 #&gt; 4   18851     Conceição           POINT (-46.64124 -23.63504)
 #&gt; 5   18852     Jabaquara             POINT (-46.64103 -23.646)
 #&gt; 6   18853     São Judas           POINT (-46.64094 -23.62588)</div><div class='input'>
-
+<span class='va'>stops_sf</span> <span class='op'>&lt;-</span> <span class='fu'>convert_stops_to_sf</span><span class='op'>(</span><span class='va'>gtfs</span>, stop_id <span class='op'>=</span> <span class='st'>"18848"</span><span class='op'>)</span>
+<span class='va'>stops_sf</span>
+</div><div class='output co'>#&gt; Simple feature collection with 1 feature and 3 fields
+#&gt; Geometry type: POINT
+#&gt; Dimension:     XY
+#&gt; Bounding box:  xmin: -46.67111 ymin: -23.55402 xmax: -46.67111 ymax: -23.55402
+#&gt; CRS:           EPSG:4326
+#&gt;   stop_id stop_name stop_desc                    geometry
+#&gt; 1   18848  Clínicas           POINT (-46.67111 -23.55402)</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
