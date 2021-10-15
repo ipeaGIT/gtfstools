@@ -10,13 +10,13 @@
   "codeRepository": "https://github.com/ipeaGIT/gtfstools",
   "issueTracker": "https://github.com/ipeaGIT/gtfstools/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.1.0.9030",
+  "version": "0.1.0.9031",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.0 (2021-05-18)",
+  "runtimePlatform": "R version 4.1.1 (2021-08-10)",
   "author": [
     {
       "@type": "Person",
@@ -165,6 +165,7 @@
       "@type": "SoftwareApplication",
       "identifier": "gtfsio",
       "name": "gtfsio",
+      "version": ">= 0.2.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -232,7 +233,7 @@
       "sameAs": "https://CRAN.R-project.org/package=zip"
     }
   ],
-  "fileSize": "2323.724KB",
+  "fileSize": "2324.589KB",
   "contIntegration": "https://codecov.io/gh/ipeaGIT/gtfstools?branch=master",
   "developmentStatus": "https://lifecycle.r-lib.org/articles/stages.html",
   "keywords": [

@@ -82,6 +82,8 @@ test_that("raises errors due to incorrect input types", {
   expect_error(read_gtfs(data_path, fields = NA))
   expect_error(read_gtfs(data_path, skip = as.factor("stop_times")))
   expect_error(read_gtfs(data_path, quiet = "TRUE"))
+  expect_error(read_gtfs(data_path, encoding = as.factor("unknown")))
+  expect_error(read_gtfs(data_path, encoding = "wrong_encoding"))
 })
 
 test_that("raises warnings and messages adequately", {

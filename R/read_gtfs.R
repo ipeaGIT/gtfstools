@@ -17,6 +17,10 @@
 #'   no files are skipped. Cannot be used if `files` is already set.
 #' @param quiet Whether to hide log messages and progress bars (defaults to
 #'   `TRUE`).
+#' @param encoding A string, ultimately passed to `\link[data.table]{fread}`.
+#'   Defaults to `"unknown"`. Other possible options are `"UTF-8"` and
+#'   `"Latin-1"`. Please note that this is not used to re-encode the input, but
+#'   to enable handling encoded strings in their native encoding.
 #' @param warnings DEPRECATED. Whether to display warning messages.
 #'
 #' @return A `data.table`-based GTFS object: a `list` of `data.table`s in which
@@ -56,6 +60,7 @@ read_gtfs <- function(path,
                       fields = NULL,
                       skip = NULL,
                       quiet = TRUE,
+                      encoding = "unknown",
                       warnings) {
 
   # inputs are more thoroughly check in gtfsio::import_gtfs()
@@ -65,6 +70,10 @@ read_gtfs <- function(path,
   checkmate::assert_list(fields, null.ok = TRUE)
   checkmate::assert_character(skip, null.ok = TRUE)
   checkmate::assert_logical(quiet)
+  checkmate::assert_names(
+    encoding,
+    subset.of = c("unknown", "UTF-8", "Latin-1")
+  )
 
   if (!missing(warnings))
     warning(
@@ -79,7 +88,8 @@ read_gtfs <- function(path,
     files = files,
     fields = fields,
     skip = skip,
-    quiet = quiet
+    quiet = quiet,
+    encoding = encoding
   )
   gtfs <- gtfsio::new_gtfs(gtfs, subclass = "dt_gtfs")
   gtfs <- convert_from_standard(gtfs)
