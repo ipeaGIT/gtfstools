@@ -22,7 +22,7 @@ test_that("convert_shapes_to_sf - expected behavior", {
 
   # check dimensions
   expect_equal(nrow(shape_sf), 36)
-  expect_equal(ncol(shape_sf), 3)
+  expect_equal(ncol(shape_sf), 2)
 
 })
 

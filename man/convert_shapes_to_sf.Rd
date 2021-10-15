@@ -2,28 +2,34 @@
 % Please edit documentation in R/convert_shapes_to_sf.R
 \name{convert_shapes_to_sf}
 \alias{convert_shapes_to_sf}
-\title{Convert GTFS shapes to simple feature object}
+\title{Convert \code{shapes} table to simple feature object}
 \usage{
-convert_shapes_to_sf(gtfs, crs = 4326)
+convert_shapes_to_sf(gtfs, shape_id = NULL, crs = 4326)
 }
 \arguments{
-\item{gtfs}{A GTFS object as created by \code{\link{read_gtfs}}.}
+\item{gtfs}{A GTFS object.}
 
-\item{crs}{The coordinate reference system (CRS) represented as an EPSG code.
-Defaults to 4326 (latlong WGS84).}
+\item{shape_id}{A character vector including the \code{shape_id}s to be converted.
+If \code{NULL} (the default), all shapes are converted.}
+
+\item{crs}{The CRS of the resulting object, either as an EPSG code or as an
+\code{crs} object. Defaults to 4326 (WGS 84).}
 }
 \value{
-A \code{LINESTRING sf} object.
+A \verb{LINESTRING sf} object.
 }
 \description{
-Returns the \code{shapes.txt} data from a GTFS feed as a \code{LINESTRING sf} object.
+Converts the \code{shapes} table to a \verb{LINESTRING sf} object.
 }
 \examples{
 # read gtfs
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 
-stops_sf <- convert_shapes_to_sf(gtfs)
-head(stops_sf)
+shapes_sf <- convert_shapes_to_sf(gtfs)
+head(shapes_sf)
+
+shapes_sf <- convert_shapes_to_sf(gtfs, shape_id = "17846")
+shapes_sf
 
 }

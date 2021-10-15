@@ -1,51 +1,90 @@
-#' @title Convert GTFS shapes to simple feature object
+#' Convert `shapes` table to simple feature object
 #'
 #' @description
-#' Returns the `shapes.txt` data from a GTFS feed as a \code{LINESTRING sf} object.
+#' Converts the `shapes` table to a `LINESTRING sf` object.
 #'
-#' @param gtfs A GTFS object as created by \code{\link{read_gtfs}}.
-#' @param crs The coordinate reference system (CRS) represented as an EPSG code.
-#'            Defaults to 4326 (latlong WGS84).
+#' @param gtfs A GTFS object.
+#' @param shape_id A character vector including the `shape_id`s to be converted.
+#'   If `NULL` (the default), all shapes are converted.
+#' @param crs The CRS of the resulting object, either as an EPSG code or as an
+#'   `crs` object. Defaults to 4326 (WGS 84).
 #'
-#' @return A \code{LINESTRING sf} object.
+#' @return A `LINESTRING sf` object.
 #'
 #' @examples
 #' # read gtfs
 #' data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 #' gtfs <- read_gtfs(data_path)
 #'
-#' stops_sf <- convert_shapes_to_sf(gtfs)
-#' head(stops_sf)
+#' shapes_sf <- convert_shapes_to_sf(gtfs)
+#' head(shapes_sf)
+#'
+#' shapes_sf <- convert_shapes_to_sf(gtfs, shape_id = "17846")
+#' shapes_sf
 #'
 #' @export
-convert_shapes_to_sf <- function(gtfs, crs = 4326){
+convert_shapes_to_sf <- function(gtfs, shape_id = NULL, crs = 4326) {
 
-  ## input checking
+  # input checking
+
   checkmate::assert_class(gtfs, "dt_gtfs")
-  checkmate::assert_data_table(gtfs$shapes, .var.name= 'gtfs$shapes')
-  checkmate::assert_data_table(gtfs$shapes, .var.name= 'gtfs$shapes$shape_pt_sequence')
+  checkmate::assert_character(shape_id, null.ok = TRUE)
   checkmate::assert(
     checkmate::check_numeric(crs),
     checkmate::check_class(crs, "crs"),
     combine = "or"
   )
 
-  ## FUN
+  gtfsio::assert_fields_types(
+    gtfs,
+    "shapes",
+    c("shape_id", "shape_pt_lat", "shape_pt_lon", "shape_pt_sequence"),
+    c("character", "numeric", "numeric", "integer")
+  )
 
-  # sort data
-  temp_shapes <- data.table::setDT(gtfs$shapes)[order(shape_id, shape_pt_sequence)]
+  # select relevant shape_ids
 
-  # convert to sf
-  temp_shapes <- sfheaders::sf_linestring(temp_shapes, x = "shape_pt_lon" , y = "shape_pt_lat", linestring_id = "shape_id")
+  if (!is.null(shape_id))
+    relevant_shapes <- shape_id
+  else
+    relevant_shapes <- unique(gtfs$shapes$shape_id)
 
-  # add projection
-  sf::st_crs(temp_shapes) <- crs
+  # raise warning/error if given 'shape_id's don't exist in 'shapes'
 
-  # calculate distances
-  data.table::setDT(temp_shapes)[, length := sf::st_length(geometry)]
-  data.table::setDT(temp_shapes)[, length := units::set_units(length, "km") ]
+  if (!is.null(shape_id)) {
 
-  # back to sf
-  temp_shapes <- sf::st_sf(temp_shapes)
-  return(temp_shapes)
+    invalid_shape_id <- shape_id[! shape_id %chin% unique(gtfs$shapes$shape_id)]
+
+    if (identical(invalid_shape_id, shape_id))
+      stop("'shapes' doesn't contain any of the ids passed to 'shape_id'.")
+
+    if (!identical(invalid_shape_id, character(0)))
+      warning(
+        paste0(
+          "'shapes' doesn't contain the following shape_id(s): "),
+        paste0("'", invalid_shape_id, "'", collapse = ", ")
+      )
+
+  }
+
+  # filter 'shapes' table, sort it by 'shape_pt_sequence' and 'shape_id' and
+  # create sf from it
+
+  shapes_sf <- gtfs$shapes[shape_id %chin% relevant_shapes]
+  shapes_sf <- shapes_sf[order(shape_id, shape_pt_sequence)]
+  shapes_sf <- sfheaders::sf_linestring(
+    shapes_sf,
+    x = "shape_pt_lon",
+    y = "shape_pt_lat",
+    linestring_id = "shape_id"
+  )
+  shapes_sf <- sf::st_set_crs(shapes_sf, 4326)
+
+  # transform crs from 4326 to the one passed to 'crs'
+
+  if (crs != 4326 && crs != sf::st_crs(4326))
+    shapes_sf <- sf::st_transform(shapes_sf, crs)
+
+  return(shapes_sf)
+
 }
