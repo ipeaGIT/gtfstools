@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert GTFS shapes to simple feature object — convert_shapes_to_sf • gtfstools</title>
+<title>Convert shapes table to simple feature object — convert_shapes_to_sf • gtfstools</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Convert GTFS shapes to simple feature object — convert_shapes_to_sf" />
-<meta property="og:description" content="Returns the shapes.txt data from a GTFS feed as a LINESTRING sf object." />
+<meta property="og:title" content="Convert shapes table to simple feature object — convert_shapes_to_sf" />
+<meta property="og:description" content="Converts the shapes table to a LINESTRING sf object." />
 
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9031</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9034</span>
       </span>
     </div>
 
@@ -114,28 +114,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert GTFS shapes to simple feature object</h1>
+    <h1>Convert <code>shapes</code> table to simple feature object</h1>
     <small class="dont-index">Source: <a href='https://github.com/ipeaGIT/gtfstools/blob/master/R/convert_shapes_to_sf.R'><code>R/convert_shapes_to_sf.R</code></a></small>
     <div class="hidden name"><code>convert_shapes_to_sf.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Returns the <code>shapes.txt</code> data from a GTFS feed as a <code>LINESTRING sf</code> object.</p>
+    <p>Converts the <code>shapes</code> table to a <code>LINESTRING sf</code> object.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>convert_shapes_to_sf</span><span class='op'>(</span><span class='va'>gtfs</span>, crs <span class='op'>=</span> <span class='fl'>4326</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>convert_shapes_to_sf</span><span class='op'>(</span><span class='va'>gtfs</span>, shape_id <span class='op'>=</span> <span class='cn'>NULL</span>, crs <span class='op'>=</span> <span class='fl'>4326</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>gtfs</th>
-      <td><p>A GTFS object as created by <code><a href='read_gtfs.html'>read_gtfs</a></code>.</p></td>
+      <td><p>A GTFS object.</p></td>
+    </tr>
+    <tr>
+      <th>shape_id</th>
+      <td><p>A character vector including the <code>shape_id</code>s to be converted.
+If <code>NULL</code> (the default), all shapes are converted.</p></td>
     </tr>
     <tr>
       <th>crs</th>
-      <td><p>The coordinate reference system (CRS) represented as an EPSG code.
-Defaults to 4326 (latlong WGS84).</p></td>
+      <td><p>The CRS of the resulting object, either as an EPSG code or as an
+<code>crs</code> object. Defaults to 4326 (WGS 84).</p></td>
     </tr>
     </table>
 
@@ -148,20 +153,29 @@ Defaults to 4326 (latlong WGS84).</p></td>
 <span class='va'>data_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/spo_gtfs.zip"</span>, package <span class='op'>=</span> <span class='st'>"gtfstools"</span><span class='op'>)</span>
 <span class='va'>gtfs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_gtfs.html'>read_gtfs</a></span><span class='op'>(</span><span class='va'>data_path</span><span class='op'>)</span>
 
-<span class='va'>stops_sf</span> <span class='op'>&lt;-</span> <span class='fu'>convert_shapes_to_sf</span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>stops_sf</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Simple feature collection with 6 features and 2 fields
+<span class='va'>shapes_sf</span> <span class='op'>&lt;-</span> <span class='fu'>convert_shapes_to_sf</span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>shapes_sf</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Simple feature collection with 6 features and 1 field
 #&gt; Geometry type: LINESTRING
 #&gt; Dimension:     XY
 #&gt; Bounding box:  xmin: -46.69114 ymin: -23.64631 xmax: -46.47121 ymax: -23.48005
 #&gt; CRS:           EPSG:4326
-#&gt;   shape_id        length                       geometry
-#&gt; 1    17838 20.55210 [km] LINESTRING (-46.64105 -23.6...
-#&gt; 2    17839 20.55210 [km] LINESTRING (-46.60321 -23.4...
-#&gt; 3    17840 15.05470 [km] LINESTRING (-46.58193 -23.5...
-#&gt; 4    17841 15.05486 [km] LINESTRING (-46.69114 -23.5...
-#&gt; 5    17842 22.59400 [km] LINESTRING (-46.66696 -23.5...
-#&gt; 6    17843 22.59400 [km] LINESTRING (-46.47127 -23.5...</div><div class='input'>
+#&gt;   shape_id                       geometry
+#&gt; 1    17838 LINESTRING (-46.64105 -23.6...
+#&gt; 2    17839 LINESTRING (-46.60321 -23.4...
+#&gt; 3    17840 LINESTRING (-46.58193 -23.5...
+#&gt; 4    17841 LINESTRING (-46.69114 -23.5...
+#&gt; 5    17842 LINESTRING (-46.66696 -23.5...
+#&gt; 6    17843 LINESTRING (-46.47127 -23.5...</div><div class='input'>
+<span class='va'>shapes_sf</span> <span class='op'>&lt;-</span> <span class='fu'>convert_shapes_to_sf</span><span class='op'>(</span><span class='va'>gtfs</span>, shape_id <span class='op'>=</span> <span class='st'>"17846"</span><span class='op'>)</span>
+<span class='va'>shapes_sf</span>
+</div><div class='output co'>#&gt; Simple feature collection with 1 feature and 1 field
+#&gt; Geometry type: LINESTRING
+#&gt; Dimension:     XY
+#&gt; Bounding box:  xmin: -46.87255 ymin: -23.53517 xmax: -46.63535 ymax: -23.19474
+#&gt; CRS:           EPSG:4326
+#&gt;   shape_id                       geometry
+#&gt; 1    17846 LINESTRING (-46.63535 -23.5...</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
