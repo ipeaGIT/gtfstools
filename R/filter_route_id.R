@@ -146,12 +146,16 @@ filter_route_id <- function(gtfs, route_id, keep = TRUE) {
       # 'stop_times' allows us to filter by 'stop_id'. it's important to keep,
       # however, not only the stops that appear on stop_times, but also their
       # parent stops, that may not be listed on such file
+      # (get_parent_station may raise a warning if a stop is present in
+      # 'stop_times' but not in 'stops', which will be suppressed for now)
 
       relevant_stops <- unique(gtfs$stop_times$stop_id)
 
       if (gtfsio::check_fields_exist(gtfs, "stops", "parent_station")) {
 
-        stops_with_parents <- get_parent_station(gtfs, relevant_stops)
+        suppressWarnings(
+          stops_with_parents <- get_parent_station(gtfs, relevant_stops)
+        )
         relevant_stops <- stops_with_parents$stop_id
 
       }
@@ -165,7 +169,6 @@ filter_route_id <- function(gtfs, route_id, keep = TRUE) {
 
         # 'stops' allows us to filter by 'zone_id' and 'level_id'
 
-        relevant_zones <- unique(gtfs$stops$zone_id)
         relevant_levels <- unique(gtfs$stops$level_id)
 
         # 'levels' (level_id)
@@ -177,103 +180,13 @@ filter_route_id <- function(gtfs, route_id, keep = TRUE) {
 
         }
 
-        # 'fare_rules' (zone_id == c(origin_id, destination_id, contains_id))
-        # note that 'fare_rules' can be filtered using 'route_id' alone. so we
-        # this step we store the dataframes that results from filtering by
-        # 'origin_id', 'destination_id' and 'contains_id' to later bind with the
-        # one that results from filtering by 'route_id' (removing duplicated, of
-        # course)
-
-        if (gtfsio::check_fields_exist(gtfs, "fare_rules", "origin_id")) {
-
-          gtfsio::assert_fields_types(
-            gtfs,
-            "fare_rules",
-            "origin_id",
-            "character"
-          )
-          fr_from_origin <- gtfs$fare_rules[origin_id %chin% relevant_zones]
-
-        }
-
-        if (gtfsio::check_fields_exist(gtfs, "fare_rules", "destination_id")) {
-
-          gtfsio::assert_fields_types(
-            gtfs,
-            "fare_rules",
-            "destination_id",
-            "character"
-          )
-          fr_from_dest <- gtfs$fare_rules[destination_id %chin% relevant_zones]
-
-        }
-
-        if (gtfsio::check_fields_exist(gtfs, "fare_rules", "contains_id")) {
-
-          gtfsio::assert_fields_types(
-            gtfs,
-            "fare_rules",
-            "contains_id",
-            "character"
-          )
-          fr_from_cont <- gtfs$fare_rules[contains_id %chin% relevant_zones]
-
-        }
-
-        fr_exists <- vapply(
-          c("fr_from_origin", "fr_from_dest", "fr_from_cont"),
-          exists,
-          logical(1)
-        )
-        fr_exists <- fr_exists[fr_exists]
-
-        fare_rules_zone <- lapply(names(fr_exists), get)
-        fare_rules_zone <- data.table::rbindlist(fare_rules_zone)
-        fare_rules_zone <- unique(fare_rules_zone)
-
-        # 'fare_rules' allows us to filter by 'fare_id'
-
-        relevant_fares_zone <- unique(fare_rules_zone$fare_id)
-
-        # 'fare_attributes' (fare_id)
-
-        if (gtfsio::check_fields_exist(gtfs, "fare_attributes", "fare_id")) {
-
-          gtfsio::assert_fields_types(
-            gtfs,
-            "fare_attributes",
-            "fare_id",
-            "character"
-          )
-          fare_attributes_zone <- gtfs$fare_attributes[
-            fare_id %chin% relevant_fares_zone
-          ]
-
-          # 'fare_attributes' allows us to filter by 'agency_id'
-          # 'agency_id' is conditionally required, which means that it may not
-          # be listed if 'agency' has only one row.
-
-          relevant_agencies_fa_zone <- unique(fare_attributes_zone$agency_id)
-
-          # 'agency' (agency_id)
-
-          if (gtfsio::check_fields_exist(gtfs, "agency", "agency_id")) {
-
-            gtfsio::assert_fields_types(
-              gtfs,
-              "agency",
-              "agency_id",
-              "character"
-            )
-
-            if (is.null(relevant_agencies_fa_zone) && nrow(gtfs$agency) == 1)
-              relevant_agencies_fa_zone <- gtfs$agency$agency_id
-
-            relevant_agencies <- c(relevant_agencies, relevant_agencies_fa_zone)
-
-          }
-
-        }
+        # 'fare_rules' (zone_id)
+        # filtering by 'zone_id' would lead us to keep entries in 'fare_rules'
+        # that relate to these zones, even if they didn't have anything to do
+        # with the given 'route_id's. this could lead to non-intuitive results
+        # (e.g. when not wanting to keep a route_id, but which eventually ends
+        # up being kept because it is a zone that was deemed relevant because
+        # other routes pass through it), so this step will be skipped
 
       }
 
@@ -286,13 +199,13 @@ filter_route_id <- function(gtfs, route_id, keep = TRUE) {
   if (gtfsio::check_fields_exist(gtfs, "fare_rules", "route_id")) {
 
     gtfsio::assert_fields_types(gtfs, "fare_rules", "route_id", "character")
-    fare_rules_route <- gtfs$fare_rules[
+    gtfs$fare_rules <- gtfs$fare_rules[
       route_id %ffilter% get("route_id", envir = env)
     ]
 
     # 'fare_rules' allows us to filter by 'fare_id'
 
-    relevant_fares_route <- unique(fare_rules_route$fare_id)
+    relevant_fares <- unique(gtfs$fare_rules$fare_id)
 
     # 'fare_attributes' (fare_id)
 
@@ -304,8 +217,8 @@ filter_route_id <- function(gtfs, route_id, keep = TRUE) {
         "fare_id",
         "character"
       )
-      fare_attributes_route <- gtfs$fare_attributes[
-        fare_id %chin% relevant_fares_route
+      gtfs$fare_attributes <- gtfs$fare_attributes[
+        fare_id %chin% relevant_fares
       ]
 
     }
@@ -314,7 +227,7 @@ filter_route_id <- function(gtfs, route_id, keep = TRUE) {
     # 'agency_id' is conditionally required, which means that it may not be
     # listed if 'agency' has only one row.
 
-    relevant_agencies_fa_route <- unique(fare_attributes_route$agency_id)
+    relevant_agencies_fa <- unique(gtfs$fare_attributes$agency_id)
 
     # 'agency' (agency_id)
 
@@ -322,56 +235,21 @@ filter_route_id <- function(gtfs, route_id, keep = TRUE) {
 
       gtfsio::assert_fields_types(gtfs, "agency", "agency_id", "character")
 
-      if (is.null(relevant_agencies_fa_route) && nrow(gtfs$agency) == 1)
-        relevant_agencies_fa_route <- gtfs$agency$agency_id
+      if (is.null(relevant_agencies_fa) && nrow(gtfs$agency) == 1)
+        relevant_agencies_fa <- gtfs$agency$agency_id
 
-      relevant_agencies <- c(relevant_agencies, relevant_agencies_fa_route)
+      relevant_agencies <- c(relevant_agencies, relevant_agencies_fa)
 
     }
 
   }
 
-  # binding together items that come from different filtering paths
-  # first, agency
+  # filtering 'agency' based on relevant_agencies
 
   if (length(relevant_agencies) >= 1) {
 
     relevant_agencies <- unique(relevant_agencies)
     gtfs$agency <- gtfs$agency[agency_id %chin% relevant_agencies]
-
-  }
-
-  # fare_rules
-
-  fare_rules_exists <- vapply(
-    c("fare_rules_zone", "fare_rules_route"),
-    exists,
-    logical(1)
-  )
-
-  if (any(fare_rules_exists)) {
-
-    fare_rules <- fare_rules_exists[fare_rules_exists]
-    fare_rules <- lapply(names(fare_rules), get)
-    fare_rules <- data.table::rbindlist(fare_rules)
-    gtfs$fare_rules <- unique(fare_rules)
-
-  }
-
-  # fare_attributes
-
-  fare_attributes_exists <- vapply(
-    c("fare_attributes_zone", "fare_attributes_route"),
-    exists,
-    logical(1)
-  )
-
-  if (any(fare_attributes_exists)) {
-
-    fare_attributes <- fare_attributes_exists[fare_attributes_exists]
-    fare_attributes <- lapply(names(fare_attributes), get)
-    fare_attributes <- data.table::rbindlist(fare_attributes)
-    gtfs$fare_attributes <- unique(fare_attributes)
 
   }
 
