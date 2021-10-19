@@ -2,38 +2,44 @@
 % Please edit documentation in R/filter_route_id.R
 \name{filter_route_id}
 \alias{filter_route_id}
-\title{Filter GTFS data by route ids}
+\title{Filter GTFS object by \code{route_id}}
 \usage{
-filter_route_id(gtfs, route_ids, keep = TRUE)
+filter_route_id(gtfs, route_id, keep = TRUE)
 }
 \arguments{
-\item{gtfs}{A GTFS object as created by \code{\link{read_gtfs}}.}
+\item{gtfs}{A GTFS object.}
 
-\item{route_ids}{A vector of route ids belonging to the routes of the
-gtfs data. A \code{route_id}can be either a string or a number,
-depending on the GTF input.}
+\item{route_id}{A character vector. The \code{route_id}s used to filter the data.}
 
-\item{keep}{Logical. Whether the passed \code{route_ids} should be kept (Defaults
-to \code{TRUE}), or whether they should be dropped.}
+\item{keep}{A logical. Whether the entries related to the passed \code{route_id}s
+should be kept or dropped (defaults to \code{TRUE}, which keeps the entries).}
 }
 \value{
-Returns a GTFS object with filtered routes, trips, shapes, stops,
-stop_times and frequencies.
+The GTFS object passed to the \code{gtfs} parameter, after the filtering
+process.
 }
 \description{
-Filter a GTFS data by its route ids, subsetting routes
-and trips. It also removes the unnecessary stop_times, shapes, frequencies
-(if exist in a feed), and stops accordingly.
+Filters a GTFS object by \code{route_id}s, keeping (or dropping) the entries that
+relate to such ids in each file.
 }
 \examples{
-# read gtfs
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
+route_ids <- c("6450-51", "CPTM L11")
 
-# filter: Keep selected routes
-subset1 <- filter_route_id(gtfs, route_ids=c("6450-51", "CPTM L11"), keep = TRUE)
+object.size(gtfs)
 
-# filter: Drop selected routes
-subset2 <- filter_route_id(gtfs, route_ids=c("6450-51", "CPTM L11"), keep = FALSE)
+# keeps entries related to passed route_ids
+smaller_gtfs <- filter_route_id(gtfs, route_ids)
+object.size(smaller_gtfs)
+
+# drops entries related to passed trip_ids
+smaller_gtfs <- filter_route_id(gtfs, route_ids, keep = FALSE)
+object.size(smaller_gtfs)
 
 }
+\seealso{
+Other filtering functions: 
+\code{\link{filter_trip_id}()}
+}
+\concept{filtering functions}

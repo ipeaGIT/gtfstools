@@ -56,6 +56,10 @@ utils::globalVariables(
     "fare_id",
     "service_id",
     "start_date",
-    "end_date"
+    "end_date",
+    "level_id",
+    "origin_id",
+    "destination_id",
+    "contains_id"
   )
 )

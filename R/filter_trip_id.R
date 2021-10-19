@@ -46,7 +46,7 @@ filter_trip_id <- function(gtfs, trip_id, keep = TRUE) {
   env <- environment()
 
   # 'trips', 'stop_times' and 'frequencies' can be filtered using 'trip_id'
-  # itself, so the `%ffilter$` is used. the other files depend on relational
+  # itself, so `%ffilter%` is used. the other files depend on relational
   # associations with 'trip_id' that come from these 3 files.
 
   # 'trips' (trip_id)
@@ -186,9 +186,9 @@ filter_trip_id <- function(gtfs, trip_id, keep = TRUE) {
       trip_id %ffilter% get("trip_id", envir = env)
     ]
 
-    # 'stop_times' allows us to filter by 'stop_id'. it's important to filter,
-    # however, to keep not only the stops that appear on stop_times, but also
-    # their parent stops, that may not be listed on such file
+    # 'stop_times' allows us to filter by 'stop_id'. it's important to keep,
+    # however, not only the stops that appear on stop_times, but also their
+    # parent stops, that may not be listed on such file
 
     relevant_stops <- unique(gtfs$stop_times$stop_id)
 
