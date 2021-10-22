@@ -2,54 +2,64 @@
 % Please edit documentation in R/filter_route_type.R
 \name{filter_route_type}
 \alias{filter_route_type}
-\title{Filter GTFS data by route type (transport mode)}
+\title{Filter GTFS object by \code{route_type} (transport mode)}
 \usage{
-filter_route_type(gtfs, route_types, keep = TRUE)
+filter_route_type(gtfs, route_type, keep = TRUE)
 }
 \arguments{
-\item{gtfs}{A GTFS object as created by \code{\link{read_gtfs}}.}
+\item{gtfs}{A GTFS object.}
 
-\item{route_types}{A vector of route types belonging to the routes of the
-GTFS data. Each transport mode is associated with a
-\code{route_type} number. See Details.}
+\item{route_type}{An integer vector. The \code{route_type}s used to filter the
+data.}
 
-\item{keep}{Logical. Whether the passed \code{route_ids} should be kept (Defaults
-to \code{TRUE}), or whether they should be dropped.}
+\item{keep}{A logical. Whether the entries related to the passed
+\code{route_type}s should be kept or dropped (defaults to \code{TRUE}, which keeps
+the entries).}
 }
 \value{
-Returns a GTFS object with filtered routes, trips, shapes, stops,
-stop_times and frequencies.
+The GTFS object passed to the \code{gtfs} parameter, after the filtering
+process.
 }
 \description{
-Filter a GTFS data byits route type (transport mode), subsetting routes
-and trips. It also removes the unnecessary stop_times, shapes, frequencies
-(if exist in a feed), and stops accordingly.
+Filters a GTFS object by \code{route_type}s, keeping (or dropping) the entries
+that relate to such types in each file.
 }
-\details{
-Route types:
-|\strong{\code{route_type}}|\strong{Transport mode}| Note |
-|-----|-----|-----|
-|0  | Tram, Streetcar, Light rail | Any light rail or street level system within a metropolitan area |
-|1  | Subway, Metro | Any underground rail system within a metropolitan area |
-|2  | Rail | Used for intercity or long-distance travel |
-|3  | Bus | Used for short- and long-distance bus routes |
-|4  | Ferry | Used for short- and long-distance boat service |
-|5  | Cable tram | Used for street-level rail cars where the cable runs beneath the vehicle, e.g., cable car in San Francisco |
-|6  | Aerial lift, suspended cable car (e.g., gondola lift, aerial tramway) | Cable transport where cabins, cars, gondolas or open chairs are suspended by means of one or more cables |
-|7  | Funicular | Any rail system designed for steep inclines |
-|11 |  Trolleybus | Electric buses that draw power from overhead wires using poles |
-|12 |  Monorail | Railway in which the track consists of a single rail or a beam |
+\section{Route types}{
+Valid options are:
+\itemize{
+\item 0 - Tram, Streetcar, Light rail. Any light rail or street level system
+within a metropolitan area.
+\item 1 - Subway, Metro. Any underground rail system within a metropolitan area.
+\item 2 - Rail. Used for intercity or long-distance travel.
+\item 3 - Bus. Used for short- and long-distance bus routes.
+\item 4 - Ferry. Used for short- and long-distance boat service.
+\item 5 - Cable tram. Used for street-level rail cars where the cable runs
+beneath the vehicle, e.g., cable car in San Francisco.
+\item 6 - Aerial lift, suspended cable car (e.g., gondola lift, aerial tramway).
+Cable transport where cabins, cars, gondolas or open chairs are suspended by
+means of one or more cables.
+\item 7 - Funicular. Any rail system designed for steep inclines.
+\item 11 - Trolleybus. Electric buses that draw power from overhead wires using
+poles.
+\item 12 - Monorail. Railway in which the track consists of a single rail or a
+beam.
 }
+}
+
 \examples{
 # read gtfs
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 
-# filter: Keep selected route types
-subset1 <- filter_route_type(gtfs, route_types=c(2, 3), keep = TRUE)
+object.size(gtfs)
 
-# filter: Drop selected route types
-subset2 <- filter_route_type(gtfs, route_types=c(2, 3), keep = FALSE)
+# keeps entries related to passed route_ids
+smaller_gtfs <- filter_route_type(gtfs, route_type = 1)
+object.size(smaller_gtfs)
+
+# drops entries related to passed trip_ids
+smaller_gtfs <- filter_route_type(gtfs, route_type = 1, keep = FALSE)
+object.size(smaller_gtfs)
 
 }
 \concept{filter functions}
