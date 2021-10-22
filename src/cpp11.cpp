@@ -3,6 +3,7 @@
 
 
 #include "cpp11/declarations.hpp"
+#include <R_ext/Visibility.h>
 
 // convert-time.cpp
 cpp11::writable::integers cpp_time_to_seconds(const strings times_in);
@@ -13,16 +14,13 @@ extern "C" SEXP _gtfstools_cpp_time_to_seconds(SEXP times_in) {
 }
 
 extern "C" {
-/* .Call calls */
-extern SEXP _gtfstools_cpp_time_to_seconds(SEXP);
-
 static const R_CallMethodDef CallEntries[] = {
     {"_gtfstools_cpp_time_to_seconds", (DL_FUNC) &_gtfstools_cpp_time_to_seconds, 1},
     {NULL, NULL, 0}
 };
 }
 
-extern "C" void R_init_gtfstools(DllInfo* dll){
+extern "C" attribute_visible void R_init_gtfstools(DllInfo* dll){
   R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
   R_useDynamicSymbols(dll, FALSE);
   R_forceSymbols(dll, TRUE);

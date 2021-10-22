@@ -73,26 +73,124 @@ test_that("it doesn't throw warnings because of missing stations in 'stops'", {
   expect_silent(filter_route_id(ggl_gtfs, ggl_routes))
 })
 
-# TODO: add tests with berlin's gtfs to make sure the correct agencies are being
-# kept
-# TODO: add tests to make sure the subsets are conducted correctly
+test_that("the function filters berlin's gtfs correctly", {
+  ber_path <- system.file("extdata/ber_gtfs.zip", package = "gtfstools")
+  ber_gtfs <- read_gtfs(ber_path)
+  ber_routes <- c("1923_700", "1922_3")
 
-test_that("filter_route_id - expected behavior", {
+  smaller_ber <- filter_route_id(ber_gtfs, ber_routes)
 
-  # check dimensions
-  subset1 <- filter_route_id(
-    spo_gtfs,
-    route_id = c("6450-51", "CPTM L11"),
-    keep=TRUE
+  # routes
+  expect_true(nrow(smaller_ber$routes) == 2)
+  expect_true(all(smaller_ber$routes$route_id %chin% ber_routes))
+
+  # agency
+  expect_true(nrow(smaller_ber$agency) == 1)
+  expect_true(smaller_ber$agency$agency_id == "92")
+
+  # trips
+  expect_identical(
+    smaller_ber$trips,
+    ber_gtfs$trips[route_id %chin% ber_routes]
   )
-  expect_equal(nrow(subset1$routes), 2)
-  expect_equal(nrow(subset1$trips), 3)
-  expect_equal(nrow(subset1$shapes), 1654)
 
-  # check dimensions
-  subset2 <- filter_route_id(spo_gtfs, route_id=c("6450-51", "CPTM L11"), keep=FALSE)
-  expect_equal(nrow(subset2$routes), 17)
-  expect_equal(nrow(subset2$trips), 33)
-  expect_equal(nrow(subset2$shapes), 10641)
+  # shapes
+  expect_true(all(smaller_ber$shapes$shape_id %chin% as.character(15:20)))
 
-  })
+  # calendar and calendar_dates
+  relevant_services <- unique(
+    ber_gtfs$trips[route_id %chin% ber_routes]$service_id
+  )
+  expect_true(all(smaller_ber$calendar$service_id %chin% relevant_services))
+  expect_true(
+    all(smaller_ber$calendar_dates$service_id %chin% relevant_services)
+  )
+
+  # stop_times
+  relevant_trips <- unique(ber_gtfs$trips[route_id %chin% ber_routes]$trip_id)
+  expect_true(all(smaller_ber$stop_times$trip_id %chin% relevant_trips))
+
+  # stops
+  relevant_stops <- unique(
+    ber_gtfs$stop_times[trip_id %chin% relevant_trips]$stop_id
+  )
+  expect_true(all(smaller_ber$stop_times$stop_id %chin% relevant_stops))
+})
+
+test_that("the function filters sao paulo's gtfs correctly", {
+  smaller_spo <- filter_route_id(spo_gtfs, spo_routes)
+
+  # routes
+  expect_true(nrow(smaller_spo$routes) == 2)
+  expect_true(all(smaller_spo$routes$route_id %chin% spo_routes))
+
+  # agency
+  expect_true(all(smaller_spo$agency$agency_id == "1"))
+
+  # trips
+  relevant_trips <- c("CPTM L11-0", "CPTM L11-1", "6450-51-0")
+  expect_true(all(smaller_spo$trips$trip_id %chin% relevant_trips))
+
+  # shapes
+  relevant_shapes <- c("17854", "17855", "68962")
+  expect_true(all(smaller_spo$shapes$shape_id %chin% relevant_shapes))
+
+  # calendar
+  relevant_services <- c("USD", "U__")
+  expect_true(all(smaller_spo$calendar$service_id %chin% relevant_services))
+
+  # stop_times
+  expect_true(all(smaller_spo$stop_times$trip_id %chin% relevant_trips))
+
+  # stops
+  relevant_stops <- unique(
+    spo_gtfs$stop_times[trip_id %chin% relevant_trips]$stop_id
+  )
+  expect_true(all(smaller_spo$stop_times$stop_id %chin% relevant_stops))
+
+  # frequencies
+  expect_true(all(smaller_spo$frequencies$trip_id %chin% relevant_trips))
+})
+
+test_that("the function filters google's gtfs correctly", {
+  smaller_ggl <- filter_route_id(ggl_gtfs, ggl_routes)
+
+  # routes
+  expect_true(all(smaller_ggl$routes$route_id %chin% ggl_routes))
+
+  # agency
+  expect_true(smaller_ggl$agency$agency_id == "agency001")
+
+  # trips
+  relevant_trips <- c("AWE1", "AWE2")
+  expect_true(all(smaller_ggl$trips$trip_id %chin% relevant_trips))
+
+  # shapes - no rows because trips doesn't have a shape_id column
+  expect_true(nrow(smaller_ggl$shapes) == 0)
+
+  # calendar
+  relevant_services <- "WE"
+  expect_true(all(smaller_ggl$calendar$service_id %chin% relevant_services))
+  expect_true(
+    all(smaller_ggl$calendar_dates$service_id %chin% relevant_services)
+  )
+
+  # stop_times
+  expect_true(all(smaller_ggl$stop_times$trip_id %chin% relevant_trips))
+
+  # stops - no rows because none of the stop_ids listed are in stop_times
+  expect_true(nrow(smaller_ggl$stops) == 0)
+
+  # frequencies
+  expect_true(all(smaller_ggl$frequencies$trip_id %chin% relevant_trips))
+
+  # levels - no rows because stops doesn't have any rows either
+  expect_true(nrow(smaller_ggl$levels) == 0)
+
+  # fare_rules
+  expect_true(all(smaller_ggl$fare_rules$route_id %chin% ggl_routes))
+
+  # fare_attributes - no rows because none of the fare_ids listed are in
+  # fare_rules
+  expect_true(nrow(smaller_ggl$fare_attributes) == 0)
+})
