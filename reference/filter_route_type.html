@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Filter GTFS data by route type (transport mode) — filter_route_type • gtfstools</title>
+<title>Filter GTFS object by route_type (transport mode) — filter_route_type • gtfstools</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,9 @@
 
 
 
-<meta property="og:title" content="Filter GTFS data by route type (transport mode) — filter_route_type" />
-<meta property="og:description" content="Filter a GTFS data byits route type (transport mode), subsetting routes
-and trips. It also removes the unnecessary stop_times, shapes, frequencies
-(if exist in a feed), and stops accordingly." />
+<meta property="og:title" content="Filter GTFS object by route_type (transport mode) — filter_route_type" />
+<meta property="og:description" content="Filters a GTFS object by route_types, keeping (or dropping) the entries
+that relate to such types in each file." />
 
 
 
@@ -74,7 +73,7 @@ and trips. It also removes the unnecessary stop_times, shapes, frequencies
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9036</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9038</span>
       </span>
     </div>
 
@@ -116,70 +115,79 @@ and trips. It also removes the unnecessary stop_times, shapes, frequencies
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Filter GTFS data by route type (transport mode)</h1>
+    <h1>Filter GTFS object by <code>route_type</code> (transport mode)</h1>
     <small class="dont-index">Source: <a href='https://github.com/ipeaGIT/gtfstools/blob/master/R/filter_route_type.R'><code>R/filter_route_type.R</code></a></small>
     <div class="hidden name"><code>filter_route_type.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Filter a GTFS data byits route type (transport mode), subsetting routes
-and trips. It also removes the unnecessary stop_times, shapes, frequencies
-(if exist in a feed), and stops accordingly.</p>
+    <p>Filters a GTFS object by <code>route_type</code>s, keeping (or dropping) the entries
+that relate to such types in each file.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>filter_route_type</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>route_types</span>, keep <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>filter_route_type</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>route_type</span>, keep <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>gtfs</th>
-      <td><p>A GTFS object as created by <code><a href='read_gtfs.html'>read_gtfs</a></code>.</p></td>
+      <td><p>A GTFS object.</p></td>
     </tr>
     <tr>
-      <th>route_types</th>
-      <td><p>A vector of route types belonging to the routes of the
-GTFS data. Each transport mode is associated with a
-<code>route_type</code> number. See Details.</p></td>
+      <th>route_type</th>
+      <td><p>An integer vector. The <code>route_type</code>s used to filter the
+data.</p></td>
     </tr>
     <tr>
       <th>keep</th>
-      <td><p>Logical. Whether the passed <code>route_ids</code> should be kept (Defaults
-to <code>TRUE</code>), or whether they should be dropped.</p></td>
+      <td><p>A logical. Whether the entries related to the passed
+<code>route_type</code>s should be kept or dropped (defaults to <code>TRUE</code>, which keeps
+the entries).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a GTFS object with filtered routes, trips, shapes, stops,
-stop_times and frequencies.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <p>The GTFS object passed to the <code>gtfs</code> parameter, after the filtering
+process.</p>
+    <h2 class="hasAnchor" id="route-types"><a class="anchor" href="#route-types"></a>Route types</h2>
 
-    <p>Route types:
-|<strong><code>route_type</code></strong>|<strong>Transport mode</strong>| Note |
-|-----|-----|-----|
-|0  | Tram, Streetcar, Light rail | Any light rail or street level system within a metropolitan area |
-|1  | Subway, Metro | Any underground rail system within a metropolitan area |
-|2  | Rail | Used for intercity or long-distance travel |
-|3  | Bus | Used for short- and long-distance bus routes |
-|4  | Ferry | Used for short- and long-distance boat service |
-|5  | Cable tram | Used for street-level rail cars where the cable runs beneath the vehicle, e.g., cable car in San Francisco |
-|6  | Aerial lift, suspended cable car (e.g., gondola lift, aerial tramway) | Cable transport where cabins, cars, gondolas or open chairs are suspended by means of one or more cables |
-|7  | Funicular | Any rail system designed for steep inclines |
-|11 |  Trolleybus | Electric buses that draw power from overhead wires using poles |
-|12 |  Monorail | Railway in which the track consists of a single rail or a beam |</p>
+    <p>Valid options are:</p><ul>
+<li><p>0 - Tram, Streetcar, Light rail. Any light rail or street level system
+within a metropolitan area.</p></li>
+<li><p>1 - Subway, Metro. Any underground rail system within a metropolitan area.</p></li>
+<li><p>2 - Rail. Used for intercity or long-distance travel.</p></li>
+<li><p>3 - Bus. Used for short- and long-distance bus routes.</p></li>
+<li><p>4 - Ferry. Used for short- and long-distance boat service.</p></li>
+<li><p>5 - Cable tram. Used for street-level rail cars where the cable runs
+beneath the vehicle, e.g., cable car in San Francisco.</p></li>
+<li><p>6 - Aerial lift, suspended cable car (e.g., gondola lift, aerial tramway).
+Cable transport where cabins, cars, gondolas or open chairs are suspended by
+means of one or more cables.</p></li>
+<li><p>7 - Funicular. Any rail system designed for steep inclines.</p></li>
+<li><p>11 - Trolleybus. Electric buses that draw power from overhead wires using
+poles.</p></li>
+<li><p>12 - Monorail. Railway in which the track consists of a single rail or a
+beam.</p></li>
+</ul>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># read gtfs</span>
 <span class='va'>data_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/spo_gtfs.zip"</span>, package <span class='op'>=</span> <span class='st'>"gtfstools"</span><span class='op'>)</span>
 <span class='va'>gtfs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_gtfs.html'>read_gtfs</a></span><span class='op'>(</span><span class='va'>data_path</span><span class='op'>)</span>
 
-<span class='co'># filter: Keep selected route types</span>
-<span class='va'>subset1</span> <span class='op'>&lt;-</span> <span class='fu'>filter_route_type</span><span class='op'>(</span><span class='va'>gtfs</span>, route_types<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>3</span><span class='op'>)</span>, keep <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='co'># filter: Drop selected route types</span>
-<span class='va'>subset2</span> <span class='op'>&lt;-</span> <span class='fu'>filter_route_type</span><span class='op'>(</span><span class='va'>gtfs</span>, route_types<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>3</span><span class='op'>)</span>, keep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-
+<span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 811304 bytes</div><div class='input'>
+<span class='co'># keeps entries related to passed route_ids</span>
+<span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_route_type</span><span class='op'>(</span><span class='va'>gtfs</span>, route_type <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>smaller_gtfs</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 180920 bytes</div><div class='input'>
+<span class='co'># drops entries related to passed trip_ids</span>
+<span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_route_type</span><span class='op'>(</span><span class='va'>gtfs</span>, route_type <span class='op'>=</span> <span class='fl'>1</span>, keep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>smaller_gtfs</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 654360 bytes</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
