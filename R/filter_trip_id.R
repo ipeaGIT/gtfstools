@@ -194,7 +194,9 @@ filter_trip_id <- function(gtfs, trip_id, keep = TRUE) {
 
     if (gtfsio::check_fields_exist(gtfs, "stops", "parent_station")) {
 
-      stops_with_parents <- get_parent_station(gtfs, relevant_stops)
+      suppressWarnings(
+        stops_with_parents <- get_parent_station(gtfs, relevant_stops)
+      )
       relevant_stops <- stops_with_parents$stop_id
 
     }
