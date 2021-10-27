@@ -175,7 +175,7 @@ test_that("returns the geometries created by the given 'file'", {
 
 test_that("outputs an 'sf' object with correct crs", {
 
-  # crs is WGs by default
+  # crs is WGS by default
 
   point <- sf::st_sfc(sf::st_point(c(0, 0)), crs = 4326)
 
@@ -280,4 +280,27 @@ test_that("returns empty sf if passed 'trip_id' isn't linked to a 'shape_id'", {
   expect_identical(class(sf_geom$geometry), c("sfc_LINESTRING", "sfc"))
   expect_equal(nrow(sf_geom), 0)
 
+})
+
+# issue #29
+test_that("works correctly if 'file' is untouched and one file is missing", {
+  no_shapes <- read_gtfs(data_path)
+  no_shapes$shapes <- NULL
+  expect_s3_class(get_trip_geometry(no_shapes), "sf")
+  expect_true(all(get_trip_geometry(no_shapes)$origin_file == "stop_times"))
+
+  no_stop_times <- read_gtfs(data_path)
+  no_stop_times$stop_times <- NULL
+  expect_s3_class(get_trip_geometry(no_stop_times), "sf")
+  expect_true(all(get_trip_geometry(no_stop_times)$origin_file == "shapes"))
+
+  none_of_them <- read_gtfs(data_path)
+  none_of_them$shapes <- none_of_them$stop_times <- NULL
+  expect_error(
+    get_trip_geometry(none_of_them),
+    regexp = paste0(
+      "The GTFS object must have either a ",
+      "'shapes' or a 'stop_times' table\\."
+    )
+  )
 })
