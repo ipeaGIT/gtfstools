@@ -48,24 +48,36 @@ test_that("raises errors/warnings due to unavailable files passed to 'files'", {
 })
 
 test_that("results in a GTFS object", {
+  dt_gtfs_class <- c("dt_gtfs", "gtfs", "list")
 
   # should work when files = NULL
-  expect_s3_class(merge_gtfs(spo_gtfs, ggl_gtfs), "dt_gtfs")
-  expect_s3_class(merge_gtfs(list(spo_gtfs, ggl_gtfs)), "dt_gtfs")
+  expect_s3_class(merge_gtfs(spo_gtfs, ggl_gtfs), dt_gtfs_class, exact = TRUE)
+  expect_s3_class(
+    merge_gtfs(list(spo_gtfs, ggl_gtfs)),
+    dt_gtfs_class,
+    exact = TRUE
+  )
 
   # and should also work when files = something else
-  expect_s3_class(merge_gtfs(spo_gtfs, ggl_gtfs, files = "shapes"), "dt_gtfs")
+  expect_s3_class(
+    merge_gtfs(spo_gtfs, ggl_gtfs, files = "shapes"),
+    dt_gtfs_class,
+    exact = TRUE
+  )
   expect_s3_class(
     merge_gtfs(list(spo_gtfs, ggl_gtfs), files = "shapes"),
-    "dt_gtfs"
+    dt_gtfs_class,
+    exact = TRUE
   )
 
   # even if a non-existent file is passed to 'files' (but not all of them)
-  expect_warning(
-    merged <- merge_gtfs(spo_gtfs, ggl_gtfs, files = c("shapes", "ola", "oie"))
+  expect_s3_class(
+    expect_warning(
+      merge_gtfs(list(spo_gtfs, ggl_gtfs), files = c("shapes", "ola", "oie")),
+    ),
+    dt_gtfs_class,
+    exact = TRUE
   )
-  expect_s3_class(merged, "dt_gtfs")
-
 })
 
 test_that("merges the adequate 'files'", {

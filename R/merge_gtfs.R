@@ -127,7 +127,7 @@ merge_gtfs <- function(..., files = NULL, quiet = TRUE, warnings = TRUE) {
     }
   )
   names(merged_gtfs) <- files_to_merge
-  class(merged_gtfs) <- "dt_gtfs"
+  merged_gtfs <- gtfsio::new_gtfs(merged_gtfs, "dt_gtfs")
 
   # using fill = TRUE in data.table::rbindlist introduces some NA_character_
   # change those to "" to keep consistency (empty character entries are read as
