@@ -76,6 +76,11 @@ get_parent_station <- function(gtfs, stop_id) {
 
     result[is.na(parent_station), parent_station := parents[stop_id]]
 
+    # when a stop not listed in stops (in the stop_id field) is used to subset
+    # the parents vector, it introduces a NA_character_ in the parent_station
+    # columns. substitute NAs by "" because of that
+    result[is.na(parent_station), parent_station := ""]
+
     # keep checking for recursive parents if new parents were found in this
     # iteration
 

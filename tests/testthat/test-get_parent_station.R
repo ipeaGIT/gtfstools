@@ -84,21 +84,16 @@ test_that("outputs a data.table with adequate columns' classes", {
 })
 
 test_that("returns parents correctly", {
-
   # when none of the passed stops have parents, all parents will be "" and
   # the data.table will have as many as rows as the number of stop_ids passed
-
   parents <- get_parent_station(gtfs, "F12")
-
   expect_identical(
     parents,
     data.table::data.table(stop_id = "F12", parent_station = "")
   )
 
   # if they have parents, their parents' parents will be searched recursively
-
   parents <- get_parent_station(gtfs, "B1")
-
   expect_identical(
     parents,
     data.table::data.table(
@@ -108,9 +103,7 @@ test_that("returns parents correctly", {
   )
 
   # and non-existent ids are not included in the result
-
   expect_warning(parents <- get_parent_station(gtfs, "ola"))
-
   expect_identical(
     parents,
     data.table::data.table(
@@ -118,16 +111,26 @@ test_that("returns parents correctly", {
       parent_station = character(0)
     )
   )
-
 })
 
 test_that("doesn't change original gtfs", {
-
   original_gtfs <- read_gtfs(data_path)
   gtfs <- read_gtfs(data_path)
   expect_identical(original_gtfs, gtfs)
 
   parents <- get_parent_station(gtfs, "B1")
   expect_identical(original_gtfs, gtfs)
+})
 
+# issue #33
+test_that("unlisted parent_stations do not introduce NAs", {
+  ber_path <- system.file("extdata/ber_gtfs.zip", package = "gtfstools")
+  ber_gtfs <- read_gtfs(ber_path)
+  ber_shapes <- c("14", "2")
+
+  smaller_ber <- filter_shape_id(ber_gtfs, ber_shapes)
+
+  parents <- get_parent_station(ber_gtfs, smaller_ber$stop_times$stop_id)
+  expect_false(any(is.na(parents$stop_id)))
+  expect_false(any(is.na(parents$parent_station)))
 })
