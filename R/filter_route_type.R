@@ -41,11 +41,11 @@
 #'
 #' object.size(gtfs)
 #'
-#' # keeps entries related to passed route_ids
+#' # keeps entries related to passed route_types
 #' smaller_gtfs <- filter_route_type(gtfs, route_type = 1)
 #' object.size(smaller_gtfs)
 #'
-#' # drops entries related to passed trip_ids
+#' # drops entries related to passed route_types
 #' smaller_gtfs <- filter_route_type(gtfs, route_type = 1, keep = FALSE)
 #' object.size(smaller_gtfs)
 #'

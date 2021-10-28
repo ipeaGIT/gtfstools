@@ -33,13 +33,14 @@ object.size(gtfs)
 smaller_gtfs <- filter_route_id(gtfs, route_ids)
 object.size(smaller_gtfs)
 
-# drops entries related to passed trip_ids
+# drops entries related to passed route_ids
 smaller_gtfs <- filter_route_id(gtfs, route_ids, keep = FALSE)
 object.size(smaller_gtfs)
 
 }
 \seealso{
 Other filtering functions: 
+\code{\link{filter_shape_id}()},
 \code{\link{filter_trip_id}()}
 }
 \concept{filtering functions}
