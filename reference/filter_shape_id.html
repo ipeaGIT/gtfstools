@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Remove duplicated entries — remove_duplicates • gtfstools</title>
+<title>Filter GTFS object by shape_id — filter_shape_id • gtfstools</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="Remove duplicated entries — remove_duplicates" />
-<meta property="og:description" content="Removes duplicated entries from GTFS objects tables." />
+<meta property="og:title" content="Filter GTFS object by shape_id — filter_shape_id" />
+<meta property="og:description" content="Filters a GTFS object by shape_ids, keeping (or dropping) the entries that
+relate to such ids in each file." />
 
 
 
@@ -114,16 +115,17 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Remove duplicated entries</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ipeaGIT/gtfstools/blob/master/R/remove_duplicates.R'><code>R/remove_duplicates.R</code></a></small>
-    <div class="hidden name"><code>remove_duplicates.Rd</code></div>
+    <h1>Filter GTFS object by <code>shape_id</code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/ipeaGIT/gtfstools/blob/master/R/filter_shape_id.R'><code>R/filter_shape_id.R</code></a></small>
+    <div class="hidden name"><code>filter_shape_id.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Removes duplicated entries from GTFS objects tables.</p>
+    <p>Filters a GTFS object by <code>shape_id</code>s, keeping (or dropping) the entries that
+relate to such ids in each file.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>remove_duplicates</span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>filter_shape_id</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>shape_id</span>, keep <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -132,30 +134,42 @@
       <th>gtfs</th>
       <td><p>A GTFS object.</p></td>
     </tr>
+    <tr>
+      <th>shape_id</th>
+      <td><p>A character vector. The <code>shape_id</code>s used to filter the data.</p></td>
+    </tr>
+    <tr>
+      <th>keep</th>
+      <td><p>A logical. Whether the entries related to the passed <code>shape_id</code>s
+should be kept or dropped (defaults to <code>TRUE</code>, which keeps the entries).</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A GTFS object containing only unique entries.</p>
+    <p>The GTFS object passed to the <code>gtfs</code> parameter, after the filtering
+process.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other filtering functions: 
+<code><a href='filter_route_id.html'>filter_route_id</a>()</code>,
+<code><a href='filter_trip_id.html'>filter_trip_id</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>data_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/spo_gtfs.zip"</span>, package <span class='op'>=</span> <span class='st'>"gtfstools"</span><span class='op'>)</span>
 <span class='va'>gtfs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_gtfs.html'>read_gtfs</a></span><span class='op'>(</span><span class='va'>data_path</span><span class='op'>)</span>
+<span class='va'>shape_ids</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"17846"</span>, <span class='st'>"68962"</span><span class='op'>)</span>
 
-<span class='co'># this gtfs includes some duplicated entries</span>
-<span class='va'>gtfs</span><span class='op'>$</span><span class='va'>agency</span>
-</div><div class='output co'>#&gt;    agency_id agency_name                               agency_url
-#&gt; 1:         1     SPTRANS http://www.sptrans.com.br/?versao=011019
-#&gt; 2:         1     SPTRANS http://www.sptrans.com.br/?versao=011019
-#&gt;      agency_timezone agency_lang
-#&gt; 1: America/Sao_Paulo          pt
-#&gt; 2: America/Sao_Paulo          pt</div><div class='input'>
-<span class='va'>gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>remove_duplicates</span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span>
-<span class='va'>gtfs</span><span class='op'>$</span><span class='va'>agency</span>
-</div><div class='output co'>#&gt;    agency_id agency_name                               agency_url
-#&gt; 1:         1     SPTRANS http://www.sptrans.com.br/?versao=011019
-#&gt;      agency_timezone agency_lang
-#&gt; 1: America/Sao_Paulo          pt</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 811304 bytes</div><div class='input'>
+<span class='co'># keeps entries related to passed shape_ids</span>
+<span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_shape_id</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>shape_ids</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>smaller_gtfs</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 99456 bytes</div><div class='input'>
+<span class='co'># drops entries related to passed shape_ids</span>
+<span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_shape_id</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>shape_ids</span>, keep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>smaller_gtfs</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 740840 bytes</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

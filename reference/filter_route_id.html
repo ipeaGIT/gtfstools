@@ -73,7 +73,7 @@ relate to such ids in each file." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9041</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9042</span>
       </span>
     </div>
 
@@ -152,6 +152,7 @@ process.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other filtering functions: 
+<code><a href='filter_shape_id.html'>filter_shape_id</a>()</code>,
 <code><a href='filter_trip_id.html'>filter_trip_id</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -165,7 +166,7 @@ process.</p>
 <span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_route_id</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>route_ids</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>smaller_gtfs</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 116920 bytes</div><div class='input'>
-<span class='co'># drops entries related to passed trip_ids</span>
+<span class='co'># drops entries related to passed route_ids</span>
 <span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_route_id</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>route_ids</span>, keep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>smaller_gtfs</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 719032 bytes</div><div class='input'>

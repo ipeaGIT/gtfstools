@@ -73,7 +73,7 @@ that relate to such types in each file." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9041</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9042</span>
       </span>
     </div>
 
@@ -180,11 +180,11 @@ beam.</p></li>
 
 <span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 811304 bytes</div><div class='input'>
-<span class='co'># keeps entries related to passed route_ids</span>
+<span class='co'># keeps entries related to passed route_types</span>
 <span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_route_type</span><span class='op'>(</span><span class='va'>gtfs</span>, route_type <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>smaller_gtfs</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 180920 bytes</div><div class='input'>
-<span class='co'># drops entries related to passed trip_ids</span>
+<span class='co'># drops entries related to passed route_types</span>
 <span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_route_type</span><span class='op'>(</span><span class='va'>gtfs</span>, route_type <span class='op'>=</span> <span class='fl'>1</span>, keep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>smaller_gtfs</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 654360 bytes</div><div class='input'>
