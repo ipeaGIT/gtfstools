@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9040</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9041</span>
       </span>
     </div>
 
@@ -130,12 +130,11 @@
 <li>New function <code><a href="../reference/filter_route_type.html">filter_route_type()</a></code>.</li>
 <li>New function <code><a href="../reference/filter_route_id.html">filter_route_id()</a></code>.</li>
 <li>New function <code><a href="../reference/filter_trip_id.html">filter_trip_id()</a></code>.</li>
-<li>New function <code><a href="../reference/get_parent_station.html">get_parent_station()</a></code>
-</li>
+<li>New function <code><a href="../reference/get_parent_station.html">get_parent_station()</a></code>.</li>
+<li>New function <code><a href="../reference/remove_duplicates.html">remove_duplicates()</a></code>.</li>
 <li>New parameters to <code><a href="../reference/read_gtfs.html">read_gtfs()</a></code>: <code>fields</code>, <code>skip</code> and <code>encoding</code>. The <code>warnings</code> parameter was flagged as deprecated.</li>
 <li>New parameters to <code><a href="../reference/write_gtfs.html">write_gtfs()</a></code>: <code>files</code>, <code>standard_only</code> and <code>as_dir</code>. They substitute the previously existent <code>optional</code> and <code>extra</code>, which were flagged as deprecated. The <code>warnings</code> parameter was flagged as deprecated too.</li>
-<li>Not exported: <code><a href="../reference/copy_gtfs_diff_field_class.html">copy_gtfs_diff_field_class()</a></code>, <code><a href="../reference/convert_from_standard.html">convert_from_standard()</a></code>, <code><a href="../reference/convert_to_standard.html">convert_to_standard()</a></code>
-</li>
+<li>Not exported: <code><a href="../reference/copy_gtfs_diff_field_class.html">copy_gtfs_diff_field_class()</a></code>, <code><a href="../reference/convert_from_standard.html">convert_from_standard()</a></code>, <code><a href="../reference/convert_to_standard.html">convert_to_standard()</a></code>.</li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">
@@ -145,6 +144,7 @@
 <li>The <code><a href="../reference/get_trip_speed.html">get_trip_speed()</a></code> and <code><a href="../reference/set_trip_speed.html">set_trip_speed()</a></code> examples, tests and vignette bits now only run if <a href="https://github.com/r-spatial/lwgeom/">lwgeom</a> is installed. <a href="https://github.com/r-spatial/lwgeom/">lwgeom</a> is an <a href="https://r-spatial.github.io/sf/">sf</a> “soft” dependency required by these functions, and is listed in <code>Suggests</code>. However, package checks would fail not so gracefully if it wasn’t installed, which is now fixed.</li>
 <li>Fixed a bug in which the <code>crs</code> passed to <code><a href="../reference/get_trip_geometry.html">get_trip_geometry()</a></code> would be assigned to the result without actually reprojecting it.</li>
 <li>Changed the behaviour of <code><a href="../reference/get_trip_geometry.html">get_trip_geometry()</a></code> to not raise an error when the ‘file’ parameter is left untouched and the GTFS object doesn’t contain either the shapes or the stop_times table. Closes <a href="https://github.com/ipeaGIT/gtfstools/issues/29"><a href='https://github.com/ipeaGIT/gtfstools/issues/29'>#29</a></a>.</li>
+<li>Fixed a bug that would cause <code><a href="../reference/merge_gtfs.html">merge_gtfs()</a></code> to create objects that inherited only from <code>dt_gtfs</code> (ignoring <code>gtfs</code> and <code>list</code>).</li>
 </ul>
 </div>
 <div id="notes" class="section level2">

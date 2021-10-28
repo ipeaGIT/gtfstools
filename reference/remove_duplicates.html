@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get trip speed — get_trip_speed • gtfstools</title>
+<title>Remove duplicated entries — remove_duplicates • gtfstools</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,8 @@
 
 
 
-<meta property="og:title" content="Get trip speed — get_trip_speed" />
-<meta property="og:description" content="Returns the speed of each specified trip_id, based on the geometry
-created from either on the shapes or the stop_times file (or
-both)." />
+<meta property="og:title" content="Remove duplicated entries — remove_duplicates" />
+<meta property="og:description" content="Removes duplicated entries from GTFS objects tables." />
 
 
 
@@ -116,88 +114,48 @@ both)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get trip speed</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ipeaGIT/gtfstools/blob/master/R/get_trip_speed.R'><code>R/get_trip_speed.R</code></a></small>
-    <div class="hidden name"><code>get_trip_speed.Rd</code></div>
+    <h1>Remove duplicated entries</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ipeaGIT/gtfstools/blob/master/R/remove_duplicates.R'><code>R/remove_duplicates.R</code></a></small>
+    <div class="hidden name"><code>remove_duplicates.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Returns the speed of each specified <code>trip_id</code>, based on the geometry
-created from either on the <code>shapes</code> or the <code>stop_times</code> file (or
-both).</p>
+    <p>Removes duplicated entries from GTFS objects tables.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_trip_speed</span><span class='op'>(</span><span class='va'>gtfs</span>, trip_id <span class='op'>=</span> <span class='cn'>NULL</span>, file <span class='op'>=</span> <span class='st'>"shapes"</span>, unit <span class='op'>=</span> <span class='st'>"km/h"</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>remove_duplicates</span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>gtfs</th>
-      <td><p>A GTFS object as created by <code><a href='read_gtfs.html'>read_gtfs</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>trip_id</th>
-      <td><p>A string vector including the <code>trip_id</code>s to have their
-speeds calculated. If <code>NULL</code> (the default), the function calculates
-the speed of every <code>trip_id</code> in the GTFS.</p></td>
-    </tr>
-    <tr>
-      <th>file</th>
-      <td><p>The file from which geometries should be generated, either
-<code>shapes</code> and <code>stop_times</code> (geometries are used to calculate the
-length of a trip). Defaults to <code>shapes</code>.</p></td>
-    </tr>
-    <tr>
-      <th>unit</th>
-      <td><p>A string representing the unit in which the speeds are desired.
-Either <code>"km/h"</code> (the default) or <code>"m/s"</code>.</p></td>
+      <td><p>A GTFS object.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>data.table</code> containing the duration of each specified trip
-and the file from which geometries were generated.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    
-
-<p>Please check <code><a href='get_trip_geometry.html'>get_trip_geometry</a></code> documentation to understand how
-geometry generation differs depending on the chosen file.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='get_trip_geometry.html'>get_trip_geometry</a></code></p></div>
+    <p>A GTFS object containing only unique entries.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>data_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/spo_gtfs.zip"</span>, package <span class='op'>=</span> <span class='st'>"gtfstools"</span><span class='op'>)</span>
-
 <span class='va'>gtfs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_gtfs.html'>read_gtfs</a></span><span class='op'>(</span><span class='va'>data_path</span><span class='op'>)</span>
 
-<span class='co'># the examples below require the 'lwgeom' package to be installed</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"lwgeom"</span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-
-  <span class='va'>trip_speed</span> <span class='op'>&lt;-</span> <span class='fu'>get_trip_speed</span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>trip_speed</span><span class='op'>)</span>
-
-  <span class='va'>trip_ids</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"CPTM L07-0"</span>, <span class='st'>"2002-10-0"</span><span class='op'>)</span>
-  <span class='va'>trip_speed</span> <span class='op'>&lt;-</span> <span class='fu'>get_trip_speed</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>trip_ids</span><span class='op'>)</span>
-  <span class='va'>trip_speed</span>
-
-  <span class='va'>trip_speed</span> <span class='op'>&lt;-</span> <span class='fu'>get_trip_speed</span><span class='op'>(</span>
-    <span class='va'>gtfs</span>,
-    <span class='va'>trip_ids</span>,
-    file <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"shapes"</span>, <span class='st'>"stop_times"</span><span class='op'>)</span>
-  <span class='op'>)</span>
-  <span class='va'>trip_speed</span>
-
-  <span class='va'>trip_speed</span> <span class='op'>&lt;-</span> <span class='fu'>get_trip_speed</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>trip_ids</span>, unit <span class='op'>=</span> <span class='st'>"m/s"</span><span class='op'>)</span>
-  <span class='va'>trip_speed</span>
-
-<span class='op'>}</span>
-</div><div class='output co'>#&gt;       trip_id origin_file    speed
-#&gt; 1: CPTM L07-0      shapes 7.441047
-#&gt; 2:  2002-10-0      shapes 2.486809</div><div class='input'>
+<span class='co'># this gtfs includes some duplicated entries</span>
+<span class='va'>gtfs</span><span class='op'>$</span><span class='va'>agency</span>
+</div><div class='output co'>#&gt;    agency_id agency_name                               agency_url
+#&gt; 1:         1     SPTRANS http://www.sptrans.com.br/?versao=011019
+#&gt; 2:         1     SPTRANS http://www.sptrans.com.br/?versao=011019
+#&gt;      agency_timezone agency_lang
+#&gt; 1: America/Sao_Paulo          pt
+#&gt; 2: America/Sao_Paulo          pt</div><div class='input'>
+<span class='va'>gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>remove_duplicates</span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span>
+<span class='va'>gtfs</span><span class='op'>$</span><span class='va'>agency</span>
+</div><div class='output co'>#&gt;    agency_id agency_name                               agency_url
+#&gt; 1:         1     SPTRANS http://www.sptrans.com.br/?versao=011019
+#&gt;      agency_timezone agency_lang
+#&gt; 1: America/Sao_Paulo          pt</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
