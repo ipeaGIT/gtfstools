@@ -54,9 +54,9 @@ test_that("doesn't change given gtfs", {
 
 test_that("'route_id' and 'keep' arguments work correctly", {
   smaller_ggl_keeping <- filter_route_id(ggl_gtfs, ggl_routes)
-  expect_true(any(smaller_ggl_keeping$routes$route_id %chin% ggl_routes))
-  expect_true(any(smaller_ggl_keeping$trips$route_id %chin% ggl_routes))
-  expect_true(any(smaller_ggl_keeping$fare_rules$route_id %chin% ggl_routes))
+  expect_true(all(smaller_ggl_keeping$routes$route_id %chin% ggl_routes))
+  expect_true(all(smaller_ggl_keeping$trips$route_id %chin% ggl_routes))
+  expect_true(all(smaller_ggl_keeping$fare_rules$route_id %chin% ggl_routes))
 
   smaller_ggl_not_keeping <- filter_route_id(ggl_gtfs, ggl_routes, keep = FALSE)
   expect_true(!any(smaller_ggl_not_keeping$routes$route_id %chin% ggl_routes))
@@ -114,7 +114,8 @@ test_that("the function filters berlin's gtfs correctly", {
   relevant_stops <- unique(
     ber_gtfs$stop_times[trip_id %chin% relevant_trips]$stop_id
   )
-  expect_true(all(smaller_ber$stop_times$stop_id %chin% relevant_stops))
+  relevant_stops <- get_parent_station(ber_gtfs, relevant_stops)$stop_id
+  expect_true(all(smaller_ber$stops$stop_id %chin% relevant_stops))
 })
 
 test_that("the function filters sao paulo's gtfs correctly", {
@@ -146,7 +147,7 @@ test_that("the function filters sao paulo's gtfs correctly", {
   relevant_stops <- unique(
     spo_gtfs$stop_times[trip_id %chin% relevant_trips]$stop_id
   )
-  expect_true(all(smaller_spo$stop_times$stop_id %chin% relevant_stops))
+  expect_true(all(smaller_spo$stops$stop_id %chin% relevant_stops))
 
   # frequencies
   expect_true(all(smaller_spo$frequencies$trip_id %chin% relevant_trips))
