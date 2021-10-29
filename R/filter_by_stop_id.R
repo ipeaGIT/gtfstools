@@ -24,15 +24,15 @@
 #' object.size(gtfs)
 #'
 #' # keeps entries related to passed shape_ids
-#' smaller_gtfs <- filter_stop_id(gtfs, stop_ids)
+#' smaller_gtfs <- filter_by_stop_id(gtfs, stop_ids)
 #' object.size(smaller_gtfs)
 #'
 #' # drops entries related to passed shape_ids
-#' smaller_gtfs <- filter_stop_id(gtfs, stop_ids, keep = FALSE)
+#' smaller_gtfs <- filter_by_stop_id(gtfs, stop_ids, keep = FALSE)
 #' object.size(smaller_gtfs)
 #'
 #' @export
-filter_stop_id <- function(gtfs, stop_id, keep = TRUE) {
+filter_by_stop_id <- function(gtfs, stop_id, keep = TRUE) {
 
   checkmate::assert_class(gtfs, "dt_gtfs")
   checkmate::assert_character(stop_id)
@@ -47,7 +47,7 @@ filter_stop_id <- function(gtfs, stop_id, keep = TRUE) {
       gtfs$stop_times[stop_id %chin% get("stop_id", envir = env)]$trip_id
     )
 
-    gtfs <- filter_trip_id(gtfs, relevant_trips, keep)
+    gtfs <- filter_by_trip_id(gtfs, relevant_trips, keep)
 
   }
 

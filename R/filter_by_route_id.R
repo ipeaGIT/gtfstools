@@ -22,15 +22,15 @@
 #' object.size(gtfs)
 #'
 #' # keeps entries related to passed route_ids
-#' smaller_gtfs <- filter_route_id(gtfs, route_ids)
+#' smaller_gtfs <- filter_by_route_id(gtfs, route_ids)
 #' object.size(smaller_gtfs)
 #'
 #' # drops entries related to passed route_ids
-#' smaller_gtfs <- filter_route_id(gtfs, route_ids, keep = FALSE)
+#' smaller_gtfs <- filter_by_route_id(gtfs, route_ids, keep = FALSE)
 #' object.size(smaller_gtfs)
 #'
 #' @export
-filter_route_id <- function(gtfs, route_id, keep = TRUE) {
+filter_by_route_id <- function(gtfs, route_id, keep = TRUE) {
 
   # input checking
 

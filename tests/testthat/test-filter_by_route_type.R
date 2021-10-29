@@ -1,4 +1,4 @@
-context("Filter by stop_id")
+context("Filter by route_type")
 
 
 # setup -------------------------------------------------------------------
@@ -6,24 +6,25 @@ context("Filter by stop_id")
 
 path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(path)
-stop_ids <- c("18848", "940004157")
-env <- environment()
+route_type <- 1
+
 
 # tests -------------------------------------------------------------------
-# the large majority of tests are already conducted inside filter_trip_id(),
-# which filter_stop_id() calls. only a few sanity checks are included here
+# the large majority of tests are already conducted inside filter_by_route_id(),
+# which filter_by_route_type() calls. only a few sanity checks are included here
 
 
 test_that("raises error due to incorrect input types", {
-  expect_error(filter_stop_id(unclass(gtfs), stop_ids))
-  expect_error(filter_stop_id(gtfs, factor(stop_ids)))
-  expect_error(filter_stop_id(gtfs, stop_ids, keep = "TRUE"))
+  expect_error(filter_by_route_type(unclass(gtfs), route_type))
+  expect_error(filter_by_route_type(gtfs, factor(route_type)))
+  expect_error(filter_by_route_type(gtfs, 124))
+  expect_error(filter_by_route_type(gtfs, route_type, keep = "TRUE"))
 })
 
 test_that("results in a dt_gtfs object", {
   # a dt_gtfs object is a list with "dt_gtfs" and "gtfs" classes
   dt_gtfs_class <- c("dt_gtfs", "gtfs", "list")
-  smaller_gtfs <- filter_stop_id(gtfs, stop_ids)
+  smaller_gtfs <- filter_by_route_type(gtfs, route_type)
   expect_s3_class(smaller_gtfs, dt_gtfs_class)
   expect_type(smaller_gtfs, "list")
 
@@ -38,7 +39,7 @@ test_that("doesn't change given gtfs", {
   gtfs <- read_gtfs(path)
   expect_identical(original_gtfs, gtfs)
 
-  smaller_gtfs <- filter_stop_id(gtfs, stop_ids)
+  smaller_gtfs <- filter_by_route_type(gtfs, route_type)
   expect_false(identical(original_gtfs, gtfs))
 
   data.table::setindex(gtfs$agency, NULL)
@@ -51,11 +52,10 @@ test_that("doesn't change given gtfs", {
   expect_identical(original_gtfs, gtfs)
 })
 
-test_that("'stop_id' and 'keep' arguments work correctly", {
-  relevant_trips <- c("METRÔ L2-0", "METRÔ L2-1", "2161-10-0")
-  smaller_gtfs_keeping <- filter_stop_id(gtfs, stop_ids)
-  expect_true(all(smaller_gtfs_keeping$trips$trip_id %in% relevant_trips))
+test_that("'route_type' and 'keep' arguments work correctly", {
+  smaller_gtfs_keeping <- filter_by_route_type(gtfs, route_type)
+  expect_true(all(smaller_gtfs_keeping$routes$route_type %in% route_type))
 
-  smaller_gtfs_not_keeping <- filter_stop_id(gtfs, stop_ids, keep = FALSE)
-  expect_true(!any(smaller_gtfs_not_keeping$trips$trip_id %in% relevant_trips))
+  smaller_gtfs_not_keeping <- filter_by_route_type(gtfs, route_type, keep = FALSE)
+  expect_true(!any(smaller_gtfs_not_keeping$routes$route_type %in% route_type))
 })

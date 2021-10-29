@@ -22,15 +22,15 @@
 #' object.size(gtfs)
 #'
 #' # keeps entries related to passed shape_ids
-#' smaller_gtfs <- filter_shape_id(gtfs, shape_ids)
+#' smaller_gtfs <- filter_by_shape_id(gtfs, shape_ids)
 #' object.size(smaller_gtfs)
 #'
 #' # drops entries related to passed shape_ids
-#' smaller_gtfs <- filter_shape_id(gtfs, shape_ids, keep = FALSE)
+#' smaller_gtfs <- filter_by_shape_id(gtfs, shape_ids, keep = FALSE)
 #' object.size(smaller_gtfs)
 #'
 #' @export
-filter_shape_id <- function(gtfs, shape_id, keep = TRUE) {
+filter_by_shape_id <- function(gtfs, shape_id, keep = TRUE) {
 
   # input checking
 

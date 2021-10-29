@@ -42,15 +42,15 @@
 #' object.size(gtfs)
 #'
 #' # keeps entries related to passed route_types
-#' smaller_gtfs <- filter_route_type(gtfs, route_type = 1)
+#' smaller_gtfs <- filter_by_route_type(gtfs, route_type = 1)
 #' object.size(smaller_gtfs)
 #'
 #' # drops entries related to passed route_types
-#' smaller_gtfs <- filter_route_type(gtfs, route_type = 1, keep = FALSE)
+#' smaller_gtfs <- filter_by_route_type(gtfs, route_type = 1, keep = FALSE)
 #' object.size(smaller_gtfs)
 #'
 #' @export
-filter_route_type <- function(gtfs, route_type, keep = TRUE) {
+filter_by_route_type <- function(gtfs, route_type, keep = TRUE) {
 
   # input checking
 
@@ -70,7 +70,7 @@ filter_route_type <- function(gtfs, route_type, keep = TRUE) {
   env <- environment()
 
   # select the 'route_id's that correspond to the given 'route_type's to filter
-  # those using filter_route_id()
+  # those using filter_by_route_id()
 
   if (gtfsio::check_fields_exist(gtfs, "routes", c("route_id", "route_type"))) {
 
@@ -85,7 +85,7 @@ filter_route_type <- function(gtfs, route_type, keep = TRUE) {
       route_type %in% get("route_type", envir = env)
     ]$route_id
 
-    gtfs <- filter_route_id(gtfs, route_id, keep)
+    gtfs <- filter_by_route_id(gtfs, route_id, keep)
 
   }
 

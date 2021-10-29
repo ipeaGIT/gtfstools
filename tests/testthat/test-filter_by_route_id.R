@@ -17,15 +17,15 @@ ggl_routes <- c("A", "TSW")
 
 
 test_that("raises error due to incorrect input types", {
-  expect_error(filter_route_id(unclass(spo_gtfs), spo_routes))
-  expect_error(filter_route_id(spo_gtfs, factor(spo_routes)))
-  expect_error(filter_route_id(spo_gtfs, spo_routes, keep = "TRUE"))
+  expect_error(filter_by_route_id(unclass(spo_gtfs), spo_routes))
+  expect_error(filter_by_route_id(spo_gtfs, factor(spo_routes)))
+  expect_error(filter_by_route_id(spo_gtfs, spo_routes, keep = "TRUE"))
 })
 
 test_that("results in a dt_gtfs object", {
   # a dt_gtfs object is a list with "dt_gtfs" and "gtfs" classes
   dt_gtfs_class <- c("dt_gtfs", "gtfs", "list")
-  smaller_gtfs <- filter_route_id(spo_gtfs, spo_routes)
+  smaller_gtfs <- filter_by_route_id(spo_gtfs, spo_routes)
   expect_s3_class(smaller_gtfs, dt_gtfs_class)
   expect_type(smaller_gtfs, "list")
 
@@ -40,7 +40,7 @@ test_that("doesn't change given gtfs", {
   gtfs <- read_gtfs(spo_path)
   expect_identical(original_gtfs, gtfs)
 
-  smaller_gtfs <- filter_route_id(gtfs, spo_routes)
+  smaller_gtfs <- filter_by_route_id(gtfs, spo_routes)
   expect_false(identical(original_gtfs, gtfs))
 
   data.table::setindex(gtfs$agency, NULL)
@@ -53,12 +53,12 @@ test_that("doesn't change given gtfs", {
 })
 
 test_that("'route_id' and 'keep' arguments work correctly", {
-  smaller_ggl_keeping <- filter_route_id(ggl_gtfs, ggl_routes)
+  smaller_ggl_keeping <- filter_by_route_id(ggl_gtfs, ggl_routes)
   expect_true(all(smaller_ggl_keeping$routes$route_id %chin% ggl_routes))
   expect_true(all(smaller_ggl_keeping$trips$route_id %chin% ggl_routes))
   expect_true(all(smaller_ggl_keeping$fare_rules$route_id %chin% ggl_routes))
 
-  smaller_ggl_not_keeping <- filter_route_id(ggl_gtfs, ggl_routes, keep = FALSE)
+  smaller_ggl_not_keeping <- filter_by_route_id(ggl_gtfs, ggl_routes, keep = FALSE)
   expect_true(!any(smaller_ggl_not_keeping$routes$route_id %chin% ggl_routes))
   expect_true(!any(smaller_ggl_not_keeping$trips$route_id %chin% ggl_routes))
   expect_true(
@@ -70,7 +70,7 @@ test_that("it doesn't throw warnings because of missing stations in 'stops'", {
   # this would be caused if 'stop_times' mentioned a stop not listed in 'stops'.
   # the current implementation suppress this eventual warning, but perhaps we
   # could throw a meaningful warning in the future
-  expect_silent(filter_route_id(ggl_gtfs, ggl_routes))
+  expect_silent(filter_by_route_id(ggl_gtfs, ggl_routes))
 })
 
 test_that("the function filters berlin's gtfs correctly", {
@@ -78,7 +78,7 @@ test_that("the function filters berlin's gtfs correctly", {
   ber_gtfs <- read_gtfs(ber_path)
   ber_routes <- c("1923_700", "1922_3")
 
-  smaller_ber <- filter_route_id(ber_gtfs, ber_routes)
+  smaller_ber <- filter_by_route_id(ber_gtfs, ber_routes)
 
   # routes
   expect_true(nrow(smaller_ber$routes) == 2)
@@ -119,7 +119,7 @@ test_that("the function filters berlin's gtfs correctly", {
 })
 
 test_that("the function filters sao paulo's gtfs correctly", {
-  smaller_spo <- filter_route_id(spo_gtfs, spo_routes)
+  smaller_spo <- filter_by_route_id(spo_gtfs, spo_routes)
 
   # routes
   expect_true(nrow(smaller_spo$routes) == 2)
@@ -154,7 +154,7 @@ test_that("the function filters sao paulo's gtfs correctly", {
 })
 
 test_that("the function filters google's gtfs correctly", {
-  smaller_ggl <- filter_route_id(ggl_gtfs, ggl_routes)
+  smaller_ggl <- filter_by_route_id(ggl_gtfs, ggl_routes)
 
   # routes
   expect_true(all(smaller_ggl$routes$route_id %chin% ggl_routes))

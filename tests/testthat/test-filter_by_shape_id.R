@@ -17,15 +17,15 @@ ggl_shapes <- "A_shp"
 
 
 test_that("raises error due to incorrect input types", {
-  expect_error(filter_shape_id(unclass(spo_gtfs), spo_shapes))
-  expect_error(filter_shape_id(spo_gtfs, factor(spo_shapes)))
-  expect_error(filter_shape_id(spo_gtfs, spo_shapes, keep = "TRUE"))
+  expect_error(filter_by_shape_id(unclass(spo_gtfs), spo_shapes))
+  expect_error(filter_by_shape_id(spo_gtfs, factor(spo_shapes)))
+  expect_error(filter_by_shape_id(spo_gtfs, spo_shapes, keep = "TRUE"))
 })
 
 test_that("results in a dt_gtfs object", {
   # a dt_gtfs object is a list with "dt_gtfs" and "gtfs" classes
   dt_gtfs_class <- c("dt_gtfs", "gtfs", "list")
-  smaller_gtfs <- filter_shape_id(spo_gtfs, spo_shapes)
+  smaller_gtfs <- filter_by_shape_id(spo_gtfs, spo_shapes)
   expect_s3_class(smaller_gtfs, dt_gtfs_class, exact = TRUE)
   expect_type(smaller_gtfs, "list")
 
@@ -40,7 +40,7 @@ test_that("doesn't change given gtfs", {
   gtfs <- read_gtfs(spo_path)
   expect_identical(original_gtfs, gtfs)
 
-  smaller_gtfs <- filter_shape_id(gtfs, spo_shapes)
+  smaller_gtfs <- filter_by_shape_id(gtfs, spo_shapes)
   expect_false(identical(original_gtfs, gtfs))
 
   data.table::setindex(gtfs$agency, NULL)
@@ -53,11 +53,11 @@ test_that("doesn't change given gtfs", {
 })
 
 test_that("'shape_id' and 'keep' arguments work correctly", {
-  smaller_keeping <- filter_shape_id(ggl_gtfs, ggl_shapes)
+  smaller_keeping <- filter_by_shape_id(ggl_gtfs, ggl_shapes)
   expect_true(all(smaller_keeping$shapes$shape_id %chin% ggl_shapes))
   expect_true(all(smaller_keeping$trips$shape_id %chin% ggl_shapes))
 
-  smaller_not_keeping <- filter_shape_id(ggl_gtfs, ggl_shapes, keep = FALSE)
+  smaller_not_keeping <- filter_by_shape_id(ggl_gtfs, ggl_shapes, keep = FALSE)
   expect_true(!any(smaller_not_keeping$shapes$shape_id %chin% ggl_shapes))
   expect_true(!any(smaller_not_keeping$trips$shape_id %chin% ggl_shapes))
 })
@@ -67,7 +67,7 @@ test_that("the function filters berlin's gtfs correctly", {
   ber_gtfs <- read_gtfs(ber_path)
   ber_shapes <- c("14", "2")
 
-  smaller_ber <- filter_shape_id(ber_gtfs, ber_shapes)
+  smaller_ber <- filter_by_shape_id(ber_gtfs, ber_shapes)
 
   # shapes
   expect_true(all(smaller_ber$shapes$shape_id %chin% ber_shapes))
@@ -103,7 +103,7 @@ test_that("the function filters berlin's gtfs correctly", {
 })
 
 test_that("the function filters sao paulo's gtfs correctly", {
-  smaller_spo <- filter_shape_id(spo_gtfs, spo_shapes)
+  smaller_spo <- filter_by_shape_id(spo_gtfs, spo_shapes)
 
   # shapes
   expect_true(all(smaller_spo$shapes$shape_id %chin% spo_shapes))
@@ -138,7 +138,7 @@ test_that("the function filters sao paulo's gtfs correctly", {
 })
 
 test_that("the function filters google's gtfs correctly", {
-  smaller_ggl <- filter_shape_id(ggl_gtfs, ggl_shapes)
+  smaller_ggl <- filter_by_shape_id(ggl_gtfs, ggl_shapes)
 
   # expect smaller_ggl to be identical to ggl_gtfs, because shapes only contain
   # one shape_id and trips doesn't contain a shape_id - i.e. none of the filters

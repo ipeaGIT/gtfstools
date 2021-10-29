@@ -128,7 +128,7 @@ test_that("unlisted parent_stations do not introduce NAs", {
   ber_gtfs <- read_gtfs(ber_path)
   ber_shapes <- c("14", "2")
 
-  smaller_ber <- filter_shape_id(ber_gtfs, ber_shapes)
+  smaller_ber <- filter_by_shape_id(ber_gtfs, ber_shapes)
 
   parents <- get_parent_station(ber_gtfs, smaller_ber$stop_times$stop_id)
   expect_false(any(is.na(parents$stop_id)))

@@ -17,15 +17,15 @@ ggl_trips <- "AWE1"
 
 
 test_that("raises error due to incorrect input types", {
-  expect_error(filter_trip_id(unclass(spo_gtfs), spo_trips))
-  expect_error(filter_trip_id(spo_gtfs, factor(spo_trips)))
-  expect_error(filter_trip_id(spo_gtfs, spo_trips, keep = "TRUE"))
+  expect_error(filter_by_trip_id(unclass(spo_gtfs), spo_trips))
+  expect_error(filter_by_trip_id(spo_gtfs, factor(spo_trips)))
+  expect_error(filter_by_trip_id(spo_gtfs, spo_trips, keep = "TRUE"))
 })
 
 test_that("results in a dt_gtfs object", {
   # a dt_gtfs object is a list with "dt_gtfs" and "gtfs" classes
   dt_gtfs_class <- c("dt_gtfs", "gtfs", "list")
-  smaller_gtfs <- filter_trip_id(spo_gtfs, spo_trips)
+  smaller_gtfs <- filter_by_trip_id(spo_gtfs, spo_trips)
   expect_s3_class(smaller_gtfs, dt_gtfs_class)
   expect_type(smaller_gtfs, "list")
 
@@ -40,7 +40,7 @@ test_that("doesn't change given gtfs", {
   gtfs <- read_gtfs(spo_path)
   expect_identical(original_gtfs, gtfs)
 
-  smaller_gtfs <- filter_trip_id(gtfs, spo_trips)
+  smaller_gtfs <- filter_by_trip_id(gtfs, spo_trips)
   expect_false(identical(original_gtfs, gtfs))
 
   data.table::setindex(gtfs$agency, NULL)
@@ -52,12 +52,12 @@ test_that("doesn't change given gtfs", {
 })
 
 test_that("'trip_id' and 'keep' arguments work correctly", {
-  smaller_keeping <- filter_trip_id(ggl_gtfs, ggl_trips)
+  smaller_keeping <- filter_by_trip_id(ggl_gtfs, ggl_trips)
   expect_true(all(smaller_keeping$trips$trip_id %chin% ggl_trips))
   expect_true(all(smaller_keeping$stop_times$trip_id %chin% ggl_trips))
   expect_true(all(smaller_keeping$frequencies$trip_id %chin% ggl_trips))
 
-  smaller_not_keeping <- filter_trip_id(ggl_gtfs, ggl_trips, keep = FALSE)
+  smaller_not_keeping <- filter_by_trip_id(ggl_gtfs, ggl_trips, keep = FALSE)
   expect_true(!any(smaller_not_keeping$trips$trip_id %chin% ggl_trips))
   expect_true(!any(smaller_not_keeping$stop_times$trip_id %chin% ggl_trips))
   expect_true(!any(smaller_not_keeping$frequencies$trip_id %chin% ggl_trips))
@@ -67,7 +67,7 @@ test_that("it doesn't throw warnings because of missing stations in 'stops'", {
   # this would be caused if 'stop_times' mentioned a stop not listed in 'stops'.
   # the current implementation suppress this eventual warning, but perhaps we
   # could throw a meaningful warning in the future
-  expect_silent(filter_trip_id(ggl_gtfs, ggl_trips))
+  expect_silent(filter_by_trip_id(ggl_gtfs, ggl_trips))
 })
 
 test_that("the function filters berlin's gtfs correctly", {
@@ -75,7 +75,7 @@ test_that("the function filters berlin's gtfs correctly", {
   ber_gtfs <- read_gtfs(ber_path)
   ber_trips <- c("146389748", "146387802")
 
-  smaller_ber <- filter_trip_id(ber_gtfs, ber_trips)
+  smaller_ber <- filter_by_trip_id(ber_gtfs, ber_trips)
 
   # trips
   expect_true(nrow(smaller_ber$trips) == 2)
@@ -112,7 +112,7 @@ test_that("the function filters berlin's gtfs correctly", {
 })
 
 test_that("the function filters sao paulo's gtfs correctly", {
-  smaller_spo <- filter_trip_id(spo_gtfs, spo_trips)
+  smaller_spo <- filter_by_trip_id(spo_gtfs, spo_trips)
 
   # trips
   expect_true(all(smaller_spo$trips$trip_id %chin% spo_trips))
@@ -150,7 +150,7 @@ test_that("the function filters sao paulo's gtfs correctly", {
 })
 
 test_that("the function filters google's gtfs correctly", {
-  smaller_ggl <- filter_trip_id(ggl_gtfs, ggl_trips)
+  smaller_ggl <- filter_by_trip_id(ggl_gtfs, ggl_trips)
 
   # trips
   expect_true(all(smaller_ggl$trips$trip_id %chin% ggl_trips))
