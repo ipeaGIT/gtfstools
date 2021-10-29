@@ -11,16 +11,17 @@ filter_route_id(gtfs, route_id, keep = TRUE)
 
 \item{route_id}{A character vector. The \code{route_id}s used to filter the data.}
 
-\item{keep}{A logical. Whether the entries related to the passed \code{route_id}s
-should be kept or dropped (defaults to \code{TRUE}, which keeps the entries).}
+\item{keep}{A logical. Whether the entries related to the specified
+\code{route_id}s should be kept or dropped (defaults to \code{TRUE}, which keeps the
+entries).}
 }
 \value{
 The GTFS object passed to the \code{gtfs} parameter, after the filtering
 process.
 }
 \description{
-Filters a GTFS object by \code{route_id}s, keeping (or dropping) the entries that
-relate to such ids in each file.
+Filters a GTFS object by \code{route_id}s, keeping (or dropping) the relevant
+entries in each file.
 }
 \examples{
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")

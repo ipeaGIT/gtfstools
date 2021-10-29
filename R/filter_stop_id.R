@@ -43,9 +43,9 @@ filter_stop_id <- function(gtfs, stop_id, keep = TRUE) {
   if (gtfsio::check_fields_exist(gtfs, "stop_times", "stop_id")) {
 
     gtfsio::assert_fields_types(gtfs, "stop_times", "stop_id", "character")
-    relevant_trips <- gtfs$stop_times[
-      stop_id %chin% get("stop_id", envir = env)
-    ]$trip_id
+    relevant_trips <- unique(
+      gtfs$stop_times[stop_id %chin% get("stop_id", envir = env)]$trip_id
+    )
 
     gtfs <- filter_trip_id(gtfs, relevant_trips, keep)
 

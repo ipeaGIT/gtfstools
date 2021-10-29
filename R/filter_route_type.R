@@ -1,12 +1,12 @@
 #' Filter GTFS object by `route_type` (transport mode)
 #'
-#' Filters a GTFS object by `route_type`s, keeping (or dropping) the entries
-#' that relate to such types in each file.
+#' Filters a GTFS object by `route_type`s, keeping (or dropping) the relevant
+#' entries in each file.
 #'
 #' @param gtfs A GTFS object.
 #' @param route_type An integer vector. The `route_type`s used to filter the
 #'   data.
-#' @param keep A logical. Whether the entries related to the passed
+#' @param keep A logical. Whether the entries related to the specified
 #'   `route_type`s should be kept or dropped (defaults to `TRUE`, which keeps
 #'   the entries).
 #'

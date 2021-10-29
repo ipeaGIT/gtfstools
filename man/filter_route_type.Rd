@@ -12,7 +12,7 @@ filter_route_type(gtfs, route_type, keep = TRUE)
 \item{route_type}{An integer vector. The \code{route_type}s used to filter the
 data.}
 
-\item{keep}{A logical. Whether the entries related to the passed
+\item{keep}{A logical. Whether the entries related to the specified
 \code{route_type}s should be kept or dropped (defaults to \code{TRUE}, which keeps
 the entries).}
 }
@@ -21,8 +21,8 @@ The GTFS object passed to the \code{gtfs} parameter, after the filtering
 process.
 }
 \description{
-Filters a GTFS object by \code{route_type}s, keeping (or dropping) the entries
-that relate to such types in each file.
+Filters a GTFS object by \code{route_type}s, keeping (or dropping) the relevant
+entries in each file.
 }
 \section{Route types}{
 Valid options are:

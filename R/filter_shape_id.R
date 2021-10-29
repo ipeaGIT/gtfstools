@@ -1,12 +1,13 @@
 #' Filter GTFS object by `shape_id`
 #'
-#' Filters a GTFS object by `shape_id`s, keeping (or dropping) the entries that
-#' relate to such ids in each file.
+#' Filters a GTFS object by `shape_id`s, keeping (or dropping) the relevant
+#' entries in each file.
 #'
 #' @param gtfs A GTFS object.
 #' @param shape_id A character vector. The `shape_id`s used to filter the data.
-#' @param keep A logical. Whether the entries related to the passed `shape_id`s
-#'   should be kept or dropped (defaults to `TRUE`, which keeps the entries).
+#' @param keep A logical. Whether the entries related to the specified
+#'   `shape_id`s should be kept or dropped (defaults to `TRUE`, which keeps the
+#'   entries).
 #'
 #' @return The GTFS object passed to the `gtfs` parameter, after the filtering
 #' process.
