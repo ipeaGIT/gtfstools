@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Validate GTFS file — validate_gtfs • gtfstools</title>
+<title>Filter GTFS object by shape_id — filter_by_shape_id • gtfstools</title>
 
 
 <!-- jquery -->
@@ -39,12 +39,9 @@
 
 
 
-<meta property="og:title" content="Validate GTFS file — validate_gtfs" />
-<meta property="og:description" content="Validates the GTFS object against GTFS specifications and raises warnings if
-required files/fields are not found.
-Important note: this function is considered deprecated. Use it with caution,
-and note that its usage and output may heavily change in future versions of
-gtfstools." />
+<meta property="og:title" content="Filter GTFS object by shape_id — filter_by_shape_id" />
+<meta property="og:description" content="Filters a GTFS object by shape_ids, keeping (or dropping) the relevant
+entries in each file." />
 
 
 
@@ -118,89 +115,65 @@ gtfstools." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Validate GTFS file</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ipeaGIT/gtfstools/blob/master/R/validate_gtfs.R'><code>R/validate_gtfs.R</code></a></small>
-    <div class="hidden name"><code>validate_gtfs.Rd</code></div>
+    <h1>Filter GTFS object by <code>shape_id</code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/ipeaGIT/gtfstools/blob/master/R/filter_by_shape_id.R'><code>R/filter_by_shape_id.R</code></a></small>
+    <div class="hidden name"><code>filter_by_shape_id.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Validates the GTFS object against GTFS specifications and raises warnings if
-required files/fields are not found.</p>
-<p>Important note: this function is considered deprecated. Use it with caution,
-and note that its usage and output may heavily change in future versions of
-<code>gtfstools</code>.</p>
+    <p>Filters a GTFS object by <code>shape_id</code>s, keeping (or dropping) the relevant
+entries in each file.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>validate_gtfs</span><span class='op'>(</span><span class='va'>gtfs</span>, files <span class='op'>=</span> <span class='cn'>NULL</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span>, warnings <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>filter_by_shape_id</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>shape_id</span>, keep <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>gtfs</th>
-      <td><p>A GTFS object as created by <code><a href='read_gtfs.html'>read_gtfs</a></code>.</p></td>
+      <td><p>A GTFS object.</p></td>
     </tr>
     <tr>
-      <th>files</th>
-      <td><p>A character vector containing the text files to be validated
-against the GTFS specification (without the <code>.txt</code> extension). If
-<code>NULL</code> (the default) the provided GTFS is validated against all
-possible GTFS text files.</p></td>
+      <th>shape_id</th>
+      <td><p>A character vector. The <code>shape_id</code>s used to filter the data.</p></td>
     </tr>
     <tr>
-      <th>quiet</th>
-      <td><p>Whether to hide log messages (defaults to TRUE).</p></td>
-    </tr>
-    <tr>
-      <th>warnings</th>
-      <td><p>Whether to display warning messages (defaults to TRUE).</p></td>
+      <th>keep</th>
+      <td><p>A logical. Whether the entries related to the specified
+<code>shape_id</code>s should be kept or dropped (defaults to <code>TRUE</code>, which keeps the
+entries).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A GTFS object with a <code>validation_result</code> attribute. This
-attribute is a <code>data.table</code> containing the validation summary of all
-possible fields from the specified files.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <p>The GTFS object passed to the <code>gtfs</code> parameter, after the filtering
+process.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    
-
-<p>GTFS object's files and fields are validated against the GTFS specifications
-as documented in <a href='https://developers.google.com/transit/gtfs/reference'>
-Google's Static GTFS Reference</a>:</p><ul>
-<li><p>GTFS feeds are considered valid if they include all required files
-and fields. If a required file/field is missing the function (optionally)
-raises a warning.</p></li>
-<li><p>Optional files/fields are listed in the reference above but are not
-required, thus no warning is raised if they are missing.</p></li>
-<li><p>Extra files/fields are those who are not listed in the reference
-above (either because they refer to a specific GTFS extension or due to
-any other reason).</p></li>
-</ul><p>Note that some files (<code>calendar.txt</code>, <code>calendar_dates.txt</code> and
-<code>feed_info.txt</code>) are conditionally required. This means that:</p><ul>
-<li><p><code>calendar.txt</code> is initially set as a required file. If it's not
-present, however, it becomes optional and <code>calendar_dates.txt</code>
-(originally set as optional) becomes required.</p></li>
-<li><p><code>feed_info.txt</code> is initially set as an optional file. If
-<code>translations.txt</code> is present, however, it becomes required.</p></li>
-</ul>
-
+    <div class='dont-index'><p>Other filtering functions: 
+<code><a href='filter_by_route_id.html'>filter_by_route_id</a>()</code>,
+<code><a href='filter_by_route_type.html'>filter_by_route_type</a>()</code>,
+<code><a href='filter_by_sf.html'>filter_by_sf</a>()</code>,
+<code><a href='filter_by_stop_id.html'>filter_by_stop_id</a>()</code>,
+<code><a href='filter_by_trip_id.html'>filter_by_trip_id</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>data_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/spo_gtfs.zip"</span>, package <span class='op'>=</span> <span class='st'>"gtfstools"</span><span class='op'>)</span>
-
 <span class='va'>gtfs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_gtfs.html'>read_gtfs</a></span><span class='op'>(</span><span class='va'>data_path</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='st'>"validation_result"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; NULL</div><div class='input'>
-<span class='co'># should not raise a warning, because 'shapes' is not a required file</span>
-<span class='va'>gtfs</span><span class='op'>$</span><span class='va'>shapes</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
-<span class='va'>validation_result</span> <span class='op'>&lt;-</span> <span class='fu'>validate_gtfs</span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: 'validate_gtfs()' is deprecated. Its usage and output will probably change on future gtfstools versions.</span></div><div class='input'>
-<span class='co'># should raise a warning, because 'stop_times' is a required file</span>
-<span class='va'>gtfs</span><span class='op'>$</span><span class='va'>stop_times</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
-<span class='va'>validation_result</span> <span class='op'>&lt;-</span> <span class='fu'>validate_gtfs</span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: 'validate_gtfs()' is deprecated. Its usage and output will probably change on future gtfstools versions.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Invalid feed. Missing required file(s): 'stop_times'</span></div><div class='input'>
+<span class='va'>shape_ids</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"17846"</span>, <span class='st'>"68962"</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 811304 bytes</div><div class='input'>
+<span class='co'># keeps entries related to passed shape_ids</span>
+<span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_by_shape_id</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>shape_ids</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>smaller_gtfs</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 99456 bytes</div><div class='input'>
+<span class='co'># drops entries related to passed shape_ids</span>
+<span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_by_shape_id</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>shape_ids</span>, keep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>smaller_gtfs</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 740840 bytes</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
