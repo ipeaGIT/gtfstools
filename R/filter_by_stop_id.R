@@ -23,11 +23,11 @@
 #'
 #' object.size(gtfs)
 #'
-#' # keeps entries related to passed shape_ids
+#' # keeps entries related to specified stop_ids
 #' smaller_gtfs <- filter_by_stop_id(gtfs, stop_ids)
 #' object.size(smaller_gtfs)
 #'
-#' # drops entries related to passed shape_ids
+#' # drops entries related to specified stop_ids
 #' smaller_gtfs <- filter_by_stop_id(gtfs, stop_ids, keep = FALSE)
 #' object.size(smaller_gtfs)
 #'
