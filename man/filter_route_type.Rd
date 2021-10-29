@@ -62,4 +62,11 @@ smaller_gtfs <- filter_route_type(gtfs, route_type = 1, keep = FALSE)
 object.size(smaller_gtfs)
 
 }
-\concept{filter functions}
+\seealso{
+Other filtering functions: 
+\code{\link{filter_route_id}()},
+\code{\link{filter_shape_id}()},
+\code{\link{filter_stop_id}()},
+\code{\link{filter_trip_id}()}
+}
+\concept{filtering functions}

@@ -7,6 +7,7 @@
 - New function `filter_route_type()`.
 - New function `filter_route_id()`. 
 - New function `filter_shape_id()`.
+- New function `filter_stop_id()`.
 - New function `filter_trip_id()`. 
 - New function `get_parent_station()`.
 - New function `remove_duplicates()`.

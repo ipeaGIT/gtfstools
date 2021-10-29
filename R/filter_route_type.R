@@ -32,7 +32,7 @@
 #' - 12 - Monorail. Railway in which the track consists of a single rail or a
 #' beam.
 #'
-#' @family filter functions
+#' @family filtering functions
 #'
 #' @examples
 #' # read gtfs
