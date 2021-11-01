@@ -10,7 +10,7 @@
   "codeRepository": "https://github.com/ipeaGIT/gtfstools",
   "issueTracker": "https://github.com/ipeaGIT/gtfstools/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.1.0.9049",
+  "version": "0.1.0.9050",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -233,8 +233,8 @@
       "sameAs": "https://CRAN.R-project.org/package=zip"
     }
   ],
-  "fileSize": "2558.842KB",
-  "contIntegration": "https://codecov.io/gh/ipeaGIT/gtfstools?branch=master",
+  "fileSize": "2527.304KB",
+  "contIntegration": ["https://github.com/ipeaGIT/gtfstools/actions?query=workflow%3AR-CMD-check", "https://codecov.io/gh/ipeaGIT/gtfstools?branch=master"],
   "developmentStatus": "https://lifecycle.r-lib.org/articles/stages.html",
   "keywords": [
     "r",
