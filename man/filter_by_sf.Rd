@@ -12,9 +12,12 @@ filter_by_sf(gtfs, geom, spatial_operation = sf::st_intersects, keep = TRUE)
 \item{geom}{An \code{sf} object. Describes the geometry used to filter the data.}
 
 \item{spatial_operation}{An spatial operation function from the set of
-options listed in \link[sf:geos_binary_pred]{geos_binary_pred}. Defaults to
-\code{sf::st_intersects}, which tests if the shapes and trips have ANY
-intersection with the object specified in \code{geom}.}
+options listed in \link[sf:geos_binary_pred]{geos_binary_pred} (check the
+\href{https://en.wikipedia.org/wiki/DE-9IM}{DE-I9M} Wikipedia entry for the
+definition of each function). Defaults to \code{sf::st_intersects}, which tests
+if the shapes and trips have ANY intersection with the object specified in
+\code{geom}. Please note that \code{geom} is passed as the \code{x} argument of these
+functions.}
 
 \item{keep}{A logical. Whether the entries related to the shapes and trips
 that cross through the given geometry should be kept or dropped (defaults
@@ -38,23 +41,16 @@ shape_sf <- convert_shapes_to_sf(gtfs, shape_id)
 bbox <- sf::st_bbox(shape_sf)
 object.size(gtfs)
 
-polygon <- sf::st_polygon(
-  list(rbind(
-    c(bbox$xmin, bbox$ymin),
-    c(bbox$xmin, bbox$ymax),
-    c(bbox$xmax, bbox$ymax),
-    c(bbox$xmax, bbox$ymin),
-    c(bbox$xmin, bbox$ymin)
-  ))
-)
-polygon <- sf::st_sf(geom = sf::st_sfc(polygon), crs = 4326)
-
 # keeps entries that intersect with the specified polygon
-smaller_gtfs <- filter_by_sf(gtfs, polygon)
+smaller_gtfs <- filter_by_sf(gtfs, bbox)
 object.size(smaller_gtfs)
 
 # drops entries that intersect with the specified polygon
-smaller_gtfs <- filter_by_sf(gtfs, polygon, keep = FALSE)
+smaller_gtfs <- filter_by_sf(gtfs, bbox, keep = FALSE)
+object.size(smaller_gtfs)
+
+# uses a different function to filter the gtfs
+smaller_gtfs <- filter_by_sf(gtfs, bbox, spatial_operation = sf::st_contains)
 object.size(smaller_gtfs)
 
 }

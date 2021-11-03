@@ -7,9 +7,12 @@
 #' @param gtfs A GTFS object.
 #' @param geom An `sf` object. Describes the geometry used to filter the data.
 #' @param spatial_operation An spatial operation function from the set of
-#'   options listed in [geos_binary_pred][sf::geos_binary_pred]. Defaults to
-#'   `sf::st_intersects`, which tests if the shapes and trips have ANY
-#'   intersection with the object specified in `geom`.
+#'   options listed in [geos_binary_pred][sf::geos_binary_pred] (check the
+#'   [DE-I9M](https://en.wikipedia.org/wiki/DE-9IM) Wikipedia entry for the
+#'   definition of each function). Defaults to `sf::st_intersects`, which tests
+#'   if the shapes and trips have ANY intersection with the object specified in
+#'   `geom`. Please note that `geom` is passed as the `x` argument of these
+#'   functions.
 #' @param keep A logical. Whether the entries related to the shapes and trips
 #'   that cross through the given geometry should be kept or dropped (defaults
 #'   to `TRUE`, which keeps the entries).
@@ -28,23 +31,16 @@
 #' bbox <- sf::st_bbox(shape_sf)
 #' object.size(gtfs)
 #'
-#' polygon <- sf::st_polygon(
-#'   list(rbind(
-#'     c(bbox$xmin, bbox$ymin),
-#'     c(bbox$xmin, bbox$ymax),
-#'     c(bbox$xmax, bbox$ymax),
-#'     c(bbox$xmax, bbox$ymin),
-#'     c(bbox$xmin, bbox$ymin)
-#'   ))
-#' )
-#' polygon <- sf::st_sf(geom = sf::st_sfc(polygon), crs = 4326)
-#'
 #' # keeps entries that intersect with the specified polygon
-#' smaller_gtfs <- filter_by_sf(gtfs, polygon)
+#' smaller_gtfs <- filter_by_sf(gtfs, bbox)
 #' object.size(smaller_gtfs)
 #'
 #' # drops entries that intersect with the specified polygon
-#' smaller_gtfs <- filter_by_sf(gtfs, polygon, keep = FALSE)
+#' smaller_gtfs <- filter_by_sf(gtfs, bbox, keep = FALSE)
+#' object.size(smaller_gtfs)
+#'
+#' # uses a different function to filter the gtfs
+#' smaller_gtfs <- filter_by_sf(gtfs, bbox, spatial_operation = sf::st_contains)
 #' object.size(smaller_gtfs)
 #'
 #' @export
@@ -54,15 +50,34 @@ filter_by_sf <- function(gtfs,
                          keep = TRUE) {
 
   checkmate::assert_class(gtfs, "dt_gtfs")
-  checkmate::assert_class(geom, "sf")
   checkmate::assert_logical(keep, len = 1)
+  checkmate::assert_class(spatial_operation, "function")
+  checkmate::assert(
+    checkmate::check_class(geom, "sf"),
+    checkmate::check_class(geom, "sfc"),
+    checkmate::check_class(geom, "bbox")
+  )
+
+  # convert 'geom' to polygon if a bounding box was given
+
+  geom <- polygon_from_bbox(geom)
+
+  # raise an error if 'geom' crs is not 4326, and merge features if geom has
+  # more than 1 row
+
+  if (sf::st_crs(geom) != sf::st_crs(4326))
+    stop("'geom' CRS must be WGS 84 (EPSG 4326).")
+
+  if (nrow(geom) > 1) geom <- sf::st_union(geom)
+
+  # actual filtering
 
   gtfs_list <- vector("list", 2L)
 
   if (gtfsio::check_files_exist(gtfs, "shapes")) {
 
     shapes_sf <- convert_shapes_to_sf(gtfs)
-    did_succeed_operation <- spatial_operation(shapes_sf, geom, sparse = FALSE)
+    did_succeed_operation <- spatial_operation(geom, shapes_sf, sparse = FALSE)
 
     shapes_sf <- shapes_sf[did_succeed_operation, ]
 
@@ -74,7 +89,7 @@ filter_by_sf <- function(gtfs,
   if (gtfsio::check_files_exist(gtfs, "stop_times")) {
 
     trips_sf <- get_trip_geometry(gtfs, file = "stop_times")
-    did_succeed_operation <- spatial_operation(trips_sf, geom, sparse = FALSE)
+    did_succeed_operation <- spatial_operation(geom, trips_sf, sparse = FALSE)
 
     trips_sf <- trips_sf[did_succeed_operation, ]
 
@@ -100,5 +115,34 @@ filter_by_sf <- function(gtfs,
   result_gtfs <- remove_duplicates(result_gtfs)
 
   return(result_gtfs)
+
+}
+
+
+
+#' Build a bouding box polygon
+#'
+#' Builds a polygon from a bounding box object.
+#'
+#' @param bbox A bouding box object.
+#'
+#' @keywords internal
+polygon_from_bbox <- function(bbox) {
+
+  checkmate::assert_class(bbox, "bbox")
+
+  polygon <- sf::st_polygon(
+    list(rbind(
+      c(bbox$xmin, bbox$ymin),
+      c(bbox$xmin, bbox$ymax),
+      c(bbox$xmax, bbox$ymax),
+      c(bbox$xmax, bbox$ymin),
+      c(bbox$xmin, bbox$ymin)
+    ))
+  )
+  polygon <- sf::st_sf(geom = sf::st_sfc(polygon), crs = 4326)
+  polygon <- sf::st_buffer(polygon, dist = 0)
+
+  return(polygon)
 
 }
