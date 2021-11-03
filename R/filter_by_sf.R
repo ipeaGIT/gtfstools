@@ -60,15 +60,18 @@ filter_by_sf <- function(gtfs,
 
   # convert 'geom' to polygon if a bounding box was given
 
-  geom <- polygon_from_bbox(geom)
+  if (inherits(geom, "bbox")) geom <- polygon_from_bbox(geom)
 
-  # raise an error if 'geom' crs is not 4326, and merge features if geom has
-  # more than 1 row
+  # raise an error if 'geom' crs is not 4326, and merge features if geom more
+  # than one feature
 
   if (sf::st_crs(geom) != sf::st_crs(4326))
     stop("'geom' CRS must be WGS 84 (EPSG 4326).")
 
-  if (nrow(geom) > 1) geom <- sf::st_union(geom)
+  if ((inherits(geom, "sf") && nrow(geom) > 1) ||
+    (inherits(geom, "sfc") && length(geom) > 1)) {
+    geom <- sf::st_union(geom)
+  }
 
   # actual filtering
 
@@ -98,8 +101,10 @@ filter_by_sf <- function(gtfs,
 
   }
 
-  # if neither 'shapes' or 'stop_times' exist the list will be empty, and an
-  # error is raise
+  # remove NULL elements from 'gtfs_list' and raise error if it's empty (happens
+  # when neither 'shapes' nor 'stop_times' tables are present in gtfs)
+
+  gtfs_list <- Filter(Negate(is.null), gtfs_list)
 
   if (length(gtfs_list) == 0)
     stop(
@@ -107,9 +112,7 @@ filter_by_sf <- function(gtfs,
       "It must contain either a 'shapes' or a 'stop_times' table."
     )
 
-  # remove NULL elements from 'gtfs_list' and merge the gtfs objects
-
-  gtfs_list <- Filter(Negate(is.null), gtfs_list)
+  # merge the gtfs objects
 
   result_gtfs <- merge_gtfs(gtfs_list)
   result_gtfs <- remove_duplicates(result_gtfs)
