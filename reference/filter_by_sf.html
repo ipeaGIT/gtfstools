@@ -143,9 +143,12 @@ operation.</p>
     <tr>
       <th>spatial_operation</th>
       <td><p>An spatial operation function from the set of
-options listed in <a href='https://r-spatial.github.io/sf/reference/geos_binary_pred.html'>geos_binary_pred</a>. Defaults to
-<code><a href='https://r-spatial.github.io/sf/reference/geos_binary_pred.html'>sf::st_intersects</a></code>, which tests if the shapes and trips have ANY
-intersection with the object specified in <code>geom</code>.</p></td>
+options listed in <a href='https://r-spatial.github.io/sf/reference/geos_binary_pred.html'>geos_binary_pred</a> (check the
+<a href='https://en.wikipedia.org/wiki/DE-9IM'>DE-I9M</a> Wikipedia entry for the
+definition of each function). Defaults to <code><a href='https://r-spatial.github.io/sf/reference/geos_binary_pred.html'>sf::st_intersects</a></code>, which tests
+if the shapes and trips have ANY intersection with the object specified in
+<code>geom</code>. Please note that <code>geom</code> is passed as the <code>x</code> argument of these
+functions.</p></td>
     </tr>
     <tr>
       <th>keep</th>
@@ -177,25 +180,18 @@ process.</p>
 <span class='va'>bbox</span> <span class='op'>&lt;-</span> <span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_bbox.html'>st_bbox</a></span><span class='op'>(</span><span class='va'>shape_sf</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 860808 bytes</div><div class='input'>
-<span class='va'>polygon</span> <span class='op'>&lt;-</span> <span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st.html'>st_polygon</a></span><span class='op'>(</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>bbox</span><span class='op'>$</span><span class='va'>xmin</span>, <span class='va'>bbox</span><span class='op'>$</span><span class='va'>ymin</span><span class='op'>)</span>,
-    <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>bbox</span><span class='op'>$</span><span class='va'>xmin</span>, <span class='va'>bbox</span><span class='op'>$</span><span class='va'>ymax</span><span class='op'>)</span>,
-    <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>bbox</span><span class='op'>$</span><span class='va'>xmax</span>, <span class='va'>bbox</span><span class='op'>$</span><span class='va'>ymax</span><span class='op'>)</span>,
-    <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>bbox</span><span class='op'>$</span><span class='va'>xmax</span>, <span class='va'>bbox</span><span class='op'>$</span><span class='va'>ymin</span><span class='op'>)</span>,
-    <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>bbox</span><span class='op'>$</span><span class='va'>xmin</span>, <span class='va'>bbox</span><span class='op'>$</span><span class='va'>ymin</span><span class='op'>)</span>
-  <span class='op'>)</span><span class='op'>)</span>
-<span class='op'>)</span>
-<span class='va'>polygon</span> <span class='op'>&lt;-</span> <span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/sf.html'>st_sf</a></span><span class='op'>(</span>geom <span class='op'>=</span> <span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/sfc.html'>st_sfc</a></span><span class='op'>(</span><span class='va'>polygon</span><span class='op'>)</span>, crs <span class='op'>=</span> <span class='fl'>4326</span><span class='op'>)</span>
-
 <span class='co'># keeps entries that intersect with the specified polygon</span>
-<span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_by_sf</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>polygon</span><span class='op'>)</span>
+<span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_by_sf</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>bbox</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>smaller_gtfs</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 324952 bytes</div><div class='input'>
 <span class='co'># drops entries that intersect with the specified polygon</span>
-<span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_by_sf</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>polygon</span>, keep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_by_sf</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>bbox</span>, keep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>smaller_gtfs</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 512288 bytes</div><div class='input'>
+<span class='co'># uses a different function to filter the gtfs</span>
+<span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_by_sf</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>bbox</span>, spatial_operation <span class='op'>=</span> <span class='fu'>sf</span><span class='fu'>::</span><span class='va'><a href='https://r-spatial.github.io/sf/reference/geos_binary_pred.html'>st_contains</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>smaller_gtfs</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 68976 bytes</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
