@@ -52,7 +52,7 @@ test_that("doesn't change given gtfs", {
 })
 
 test_that("'stop_id' and 'keep' arguments work correctly", {
-  relevant_trips <- c("METRÔ L2-0", "METRÔ L2-1", "2161-10-0")
+  relevant_trips <- gtfs$stop_times[stop_id %chin% stop_ids]$trip_id
   smaller_gtfs_keeping <- filter_by_stop_id(gtfs, stop_ids)
   expect_true(all(smaller_gtfs_keeping$trips$trip_id %in% relevant_trips))
 
