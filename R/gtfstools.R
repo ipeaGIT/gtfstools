@@ -6,12 +6,9 @@
 #'
 #' @section Basic usage:
 #' Please check the introductory vignette for basic usage:
-#' \itemize{
-#'   \item{Run \code{vignette("gtfstools")};}
-#'   \item{Alternatively, check it on
-#'     \href{https://ipeagit.github.io/gtfstools/articles/gtfstools.html}{
-#'     \code{{gtfstools}} website}.}
-#' }
+#' - Run `vignette("gtfstools")`;
+#' - Alternatively, check it on [`{gtfstools}` website](
+#' https://ipeagit.github.io/gtfstools/articles/gtfstools.html).
 #'
 #' @docType package
 #' @name gtfstools
@@ -60,6 +57,8 @@ utils::globalVariables(
     "level_id",
     "origin_id",
     "destination_id",
-    "contains_id"
+    "contains_id",
+    "from_stop_id",
+    "to_stop_id"
   )
 )

@@ -185,6 +185,15 @@ test_that("the function filters google's gtfs correctly", {
   # stops - no rows because stop_times' stops are not listed in 'stops'
   expect_true(nrow(smaller_ggl$stops) == 0)
 
+  # transfers - no rows either
+  expect_true(nrow(smaller_ggl$transfers) == 0)
+
+  # pathways - no rows either
+  expect_true(nrow(smaller_ggl$pathways) == 0)
+
+  # levels - no rows either
+  expect_true(nrow(smaller_ggl$levels) == 0)
+
   # frequencies
   expect_true(all(smaller_ggl$frequencies$trip_id %chin% ggl_trips))
 })

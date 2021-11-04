@@ -144,4 +144,31 @@ test_that("the function filters google's gtfs correctly", {
   # one shape_id and trips doesn't contain a shape_id - i.e. none of the filters
   # that are triggered by trip_id happen
   expect_identical(ggl_gtfs, smaller_ggl)
+
+  # adding a shape_id column to increase test coverage
+  # since the included shape is not equal to ggl_shapes, all tables (but shapes
+  # and agency) will be empty
+  ggl_gtfs$trips[, shape_id := "wrong_shape"]
+  smaller_ggl <- filter_by_shape_id(ggl_gtfs, ggl_shapes)
+
+  # shapes
+  expect_true(all(smaller_ggl$shapes$shape_id %chin% ggl_shapes))
+
+  #agency
+  relevant_agency <- "agency001"
+  expect_true(all(smaller_ggl$agency$agency_id %chin% relevant_agency))
+
+  # the rest
+  expect_true(nrow(smaller_ggl$trips) == 0)
+  expect_true(nrow(smaller_ggl$calendar) == 0)
+  expect_true(nrow(smaller_ggl$calendar_dates) == 0)
+  expect_true(nrow(smaller_ggl$routes) == 0)
+  expect_true(nrow(smaller_ggl$fare_rules) == 0)
+  expect_true(nrow(smaller_ggl$fare_attributes) == 0)
+  expect_true(nrow(smaller_ggl$stop_times) == 0)
+  expect_true(nrow(smaller_ggl$stops) == 0)
+  # expect_true(nrow(smaller_ggl$levels) == 0)
+  # expect_true(nrow(smaller_ggl$pathway) == 0)
+  # expect_true(nrow(smaller_ggl$transfers) == 0)
+  expect_true(nrow(smaller_ggl$frequencies) == 0)
 })
