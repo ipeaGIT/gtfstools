@@ -47,12 +47,11 @@ get_trip_segment_duration <- function(gtfs, trip_id = NULL, unit = "min") {
 
   # check if required fields and files exist
 
-  checkmate::assert(
-    check_gtfs_field_exists(
-      gtfs,
-      "stop_times",
-      c("trip_id", "arrival_time", "departure_time", "stop_sequence")
-    )
+  gtfsio::assert_fields_types(
+    gtfs,
+    "stop_times",
+    c("trip_id", "arrival_time", "departure_time", "stop_sequence"),
+    c("character", "character", "character", "integer")
   )
 
   # select 'trip_id's to get segment's duration of

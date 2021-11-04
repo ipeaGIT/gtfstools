@@ -1,112 +1,3 @@
-#' Set class and method to read dates as formatted in GTFS to a 'Date' object
-#'
-#' This is a build-time dependency on methods, as opposed to a run-time
-#' dependency, thus requiring the importFrom tag to avoid a NOTE when checking
-#' the package on CRAN.
-#'
-#' @keywords internal
-#' @importFrom methods setClass setAs
-methods::setClass("gtfs_date")
-methods::setAs(
-  "character",
-  "gtfs_date",
-  function(from) as.Date(from, format = "%Y%m%d")
-)
-
-#' Check for field existence in a GTFS text file
-#'
-#' Checks for the existence of a given field in a GTFS text file (represented by
-#' a column in a \code{data.table}). Must be used in conjunction with
-#' \code{\link[checkmate]{assert}}.
-#'
-#' @param gtfs A GTFS object as created by \code{\link{read_gtfs}}.
-#' @param file File in which the field should exist.
-#' @param field Field to check existence of.
-#'
-#' @return If the check is successful, returns \code{TRUE} invisibly. Else,
-#'   returns a string with error message.
-#'
-#' @noRd
-check_gtfs_field_exists <- function(gtfs, file, field) {
-
-  checkmate::assert_class(gtfs, "dt_gtfs")
-  checkmate::assert_string(file)
-  checkmate::assert_character(field)
-
-  # check if file is an index of gtfs
-
-  checkmate::assert(check_gtfs_file_exists(gtfs, file))
-
-  # check if "field" is a column in "file"
-
-  non_existent_field <- field[! field %chin% names(gtfs[[file]])]
-
-  if (identical(non_existent_field, character(0))) {
-
-    return(invisible(TRUE))
-
-  } else {
-
-    error_message <- ifelse(
-      length(non_existent_field) == 1,
-      paste0("File '", file, "' must contain '", non_existent_field, "' field"),
-      paste0(
-        "File '", file, "' must contain the following fields: ",
-        paste0("'", non_existent_field, "'", collapse = ", ")
-      )
-    )
-
-    return(error_message)
-
-  }
-
-}
-
-
-
-#' Check for GTFS text file existence
-#'
-#' Checks for the existence of a given file (as represented by a
-#' \code{data.table}) in a GTFS object. Must be used in conjunction with
-#' \code{\link[checkmate]{assert}}.
-#'
-#' @param gtfs A GTFS object as created by \code{\link{read_gtfs}}.
-#' @param file File to check existence of.
-#'
-#' @return If the check is successful, returns \code{TRUE} invisibly. Else,
-#'   returns a string with error message.
-#'
-#' @noRd
-check_gtfs_file_exists <- function(gtfs, file) {
-
-  checkmate::assert_class(gtfs, "dt_gtfs")
-  checkmate::assert_character(file)
-
-  non_existent_file <- file[! file %chin% names(gtfs)]
-
-  if (identical(non_existent_file, character(0))) {
-
-    return(invisible(TRUE))
-
-  } else {
-
-    error_message <- ifelse(
-      length(non_existent_file) == 1,
-      paste0("Must contain '", non_existent_file, "' file"),
-      paste0(
-        "Must contain the following files: ",
-        paste0("'", non_existent_file, "'", collapse = ", ")
-      )
-    )
-
-    return(error_message)
-
-  }
-
-}
-
-
-
 #' Convert time string to seconds after midnight
 #'
 #' Converts strings in the "HH:MM:SS" format to seconds after midnight.
@@ -181,7 +72,7 @@ copy_gtfs_without_file <- function(gtfs, file) {
 
   # check if file exists
 
-  checkmate::assert(check_gtfs_file_exists(gtfs, file))
+  gtfsio::assert_files_exist(gtfs, file)
 
   # remove file
 
@@ -214,7 +105,7 @@ copy_gtfs_without_field <- function(gtfs, file, field) {
 
   # check if field exists
 
-  checkmate::assert(check_gtfs_field_exists(gtfs, file, field))
+  gtfsio::assert_fields_exist(gtfs, file, field)
 
   # remove field
 

@@ -87,12 +87,11 @@ set_trip_speed <- function(gtfs,
 
   # check if required fields and files exist
 
-  checkmate::assert(
-    check_gtfs_field_exists(
-      gtfs,
-      "stop_times",
-      c("trip_id", "arrival_time", "departure_time", "stop_sequence")
-    )
+  gtfsio::assert_fields_types(
+    gtfs,
+    "stop_times",
+    c("trip_id", "arrival_time", "departure_time", "stop_sequence"),
+    c("character", "character", "character", "integer")
   )
 
   # calculate the length of each given trip_id

@@ -82,12 +82,11 @@ get_trip_speed <- function(gtfs,
   # present but those required to estimate trip duration are not, which would
   # cause errors to be thrown very late)
 
-  checkmate::assert(
-    check_gtfs_field_exists(
-      gtfs,
-      "stop_times",
-      c("trip_id", "arrival_time", "departure_time")
-    )
+  gtfsio::assert_fields_types(
+    gtfs,
+    "stop_times",
+    c("trip_id", "arrival_time", "departure_time"),
+    rep("character", 3)
   )
 
   # generate desired geometries - checking for required files/fields is done

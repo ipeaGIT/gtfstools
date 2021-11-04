@@ -73,29 +73,35 @@ get_trip_geometry <- function(gtfs,
 
   if ("shapes" %in% file) {
 
-    checkmate::assert(
-      check_gtfs_field_exists(gtfs, "trips", c("trip_id", "shape_id")),
-      check_gtfs_field_exists(
-        gtfs,
-        "shapes",
-        c("shape_id", "shape_pt_lat", "shape_pt_lon", "shape_pt_sequence")
-      ),
-      combine = "and"
+    gtfsio::assert_fields_types(
+      gtfs,
+      "trips",
+      c("trip_id", "shape_id"),
+      rep("character", 2)
+    )
+    gtfsio::check_fields_types(
+      gtfs,
+      "shapes",
+      c("shape_id", "shape_pt_lat", "shape_pt_lon", "shape_pt_sequence"),
+      c("character", "numeric", "numeric", "integer")
     )
 
   }
 
   if ("stop_times" %in% file) {
 
-    checkmate::assert(
-      check_gtfs_field_exists(gtfs, "trips", "trip_id"),
-      check_gtfs_field_exists(
-        gtfs, "stop_times", c("trip_id", "stop_id", "stop_sequence")
-      ),
-      check_gtfs_field_exists(
-        gtfs, "stops", c("stop_id", "stop_lat", "stop_lon")
-      ),
-      combine = "and"
+    gtfsio::assert_fields_types(gtfs, "trips", "trip_id", "character")
+    gtfsio::assert_fields_types(
+      gtfs,
+      "stop_times",
+      c("trip_id", "stop_id", "stop_sequence"),
+      c("character", "character", "integer")
+    )
+    gtfsio::assert_fields_types(
+      gtfs,
+      "stops",
+      c("stop_id", "stop_lat", "stop_lon"),
+      c("character", "numeric", "numeric")
     )
 
   }
