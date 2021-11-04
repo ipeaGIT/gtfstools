@@ -43,6 +43,7 @@ Authors:
 
 Other contributors:
 \itemize{
+  \item Mark Padgham \email{mark.padgham@email.com} [contributor]
   \item Ipea - Institute for Applied Economic Research [copyright holder, funder]
 }
 

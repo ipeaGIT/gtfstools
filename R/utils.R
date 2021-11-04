@@ -124,7 +124,7 @@ string_to_seconds <- function(string) {
 
   # "" strings result in seconds_to_midnight = 0. find those and replace to NA
 
-  index_empty <- which(is.na(string) || string == "")
+  index_empty <- which(is.na(string) | string == "")
   seconds_from_midgnight[index_empty] <- NA_integer_
 
   return(seconds_from_midgnight)
