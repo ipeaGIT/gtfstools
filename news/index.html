@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9051</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9052</span>
       </span>
     </div>
 
@@ -127,11 +127,12 @@
 <ul>
 <li>New function <code><a href="../reference/convert_stops_to_sf.html">convert_stops_to_sf()</a></code>.</li>
 <li>New function <code><a href="../reference/convert_shapes_to_sf.html">convert_shapes_to_sf()</a></code>.</li>
-<li>New function <code>filter_route_type()</code>.</li>
-<li>New function <code>filter_route_id()</code>.</li>
-<li>New function <code>filter_shape_id()</code>.</li>
-<li>New function <code>filter_stop_id()</code>.</li>
-<li>New function <code>filter_trip_id()</code>.</li>
+<li>New function <code><a href="../reference/filter_by_route_type.html">filter_by_route_type()</a></code>.</li>
+<li>New function <code><a href="../reference/filter_by_route_id.html">filter_by_route_id()</a></code>.</li>
+<li>New function <code><a href="../reference/filter_by_sf.html">filter_by_sf()</a></code>.</li>
+<li>New function <code><a href="../reference/filter_by_shape_id.html">filter_by_shape_id()</a></code>.</li>
+<li>New function <code><a href="../reference/filter_by_stop_id.html">filter_by_stop_id()</a></code>.</li>
+<li>New function <code><a href="../reference/filter_by_trip_id.html">filter_by_trip_id()</a></code>.</li>
 <li>New function <code><a href="../reference/get_parent_station.html">get_parent_station()</a></code>.</li>
 <li>New function <code><a href="../reference/remove_duplicates.html">remove_duplicates()</a></code>.</li>
 <li>New parameters to <code><a href="../reference/read_gtfs.html">read_gtfs()</a></code>: <code>fields</code>, <code>skip</code> and <code>encoding</code>. The <code>warnings</code> parameter was flagged as deprecated.</li>
@@ -155,6 +156,7 @@
 <ul>
 <li>Some utility functions previously provided by <a href="https://github.com/ipeaGIT/gtfs2gps"><code>{gtfs2gps}</code></a> will now be exported by <a href="https://ipeagit.github.io/gtfstools/">gtfstools</a>. Huge thanks to the whole <code>{gtfs2gps}</code> crew (Rafael Pereira <a href='https://github.com/rafapereirabr'>@rafapereirabr</a>, Pedro Andrade <a href='https://github.com/pedro-andrade-inpe'>@pedro-andrade-inpe</a> and João Bazzo <a href='https://github.com/Joaobazzo'>@Joaobazzo</a>)!</li>
 <li>The package now imports <a href="https://r-transit.github.io/gtfsio/">gtfsio</a>, and many functions now heavily rely on it, such as <code><a href="../reference/read_gtfs.html">read_gtfs()</a></code> and <code><a href="../reference/write_gtfs.html">write_gtfs()</a></code>.</li>
+<li>Internal function <code>string_to_seconds()</code> now runs much faster thanks to Mark Padgham (<a href='https://github.com/mpadge'>@mpadge</a>).</li>
 </ul>
 </div>
 <div id="potentially-breaking-changes" class="section level2">
