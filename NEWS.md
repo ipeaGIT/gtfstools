@@ -4,11 +4,12 @@
 
 - New function `convert_stops_to_sf()`.
 - New function `convert_shapes_to_sf()`.
-- New function `filter_route_type()`.
-- New function `filter_route_id()`. 
-- New function `filter_shape_id()`.
-- New function `filter_stop_id()`.
-- New function `filter_trip_id()`. 
+- New function `filter_by_route_type()`.
+- New function `filter_by_route_id()`. 
+- New function `filter_by_sf()`. 
+- New function `filter_by_shape_id()`.
+- New function `filter_by_stop_id()`.
+- New function `filter_by_trip_id()`. 
 - New function `get_parent_station()`.
 - New function `remove_duplicates()`.
 - New parameters to `read_gtfs()`: `fields`, `skip` and `encoding`. The `warnings` parameter was flagged as deprecated.
@@ -26,6 +27,7 @@
 
 - Some utility functions previously provided by [`{gtfs2gps}`](https://github.com/ipeaGIT/gtfs2gps) will now be exported by `{gtfstools}`. Huge thanks to the whole `{gtfs2gps}` crew (Rafael Pereira @rafapereirabr, Pedro Andrade @pedro-andrade-inpe and João Bazzo @Joaobazzo)!
 - The package now imports `{gtfsio}`, and many functions now heavily rely on it, such as `read_gtfs()` and `write_gtfs()`.
+- Internal function `string_to_seconds()` now runs much faster thanks to Mark Padgham (@mpadge).
 
 ## Potentially breaking changes
 

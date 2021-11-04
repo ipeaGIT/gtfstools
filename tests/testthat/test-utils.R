@@ -92,7 +92,8 @@ test_that("raises errors due to incorrect input types", {
   expect_error(string_to_seconds(NULL))
 })
 
-test_that("outputs NA if NA is given", {
+test_that("outputs NA if empty string or NA is given", {
+  expect_identical(string_to_seconds(""), NA_integer_)
   expect_identical(string_to_seconds(NA_character_), NA_integer_)
 })
 

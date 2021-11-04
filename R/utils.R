@@ -115,23 +115,17 @@ check_gtfs_file_exists <- function(gtfs, file) {
 #'
 #' @return The seconds after midnight of a given time string as an integer.
 #'
-#' @noRd
+#' @keywords internal
 string_to_seconds <- function(string) {
 
   checkmate::assert_character(string)
 
-  split_string <- strsplit(string, ":", fixed = TRUE)
-
-  seconds_from_midgnight <- vapply(
-    split_string,
-    function(i) sum(as.integer(i) * c(3600L, 60L, 1L)),
-    integer(1)
-  )
+  seconds_from_midgnight <- cpp_time_to_seconds(string)
 
   # "" strings result in seconds_to_midnight = 0. find those and replace to NA
 
-  index_na <- which(lengths(split_string) == 0)
-  seconds_from_midgnight[index_na] <- NA_integer_
+  index_empty <- which(is.na(string) || string == "")
+  seconds_from_midgnight[index_empty] <- NA_integer_
 
   return(seconds_from_midgnight)
 
@@ -148,7 +142,7 @@ string_to_seconds <- function(string) {
 #'
 #' @return A time-representing string.
 #'
-#' @noRd
+#' @keywords internal
 seconds_to_string <- function(seconds) {
 
   checkmate::assert_integer(seconds)

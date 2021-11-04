@@ -1,5 +1,4 @@
 #include "convert-time.h"
-
 #include <iostream>
 
 int convert_time_to_seconds (std::string hms)
