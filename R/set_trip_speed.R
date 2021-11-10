@@ -87,7 +87,7 @@ set_trip_speed <- function(gtfs,
 
   # check if required fields and files exist
 
-  gtfsio::assert_fields_types(
+  gtfsio::assert_field_class(
     gtfs,
     "stop_times",
     c("trip_id", "arrival_time", "departure_time", "stop_sequence"),

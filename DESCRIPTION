@@ -2,7 +2,7 @@ Type: Package
 Package: gtfstools
 Title: General Transit Feed Specification (GTFS) Editing and Analysing
     Tools
-Version: 0.1.0.9056
+Version: 0.1.0.9057
 Authors@R: 
     c(person(given = "Daniel",
              family = "Herszenhut",
@@ -41,7 +41,7 @@ Depends:
 Imports:
     checkmate,
     data.table,
-    gtfsio (>= 0.2.0),
+    gtfsio (>= 1.0.0),
     methods,
     sf,
     sfheaders,

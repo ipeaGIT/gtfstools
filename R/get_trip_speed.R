@@ -82,7 +82,7 @@ get_trip_speed <- function(gtfs,
   # present but those required to estimate trip duration are not, which would
   # cause errors to be thrown very late)
 
-  gtfsio::assert_fields_types(
+  gtfsio::assert_field_class(
     gtfs,
     "stop_times",
     c("trip_id", "arrival_time", "departure_time"),

@@ -31,7 +31,7 @@ get_parent_station <- function(gtfs, stop_id) {
 
   # check if required files and fields exist and are of correct type
 
-  gtfsio::assert_fields_types(
+  gtfsio::assert_field_class(
     gtfs,
     "stops",
     c("stop_id", "parent_station"),

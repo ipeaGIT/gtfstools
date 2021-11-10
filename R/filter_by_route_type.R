@@ -72,9 +72,9 @@ filter_by_route_type <- function(gtfs, route_type, keep = TRUE) {
   # select the 'route_id's that correspond to the given 'route_type's to filter
   # those using filter_by_route_id()
 
-  if (gtfsio::check_fields_exist(gtfs, "routes", c("route_id", "route_type"))) {
+  if (gtfsio::check_field_exists(gtfs, "routes", c("route_id", "route_type"))) {
 
-    gtfsio::assert_fields_types(
+    gtfsio::assert_field_class(
       gtfs,
       "routes",
       c("route_id", "route_type"),

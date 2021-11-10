@@ -35,7 +35,7 @@ convert_shapes_to_sf <- function(gtfs, shape_id = NULL, crs = 4326) {
     combine = "or"
   )
 
-  gtfsio::assert_fields_types(
+  gtfsio::assert_field_class(
     gtfs,
     "shapes",
     c("shape_id", "shape_pt_lat", "shape_pt_lon", "shape_pt_sequence"),

@@ -34,7 +34,7 @@ convert_stops_to_sf <- function(gtfs, stop_id = NULL, crs = 4326) {
     combine = "or"
   )
 
-  gtfsio::assert_fields_types(
+  gtfsio::assert_field_class(
     gtfs,
     "stops",
     c("stop_id", "stop_lon", "stop_lat"),

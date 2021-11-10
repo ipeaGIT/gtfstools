@@ -18,19 +18,19 @@ convert_from_standard <- function(gtfs) {
   new_gtfs <- gtfs
 
   # convert 'calendar_dates' date field from integer to Date
-  if (gtfsio::check_fields_exist(gtfs, "calendar_dates", fields = "date")) {
+  if (gtfsio::check_field_exists(gtfs, "calendar_dates", fields = "date")) {
     new_gtfs$calendar_dates <- data.table::copy(gtfs$calendar_dates)
     new_gtfs$calendar_dates[, date := integer_to_date(date)]
   }
 
   # convert 'calendar' date fields from integer to Date
-  if (gtfsio::check_files_exist(gtfs, "calendar")) {
+  if (gtfsio::check_file_exists(gtfs, "calendar")) {
     new_gtfs$calendar <- data.table::copy(gtfs$calendar)
 
-    if (gtfsio::check_fields_exist(gtfs, "calendar", "start_date"))
+    if (gtfsio::check_field_exists(gtfs, "calendar", "start_date"))
       new_gtfs$calendar[, start_date := integer_to_date(start_date)]
 
-    if (gtfsio::check_fields_exist(gtfs, "calendar", "end_date"))
+    if (gtfsio::check_field_exists(gtfs, "calendar", "end_date"))
       new_gtfs$calendar[, end_date := integer_to_date(end_date)]
   }
 
@@ -66,12 +66,12 @@ convert_to_standard <- function(gtfs) {
   new_gtfs <- gtfs
 
   # convert 'calendar_dates' date field from Date to integer
-  if (gtfsio::check_fields_exist(gtfs, "calendar_dates", fields = "date")) {
-    gtfsio::assert_fields_types(
+  if (gtfsio::check_field_exists(gtfs, "calendar_dates", fields = "date")) {
+    gtfsio::assert_field_class(
       gtfs,
       "calendar_dates",
       fields = "date",
-      types = "Date"
+      classes = "Date"
     )
 
     new_gtfs$calendar_dates <- data.table::copy(gtfs$calendar_dates)
@@ -79,25 +79,25 @@ convert_to_standard <- function(gtfs) {
   }
 
   # convert 'calendar' date fields from Date to integer
-  if (gtfsio::check_files_exist(gtfs, "calendar")) {
+  if (gtfsio::check_file_exists(gtfs, "calendar")) {
     new_gtfs$calendar <- data.table::copy(gtfs$calendar)
 
-    if (gtfsio::check_fields_exist(gtfs, "calendar", "start_date")) {
-      gtfsio::assert_fields_types(
+    if (gtfsio::check_field_exists(gtfs, "calendar", "start_date")) {
+      gtfsio::assert_field_class(
         gtfs,
         "calendar",
         fields = "start_date",
-        types = "Date"
+        classes = "Date"
       )
       new_gtfs$calendar[, start_date := date_to_integer(start_date)]
     }
 
-    if (gtfsio::check_fields_exist(gtfs, "calendar", "end_date")) {
-      gtfsio::assert_fields_types(
+    if (gtfsio::check_field_exists(gtfs, "calendar", "end_date")) {
+      gtfsio::assert_field_class(
         gtfs,
         "calendar",
         fields = "end_date",
-        types = "Date"
+        classes = "Date"
       )
       new_gtfs$calendar[, end_date := date_to_integer(end_date)]
     }

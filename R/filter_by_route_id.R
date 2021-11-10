@@ -54,9 +54,9 @@ filter_by_route_id <- function(gtfs, route_id, keep = TRUE) {
 
   # routes (route_id)
 
-  if (gtfsio::check_fields_exist(gtfs, "routes", "route_id")) {
+  if (gtfsio::check_field_exists(gtfs, "routes", "route_id")) {
 
-    gtfsio::assert_fields_types(gtfs, "routes", "route_id", "character")
+    gtfsio::assert_field_class(gtfs, "routes", "route_id", "character")
     gtfs$routes <- gtfs$routes[route_id %ffilter% get("route_id", envir = env)]
 
     # 'routes' allows us to filter by 'agency_id'
@@ -72,9 +72,9 @@ filter_by_route_id <- function(gtfs, route_id, keep = TRUE) {
 
     # 'agency' (agency_id)
 
-    if (gtfsio::check_fields_exist(gtfs, "agency", "agency_id")) {
+    if (gtfsio::check_field_exists(gtfs, "agency", "agency_id")) {
 
-      gtfsio::assert_fields_types(gtfs, "agency", "agency_id", "character")
+      gtfsio::assert_field_class(gtfs, "agency", "agency_id", "character")
 
       if (is.null(relevant_agencies_routes) && nrow(gtfs$agency) == 1)
         relevant_agencies_routes <- gtfs$agency$agency_id
@@ -87,9 +87,9 @@ filter_by_route_id <- function(gtfs, route_id, keep = TRUE) {
 
   # trips (route_id)
 
-  if (gtfsio::check_fields_exist(gtfs, "trips", "route_id")) {
+  if (gtfsio::check_field_exists(gtfs, "trips", "route_id")) {
 
-    gtfsio::assert_fields_types(gtfs, "trips", "route_id", "character")
+    gtfsio::assert_field_class(gtfs, "trips", "route_id", "character")
     gtfs$trips <- gtfs$trips[route_id %ffilter% get("route_id", envir = env)]
 
     # 'trips' allows us to filter by 'trip_id', 'service_id' and 'shape_id'
@@ -100,25 +100,25 @@ filter_by_route_id <- function(gtfs, route_id, keep = TRUE) {
 
     # 'shapes' (shape_id)
 
-    if (gtfsio::check_fields_exist(gtfs, "shapes", "shape_id")) {
+    if (gtfsio::check_field_exists(gtfs, "shapes", "shape_id")) {
 
-      gtfsio::assert_fields_types(gtfs, "shapes", "shape_id", "character")
+      gtfsio::assert_field_class(gtfs, "shapes", "shape_id", "character")
       gtfs$shapes <- gtfs$shapes[shape_id %chin% relevant_shapes]
 
     }
 
     # 'calendar' and 'calendar_dates' (service_id)
 
-    if (gtfsio::check_fields_exist(gtfs, "calendar", "service_id")) {
+    if (gtfsio::check_field_exists(gtfs, "calendar", "service_id")) {
 
-      gtfsio::assert_fields_types(gtfs, "calendar", "service_id", "character")
+      gtfsio::assert_field_class(gtfs, "calendar", "service_id", "character")
       gtfs$calendar <- gtfs$calendar[service_id %chin% relevant_services]
 
     }
 
-    if (gtfsio::check_fields_exist(gtfs, "calendar_dates", "service_id")) {
+    if (gtfsio::check_field_exists(gtfs, "calendar_dates", "service_id")) {
 
-      gtfsio::assert_fields_types(
+      gtfsio::assert_field_class(
         gtfs,
         "calendar_dates",
         "service_id",
@@ -132,16 +132,16 @@ filter_by_route_id <- function(gtfs, route_id, keep = TRUE) {
 
     # 'stop_times' and 'frequencies' (trip_id)
 
-    if (gtfsio::check_fields_exist(gtfs, "frequencies", "trip_id")) {
+    if (gtfsio::check_field_exists(gtfs, "frequencies", "trip_id")) {
 
-      gtfsio::assert_fields_types(gtfs, "frequencies", "trip_id", "character")
+      gtfsio::assert_field_class(gtfs, "frequencies", "trip_id", "character")
       gtfs$frequencies <- gtfs$frequencies[trip_id %chin% relevant_trips]
 
     }
 
-    if (gtfsio::check_fields_exist(gtfs, "stop_times", "trip_id")) {
+    if (gtfsio::check_field_exists(gtfs, "stop_times", "trip_id")) {
 
-      gtfsio::assert_fields_types(gtfs, "stop_times", "trip_id", "character")
+      gtfsio::assert_field_class(gtfs, "stop_times", "trip_id", "character")
       gtfs$stop_times <- gtfs$stop_times[trip_id %chin% relevant_trips]
 
       # 'stop_times' allows us to filter by 'stop_id'. it's important to keep,
@@ -152,7 +152,7 @@ filter_by_route_id <- function(gtfs, route_id, keep = TRUE) {
 
       relevant_stops <- unique(gtfs$stop_times$stop_id)
 
-      if (gtfsio::check_fields_exist(gtfs, "stops", "parent_station")) {
+      if (gtfsio::check_field_exists(gtfs, "stops", "parent_station")) {
 
         suppressWarnings(
           stops_with_parents <- get_parent_station(gtfs, relevant_stops)
@@ -163,9 +163,9 @@ filter_by_route_id <- function(gtfs, route_id, keep = TRUE) {
 
       # 'stops' (stop_id)
 
-      if (gtfsio::check_fields_exist(gtfs, "stops", "stop_id")) {
+      if (gtfsio::check_field_exists(gtfs, "stops", "stop_id")) {
 
-        gtfsio::assert_fields_types(gtfs, "stops", "stop_id", "character")
+        gtfsio::assert_field_class(gtfs, "stops", "stop_id", "character")
         gtfs$stops <- gtfs$stops[stop_id %chin% relevant_stops]
 
         # 'stops' allows us to filter by 'zone_id' and 'level_id'
@@ -174,9 +174,9 @@ filter_by_route_id <- function(gtfs, route_id, keep = TRUE) {
 
         # 'levels' (level_id)
 
-        if (gtfsio::check_fields_exist(gtfs, "levels", "level_id")) {
+        if (gtfsio::check_field_exists(gtfs, "levels", "level_id")) {
 
-          gtfsio::assert_fields_types(gtfs, "levels", "level_id", "character")
+          gtfsio::assert_field_class(gtfs, "levels", "level_id", "character")
           gtfs$levels <- gtfs$levels[level_id %chin% relevant_levels]
 
         }
@@ -197,9 +197,9 @@ filter_by_route_id <- function(gtfs, route_id, keep = TRUE) {
 
   # fare_rules (route_id)
 
-  if (gtfsio::check_fields_exist(gtfs, "fare_rules", "route_id")) {
+  if (gtfsio::check_field_exists(gtfs, "fare_rules", "route_id")) {
 
-    gtfsio::assert_fields_types(gtfs, "fare_rules", "route_id", "character")
+    gtfsio::assert_field_class(gtfs, "fare_rules", "route_id", "character")
     gtfs$fare_rules <- gtfs$fare_rules[
       route_id %ffilter% get("route_id", envir = env)
     ]
@@ -210,9 +210,9 @@ filter_by_route_id <- function(gtfs, route_id, keep = TRUE) {
 
     # 'fare_attributes' (fare_id)
 
-    if (gtfsio::check_fields_exist(gtfs, "fare_attributes", "fare_id")) {
+    if (gtfsio::check_field_exists(gtfs, "fare_attributes", "fare_id")) {
 
-      gtfsio::assert_fields_types(
+      gtfsio::assert_field_class(
         gtfs,
         "fare_attributes",
         "fare_id",
@@ -232,9 +232,9 @@ filter_by_route_id <- function(gtfs, route_id, keep = TRUE) {
 
     # 'agency' (agency_id)
 
-    if (gtfsio::check_fields_exist(gtfs, "agency", "agency_id")) {
+    if (gtfsio::check_field_exists(gtfs, "agency", "agency_id")) {
 
-      gtfsio::assert_fields_types(gtfs, "agency", "agency_id", "character")
+      gtfsio::assert_field_class(gtfs, "agency", "agency_id", "character")
 
       if (is.null(relevant_agencies_fa) && nrow(gtfs$agency) == 1)
         relevant_agencies_fa <- gtfs$agency$agency_id

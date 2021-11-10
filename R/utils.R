@@ -72,7 +72,7 @@ copy_gtfs_without_file <- function(gtfs, file) {
 
   # check if file exists
 
-  gtfsio::assert_files_exist(gtfs, file)
+  gtfsio::assert_file_exists(gtfs, file)
 
   # remove file
 
@@ -105,7 +105,7 @@ copy_gtfs_without_field <- function(gtfs, file, field) {
 
   # check if field exists
 
-  gtfsio::assert_fields_exist(gtfs, file, field)
+  gtfsio::assert_field_exists(gtfs, file, field)
 
   # remove field
 
@@ -141,7 +141,7 @@ copy_gtfs_diff_field_class <- function(gtfs, file, field, class) {
 
   # check if field exists
 
-  gtfsio::assert_fields_exist(gtfs, file, field)
+  gtfsio::assert_field_exists(gtfs, file, field)
 
   # select the coercion function to use
 

@@ -40,9 +40,9 @@ filter_by_stop_id <- function(gtfs, stop_id, keep = TRUE) {
 
   env <- environment()
 
-  if (gtfsio::check_fields_exist(gtfs, "stop_times", "stop_id")) {
+  if (gtfsio::check_field_exists(gtfs, "stop_times", "stop_id")) {
 
-    gtfsio::assert_fields_types(gtfs, "stop_times", "stop_id", "character")
+    gtfsio::assert_field_class(gtfs, "stop_times", "stop_id", "character")
     relevant_trips <- unique(
       gtfs$stop_times[stop_id %chin% get("stop_id", envir = env)]$trip_id
     )

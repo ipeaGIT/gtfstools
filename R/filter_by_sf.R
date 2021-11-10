@@ -77,7 +77,7 @@ filter_by_sf <- function(gtfs,
 
   gtfs_list <- vector("list", 2L)
 
-  if (gtfsio::check_files_exist(gtfs, "shapes")) {
+  if (gtfsio::check_file_exists(gtfs, "shapes")) {
 
     shapes_sf <- convert_shapes_to_sf(gtfs)
     did_succeed_operation <- spatial_operation(geom, shapes_sf, sparse = FALSE)
@@ -89,7 +89,7 @@ filter_by_sf <- function(gtfs,
 
   }
 
-  if (gtfsio::check_files_exist(gtfs, "stop_times")) {
+  if (gtfsio::check_file_exists(gtfs, "stop_times")) {
 
     trips_sf <- get_trip_geometry(gtfs, file = "stop_times")
     did_succeed_operation <- spatial_operation(geom, trips_sf, sparse = FALSE)
