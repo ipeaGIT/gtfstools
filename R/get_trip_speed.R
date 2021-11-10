@@ -117,8 +117,12 @@ get_trip_speed <- function(gtfs,
   trips_duration <- get_trip_duration(gtfs, existing_trips, duration_unit)
 
   # join trips_speed and trips_duration
+  # a trip may be missing from trips_duration and not from trips_speed (when
+  # stop_times doesn't contain a trip listed in trip_speed), but not the other
+  # way around (because only trips listed in trips_speed have their durations
+  # calculated). so we do a right join here, instead of a left join
 
-  trips_speed[trips_duration, on = "trip_id", duration := i.duration]
+  trips_speed <- trips_speed[trips_duration, on = "trip_id"]
 
   # calculate speed as length/duration
 

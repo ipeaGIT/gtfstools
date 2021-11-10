@@ -141,7 +141,10 @@ test_that("calculates speeds correctly", {
 
   trips_speeds <- get_trip_speed(new_speeds_gtfs, selected_trip_ids, "shapes")
 
-  expect_identical(round(trips_speeds$speed, 0), c(50, 70, 60))
+  expect_identical(
+    round(trips_speeds[match(trip_id, selected_trip_ids)]$speed, 0),
+    c(50, 60, 70)
+  )
 
   # and should also work if distinct speeds are given with distinct unit (m/s)
 
@@ -159,7 +162,10 @@ test_that("calculates speeds correctly", {
     unit = "m/s"
   )
 
-  expect_identical(round(trips_speeds$speed, 0), c(50, 70, 60))
+  expect_identical(
+    round(trips_speeds[match(trip_id, selected_trip_ids)]$speed, 0),
+    c(50, 60, 70)
+  )
 
 })
 

@@ -56,8 +56,9 @@ get_trip_geometry <- function(gtfs,
     combine = "or"
   )
 
-  if (!is.null(file))
+  if (!is.null(file)) {
     checkmate::assert_names(file, subset.of = c("shapes", "stop_times"))
+  }
 
   # check if required fields and files exist
 

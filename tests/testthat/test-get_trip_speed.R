@@ -210,11 +210,22 @@ test_that("doesn't change given gtfs", {
   gtfs <- read_gtfs(data_path)
   expect_identical(original_gtfs, gtfs)
 
-  speeds <- get_trip_geometry(gtfs, "CPTM L07-0", c("shapes", "stop_times"))
+  speeds <- get_trip_speed(gtfs, "CPTM L07-0", c("shapes", "stop_times"))
   expect_false(identical(original_gtfs, gtfs))
 
   data.table::setindex(gtfs$shapes, NULL)
   data.table::setindex(gtfs$stop_times, NULL)
   expect_identical(original_gtfs, gtfs)
 
+})
+
+# issue #35
+test_that("raises warning if trip_id exists in trips but not in stop_times", {
+  # and that it doesn't calculate the speed of this trips, instead of returning
+  # an NA
+  gtfs$stop_times <- gtfs$stop_times[trip_id != "CPTM L07-0"]
+  expect_warning(
+    speed <- get_trip_speed(gtfs, "CPTM L07-0")
+  )
+  expect_true(nrow(speed) == 0)
 })
