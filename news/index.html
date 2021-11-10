@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9055</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9057</span>
       </span>
     </div>
 
@@ -147,6 +147,7 @@
 <li>Fixed a bug in which the <code>crs</code> passed to <code><a href="../reference/get_trip_geometry.html">get_trip_geometry()</a></code> would be assigned to the result without actually reprojecting it.</li>
 <li>Changed the behaviour of <code><a href="../reference/get_trip_geometry.html">get_trip_geometry()</a></code> to not raise an error when the ‘file’ parameter is left untouched and the GTFS object doesn’t contain either the shapes or the stop_times table. Closes <a href="https://github.com/ipeaGIT/gtfstools/issues/29"><a href='https://github.com/ipeaGIT/gtfstools/issues/29'>#29</a></a>.</li>
 <li>Fixed a bug that would cause <code><a href="../reference/merge_gtfs.html">merge_gtfs()</a></code> to create objects that inherited only from <code>dt_gtfs</code> (ignoring <code>gtfs</code> and <code>list</code>).</li>
+<li>Fixed a bug in which <code><a href="../reference/get_trip_speed.html">get_trip_speed()</a></code> returned <code>NA</code> speeds if the specified <code>trip_id</code> was listed in trips, but not in stop_times.</li>
 </ul>
 </div>
 <div id="notes" class="section level2">
