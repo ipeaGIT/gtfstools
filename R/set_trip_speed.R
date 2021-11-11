@@ -96,19 +96,19 @@ set_trip_speed <- function(gtfs,
 
   # calculate the length of each given trip_id
 
-  trip_length     <- get_trip_geometry(gtfs, trip_id, file = "shapes")
+  trip_length <- get_trip_geometry(gtfs, trip_id, file = "shapes")
   trip_length_ids <- trip_length$trip_id
-  trip_length     <- sf::st_length(trip_length)
-  trip_length     <- as.numeric(units::set_units(trip_length, "km"))
-  trip_length     <- stats::setNames(trip_length, trip_length_ids)
+  trip_length <- sf::st_length(trip_length)
+  trip_length <- as.numeric(units::set_units(trip_length, "km"))
+  names(trip_length) <- trip_length_ids
 
   # set speed adequate unit (use km/h for calculations)
 
   if (length(speed) == 1) speed <- rep(speed, length(trip_id))
 
   units(speed) <- unit
-  speed        <- as.numeric(units::set_units(speed, "km/h"))
-  speed        <- stats::setNames(speed, trip_id)
+  speed <- as.numeric(units::set_units(speed, "km/h"))
+  names(speed) <- trip_id
 
   # calculate each trip duration (in hours) based on its length and given
   # desired speed. calculate only of those 'trip_id's that exist in 'stop_times'
@@ -137,12 +137,18 @@ set_trip_speed <- function(gtfs,
   ]
   min_stops_index <- min_stops_index$V1
 
-  max_stops_index <- stop_times[
-    trip_id %chin% trip_length_ids,
-    .I[max(stop_sequence)],
-    by = trip_id
-  ]
-  max_stops_index <- max_stops_index$V1
+  # issue #37 - max() raises a warning if it receives a integer(0), which
+  # happens when none of the specified 'trip_id's exist in the gtfs object
+  if (identical(trip_length_ids, character(0))) {
+    max_stops_index <- 0
+  } else {
+    max_stops_index <- stop_times[
+      trip_id %chin% trip_length_ids,
+      .I[max(stop_sequence)],
+      by = trip_id
+    ]
+    max_stops_index <- max_stops_index$V1
+  }
 
   na_time_stops_index <- setdiff(
     desired_trips_index,

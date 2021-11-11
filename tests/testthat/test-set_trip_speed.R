@@ -262,3 +262,21 @@ test_that("'by_reference' parameter works adequately", {
   ))
 
 })
+
+# issue #37
+test_that("results in identical gtfs if none of the specified trip_ids exist", {
+  # with the exception of stop_times index
+  gtfs <- read_gtfs(data_path)
+
+  # when receives non-existent trip_id raises a warning
+  expect_warning(same_speeds_gtfs <- set_trip_speed(gtfs, "a", 1))
+  expect_false(identical(gtfs, same_speeds_gtfs))
+  data.table::setindex(same_speeds_gtfs$stop_times, NULL)
+  expect_identical(gtfs, same_speeds_gtfs)
+
+  # when receives character(0) remain silent
+  expect_silent(same_speeds_gtfs <- set_trip_speed(gtfs, character(0), 1))
+  expect_false(identical(gtfs, same_speeds_gtfs))
+  data.table::setindex(same_speeds_gtfs$stop_times, NULL)
+  expect_identical(gtfs, same_speeds_gtfs)
+})
