@@ -53,9 +53,8 @@ test_that("convert correct stops", {
 test_that("raises warnings/erros if invalid stop_ids are passed", {
   # raises warning if a invalid stop_id is passed
   expect_warning(convert_stops_to_sf(gtfs, stop_id = c("18848", "ola")))
-
-  # throws error if all passed stop_ids are invalid
-  expect_error(convert_stops_to_sf(gtfs, stop_id = "ola"))
+  expect_warning(convert_stops_to_sf(gtfs, stop_id = c("ola")))
+  expect_silent(convert_stops_to_sf(gtfs, character(0)))
 })
 
 test_that("returns a POINT sf with correct crs", {
@@ -70,6 +69,17 @@ test_that("returns a POINT sf with correct crs", {
   # which can be changed with 'crs' argument
   stops_sf <- convert_stops_to_sf(gtfs, crs = 4674)
   expect_identical(sf::st_crs(stops_sf), sf::st_crs(4674))
+
+  # works even if none of the specified stops exist/character(0) is given
+  suppressWarnings(
+    stops_sf <- convert_stops_to_sf(gtfs, "ola")
+  )
+  expect_s3_class(stops_sf, "sf")
+  expect_s3_class(stops_sf$geometry, "sfc_POINT")
+
+  stops_sf <- convert_stops_to_sf(gtfs, character(0))
+  expect_s3_class(stops_sf, "sf")
+  expect_s3_class(stops_sf$geometry, "sfc_POINT")
 })
 
 test_that("doesn't change passed gtfs object (only the index of gtfs$stops)", {
@@ -78,6 +88,11 @@ test_that("doesn't change passed gtfs object (only the index of gtfs$stops)", {
   stops_sf <- convert_stops_to_sf(gtfs)
 
   # 'stop_id' is set as gtfs$stops index because of data.table subset
+  data.table::setindex(gtfs$stops, NULL)
+  expect_identical(original_gtfs, gtfs)
+
+  # the same is true when it returns an empty sf
+  stops_sf <- convert_stops_to_sf(gtfs, character(0))
   data.table::setindex(gtfs$stops, NULL)
   expect_identical(original_gtfs, gtfs)
 })

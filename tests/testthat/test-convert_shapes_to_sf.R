@@ -82,16 +82,14 @@ test_that("returns a LINESTRING sf with correct crs", {
   shapes_sf <- convert_shapes_to_sf(gtfs, crs = 4674)
   expect_identical(sf::st_crs(shapes_sf), sf::st_crs(4674))
 
-  # works even if none of the specified trips exist/character(0) is given
+  # works even if none of the specified shapes exist/character(0) is given
   suppressWarnings(
     shapes_sf <- convert_shapes_to_sf(gtfs, "ola")
   )
   expect_s3_class(shapes_sf, "sf")
   expect_s3_class(shapes_sf$geometry, "sfc_LINESTRING")
 
-  suppressWarnings(
-    shapes_sf <- convert_shapes_to_sf(gtfs, character(0))
-  )
+  shapes_sf <- convert_shapes_to_sf(gtfs, character(0))
   expect_s3_class(shapes_sf, "sf")
   expect_s3_class(shapes_sf$geometry, "sfc_LINESTRING")
 })
