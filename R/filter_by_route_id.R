@@ -161,7 +161,37 @@ filter_by_route_id <- function(gtfs, route_id, keep = TRUE) {
 
       }
 
-      # 'stops' (stop_id)
+      # 'stops', 'transfers' and 'pathways' (stop_id)
+
+      from_to_stop_id <- c("from_stop_id", "to_stop_id")
+
+      if (gtfsio::check_field_exists(gtfs, "transfers", from_to_stop_id)) {
+
+        gtfsio::assert_field_class(
+          gtfs,
+          "transfers",
+          from_to_stop_id,
+          rep("character", 2)
+        )
+        gtfs$transfers <- gtfs$transfers[
+          from_stop_id %chin% relevant_stops & to_stop_id %chin% relevant_stops
+        ]
+
+      }
+
+      if (gtfsio::check_field_exists(gtfs, "pathways", from_to_stop_id)) {
+
+        gtfsio::assert_field_class(
+          gtfs,
+          "pathways",
+          from_to_stop_id,
+          rep("character", 2)
+        )
+        gtfs$pathways <- gtfs$pathways[
+          from_stop_id %chin% relevant_stops & to_stop_id %chin% relevant_stops
+        ]
+
+      }
 
       if (gtfsio::check_field_exists(gtfs, "stops", "stop_id")) {
 

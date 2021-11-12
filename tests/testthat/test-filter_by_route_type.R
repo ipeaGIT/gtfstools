@@ -56,6 +56,10 @@ test_that("'route_type' and 'keep' arguments work correctly", {
   smaller_gtfs_keeping <- filter_by_route_type(gtfs, route_type)
   expect_true(all(smaller_gtfs_keeping$routes$route_type %in% route_type))
 
-  smaller_gtfs_not_keeping <- filter_by_route_type(gtfs, route_type, keep = FALSE)
+  smaller_gtfs_not_keeping <- filter_by_route_type(
+    gtfs,
+    route_type,
+    keep = FALSE
+  )
   expect_true(!any(smaller_gtfs_not_keeping$routes$route_type %in% route_type))
 })
