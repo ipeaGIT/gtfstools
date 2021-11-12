@@ -220,12 +220,17 @@ test_that("doesn't change given gtfs", {
 })
 
 # issue #35
-test_that("raises warning if trip_id exists in trips but not in stop_times", {
-  # and that it doesn't calculate the speed of this trips, instead of returning
-  # an NA
+test_that("warnings works properly", {
+  # should raise warning if trip_id is specified and doesn't exist (and should
+  # not calculate speed, instead of returning NA)
   gtfs$stop_times <- gtfs$stop_times[trip_id != "CPTM L07-0"]
   expect_warning(
     speed <- get_trip_speed(gtfs, "CPTM L07-0")
   )
   expect_true(nrow(speed) == 0)
+
+  # but if trip_id is not specified, it should not raise a warning
+  expect_silent(speed <- get_trip_speed(gtfs))
+  expect_true(!any("CPTM L07-0" %chin% speed$trip_id))
+  expect_true(all(gtfs$stop_times$trip_id %chin% speed$trip_id))
 })

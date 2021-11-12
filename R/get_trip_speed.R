@@ -1,27 +1,26 @@
 #' Get trip speed
 #'
-#' Returns the speed of each specified \code{trip_id}, based on the geometry
-#' created from either on the \code{shapes} or the \code{stop_times} file (or
-#' both).
+#' Returns the speed of each specified `trip_id`, based on the geometry created
+#' from either the `shapes` or the `stop_times` file (or both).
 #'
-#' @param gtfs A GTFS object as created by \code{\link{read_gtfs}}.
-#' @param trip_id A string vector including the \code{trip_id}s to have their
-#'   speeds calculated. If \code{NULL} (the default), the function calculates
-#'   the speed of every \code{trip_id} in the GTFS.
+#' @param gtfs A GTFS object.
+#' @param trip_id A character vector including the `trip_id`s to have their
+#'   speeds calculated. If `NULL` (the default), the function calculates the
+#'   speed of every `trip_id` in the GTFS.
 #' @param file The file from which geometries should be generated, either
-#'   \code{shapes} and \code{stop_times} (geometries are used to calculate the
-#'   length of a trip). Defaults to \code{shapes}.
+#'   `shapes` or `stop_times` (geometries are used to calculate the length of a
+#'   trip). Defaults to `shapes`.
 #' @param unit A string representing the unit in which the speeds are desired.
-#'   Either \code{"km/h"} (the default) or \code{"m/s"}.
+#'   Either `"km/h"` (the default) or `"m/s"`.
 #'
-#' @return A \code{data.table} containing the duration of each specified trip
-#'   and the file from which geometries were generated.
+#' @return A `data.table` containing the duration of each specified trip and the
+#'   file from which geometries were generated.
 #'
 #' @section Details:
-#' Please check \code{\link{get_trip_geometry}} documentation to understand how
-#' geometry generation differs depending on the chosen file.
+#' Please check [get_trip_geometry()] documentation to understand how geometry
+#' generation differs depending on the chosen file.
 #'
-#' @seealso \code{\link{get_trip_geometry}}
+#' @seealso [get_trip_geometry()]
 #'
 #' @examples
 #' data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
@@ -58,7 +57,6 @@ get_trip_speed <- function(gtfs,
 
   # checking if {lwgeom} is installed. {lwgeom} is a {sf} dependency required to
   # run sf::st_length()
-
   if (!requireNamespace("lwgeom", quietly = TRUE))
     stop(
       "The 'lwgeom' package is required to run this function. ",
@@ -66,7 +64,6 @@ get_trip_speed <- function(gtfs,
     )
 
   # input checking
-
   checkmate::assert_class(gtfs, "dt_gtfs")
   checkmate::assert_character(trip_id, null.ok = TRUE)
   checkmate::assert_names(file, subset.of = c("shapes", "stop_times"))
@@ -81,7 +78,6 @@ get_trip_speed <- function(gtfs,
   # but it prevents cases where the files required to generate geometries are
   # present but those required to estimate trip duration are not, which would
   # cause errors to be thrown very late)
-
   gtfsio::assert_field_class(
     gtfs,
     "stop_times",
@@ -109,8 +105,16 @@ get_trip_speed <- function(gtfs,
   )
 
   # calculate trips' duration
+  # - a warning might be raised in get_trip_duration() if a trip in
+  # existing_trips doesn't exist in stop_times table. if 'trip_id' is NULL, we
+  # don't want to raise that warning, so we remove missing stop_times trips from
+  # existing_trips
 
   existing_trips <- unique(trips_speed$trip_id)
+  if (is.null(trip_id)) {
+    stop_times_trips <- unique(gtfs$stop_times$trip_id)
+    existing_trips <- existing_trips[existing_trips %chin% stop_times_trips]
+  }
 
   duration_unit <- data.table::fifelse(unit == "km/h", "h", "s")
 

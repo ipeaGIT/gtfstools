@@ -7,32 +7,31 @@
 get_trip_speed(gtfs, trip_id = NULL, file = "shapes", unit = "km/h")
 }
 \arguments{
-\item{gtfs}{A GTFS object as created by \code{\link{read_gtfs}}.}
+\item{gtfs}{A GTFS object.}
 
-\item{trip_id}{A string vector including the \code{trip_id}s to have their
-speeds calculated. If \code{NULL} (the default), the function calculates
-the speed of every \code{trip_id} in the GTFS.}
+\item{trip_id}{A character vector including the \code{trip_id}s to have their
+speeds calculated. If \code{NULL} (the default), the function calculates the
+speed of every \code{trip_id} in the GTFS.}
 
 \item{file}{The file from which geometries should be generated, either
-\code{shapes} and \code{stop_times} (geometries are used to calculate the
-length of a trip). Defaults to \code{shapes}.}
+\code{shapes} or \code{stop_times} (geometries are used to calculate the length of a
+trip). Defaults to \code{shapes}.}
 
 \item{unit}{A string representing the unit in which the speeds are desired.
 Either \code{"km/h"} (the default) or \code{"m/s"}.}
 }
 \value{
-A \code{data.table} containing the duration of each specified trip
-and the file from which geometries were generated.
+A \code{data.table} containing the duration of each specified trip and the
+file from which geometries were generated.
 }
 \description{
-Returns the speed of each specified \code{trip_id}, based on the geometry
-created from either on the \code{shapes} or the \code{stop_times} file (or
-both).
+Returns the speed of each specified \code{trip_id}, based on the geometry created
+from either the \code{shapes} or the \code{stop_times} file (or both).
 }
 \section{Details}{
 
-Please check \code{\link{get_trip_geometry}} documentation to understand how
-geometry generation differs depending on the chosen file.
+Please check \code{\link[=get_trip_geometry]{get_trip_geometry()}} documentation to understand how geometry
+generation differs depending on the chosen file.
 }
 
 \examples{
@@ -64,5 +63,5 @@ if (requireNamespace("lwgeom", quietly = TRUE)) {
 
 }
 \seealso{
-\code{\link{get_trip_geometry}}
+\code{\link[=get_trip_geometry]{get_trip_geometry()}}
 }
