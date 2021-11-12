@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9059</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9061</span>
       </span>
     </div>
 
@@ -148,6 +148,7 @@
 <li>Changed the behaviour of <code><a href="../reference/get_trip_geometry.html">get_trip_geometry()</a></code> to not raise an error when the ‘file’ parameter is left untouched and the GTFS object doesn’t contain either the shapes or the stop_times table. Closes <a href="https://github.com/ipeaGIT/gtfstools/issues/29"><a href='https://github.com/ipeaGIT/gtfstools/issues/29'>#29</a></a>.</li>
 <li>Fixed a bug that would cause <code><a href="../reference/merge_gtfs.html">merge_gtfs()</a></code> to create objects that inherited only from <code>dt_gtfs</code> (ignoring <code>gtfs</code> and <code>list</code>).</li>
 <li>Fixed a bug in which <code><a href="../reference/get_trip_speed.html">get_trip_speed()</a></code> returned <code>NA</code> speeds if the specified <code>trip_id</code> was listed in trips, but not in stop_times.</li>
+<li>Adjusted <code><a href="../reference/set_trip_speed.html">set_trip_speed()</a></code> to stop raising a <code><a href="https://rdrr.io/r/base/Extremes.html">max()</a></code>-related warning when none of the specified <code>trip_id</code>s exists.</li>
 </ul>
 </div>
 <div id="notes" class="section level2">
@@ -157,6 +158,8 @@
 <li>Some utility functions previously provided by <a href="https://github.com/ipeaGIT/gtfs2gps"><code>{gtfs2gps}</code></a> will now be exported by <a href="https://ipeagit.github.io/gtfstools/">gtfstools</a>. Huge thanks to the whole <code>{gtfs2gps}</code> crew (Rafael Pereira <a href='https://github.com/rafapereirabr'>@rafapereirabr</a>, Pedro Andrade <a href='https://github.com/pedro-andrade-inpe'>@pedro-andrade-inpe</a> and João Bazzo <a href='https://github.com/Joaobazzo'>@Joaobazzo</a>)!</li>
 <li>The package now imports <a href="https://r-transit.github.io/gtfsio/">gtfsio</a>, and many functions now heavily rely on it, such as <code><a href="../reference/read_gtfs.html">read_gtfs()</a></code> and <code><a href="../reference/write_gtfs.html">write_gtfs()</a></code>.</li>
 <li>Internal function <code><a href="../reference/string_to_seconds.html">string_to_seconds()</a></code> now runs much faster thanks to Mark Padgham (<a href='https://github.com/mpadge'>@mpadge</a>).</li>
+<li>
+<code><a href="../reference/get_trip_geometry.html">get_trip_geometry()</a></code> now runs much faster due to <code>data.table</code>-related optimizations.</li>
 </ul>
 </div>
 <div id="potentially-breaking-changes" class="section level2">
