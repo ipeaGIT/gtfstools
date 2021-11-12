@@ -40,9 +40,8 @@
 
 
 <meta property="og:title" content="Get trip speed — get_trip_speed" />
-<meta property="og:description" content="Returns the speed of each specified trip_id, based on the geometry
-created from either on the shapes or the stop_times file (or
-both)." />
+<meta property="og:description" content="Returns the speed of each specified trip_id, based on the geometry created
+from either the shapes or the stop_times file (or both)." />
 
 
 
@@ -74,7 +73,7 @@ both)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9061</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9064</span>
       </span>
     </div>
 
@@ -122,9 +121,8 @@ both)." />
     </div>
 
     <div class="ref-description">
-    <p>Returns the speed of each specified <code>trip_id</code>, based on the geometry
-created from either on the <code>shapes</code> or the <code>stop_times</code> file (or
-both).</p>
+    <p>Returns the speed of each specified <code>trip_id</code>, based on the geometry created
+from either the <code>shapes</code> or the <code>stop_times</code> file (or both).</p>
     </div>
 
     <pre class="usage"><span class='fu'>get_trip_speed</span><span class='op'>(</span><span class='va'>gtfs</span>, trip_id <span class='op'>=</span> <span class='cn'>NULL</span>, file <span class='op'>=</span> <span class='st'>"shapes"</span>, unit <span class='op'>=</span> <span class='st'>"km/h"</span><span class='op'>)</span></pre>
@@ -134,19 +132,19 @@ both).</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>gtfs</th>
-      <td><p>A GTFS object as created by <code><a href='read_gtfs.html'>read_gtfs</a></code>.</p></td>
+      <td><p>A GTFS object.</p></td>
     </tr>
     <tr>
       <th>trip_id</th>
-      <td><p>A string vector including the <code>trip_id</code>s to have their
-speeds calculated. If <code>NULL</code> (the default), the function calculates
-the speed of every <code>trip_id</code> in the GTFS.</p></td>
+      <td><p>A character vector including the <code>trip_id</code>s to have their
+speeds calculated. If <code>NULL</code> (the default), the function calculates the
+speed of every <code>trip_id</code> in the GTFS.</p></td>
     </tr>
     <tr>
       <th>file</th>
       <td><p>The file from which geometries should be generated, either
-<code>shapes</code> and <code>stop_times</code> (geometries are used to calculate the
-length of a trip). Defaults to <code>shapes</code>.</p></td>
+<code>shapes</code> or <code>stop_times</code> (geometries are used to calculate the length of a
+trip). Defaults to <code>shapes</code>.</p></td>
     </tr>
     <tr>
       <th>unit</th>
@@ -157,17 +155,17 @@ Either <code>"km/h"</code> (the default) or <code>"m/s"</code>.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>data.table</code> containing the duration of each specified trip
-and the file from which geometries were generated.</p>
+    <p>A <code>data.table</code> containing the duration of each specified trip and the
+file from which geometries were generated.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
 
-<p>Please check <code><a href='get_trip_geometry.html'>get_trip_geometry</a></code> documentation to understand how
-geometry generation differs depending on the chosen file.</p>
+<p>Please check <code><a href='get_trip_geometry.html'>get_trip_geometry()</a></code> documentation to understand how geometry
+generation differs depending on the chosen file.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='get_trip_geometry.html'>get_trip_geometry</a></code></p></div>
+    <div class='dont-index'><p><code><a href='get_trip_geometry.html'>get_trip_geometry()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>data_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/spo_gtfs.zip"</span>, package <span class='op'>=</span> <span class='st'>"gtfstools"</span><span class='op'>)</span>
