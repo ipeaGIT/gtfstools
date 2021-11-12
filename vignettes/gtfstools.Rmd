@@ -28,15 +28,19 @@ Please check the official [GTFS reference](https://developers.google.com/transit
 
 # Basic usage
 
-Before using **gtfstools** please make sure that you have it installed in your computer. You can download either the most stable version from CRAN or the development version from GitHub:
+Before using **gtfstools** please make sure that you have it installed in your computer. You can download either the most stable version from CRAN...
 
 ```{r, eval = FALSE}
-# stable version
 install.packages("gtfstools")
+```
 
-# development version
+...or the development version from GitHub.
+
+```{r, eval = FALSE}
 install.packages("gtfstools", repos = "https://dhersz.r-universe.dev")
+
 # or
+# install.packages("remotes")
 remotes::install_github("ipeaGIT/gtfstools")
 ```
 
@@ -46,7 +50,7 @@ Then attach it to the current R session:
 library(gtfstools)
 ```
 
-Throughout this demonstration we will be using a few sample files included in the package:
+A few sample files are included in the package:
 
 ```{r}
 data_path <- system.file("extdata", package = "gtfstools")
@@ -59,9 +63,11 @@ list.files(data_path)
 - `for_gtfs.zip` is a subset of Fortaleza's GTFS, in Brazil, available [here](http://datapoa.com.br/organization/eptc).
 - `poa_gtfs.zip` is a subset of Porto Alegre's GTFS, in Brazil, available [here](https://dados.fortaleza.ce.gov.br/catalogo/dataset/informacoes-de-transporte-publico-municipal-conforme-especificacoes-google).
 
+Throughout this demonstration we will be using São Paulo's and Google's feeds.
+
 ## Read feeds
 
-**gtfstools** reads feeds as a `list` of `data.table`s, a high-performance version of base **R**'s `data.frame`s. Thus reading, writing and manipulating GTFS objects created by **gtfstools** is very easy and fast even if some of your tables contain a few million rows.
+**gtfstools** reads feeds as a `list` of `data.table`s, a high-performance version of base **R**'s `data.frame`s. Thus, reading, writing and manipulating GTFS objects created by **gtfstools** is very easy and fast even if some of your tables contain a few million rows.
 
 To read a feed use the `read_gtfs()` function. By default the function reads all `.txt` files contained in the main `.zip` file. It may be useful, however, to read only a couple of specific files, specially if you're dealing with some big data sets. To do so, specify which file you want to read in the `files` argument (*without* the `.txt` extension):
 
@@ -168,7 +174,7 @@ merged_files <- merge_gtfs(spo_gtfs, ggl_gtfs, files = c("shapes", "trips"))
 names(merged_files)
 ```
 
-`set_trip_speed()` sets the average speed of specified trips by adjusting the `arrival_time` and `departure_time` columns in the `stop_times` table. Average speed is calculated as the difference between the arrival time at the last stop minus the departure time at the first top, divided by the trip's length. Please note that arrival and departure times at intermediate stops are set as `""`. Some transport routing software, such as [OpenTripPlanner](https://www.opentripplanner.org/), support specifying stop times like so, in which case they interpolate arrival/departure times at intermediate stops based on the trip's average speed.
+`set_trip_speed()` sets the average speed of specified trips by adjusting the `arrival_time` and `departure_time` columns in the `stop_times` table. Average speed is calculated as the difference between the arrival time at the last stop minus the departure time at the first top, divided by the trip's length. Please note that arrival and departure times at intermediate stops are set as `""`. Some transport routing software, such as [OpenTripPlanner](https://www.opentripplanner.org/), support specifying stop times like so, in which case they interpolate arrival/departure times at intermediate stops based on the trip's average speed and the euclidean distance between stops.
 
 ```{r}
 selected_trips <- c("CPTM L07-0", "2002-10-0")
