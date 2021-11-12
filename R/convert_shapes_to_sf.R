@@ -1,6 +1,5 @@
 #' Convert `shapes` table to simple feature object
 #'
-#' @description
 #' Converts the `shapes` table to a `LINESTRING sf` object.
 #'
 #' @param gtfs A GTFS object.
@@ -24,9 +23,6 @@
 #'
 #' @export
 convert_shapes_to_sf <- function(gtfs, shape_id = NULL, crs = 4326) {
-
-  # input checking
-
   checkmate::assert_class(gtfs, "dt_gtfs")
   checkmate::assert_character(shape_id, null.ok = TRUE)
   checkmate::assert(
@@ -43,47 +39,55 @@ convert_shapes_to_sf <- function(gtfs, shape_id = NULL, crs = 4326) {
   )
 
   # select relevant shape_ids
-
-  if (!is.null(shape_id))
+  if (!is.null(shape_id)) {
     relevant_shapes <- shape_id
-  else
+  } else {
     relevant_shapes <- unique(gtfs$shapes$shape_id)
+  }
 
   # raise warning/error if given 'shape_id's don't exist in 'shapes'
-
   if (!is.null(shape_id)) {
-
     invalid_shape_id <- shape_id[! shape_id %chin% unique(gtfs$shapes$shape_id)]
 
-    if (identical(invalid_shape_id, shape_id))
-      stop("'shapes' doesn't contain any of the ids passed to 'shape_id'.")
-
-    if (!identical(invalid_shape_id, character(0)))
+    if (!identical(invalid_shape_id, character(0))) {
       warning(
         paste0(
           "'shapes' doesn't contain the following shape_id(s): "),
         paste0("'", invalid_shape_id, "'", collapse = ", ")
       )
-
+    }
   }
 
   # filter 'shapes' table, sort it by 'shape_pt_sequence' and 'shape_id' and
-  # create sf from it
+  # create sf from it. if empty, create an empty LINESTRING sf
 
-  shapes_sf <- gtfs$shapes[shape_id %chin% relevant_shapes]
-  shapes_sf <- shapes_sf[order(shape_id, shape_pt_sequence)]
-  shapes_sf <- sfheaders::sf_linestring(
-    shapes_sf,
-    x = "shape_pt_lon",
-    y = "shape_pt_lat",
-    linestring_id = "shape_id"
-  )
+  shapes <- gtfs$shapes[shape_id %chin% relevant_shapes]
+  shapes <- shapes[order(shape_id, shape_pt_sequence)]
+
+  if (nrow(shapes) == 0) {
+    empty_linestring <- sf::st_sfc()
+    class(empty_linestring)[1] <- "sfc_LINESTRING"
+
+    shapes_sf <- sf::st_sf(
+      shape_id = character(),
+      geometry = empty_linestring,
+      stringsAsFactors = FALSE
+    )
+  } else {
+    shapes_sf <- sfheaders::sf_linestring(
+      shapes,
+      x = "shape_pt_lon",
+      y = "shape_pt_lat",
+      linestring_id = "shape_id"
+    )
+  }
+
   shapes_sf <- sf::st_set_crs(shapes_sf, 4326)
 
   # transform crs from 4326 to the one passed to 'crs'
-
-  if (crs != 4326 && crs != sf::st_crs(4326))
+  if (crs != 4326 && crs != sf::st_crs(4326)) {
     shapes_sf <- sf::st_transform(shapes_sf, crs)
+  }
 
   return(shapes_sf)
 

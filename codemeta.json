@@ -10,13 +10,13 @@
   "codeRepository": "https://github.com/ipeaGIT/gtfstools",
   "issueTracker": "https://github.com/ipeaGIT/gtfstools/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.1.0.9059",
+  "version": "0.1.0.9060",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.1 (2021-08-10)",
+  "runtimePlatform": "R version 4.1.2 (2021-11-01)",
   "author": [
     {
       "@type": "Person",
@@ -240,8 +240,8 @@
       "sameAs": "https://CRAN.R-project.org/package=zip"
     }
   ],
-  "fileSize": "2764.407KB",
-  "contIntegration": ["https://github.com/ipeaGIT/gtfstools/actions?query=workflow%3AR-CMD-check", "https://codecov.io/gh/ipeaGIT/gtfstools?branch=master"],
+  "fileSize": "2597.681KB",
+  "contIntegration": "https://codecov.io/gh/ipeaGIT/gtfstools?branch=master",
   "developmentStatus": "https://lifecycle.r-lib.org/articles/stages.html",
   "keywords": [
     "r",

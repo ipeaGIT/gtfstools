@@ -64,11 +64,9 @@ test_that("convert correct shapes", {
 })
 
 test_that("raises warnings/erros if invalid stop_ids are passed", {
-  # raises warning if a invalid stop_id is passed
   expect_warning(convert_shapes_to_sf(gtfs, shape_id = c("17846", "ola")))
-
-  # throws error if all passed stop_ids are invalid
-  expect_error(convert_shapes_to_sf(gtfs, shape_id = "ola"))
+  expect_warning(convert_shapes_to_sf(gtfs, shape_id = c("ola")))
+  expect_silent(convert_shapes_to_sf(gtfs, character(0)))
 })
 
 test_that("returns a LINESTRING sf with correct crs", {
@@ -83,6 +81,19 @@ test_that("returns a LINESTRING sf with correct crs", {
   # which can be changed with 'crs' argument
   shapes_sf <- convert_shapes_to_sf(gtfs, crs = 4674)
   expect_identical(sf::st_crs(shapes_sf), sf::st_crs(4674))
+
+  # works even if none of the specified trips exist/character(0) is given
+  suppressWarnings(
+    shapes_sf <- convert_shapes_to_sf(gtfs, "ola")
+  )
+  expect_s3_class(shapes_sf, "sf")
+  expect_s3_class(shapes_sf$geometry, "sfc_LINESTRING")
+
+  suppressWarnings(
+    shapes_sf <- convert_shapes_to_sf(gtfs, character(0))
+  )
+  expect_s3_class(shapes_sf, "sf")
+  expect_s3_class(shapes_sf$geometry, "sfc_LINESTRING")
 })
 
 test_that("doesn't change passed gtfs object (only the index of gtfs$shapes)", {
