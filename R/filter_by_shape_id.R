@@ -204,12 +204,55 @@ filter_by_shape_id <- function(gtfs, shape_id, keep = TRUE) {
 
       }
 
-      # 'stops' (stop_id)
+      # 'stops', 'transfers' and 'pathways' (stop_id)
+
+      from_to_stop_id <- c("from_stop_id", "to_stop_id")
+
+      if (gtfsio::check_field_exists(gtfs, "transfers", from_to_stop_id)) {
+
+        gtfsio::assert_field_class(
+          gtfs,
+          "transfers",
+          from_to_stop_id,
+          rep("character", 2)
+        )
+        gtfs$transfers <- gtfs$transfers[
+          from_stop_id %chin% relevant_stops & to_stop_id %chin% relevant_stops
+        ]
+
+      }
+
+      if (gtfsio::check_field_exists(gtfs, "pathways", from_to_stop_id)) {
+
+        gtfsio::assert_field_class(
+          gtfs,
+          "pathways",
+          from_to_stop_id,
+          rep("character", 2)
+        )
+        gtfs$pathways <- gtfs$pathways[
+          from_stop_id %chin% relevant_stops & to_stop_id %chin% relevant_stops
+        ]
+
+      }
 
       if (gtfsio::check_field_exists(gtfs, "stops", "stop_id")) {
 
         gtfsio::assert_field_class(gtfs, "stops", "stop_id", "character")
         gtfs$stops <- gtfs$stops[stop_id %chin% relevant_stops]
+
+        # 'stops' allows us to filter by 'level_id'
+
+        relevant_levels <- unique(gtfs$stops$level_id)
+
+        # 'levels' (level_id)
+
+        if (gtfsio::check_field_exists(gtfs, "levels", "level_id")) {
+
+          gtfsio::assert_field_class(gtfs, "levels", "level_id", "character")
+          gtfs$levels <- gtfs$levels[level_id %chin% relevant_levels]
+
+        }
 
       }
 
