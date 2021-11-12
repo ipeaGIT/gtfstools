@@ -1,12 +1,12 @@
 #' Filter a GTFS object using a `simple features` object
 #'
 #' Filters a GTFS object using the geometry of an `sf` object, keeping (or
-#' dropping) entries related to shapes and trips selected through an spatial
+#' dropping) entries related to shapes and trips selected through a spatial
 #' operation.
 #'
 #' @param gtfs A GTFS object.
 #' @param geom An `sf` object. Describes the geometry used to filter the data.
-#' @param spatial_operation An spatial operation function from the set of
+#' @param spatial_operation A spatial operation function from the set of
 #'   options listed in [geos_binary_pred][sf::geos_binary_pred] (check the
 #'   [DE-I9M](https://en.wikipedia.org/wiki/DE-9IM) Wikipedia entry for the
 #'   definition of each function). Defaults to `sf::st_intersects`, which tests

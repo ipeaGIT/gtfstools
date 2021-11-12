@@ -11,7 +11,7 @@ filter_by_sf(gtfs, geom, spatial_operation = sf::st_intersects, keep = TRUE)
 
 \item{geom}{An \code{sf} object. Describes the geometry used to filter the data.}
 
-\item{spatial_operation}{An spatial operation function from the set of
+\item{spatial_operation}{A spatial operation function from the set of
 options listed in \link[sf:geos_binary_pred]{geos_binary_pred} (check the
 \href{https://en.wikipedia.org/wiki/DE-9IM}{DE-I9M} Wikipedia entry for the
 definition of each function). Defaults to \code{sf::st_intersects}, which tests
@@ -29,7 +29,7 @@ process.
 }
 \description{
 Filters a GTFS object using the geometry of an \code{sf} object, keeping (or
-dropping) entries related to shapes and trips selected through an spatial
+dropping) entries related to shapes and trips selected through a spatial
 operation.
 }
 \examples{
