@@ -8,3 +8,4 @@ vignettes/*.R
 *.o
 *.so
 *.swp
+*.dll

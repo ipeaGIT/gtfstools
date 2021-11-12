@@ -145,10 +145,10 @@ get_trip_geometry <- function(gtfs,
 
     # generate geometry; the condition for nrow == 0 prevents an sfheaders error
 
-    shapes_sf <- gtfs$shapes[shape_id %chin% relevant_shapes]
-    shapes_sf <- shapes_sf[order(shape_id, shape_pt_sequence)]
+    shapes <- gtfs$shapes[shape_id %chin% relevant_shapes]
+    shapes <- shapes[order(shape_id, shape_pt_sequence)]
 
-    if (nrow(shapes_sf) == 0) {
+    if (nrow(shapes) == 0) {
 
       empty_linestring <- sf::st_sfc()
       class(empty_linestring)[1] <- "sfc_LINESTRING"
@@ -162,7 +162,7 @@ get_trip_geometry <- function(gtfs,
     } else {
 
       shapes_sf <- sfheaders::sf_linestring(
-        shapes_sf,
+        shapes,
         x = "shape_pt_lon",
         y = "shape_pt_lat",
         linestring_id = "shape_id"
@@ -173,7 +173,12 @@ get_trip_geometry <- function(gtfs,
     shapes_sf <- sf::st_set_crs(shapes_sf, 4326)
     shapes_sf <- data.table::setDT(shapes_sf)[trips, on = "shape_id"]
     shapes_sf[, origin_file := "shapes"]
-    shapes_sf <- shapes_sf[, .(trip_id, origin_file, geometry)]
+
+    cols_to_remove <- setdiff(
+      names(shapes_sf),
+      c("trip_id", "origin_file", "geometry")
+    )
+    shapes_sf <- shapes_sf[, eval(cols_to_remove) := NULL]
 
   }
 
@@ -183,15 +188,15 @@ get_trip_geometry <- function(gtfs,
 
     # generate geometry; the condition for nrow == 0 prevents an sfheaders error
 
-    stop_times_sf <- gtfs$stop_times[trip_id %chin% relevant_trips]
-    stop_times_sf <- stop_times_sf[order(trip_id, stop_sequence)]
-    stop_times_sf[
+    stop_times <- gtfs$stop_times[trip_id %chin% relevant_trips]
+    stop_times <- stop_times[order(trip_id, stop_sequence)]
+    stop_times[
       gtfs$stops,
       on = "stop_id",
       `:=`(stop_lat = i.stop_lat, stop_lon = i.stop_lon)
     ]
 
-    if (nrow(stop_times_sf) == 0) {
+    if (nrow(stop_times) == 0) {
 
       empty_linestring <- sf::st_sfc()
       class(empty_linestring)[1] <- "sfc_LINESTRING"
@@ -205,7 +210,7 @@ get_trip_geometry <- function(gtfs,
     } else {
 
       stop_times_sf <- sfheaders::sf_linestring(
-        stop_times_sf,
+        stop_times,
         x = "stop_lon",
         y = "stop_lat",
         linestring_id = "trip_id"
@@ -227,7 +232,7 @@ get_trip_geometry <- function(gtfs,
     final_sf <- get(paste0(file, "_sf"))
   }
 
-  final_sf <- final_sf[, .(trip_id, origin_file, geometry)]
+  data.table::setcolorder(final_sf, c("trip_id", "origin_file", "geometry"))
   final_sf <- sf::st_as_sf(final_sf)
 
   # transform crs from 4326 to the one passed to 'crs'
