@@ -95,10 +95,47 @@ plotter <- function(gtfs,
     geom_sf(data = geom, fill = NA)
 
 }
+```
 
+This function:
+
+- Conditionally filters a GTFS object given a spatial object (called `geom`);
+- Generates shapes' and trips' geometries as described in their respective tables;
+- Uses one of **gtfstools**' unexported functions (`polygon_from_bbox()`) to generate a polygon from a bounding box;
+- Plots all the `sf` objects cited above to show the effect of each `filter_by_sf()` argument in the final result.
+
+Also, please note that our `plotter()` function takes the same arguments of `filter_by_sf()` (with the exception of `do_filter`, which is used to show the unfiltered data), as well as the same defaults.
+
+Let's say that we want to filter GTFS data using the bounding box of the shape `68962`. Here's how the unfiltered data looks like, with the bounding box placed on top of it.
+
+```{r}
 bbox <- sf::st_bbox(convert_shapes_to_sf(gtfs, shape_id = "68962"))
 
-# unfiltered
 plotter(gtfs, bbox, do_filter = FALSE)
 ```
 
+By default `filter_by_sf()` (and `plotter()`, consequently) keeps all the data related to the trips and shapes that intersect the given geometry. Here's how it looks like:
+
+```{r}
+plotter(gtfs, bbox)
+```
+
+Alternatively you can also *drop* such data:
+
+```{r}
+plotter(gtfs, bbox, keep = FALSE)
+```
+
+You can also control which spatial operation you want to use to filter the data. This is how you'd keep the data that is contained inside the given geometry:
+
+```{r}
+plotter(gtfs, bbox, spatial_operation = sf::st_contains)
+```
+
+And, simultaneously using `spatial_operation` and `keep`, this is how you'd drop the data contained inside the geometry:
+
+```{r}
+plotter(gtfs, bbox, spatial_operation = sf::st_contains, keep = FALSE)
+```
+
+All filtering functions return a GTFS object readily available to be manipulated and analysed using the rest of **gtfstools**' toolkit. For more information on how to use other functions made available by the package, please see the [introductory vignette](gtfstools.html).

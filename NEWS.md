@@ -14,6 +14,7 @@
 - New function `remove_duplicates()`.
 - New parameters to `read_gtfs()`: `fields`, `skip` and `encoding`. The `warnings` parameter was flagged as deprecated.
 - New parameters to `write_gtfs()`: `files`, `standard_only` and `as_dir`. They substitute the previously existent `optional` and `extra`, which were flagged as deprecated. The `warnings` parameter was flagged as deprecated too.
+- New vignette exploring the filtering functions.
 
 ## Bug fixes
 
