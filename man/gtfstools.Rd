@@ -11,12 +11,14 @@ Tools}
 Utility functions to read, manipulate, analyse and write transit feeds in the
 General Transit Feed Specification (GTFS) data format.
 }
-\section{Basic usage}{
+\section{Usage}{
 
-Please check the introductory vignette for basic usage:
+Please check the vignettes for more on the package usage:
 \itemize{
-\item Run \code{vignette("gtfstools")};
-\item Alternatively, check it on \href{https://ipeagit.github.io/gtfstools/articles/gtfstools.html}{\code{{gtfstools}} website}.
+\item Basic usage: reading, analysing, manipulating and writing feeds. Run
+\code{vignette("gtfstools")} or check it on the \href{https://ipeagit.github.io/gtfstools/articles/gtfstools.html}{website}.
+\item Filtering GTFS feeds. Run \code{vignette("filtering", package = "gtfstools")} or
+check it on the \href{https://ipeagit.github.io/gtfstools/articles/filtering.html}{website}.
 }
 }
 

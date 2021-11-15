@@ -45,7 +45,10 @@ This package requires a working installation of [`{sf}`](https://github.com/r-sp
 
 ## Usage
 
-Please read the introductory vignette for some basic usage: [Introduction to gtfstools](https://ipeagit.github.io/gtfstools/articles/gtfstools.html).
+Please read **gtfstools** vignettes for more on the package usage:
+
+- Basic usage: reading, analysing, manipulating and writing feeds. Run `vignette("gtfstools")` or check it on the website ([Introduction to gtfstools](https://ipeagit.github.io/gtfstools/articles/gtfstools.html)).
+- Filtering GTFS feeds. Run `vignette("filtering", package = "gtfstools")` or check it on the website ([Filtering GTFS feeds](https://ipeagit.github.io/gtfstools/articles/filtering.html)).
 
 ## Related packages
 

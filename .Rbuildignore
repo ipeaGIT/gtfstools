@@ -5,6 +5,7 @@
 ^codecov\.yml$
 ^\.github$
 ^README\.Rmd$
+^README\.html$
 ^codemeta\.json$
 ^\.pre-commit-config\.yaml$
 ^cran-comments\.md$
