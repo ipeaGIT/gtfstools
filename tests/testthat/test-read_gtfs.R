@@ -1,5 +1,7 @@
 context("Read GTFS")
 
+# fix this later - necessary to conditionally run tests that require {zip}
+if (requireNamespace("zip", quietly = TRUE)) {
 
 # setup -------------------------------------------------------------------
 
@@ -175,3 +177,5 @@ test_that("date fields are converted to Date objects", {
 test_that("'warnings' arguments is deprecated", {
   expect_warning(read_gtfs(data_path, warnings = TRUE))
 })
+
+}

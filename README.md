@@ -8,7 +8,7 @@ badge](https://dhersz.r-universe.dev/badges/gtfstools)](https://dhersz.r-univers
 [![B
 status](https://github.com/ipeaGIT/gtfstools/workflows/R-CMD-check/badge.svg)](https://github.com/ipeaGIT/gtfstools/actions?query=workflow%3AR-CMD-check)
 [![Codecov test
-coverage](https://codecov.io/gh/ipeaGIT/gtfstools/branch/master/graph/badge.svg)](https://codecov.io/gh/ipeaGIT/gtfstools?branch=master)
+coverage](https://codecov.io/gh/ipeaGIT/gtfstools/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ipeaGIT/gtfstools?branch=master)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![CRAN/METACRAN Total
@@ -70,22 +70,23 @@ citation("gtfstools")
 #> 
 #> To cite gtfstools in publications use:
 #> 
-#>   Daniel Herszenhut. (2021, February). gtfstools:
+#>   Daniel Herszenhut, Rafael H. M. Pereira, Pedro R.
+#>   Andrade & Joao Bazzo. (2021, November). gtfstools:
 #>   General Transit Feed Specification (GTFS) Editing
-#>   and Analysing Tools (Version v0.1.0). Zenodo.
-#>   http://doi.org/10.5281/zenodo.5650829
+#>   and Analysing Tools (Version v1.0.0). Zenodo.
+#>   http://doi.org/10.5281/zenodo.5703285
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
 #>   @Manual{,
 #>     title = {gtfstools: General Transit Feed Specification (GTFS) Editing and Analysing Tools},
 #>     author = {Daniel Herszenhut},
-#>     month = {feb},
+#>     month = {nov},
 #>     year = {2021},
 #>     publisher = {Zenodo},
-#>     version = {v0.1.0},
-#>     doi = {10.5281/zenodo.5703236},
-#>     url = {https://doi.org/10.5281/zenodo.5703236},
+#>     version = {v1.0.0},
+#>     doi = {10.5281/zenodo.5703285},
+#>     url = {https://doi.org/10.5281/zenodo.5703285},
 #>   }
 ```
 

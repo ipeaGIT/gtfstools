@@ -19,6 +19,7 @@
 #' @useDynLib gtfstools, .registration = TRUE
 #'
 #' @importFrom data.table := .I .SD %chin%
+#' @importFrom utils globalVariables
 "_PACKAGE"
 
 utils::globalVariables(

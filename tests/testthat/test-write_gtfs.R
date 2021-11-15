@@ -1,5 +1,8 @@
 context("Write GTFS")
 
+# fix this later - necessary to conditionally run tests that require {zip}
+if (requireNamespace("zip", quietly = TRUE)) {
+
 # setup -------------------------------------------------------------------
 
 
@@ -136,3 +139,5 @@ test_that("'optinal', 'extra' and 'warnings' arguments are deprecated", {
   expect_warning(write_gtfs(gtfs, temp_file, extra  = TRUE))
   expect_warning(write_gtfs(gtfs, temp_file, warnings = TRUE))
 })
+
+}
