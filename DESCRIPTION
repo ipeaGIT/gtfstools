@@ -2,7 +2,7 @@ Type: Package
 Package: gtfstools
 Title: General Transit Feed Specification (GTFS) Editing and Analysing
     Tools
-Version: 0.1.0.9069
+Version: 0.1.0.9070
 Authors@R: 
     c(person(given = "Daniel",
              family = "Herszenhut",
