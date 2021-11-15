@@ -10,7 +10,7 @@
   "codeRepository": "https://github.com/ipeaGIT/gtfstools",
   "issueTracker": "https://github.com/ipeaGIT/gtfstools/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.1.0.9070",
+  "version": "0.1.0.9071",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -252,7 +252,7 @@
       "sameAs": "https://CRAN.R-project.org/package=zip"
     }
   ],
-  "fileSize": "4181.567KB",
+  "fileSize": "3572.649KB",
   "contIntegration": "https://codecov.io/gh/ipeaGIT/gtfstools?branch=master",
   "developmentStatus": "https://lifecycle.r-lib.org/articles/stages.html",
   "keywords": [
