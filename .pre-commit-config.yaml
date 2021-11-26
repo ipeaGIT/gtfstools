@@ -4,7 +4,6 @@ repos:
     hooks:
     -   id: mod-codemeta-description-updated
     -   id: mod-readme-rmd-rendered
-    -   id: version-bumped
 -   repo: local
     hooks:
     -   id: forbid-to-commit
