@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.9000</span>
       </span>
     </div>
 
@@ -176,31 +176,34 @@ repeated within different GTFS objects. Please let us know if you'd like to
 see this feature implemented.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>spo_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/spo_gtfs.zip"</span>, package <span class='op'>=</span> <span class='st'>"gtfstools"</span><span class='op'>)</span>
-<span class='va'>ggl_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/ggl_gtfs.zip"</span>, package <span class='op'>=</span> <span class='st'>"gtfstools"</span><span class='op'>)</span>
-
-<span class='va'>spo_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_gtfs.html'>read_gtfs</a></span><span class='op'>(</span><span class='va'>spo_path</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>spo_gtfs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "agency"      "calendar"    "frequencies" "routes"      "shapes"     
-#&gt; [6] "stop_times"  "stops"       "trips"      </div><div class='input'>
-<span class='va'>ggl_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_gtfs.html'>read_gtfs</a></span><span class='op'>(</span><span class='va'>ggl_path</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>ggl_gtfs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] "calendar_dates"  "fare_attributes" "fare_rules"      "feed_info"      
-#&gt;  [5] "frequencies"     "levels"          "pathways"        "routes"         
-#&gt;  [9] "shapes"          "stop_times"      "stops"           "transfers"      
-#&gt; [13] "translations"    "trips"           "agency"          "attributions"   
-#&gt; [17] "calendar"       </div><div class='input'>
-<span class='va'>merged_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>merge_gtfs</span><span class='op'>(</span><span class='va'>spo_gtfs</span>, <span class='va'>ggl_gtfs</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>merged_gtfs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] "agency"          "calendar"        "frequencies"     "routes"         
-#&gt;  [5] "shapes"          "stop_times"      "stops"           "trips"          
-#&gt;  [9] "calendar_dates"  "fare_attributes" "fare_rules"      "feed_info"      
-#&gt; [13] "levels"          "pathways"        "transfers"       "translations"   
-#&gt; [17] "attributions"   </div><div class='input'>
-<span class='co'># use a list() to programatically merge many GTFS objects</span>
-<span class='va'>merged_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>merge_gtfs</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>spo_gtfs</span>, <span class='va'>ggl_gtfs</span><span class='op'>)</span><span class='op'>)</span>
-
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>spo_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/spo_gtfs.zip"</span>, package <span class='op'>=</span> <span class='st'>"gtfstools"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>ggl_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/ggl_gtfs.zip"</span>, package <span class='op'>=</span> <span class='st'>"gtfstools"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>spo_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_gtfs.html'>read_gtfs</a></span><span class='op'>(</span><span class='va'>spo_path</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>spo_gtfs</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "agency"      "calendar"    "frequencies" "routes"      "shapes"     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [6] "stop_times"  "stops"       "trips"      </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>ggl_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_gtfs.html'>read_gtfs</a></span><span class='op'>(</span><span class='va'>ggl_path</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>ggl_gtfs</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "calendar_dates"  "fare_attributes" "fare_rules"      "feed_info"      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] "frequencies"     "levels"          "pathways"        "routes"         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] "shapes"          "stop_times"      "stops"           "transfers"      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "translations"    "trips"           "agency"          "attributions"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [17] "calendar"       </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>merged_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>merge_gtfs</span><span class='op'>(</span><span class='va'>spo_gtfs</span>, <span class='va'>ggl_gtfs</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>merged_gtfs</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "agency"          "calendar"        "frequencies"     "routes"         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] "shapes"          "stop_times"      "stops"           "trips"          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] "calendar_dates"  "fare_attributes" "fare_rules"      "feed_info"      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "levels"          "pathways"        "transfers"       "translations"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [17] "attributions"   </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># use a list() to programatically merge many GTFS objects</span></span>
+<span class='r-in'><span class='va'>merged_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>merge_gtfs</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>spo_gtfs</span>, <span class='va'>ggl_gtfs</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

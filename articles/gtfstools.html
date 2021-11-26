@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.9000</span>
       </span>
     </div>
 
@@ -241,7 +241,7 @@
 <h2 class="hasAnchor">
 <a href="#manipulate-feeds" class="anchor"></a>Manipulate feeds</h2>
 <p>Each table inside a GTFS object can be easily manipulated using the usual <code>data.table</code> syntax. <a href="https://r-datatable.com">data.table</a> provides many useful features, such as updating columns by reference, fast binary search, efficient data aggregation, and many others, that allows you to deal with large data sets very efficiently. Please check its <a href="https://rdatatable.gitlab.io/data.table/index.html">official website</a> for more details on syntax and usage.</p>
-<p>Just remember that, since every GTFS object is a <em><code>list</code></em> of <code>data.table</code>s, you must refer to each table using the <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code> operator. For example, this is how you’d remove the <code>headway_secs</code> column from the <code>frequencies</code> file and add it again afterwards:</p>
+<p>Just remember that, since every GTFS object is a <em><code>list</code></em> of <code>data.table</code>s, you must refer to each table using the <code>$</code> operator. For example, this is how you’d remove the <code>headway_secs</code> column from the <code>frequencies</code> file and add it again afterwards:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">old_headway_secs</span> <span class="op">&lt;-</span> <span class="va">spo_gtfs</span><span class="op">$</span><span class="va">frequencies</span><span class="op">$</span><span class="va">headway_secs</span>
 

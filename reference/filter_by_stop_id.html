@@ -75,7 +75,7 @@ which are then used to filter the rest of the GTFS object." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.9000</span>
       </span>
     </div>
 
@@ -176,21 +176,24 @@ process.</p>
 <code><a href='filter_by_trip_id.html'>filter_by_trip_id</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>data_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/spo_gtfs.zip"</span>, package <span class='op'>=</span> <span class='st'>"gtfstools"</span><span class='op'>)</span>
-<span class='va'>gtfs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_gtfs.html'>read_gtfs</a></span><span class='op'>(</span><span class='va'>data_path</span><span class='op'>)</span>
-<span class='va'>stop_ids</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"18848"</span>, <span class='st'>"940004157"</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 811304 bytes</div><div class='input'>
-<span class='co'># keeps entries related to trips that pass through specified stop_ids</span>
-<span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_by_stop_id</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>stop_ids</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>smaller_gtfs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 95744 bytes</div><div class='input'>
-<span class='co'># drops entries related to trips that pass through specified stop_ids</span>
-<span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_by_stop_id</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>stop_ids</span>, keep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>smaller_gtfs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 741512 bytes</div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>data_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/spo_gtfs.zip"</span>, package <span class='op'>=</span> <span class='st'>"gtfstools"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>gtfs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_gtfs.html'>read_gtfs</a></span><span class='op'>(</span><span class='va'>data_path</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>stop_ids</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"18848"</span>, <span class='st'>"940004157"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 811304 bytes</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># keeps entries related to trips that pass through specified stop_ids</span></span>
+<span class='r-in'><span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_by_stop_id</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>stop_ids</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>smaller_gtfs</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 95744 bytes</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># drops entries related to trips that pass through specified stop_ids</span></span>
+<span class='r-in'><span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_by_stop_id</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>stop_ids</span>, keep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>smaller_gtfs</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 741512 bytes</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

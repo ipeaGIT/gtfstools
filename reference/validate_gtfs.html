@@ -76,7 +76,7 @@ gtfstools." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.9000</span>
       </span>
     </div>
 
@@ -200,20 +200,24 @@ present, however, it becomes optional and <code>calendar_dates.txt</code>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>data_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/spo_gtfs.zip"</span>, package <span class='op'>=</span> <span class='st'>"gtfstools"</span><span class='op'>)</span>
-
-<span class='va'>gtfs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_gtfs.html'>read_gtfs</a></span><span class='op'>(</span><span class='va'>data_path</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='st'>"validation_result"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; NULL</div><div class='input'>
-<span class='co'># should not raise a warning, because 'shapes' is not a required file</span>
-<span class='va'>gtfs</span><span class='op'>$</span><span class='va'>shapes</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
-<span class='va'>validation_result</span> <span class='op'>&lt;-</span> <span class='fu'>validate_gtfs</span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: 'validate_gtfs()' is deprecated. Its usage and output will probably change on future gtfstools versions.</span></div><div class='input'>
-<span class='co'># should raise a warning, because 'stop_times' is a required file</span>
-<span class='va'>gtfs</span><span class='op'>$</span><span class='va'>stop_times</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
-<span class='va'>validation_result</span> <span class='op'>&lt;-</span> <span class='fu'>validate_gtfs</span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: 'validate_gtfs()' is deprecated. Its usage and output will probably change on future gtfstools versions.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Invalid feed. Missing required file(s): 'stop_times'</span></div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>data_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/spo_gtfs.zip"</span>, package <span class='op'>=</span> <span class='st'>"gtfstools"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>gtfs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_gtfs.html'>read_gtfs</a></span><span class='op'>(</span><span class='va'>data_path</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='st'>"validation_result"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NULL</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># should not raise a warning, because 'shapes' is not a required file</span></span>
+<span class='r-in'><span class='va'>gtfs</span><span class='op'>$</span><span class='va'>shapes</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span></span>
+<span class='r-in'><span class='va'>validation_result</span> <span class='op'>&lt;-</span> <span class='fu'>validate_gtfs</span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'validate_gtfs()' is deprecated. Its usage and output will probably change on future gtfstools versions.</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># should raise a warning, because 'stop_times' is a required file</span></span>
+<span class='r-in'><span class='va'>gtfs</span><span class='op'>$</span><span class='va'>stop_times</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span></span>
+<span class='r-in'><span class='va'>validation_result</span> <span class='op'>&lt;-</span> <span class='fu'>validate_gtfs</span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'validate_gtfs()' is deprecated. Its usage and output will probably change on future gtfstools versions.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Invalid feed. Missing required file(s): 'stop_times'</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
