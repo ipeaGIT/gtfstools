@@ -6,7 +6,7 @@
 #include <R_ext/Visibility.h>
 
 // convert-time.cpp
-cpp11::writable::integers cpp_time_to_seconds(const strings times_in);
+integers cpp_time_to_seconds(const strings times_in);
 extern "C" SEXP _gtfstools_cpp_time_to_seconds(SEXP times_in) {
   BEGIN_CPP11
     return cpp11::as_sexp(cpp_time_to_seconds(cpp11::as_cpp<cpp11::decay_t<const strings>>(times_in)));
