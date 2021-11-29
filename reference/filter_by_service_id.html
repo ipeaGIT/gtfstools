@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Filter a GTFS object using a simple features object — filter_by_sf • gtfstools</title>
+<title>Filter GTFS object by service_id — filter_by_service_id • gtfstools</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,9 @@
 
 
 
-<meta property="og:title" content="Filter a GTFS object using a simple features object — filter_by_sf" />
-<meta property="og:description" content="Filters a GTFS object using the geometry of an sf object, keeping (or
-dropping) entries related to shapes and trips selected through a spatial
-operation." />
+<meta property="og:title" content="Filter GTFS object by service_id — filter_by_service_id" />
+<meta property="og:description" content="Filters a GTFS object by service_ids, keeping (or dropping) the relevant
+entries in each file." />
 
 
 
@@ -128,18 +127,17 @@ operation." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Filter a GTFS object using a <code>simple features</code> object</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ipeaGIT/gtfstools/blob/master/R/filter_by_sf.R'><code>R/filter_by_sf.R</code></a></small>
-    <div class="hidden name"><code>filter_by_sf.Rd</code></div>
+    <h1>Filter GTFS object by <code>service_id</code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/ipeaGIT/gtfstools/blob/master/R/filter_by_service_id.R'><code>R/filter_by_service_id.R</code></a></small>
+    <div class="hidden name"><code>filter_by_service_id.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Filters a GTFS object using the geometry of an <code>sf</code> object, keeping (or
-dropping) entries related to shapes and trips selected through a spatial
-operation.</p>
+    <p>Filters a GTFS object by <code>service_id</code>s, keeping (or dropping) the relevant
+entries in each file.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>filter_by_sf</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>geom</span>, spatial_operation <span class='op'>=</span> <span class='fu'>sf</span><span class='fu'>::</span><span class='va'><a href='https://r-spatial.github.io/sf/reference/geos_binary_pred.html'>st_intersects</a></span>, keep <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>filter_by_service_id</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>service_id</span>, keep <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -149,24 +147,15 @@ operation.</p>
       <td><p>A GTFS object.</p></td>
     </tr>
     <tr>
-      <th>geom</th>
-      <td><p>An <code>sf</code> object. Describes the geometry used to filter the data.</p></td>
-    </tr>
-    <tr>
-      <th>spatial_operation</th>
-      <td><p>A spatial operation function from the set of
-options listed in <a href='https://r-spatial.github.io/sf/reference/geos_binary_pred.html'>geos_binary_pred</a> (check the
-<a href='https://en.wikipedia.org/wiki/DE-9IM'>DE-I9M</a> Wikipedia entry for the
-definition of each function). Defaults to <code><a href='https://r-spatial.github.io/sf/reference/geos_binary_pred.html'>sf::st_intersects</a></code>, which tests
-if the shapes and trips have ANY intersection with the object specified in
-<code>geom</code>. Please note that <code>geom</code> is passed as the <code>x</code> argument of these
-functions.</p></td>
+      <th>service_id</th>
+      <td><p>A character vector. The <code>service_id</code>s used to filter the
+data.</p></td>
     </tr>
     <tr>
       <th>keep</th>
-      <td><p>A logical. Whether the entries related to the shapes and trips
-that cross through the given geometry should be kept or dropped (defaults
-to <code>TRUE</code>, which keeps the entries).</p></td>
+      <td><p>A logical. Whether the entries related to the specified
+<code>service_id</code>s should be kept or dropped (defaults to <code>TRUE</code>, which keeps the
+entries).</p></td>
     </tr>
     </table>
 
@@ -179,7 +168,7 @@ process.</p>
     <div class='dont-index'><p>Other filtering functions: 
 <code><a href='filter_by_route_id.html'>filter_by_route_id</a>()</code>,
 <code><a href='filter_by_route_type.html'>filter_by_route_type</a>()</code>,
-<code><a href='filter_by_service_id.html'>filter_by_service_id</a>()</code>,
+<code><a href='filter_by_sf.html'>filter_by_sf</a>()</code>,
 <code><a href='filter_by_shape_id.html'>filter_by_shape_id</a>()</code>,
 <code><a href='filter_by_stop_id.html'>filter_by_stop_id</a>()</code>,
 <code><a href='filter_by_trip_id.html'>filter_by_trip_id</a>()</code></p></div>
@@ -187,27 +176,20 @@ process.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='r-in'><span class='va'>data_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/spo_gtfs.zip"</span>, package <span class='op'>=</span> <span class='st'>"gtfstools"</span><span class='op'>)</span></span>
 <span class='r-in'><span class='va'>gtfs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_gtfs.html'>read_gtfs</a></span><span class='op'>(</span><span class='va'>data_path</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>service_ids</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"USD"</span>, <span class='st'>"U__"</span><span class='op'>)</span></span>
 <span class='r-in'></span>
-<span class='r-in'><span class='va'>shape_id</span> <span class='op'>&lt;-</span> <span class='st'>"68962"</span></span>
-<span class='r-in'><span class='va'>shape_sf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='convert_shapes_to_sf.html'>convert_shapes_to_sf</a></span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>shape_id</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>bbox</span> <span class='op'>&lt;-</span> <span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_bbox.html'>st_bbox</a></span><span class='op'>(</span><span class='va'>shape_sf</span><span class='op'>)</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>gtfs</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 860808 bytes</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 811304 bytes</span>
 <span class='r-in'></span>
-<span class='r-in'><span class='co'># keeps entries that intersect with the specified polygon</span></span>
-<span class='r-in'><span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_by_sf</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>bbox</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># keeps entries related to the specified service_ids</span></span>
+<span class='r-in'><span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_by_service_id</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>service_ids</span><span class='op'>)</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>smaller_gtfs</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 324952 bytes</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 810568 bytes</span>
 <span class='r-in'></span>
-<span class='r-in'><span class='co'># drops entries that intersect with the specified polygon</span></span>
-<span class='r-in'><span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_by_sf</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>bbox</span>, keep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># drops entries related to the specified service_ids</span></span>
+<span class='r-in'><span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_by_service_id</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>service_ids</span>, keep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>smaller_gtfs</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 512288 bytes</span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># uses a different function to filter the gtfs</span></span>
-<span class='r-in'><span class='va'>smaller_gtfs</span> <span class='op'>&lt;-</span> <span class='fu'>filter_by_sf</span><span class='op'>(</span><span class='va'>gtfs</span>, <span class='va'>bbox</span>, spatial_operation <span class='op'>=</span> <span class='fu'>sf</span><span class='fu'>::</span><span class='va'><a href='https://r-spatial.github.io/sf/reference/geos_binary_pred.html'>st_contains</a></span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></span><span class='op'>(</span><span class='va'>smaller_gtfs</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 68976 bytes</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 20392 bytes</span>
 <span class='r-in'></span>
 </pre>
   </div>

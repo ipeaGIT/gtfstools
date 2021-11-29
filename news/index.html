@@ -129,13 +129,33 @@
       <small>Source: <a href='https://github.com/ipeaGIT/gtfstools/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="gtfstools-100" class="section level1">
-<h1 class="page-header" data-toc-text="1.0.0">
-<a href="#gtfstools-100" class="anchor"></a>gtfstools 1.0.0<small> 2021-11-16 </small>
+    <div id="gtfstools-development-version" class="section level1">
+<h1 class="page-header" data-toc-text="development version">
+<a href="#gtfstools-development-version" class="anchor"></a>gtfstools (development version)<small> Unreleased </small>
 </h1>
 <div id="new-features" class="section level2">
 <h2 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>New features</h2>
+<ul>
+<li>New function <code><a href="../reference/filter_by_service_id.html">filter_by_service_id()</a></code>.</li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+</div>
+<div id="notes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#notes" class="anchor"></a>Notes</h2>
+</div>
+</div>
+    <div id="gtfstools-100" class="section level1">
+<h1 class="page-header" data-toc-text="1.0.0">
+<a href="#gtfstools-100" class="anchor"></a>gtfstools 1.0.0<small> 2021-11-16 </small>
+</h1>
+<div id="new-features-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-features-1" class="anchor"></a>New features</h2>
 <ul>
 <li>New function <code><a href="../reference/convert_stops_to_sf.html">convert_stops_to_sf()</a></code>.</li>
 <li>New function <code><a href="../reference/convert_shapes_to_sf.html">convert_shapes_to_sf()</a></code>.</li>
@@ -152,9 +172,9 @@
 <li>New vignette exploring the filtering functions.</li>
 </ul>
 </div>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>
 <code><a href="../reference/get_trip_speed.html">get_trip_speed()</a></code> and <code><a href="../reference/set_trip_speed.html">set_trip_speed()</a></code> examples and tests now only run if <a href="https://github.com/r-spatial/lwgeom/">lwgeom</a> is installed. <a href="https://github.com/r-spatial/lwgeom/">lwgeom</a> is an <a href="https://r-spatial.github.io/sf/">sf</a> “soft” dependency required by these functions, and is listed in <code>Suggests</code>. However, package checks would fail not so gracefully if it wasn’t installed, which is now fixed.</li>
@@ -165,9 +185,9 @@
 <li>Adjusted <code><a href="../reference/set_trip_speed.html">set_trip_speed()</a></code> to stop raising a <code><a href="https://rdrr.io/r/base/Extremes.html">max()</a></code>-related warning when none of the specified <code>trip_id</code>s exists.</li>
 </ul>
 </div>
-<div id="notes" class="section level2">
+<div id="notes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#notes" class="anchor"></a>Notes</h2>
+<a href="#notes-1" class="anchor"></a>Notes</h2>
 <ul>
 <li>Some utility functions previously provided by <a href="https://github.com/ipeaGIT/gtfs2gps"><code>{gtfs2gps}</code></a> will now be exported by <a href="https://ipeagit.github.io/gtfstools/">gtfstools</a>. Huge thanks to the whole <a href="https://github.com/ipeaGIT/gtfs2gps">gtfs2gps</a> crew (Rafael Pereira <a href='https://github.com/rafapereirabr'>@rafapereirabr</a>, Pedro Andrade <a href='https://github.com/pedro-andrade-inpe'>@pedro-andrade-inpe</a> and João Bazzo <a href='https://github.com/Joaobazzo'>@Joaobazzo</a>)!</li>
 <li>The package now imports <a href="https://r-transit.github.io/gtfsio/">gtfsio</a>, and many functions now heavily rely on it, such as <code><a href="../reference/read_gtfs.html">read_gtfs()</a></code> and <code><a href="../reference/write_gtfs.html">write_gtfs()</a></code>.</li>
