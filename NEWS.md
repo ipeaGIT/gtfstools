@@ -1,3 +1,13 @@
+# gtfstools (development version)
+
+## New features
+
+- New function `filter_by_service_id()`.
+
+## Bug fixes
+
+## Notes
+
 # gtfstools 1.0.0
 
 ## New features

@@ -65,6 +65,7 @@ object.size(smaller_gtfs)
 \seealso{
 Other filtering functions: 
 \code{\link{filter_by_route_id}()},
+\code{\link{filter_by_service_id}()},
 \code{\link{filter_by_sf}()},
 \code{\link{filter_by_shape_id}()},
 \code{\link{filter_by_stop_id}()},
