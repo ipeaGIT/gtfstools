@@ -3,6 +3,7 @@
 ## New features
 
 - New function `filter_by_service_id()`.
+- New function `filter_by_weekday()`.
 
 ## Bug fixes
 

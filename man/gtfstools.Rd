@@ -36,14 +36,14 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Rafael H. M. Pereira \email{rafa.pereira.br@gmail.com} (\href{https://orcid.org/0000-0003-2125-7465}{ORCID})
-  \item Pedro R. Andrade \email{pedro.andrade@inpe.br} (\href{https://orcid.org/0000-0001-8675-4046}{ORCID})
+  \item Rafael H. M. Pereira (\href{https://orcid.org/0000-0003-2125-7465}{ORCID})
+  \item Pedro R. Andrade (\href{https://orcid.org/0000-0001-8675-4046}{ORCID})
   \item Joao Bazzo (\href{https://orcid.org/0000-0003-4536-5006}{ORCID})
 }
 
 Other contributors:
 \itemize{
-  \item Mark Padgham \email{mark.padgham@email.com} [contributor]
+  \item Mark Padgham [contributor]
   \item Ipea - Institute for Applied Economic Research [copyright holder, funder]
 }
 
