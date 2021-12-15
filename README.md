@@ -1,6 +1,5 @@
 
-# gtfstools
-<img align="right" src="https://github.com/ipeaGIT/gtfstools/blob/master/man/figures/gtfstools_hex.png?raw=true" alt="logo" width="180"> 
+# gtfstools <img align="right" src="man/figures/logo.png?raw=true" alt="logo" width="180">
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/gtfstools)](https://CRAN.R-project.org/package=gtfstools)
@@ -15,8 +14,6 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 [![CRAN/METACRAN Total
 downloads](http://cranlogs.r-pkg.org/badges/grand-total/gtfstools?color=yellow)](https://CRAN.R-project.org/package=gtfstools)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5703236.svg)](https://doi.org/10.5281/zenodo.5703236)
-
-### General Transit Feed Specification (GTFS) Editing and Analysing Tools
 
 **gtfstools** offers a set of convenient tools for editing and analysing
 transit feeds in GTFS format. Feeds are read as a `list` of
