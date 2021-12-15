@@ -1,8 +1,8 @@
 pandoc: 2.7.3
-pkgdown: 2.0.0
+pkgdown: 2.0.1
 pkgdown_sha: ~
 articles:
   filtering: filtering.html
   gtfstools: gtfstools.html
-last_built: 2021-12-02T21:25Z
+last_built: 2021-12-15T15:10Z
 
