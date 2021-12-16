@@ -8,7 +8,7 @@ spo_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 spo_gtfs <- read_gtfs(spo_path)
 spo_shape <- "68962"
 bbox <- sf::st_bbox(convert_shapes_to_sf(spo_gtfs, spo_shape))
-polygon <- gtfstools:::polygon_from_bbox(bbox)
+polygon <- sf::st_as_sf(sf::st_buffer(sf::st_as_sfc(bbox), 0))
 
 
 # tests -------------------------------------------------------------------
@@ -116,7 +116,7 @@ test_that("'keep' and 'spatial_operation' arguments work correctly", {
 test_that("works with sf describing two features", {
   another_shape <- "17846"
   another_bbox <- sf::st_bbox(convert_shapes_to_sf(spo_gtfs, another_shape))
-  another_polygon <- gtfstools:::polygon_from_bbox(another_bbox)
+  another_polygon <- sf::st_as_sf(sf::st_as_sfc(another_bbox))
   bigger_polygon <- rbind(polygon, another_polygon)
 
   smaller_gtfs <- filter_by_sf(
