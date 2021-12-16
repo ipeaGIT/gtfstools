@@ -114,13 +114,13 @@ would be called <code>"example_trip_1"</code>, <code>"example_trip_2"</code> and
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># how the specified trip_id was described in the frequencies table</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">gtfs</span><span class="op">$</span><span class="va">frequencies</span><span class="op">[</span><span class="va">trip_id</span> <span class="op">==</span> <span class="va">trip</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       trip_id start_time end_time headway_secs start_time_secs end_time_secs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: CPTM L07-0   04:00:00 04:59:00          720           14400         17940</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: CPTM L07-0   05:00:00 05:59:00          360           18000         21540</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: CPTM L07-0   06:00:00 06:59:00          360           21600         25140</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: CPTM L07-0   07:00:00 07:59:00          360           25200         28740</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: CPTM L07-0   08:00:00 08:59:00          360           28800         32340</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: CPTM L07-0   09:00:00 09:59:00          480           32400         35940</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       trip_id start_time end_time headway_secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: CPTM L07-0   04:00:00 04:59:00          720</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: CPTM L07-0   05:00:00 05:59:00          360</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: CPTM L07-0   06:00:00 06:59:00          360</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: CPTM L07-0   07:00:00 07:59:00          360</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: CPTM L07-0   08:00:00 08:59:00          360</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: CPTM L07-0   09:00:00 09:59:00          480</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># the first row of each equivalent stop_times entry in the converted gtfs</span></span>
 <span class="r-in"><span class="va">equivalent_stop_times</span> <span class="op">&lt;-</span> <span class="va">converted_gtfs</span><span class="op">$</span><span class="va">stop_times</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="va">trip</span>, <span class="va">trip_id</span><span class="op">)</span><span class="op">]</span></span>
@@ -137,18 +137,6 @@ would be called <code>"example_trip_1"</code>, <code>"example_trip_2"</code> and
 <span class="r-out co"><span class="r-pr">#&gt;</span> 159: CPTM L07-0_159     23:24:00       23:24:00   18940             1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 160: CPTM L07-0_160     23:36:00       23:36:00   18940             1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 161: CPTM L07-0_161     23:48:00       23:48:00   18940             1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      departure_time_secs arrival_time_secs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   1:               14400             14400</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2:               15120             15120</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   3:               15840             15840</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   4:               16560             16560</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   5:               17280             17280</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  ---                                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 157:               82800             82800</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 158:               83520             83520</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 159:               84240             84240</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 160:               84960             84960</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 161:               85680             85680</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>
