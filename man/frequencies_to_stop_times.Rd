@@ -7,17 +7,51 @@
 frequencies_to_stop_times(gtfs, trip_id = NULL)
 }
 \arguments{
-\item{trip_id}{}
+\item{gtfs}{A GTFS object.}
+
+\item{trip_id}{A character vector including the \code{trip_id}s to have their
+frequencies converted to \code{stop_times} entries. If \code{NULL} (the default), the
+function converts all trips listed in the \code{frequencies} table.}
 }
 \value{
-
+A GTFS object with updated \code{frequencies}, \code{stop_times} and \code{trips}
+tables.
 }
 \description{
-Convert frequencies to stop times
+Creates \code{stop_times} entries based on the frequencies specified in the
+\code{frequencies} table.
 }
+\section{Details}{
+
+A single trip described in a \code{frequencies} table may yield multiple trips
+after converting the GTFS. Let's say, for example, that the \code{frequencies}
+table describes a trip called \code{"example_trip"}, that starts at 08:00 and
+stops at 09:00, with a 30 minutes headway.
+
+In practice, that means that one trip will depart at 08:00, another at 08:30
+and yet another at 09:00. \code{frequencies_to_stop_times()} appends a \code{"_<n>"}
+suffix to the newly created trips to differentiate each one of them (e.g. in
+this case, the new trips, described in the \code{trips} and \code{stop_times} tables,
+would be called \code{"example_trip_1"}, \code{"example_trip_2"} and
+\code{"example_trip_3"}).
+}
+
 \examples{
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
+trip <- "CPTM L07-0"
 
+# converts all trips listed in the frequencies table
+converted_gtfs <- frequencies_to_stop_times(gtfs)
+
+# converts only the specified trip_id
+converted_gtfs <- frequencies_to_stop_times(gtfs, trip)
+
+# how the specified trip_id was described in the frequencies table
+head(gtfs$frequencies[trip_id == trip])
+
+# the first row of each equivalent stop_times entry in the converted gtfs
+equivalent_stop_times <- converted_gtfs$stop_times[grepl(trip, trip_id)]
+equivalent_stop_times[equivalent_stop_times[, .I[1], by = trip_id]$V1]
 
 }

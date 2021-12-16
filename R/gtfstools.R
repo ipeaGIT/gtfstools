@@ -63,6 +63,13 @@ utils::globalVariables(
     "destination_id",
     "contains_id",
     "from_stop_id",
-    "to_stop_id"
+    "to_stop_id",
+    "start_time_secs",
+    "start_time",
+    "end_time_secs",
+    "end_time",
+    "start_time_secs",
+    "end_time_secs",
+    "headway_secs"
   )
 )

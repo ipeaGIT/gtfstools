@@ -1,14 +1,46 @@
 #' Convert frequencies to stop times
 #'
-#' @param gtfs
-#' @param trip_id
+#' Creates `stop_times` entries based on the frequencies specified in the
+#' `frequencies` table.
 #'
-#' @return
+#' @param gtfs A GTFS object.
+#' @param trip_id A character vector including the `trip_id`s to have their
+#' frequencies converted to `stop_times` entries. If `NULL` (the default), the
+#' function converts all trips listed in the `frequencies` table.
+#'
+#' @return A GTFS object with updated `frequencies`, `stop_times` and `trips`
+#' tables.
+#'
+#' @section Details:
+#' A single trip described in a `frequencies` table may yield multiple trips
+#' after converting the GTFS. Let's say, for example, that the `frequencies`
+#' table describes a trip called `"example_trip"`, that starts at 08:00 and
+#' stops at 09:00, with a 30 minutes headway.
+#'
+#' In practice, that means that one trip will depart at 08:00, another at 08:30
+#' and yet another at 09:00. `frequencies_to_stop_times()` appends a `"_<n>"`
+#' suffix to the newly created trips to differentiate each one of them (e.g. in
+#' this case, the new trips, described in the `trips` and `stop_times` tables,
+#' would be called `"example_trip_1"`, `"example_trip_2"` and
+#' `"example_trip_3"`).
 #'
 #' @examples
 #' data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 #' gtfs <- read_gtfs(data_path)
+#' trip <- "CPTM L07-0"
 #'
+#' # converts all trips listed in the frequencies table
+#' converted_gtfs <- frequencies_to_stop_times(gtfs)
+#'
+#' # converts only the specified trip_id
+#' converted_gtfs <- frequencies_to_stop_times(gtfs, trip)
+#'
+#' # how the specified trip_id was described in the frequencies table
+#' head(gtfs$frequencies[trip_id == trip])
+#'
+#' # the first row of each equivalent stop_times entry in the converted gtfs
+#' equivalent_stop_times <- converted_gtfs$stop_times[grepl(trip, trip_id)]
+#' equivalent_stop_times[equivalent_stop_times[, .I[1], by = trip_id]$V1]
 #'
 #' @export
 frequencies_to_stop_times <- function(gtfs, trip_id = NULL) {
@@ -143,29 +175,31 @@ frequencies_to_stop_times <- function(gtfs, trip_id = NULL) {
     }
   )
 
-  # third step: add the departure time of each new trip to the departure and
-  # arrival time of its correspondent template
+  # third step: build a "new" stop_times table by adding the departure time of
+  # each new trip to the departure and arrival time of its correspondent
+  # template
 
   stop_times_to_add <- mapply(
     departure_times,
     templates,
     SIMPLIFY = FALSE,
     FUN = function(departures, template) {
-      individual_stop_times <- lapply(
-        departures,
-        function(new_departure) {
-          new_stop_times <- data.table::data.table(
-            stop_id = template$stop_id,
-            stop_sequence = template$stop_sequence,
-            departure_time_secs = template$departure_time_secs + new_departure,
-            arrival_time_secs = template$arrival_time_secs + new_departure
-          )
-        }
-      )
+      n_stops <- nrow(template)
+      n_departures <- length(departures)
 
-      individual_stop_times <- data.table::rbindlist(
-        individual_stop_times,
-        idcol = "trip_id"
+      seconds_to_add <- rep(departures, each = n_stops)
+      template_dep <- rep(template$departure_time_secs, times = n_departures)
+      template_arr <- rep(template$arrival_time_secs, times = n_departures)
+
+      new_departures <- template_dep + seconds_to_add
+      new_arrivals <- template_arr + seconds_to_add
+
+      data.table::data.table(
+        trip_id = rep(names(departures), each = n_stops),
+        stop_id = rep(template$stop_id, times = n_departures),
+        stop_sequence = rep(template$stop_sequence, times = n_departures),
+        departure_time_secs = new_departures,
+        arrival_time_secs = new_arrivals
       )
     }
   )
@@ -177,4 +211,60 @@ frequencies_to_stop_times <- function(gtfs, trip_id = NULL) {
       arrival_time = seconds_to_string(arrival_time_secs)
     )
   ]
+  data.table::setcolorder(stop_times_to_add, neworder = names(gtfs$stop_times))
+
+  # fourth step: filter the original stop_times table and bind the new one to it
+
+  filtered_stop_times <- gtfs$stop_times[! trip_id %chin% relevant_trips]
+  gtfs$stop_times <- rbind(filtered_stop_times, stop_times_to_add)
+
+  # fifth step: adjust the trips table to include the new trips
+
+  trips_to_add <- mapply(
+    relevant_trips,
+    departure_times,
+    SIMPLIFY = FALSE,
+    FUN = function(trip, departures) {
+      n_departures <- length(departures)
+      new_trips <- gtfs$trips[trip_id == trip]
+      new_trips <- new_trips[rep(1, n_departures)]
+      new_trips[, trip_id := names(departures)]
+    }
+  )
+  trips_to_add <- data.table::rbindlist(trips_to_add)
+
+  filtered_trips <- gtfs$trips[! trip_id %chin% relevant_trips]
+  gtfs$trips <- rbind(filtered_trips, trips_to_add)
+
+  # sixth step: adjust the frequencies table
+
+  filtered_frequencies <- gtfs$frequencies[! trip_id %chin% relevant_trips]
+
+  if (nrow(filtered_frequencies) > 0) {
+    gtfs$frequencies <- filtered_frequencies
+  } else {
+    gtfs$frequencies <- NULL
+  }
+
+  # conditionally remove the auxiliary columns with the times in seconds
+
+  frequencies_exist <- gtfsio::check_file_exists(gtfs, "frequencies")
+
+  if (exists("created_start_secs") && frequencies_exist) {
+    gtfs$frequencies[, start_time_secs := NULL]
+  }
+
+  if (exists("created_end_secs") && frequencies_exist) {
+    gtfs$frequencies[, end_time_secs := NULL]
+  }
+
+  if (exists("created_departure_secs")) {
+    gtfs$stop_times[, departure_time_secs := NULL]
+  }
+
+  if (exists("created_arrival_secs")) {
+    gtfs$stop_times[, arrival_time_secs := NULL]
+  }
+
+  return(gtfs)
 }
