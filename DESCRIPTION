@@ -24,6 +24,10 @@ Authors@R:
       person(given = "Mark",
              family = "Padgham",
              role = "ctb"),
+      person(given = "Marcus",
+             family = "Saraiva",
+             role = "ctb",
+             comment = c(ORCID = "0000-0001-6218-2338")),
       person(given = "Ipea - Institute for Applied Economic Research",
              role = c("cph", "fnd")))
 Description: Utility functions to read, manipulate, analyse and write

@@ -49,6 +49,12 @@
       "@type": "Person",
       "givenName": "Mark",
       "familyName": "Padgham"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Marcus",
+      "familyName": "Saraiva",
+      "@id": "https://orcid.org/0000-0001-6218-2338"
     }
   ],
   "copyrightHolder": [
@@ -244,7 +250,7 @@
       "name": "utils"
     }
   ],
-  "fileSize": "3238.542KB",
+  "fileSize": "3134.767KB",
   "contIntegration": "https://app.codecov.io/gh/ipeaGIT/gtfstools?branch=master",
   "developmentStatus": "https://lifecycle.r-lib.org/articles/stages.html",
   "keywords": [
