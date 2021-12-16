@@ -70,6 +70,7 @@ utils::globalVariables(
     "end_time",
     "start_time_secs",
     "end_time_secs",
-    "headway_secs"
+    "headway_secs",
+    "..other_cols"
   )
 )

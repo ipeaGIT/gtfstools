@@ -55,8 +55,8 @@ frequencies_to_stop_times <- function(gtfs, trip_id = NULL) {
   gtfsio::assert_field_class(
     gtfs,
     "stop_times",
-    c("trip_id", "arrival_time", "departure_time", "stop_id", "stop_sequence"),
-    c("character", "character", "character", "character", "integer")
+    c("trip_id", "arrival_time", "departure_time"),
+    c("character", "character", "character")
   )
 
   if (!is.null(trip_id)) {
@@ -194,12 +194,25 @@ frequencies_to_stop_times <- function(gtfs, trip_id = NULL) {
       new_departures <- template_dep + seconds_to_add
       new_arrivals <- template_arr + seconds_to_add
 
-      data.table::data.table(
+      adjusted_times <- data.table::data.table(
         trip_id = rep(names(departures), each = n_stops),
-        stop_id = rep(template$stop_id, times = n_departures),
-        stop_sequence = rep(template$stop_sequence, times = n_departures),
         departure_time_secs = new_departures,
         arrival_time_secs = new_arrivals
+      )
+
+      adjusted_cols <- c(
+        "trip_id",
+        "departure_time",
+        "departure_time_secs",
+        "arrival_time",
+        "arrival_time_secs"
+      )
+      other_cols <- setdiff(names(template), adjusted_cols)
+      template_excess <- template[, ..other_cols]
+
+      adjusted_times <- cbind(
+        adjusted_times,
+        template_excess[rep(seq.int(1, n_stops), times = n_departures)]
       )
     }
   )
@@ -211,9 +224,20 @@ frequencies_to_stop_times <- function(gtfs, trip_id = NULL) {
       arrival_time = seconds_to_string(arrival_time_secs)
     )
   ]
-  data.table::setcolorder(stop_times_to_add, neworder = names(gtfs$stop_times))
 
-  # fourth step: filter the original stop_times table and bind the new one to it
+  # fourth step: filter the original stop_times table and bind the new one to
+  # it. remove the auxiliary columns if they didn't exist before the function
+  # call
+
+  if (exists("created_departure_secs")) {
+    gtfs$stop_times[, departure_time_secs := NULL]
+    stop_times_to_add[, departure_time_secs := NULL]
+  }
+
+  if (exists("created_arrival_secs")) {
+    gtfs$stop_times[, arrival_time_secs := NULL]
+    stop_times_to_add[, arrival_time_secs := NULL]
+  }
 
   filtered_stop_times <- gtfs$stop_times[! trip_id %chin% relevant_trips]
   gtfs$stop_times <- rbind(filtered_stop_times, stop_times_to_add)
@@ -236,7 +260,16 @@ frequencies_to_stop_times <- function(gtfs, trip_id = NULL) {
   filtered_trips <- gtfs$trips[! trip_id %chin% relevant_trips]
   gtfs$trips <- rbind(filtered_trips, trips_to_add)
 
-  # sixth step: adjust the frequencies table
+  # sixth step: adjust the frequencies table. remove the auxiliary columns if
+  # they didn't exist before the function call
+
+  if (exists("created_start_secs")) {
+    gtfs$frequencies[, start_time_secs := NULL]
+  }
+
+  if (exists("created_end_secs")) {
+    gtfs$frequencies[, end_time_secs := NULL]
+  }
 
   filtered_frequencies <- gtfs$frequencies[! trip_id %chin% relevant_trips]
 
@@ -244,26 +277,6 @@ frequencies_to_stop_times <- function(gtfs, trip_id = NULL) {
     gtfs$frequencies <- filtered_frequencies
   } else {
     gtfs$frequencies <- NULL
-  }
-
-  # conditionally remove the auxiliary columns with the times in seconds
-
-  frequencies_exist <- gtfsio::check_file_exists(gtfs, "frequencies")
-
-  if (exists("created_start_secs") && frequencies_exist) {
-    gtfs$frequencies[, start_time_secs := NULL]
-  }
-
-  if (exists("created_end_secs") && frequencies_exist) {
-    gtfs$frequencies[, end_time_secs := NULL]
-  }
-
-  if (exists("created_departure_secs")) {
-    gtfs$stop_times[, departure_time_secs := NULL]
-  }
-
-  if (exists("created_arrival_secs")) {
-    gtfs$stop_times[, arrival_time_secs := NULL]
   }
 
   return(gtfs)
