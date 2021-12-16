@@ -154,23 +154,12 @@ frequencies_to_stop_times <- function(gtfs, trip_id = NULL) {
       individual_stop_times <- lapply(
         departures,
         function(new_departure) {
-          new_stop_times <- data.table::copy(template)
-          new_stop_times[
-            ,
-            `:=`(
-              trip_id = NULL,
-              departure_time_secs = departure_time_secs + new_departure,
-              arrival_time_secs = arrival_time_secs + new_departure
-            )
-          ]
-
-          new_stop_times[
-            ,
-            `:=`(
-              departure_time = seconds_to_string(departure_time_secs),
-              arrival_time = seconds_to_string(arrival_time_secs)
-            )
-          ]
+          new_stop_times <- data.table::data.table(
+            stop_id = template$stop_id,
+            stop_sequence = template$stop_sequence,
+            departure_time_secs = template$departure_time_secs + new_departure,
+            arrival_time_secs = template$arrival_time_secs + new_departure
+          )
         }
       )
 
@@ -181,4 +170,11 @@ frequencies_to_stop_times <- function(gtfs, trip_id = NULL) {
     }
   )
   stop_times_to_add <- data.table::rbindlist(stop_times_to_add)
+  stop_times_to_add[
+    ,
+    `:=`(
+      departure_time = seconds_to_string(departure_time_secs),
+      arrival_time = seconds_to_string(arrival_time_secs)
+    )
+  ]
 }
