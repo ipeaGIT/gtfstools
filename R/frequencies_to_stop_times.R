@@ -136,6 +136,12 @@ frequencies_to_stop_times <- function(gtfs, trip_id = NULL) {
 
       departure_secs <- unlist(trip_frequencies$departure_times)
 
+      # if a trip doesn't exist in the frequencies table, the unlist() call
+      # above will result in NULL. in this case, we manually assign integer(0)
+      # to departure_secs to keep type consistency
+
+      if (is.null(departure_secs)) departure_secs <- integer(0)
+
       # there may be some duplicated departure times if the same value is listed
       # in the upper and lower limit of two differente 'frequencies' entries
       # (e.g. if the table specifies one frequency from 5am to 6am and another
@@ -149,7 +155,7 @@ frequencies_to_stop_times <- function(gtfs, trip_id = NULL) {
       # trip, with a _<n> suffix. so the trip "original_trip" will generate the
       # trips "original_trip_1", "original_trip_2", ..., "original_trip_<n>"
 
-      new_trips_names <- paste0(trip, "_", seq.int(1, length(departure_secs)))
+      new_trips_names <- sprintf("%s_%d", trip, departure_secs)
       departure_secs <- structure(departure_secs, names = new_trips_names)
     }
   )
@@ -164,7 +170,18 @@ frequencies_to_stop_times <- function(gtfs, trip_id = NULL) {
     function(trip) {
       template <- gtfs$stop_times[trip_id == trip]
 
-      first_departure <- min(template$departure_time_secs, na.rm = TRUE)
+      # if template has 0 rows (i.e. the specified trip doesn't exist in
+      # stop_times), the min() call bellow will raise a warning and return Inf.
+      # the value of first_departure won't change the result of the subtractions
+      # below, since departure/arrival_time_secs are integer(0), but I'll assign
+      # integer(0) to first_departure just for greater expressiveness
+
+      if (identical(template$departure_time_secs, integer(0))) {
+        first_departure <- integer(0)
+      } else {
+        first_departure <- min(template$departure_time_secs, na.rm = TRUE)
+      }
+
       template[
         ,
         `:=`(
@@ -252,7 +269,7 @@ frequencies_to_stop_times <- function(gtfs, trip_id = NULL) {
       n_departures <- length(departures)
       new_trips <- gtfs$trips[trip_id == trip]
       new_trips <- new_trips[rep(1, n_departures)]
-      new_trips[, trip_id := names(departures)]
+      new_trips[, trip_id := names(departures)][]
     }
   )
   trips_to_add <- data.table::rbindlist(trips_to_add)
