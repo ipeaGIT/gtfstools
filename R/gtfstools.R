@@ -71,6 +71,8 @@ utils::globalVariables(
     "start_time_secs",
     "end_time_secs",
     "headway_secs",
-    "..other_cols"
+    "..other_cols",
+    "checked",
+    "children_list"
   )
 )
