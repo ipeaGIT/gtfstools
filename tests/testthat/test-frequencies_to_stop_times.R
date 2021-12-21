@@ -243,3 +243,12 @@ test_that("force argument works correctly", {
   expect_false(trip_id %chin% converted_gtfs$trips$trip_id)
   expect_true(sum(grepl(trip_id, converted_gtfs$trips$trip_id)) == 161)
 })
+
+test_that("works ok if trip is not in frequencies but is in stop_times", {
+  trip <- "CPTM L07-1"
+  gtfs$frequencies <- gtfs$frequencies[trip_id != trip]
+
+  # expected result is not to do anything to that trip
+  expect_warning(converted_gtfs <- tester(trip_id = trip))
+  expect_identical(converted_gtfs, tester(trip_id = character(0)))
+})

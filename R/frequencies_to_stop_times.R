@@ -83,6 +83,8 @@ frequencies_to_stop_times <- function(gtfs, trip_id = NULL, force = FALSE) {
         paste0("'", invalid_trip_id, "'", collapse = ", "),
         call. = FALSE
       )
+
+      relevant_trips <- setdiff(relevant_trips, invalid_trip_id)
     }
   }
 
@@ -158,12 +160,6 @@ frequencies_to_stop_times <- function(gtfs, trip_id = NULL, force = FALSE) {
       ]
 
       departure_secs <- unlist(trip_frequencies$departure_times)
-
-      # if a trip doesn't exist in the frequencies table, the unlist() call
-      # above will result in NULL. in this case, we manually assign integer(0)
-      # to departure_secs to keep type consistency
-
-      if (is.null(departure_secs)) departure_secs <- integer(0)
 
       # there may be some duplicated departure times if the same value is listed
       # in the upper and lower limit of two differente 'frequencies' entries
