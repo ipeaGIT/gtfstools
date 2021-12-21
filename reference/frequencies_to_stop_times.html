@@ -68,7 +68,7 @@ frequencies table."><meta property="og:image" content="/logo.png"><!-- mathjax -
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">frequencies_to_stop_times</span><span class="op">(</span><span class="va">gtfs</span>, trip_id <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">frequencies_to_stop_times</span><span class="op">(</span><span class="va">gtfs</span>, trip_id <span class="op">=</span> <span class="cn">NULL</span>, force <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -79,6 +79,12 @@ frequencies table."><meta property="og:image" content="/logo.png"><!-- mathjax -
 <dd><p>A character vector including the <code>trip_id</code>s to have their
 frequencies converted to <code>stop_times</code> entries. If <code>NULL</code> (the default), the
 function converts all trips listed in the <code>frequencies</code> table.</p></dd>
+<dt>force</dt>
+<dd><p>Whether to convert trips specified in the <code>frequencies</code> table
+even if they are not described in <code>stop_times</code> (defaults to <code>FALSE</code>). When
+set to <code>TRUE</code>, these mismatched trip are removed from the <code>frequencies</code> table
+and their correspondent entries in <code>trips</code> are substituted by what would be
+their converted counterpart.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
