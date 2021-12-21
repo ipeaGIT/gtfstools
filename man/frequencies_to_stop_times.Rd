@@ -4,7 +4,7 @@
 \alias{frequencies_to_stop_times}
 \title{Convert frequencies to stop times}
 \usage{
-frequencies_to_stop_times(gtfs, trip_id = NULL)
+frequencies_to_stop_times(gtfs, trip_id = NULL, force = FALSE)
 }
 \arguments{
 \item{gtfs}{A GTFS object.}
@@ -12,6 +12,12 @@ frequencies_to_stop_times(gtfs, trip_id = NULL)
 \item{trip_id}{A character vector including the \code{trip_id}s to have their
 frequencies converted to \code{stop_times} entries. If \code{NULL} (the default), the
 function converts all trips listed in the \code{frequencies} table.}
+
+\item{force}{Whether to convert trips specified in the \code{frequencies} table
+even if they are not described in \code{stop_times} (defaults to \code{FALSE}). When
+set to \code{TRUE}, these mismatched trip are removed from the \code{frequencies} table
+and their correspondent entries in \code{trips} are substituted by what would be
+their converted counterpart.}
 }
 \value{
 A GTFS object with updated \code{frequencies}, \code{stop_times} and \code{trips}

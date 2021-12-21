@@ -44,6 +44,7 @@ Authors:
 Other contributors:
 \itemize{
   \item Mark Padgham [contributor]
+  \item Marcus Saraiva (\href{https://orcid.org/0000-0001-6218-2338}{ORCID}) [contributor]
   \item Ipea - Institute for Applied Economic Research [copyright holder, funder]
 }
 

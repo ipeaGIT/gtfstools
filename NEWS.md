@@ -4,6 +4,7 @@
 
 - New function `filter_by_service_id()`.
 - New function `filter_by_weekday()`.
+- New function `frequencies_to_stop_times()`.
 
 ## Bug fixes
 
