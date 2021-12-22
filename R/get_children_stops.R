@@ -49,6 +49,9 @@ get_children_stops <- function(gtfs, stop_id) {
 
   # recursively find children
 
+  parents <- gtfs$stops$parent_station
+  names(parents) <- gtfs$stops$stop_id
+
   result <- data.table::data.table(
     stop_id = relevant_stops,
     checked = rep(FALSE, length(relevant_stops))
@@ -62,7 +65,7 @@ get_children_stops <- function(gtfs, stop_id) {
       `:=`(
         children_list = lapply(
           stop_id,
-          function(stop) gtfs$stops[parent_station == stop]$stop_id
+          function(stop) names(parents[parents == stop])
         ),
         checked = TRUE
       )
