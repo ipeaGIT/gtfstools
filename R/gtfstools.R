@@ -73,6 +73,8 @@ utils::globalVariables(
     "headway_secs",
     "..other_cols",
     "checked",
-    "children_list"
+    "children_list",
+    "from_to_within",
+    "within_from_to"
   )
 )
