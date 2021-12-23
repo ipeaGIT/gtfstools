@@ -33,8 +33,8 @@ get_children_stops <- function(gtfs, stop_id) {
     rep("character", 2)
   )
 
-  # raise warning if specified 'stop_id' doesn't exist in 'stops', and drop
-  # invalid ids
+  # raise warning if one of the specified stop_ids doesn't exist in 'stops'.
+  # also drop invalid ids
 
   invalid_ids <- stop_id[! stop_id %chin% gtfs$stops$stop_id]
 
@@ -103,6 +103,15 @@ get_children_stops <- function(gtfs, stop_id) {
       }
     )
   ]
+
+
+  # if stop_id == character(0) (be it because it was specified like so or
+  # because none of the specified stop_ids were valid), the unlist() call below
+  # would fail because data.table wouldn't be able to infer the column type
+
+  if (identical(result$children_list, list())) {
+    result[, children_list := character()]
+  }
   result <- result[, .(child_id = unlist(children_list)), by = stop_id]
 
   return(result[])
