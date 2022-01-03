@@ -1,3 +1,31 @@
+#' Filter GTFS object by day period
+#'
+#' Filters a GTFS object by a day period, keeping (or dropping) the relevant
+#' entries in each file.
+#'
+#' @param gtfs A GTFS object.
+#' @param from A string. The starting point of the day period, in the
+#' "HH:MM:SS" format.
+#' @param to A string. The ending point of the day period, in the "HH:MM:SS"
+#' format.
+#' @param keep A logical. Whether the entries related to the specified day
+#' period should be kept or dropped (defaults to `TRUE`, which keeps the
+#' entries).
+#' @param full_trips A logical.
+#' @param update_frequencies A logical.
+#'
+#' @return The GTFS object passed to the `gtfs` parameter, after the filtering
+#' process.
+#'
+#' @family filtering functions
+#'
+#' @examples
+#' data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
+#' gtfs <- read_gtfs(data_path)
+#'
+#' object.size(gtfs)
+#'
+#' @export
 filter_by_day_period <- function(gtfs,
                                  from,
                                  to,
@@ -77,9 +105,8 @@ filter_frequencies <- function(gtfs, from_secs, to_secs, keep) {
   gtfs$frequencies[
     ,
     `:=`(
-      from_to_within =
-        (from_secs > start_time_secs & from_secs < end_time_secs) |
-        (to_secs > start_time_secs & to_secs < end_time_secs),
+      from_within = from_secs > start_time_secs & from_secs < end_time_secs,
+      to_within = to_secs > start_time_secs & to_secs < end_time_secs,
       within_from_to = start_time_secs >= from_secs & end_time_secs <= to_secs
     )
   ]
@@ -96,17 +123,24 @@ filter_frequencies <- function(gtfs, from_secs, to_secs, keep) {
     gtfs$frequencies[, end_time_secs := NULL]
   }
 
+  # and also remove the newly created columns from gtfs$frequencies and
+  # filtered_frequencies, otherwise the original gtfs will be changed
+
   if (keep) {
-    gtfs$frequencies <- gtfs$frequencies[
-      from_to_within == TRUE | within_from_to == TRUE
+    filtered_frequencies <- gtfs$frequencies[
+      from_within == TRUE | to_within == TRUE | within_from_to == TRUE
     ]
   } else {
-    gtfs$frequencies <- gtfs$frequencies[
-      from_to_within == TRUE | within_from_to == FALSE
+    filtered_frequencies <- gtfs$frequencies[
+      from_within == TRUE | to_within == TRUE | within_from_to == FALSE
     ]
   }
 
-  gtfs$frequencies[, c("from_to_within", "within_from_to") := NULL]
+  gtfs$frequencies[, c("from_within", "to_within", "within_from_to") := NULL]
+  filtered_frequencies[
+    ,
+    c("from_within", "to_within", "within_from_to") := NULL
+  ]
 
-  return(gtfs$frequencies)
+  return(filtered_frequencies)
 }

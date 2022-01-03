@@ -3,6 +3,7 @@
 export(convert_shapes_to_sf)
 export(convert_stops_to_sf)
 export(filter_by_agency_id)
+export(filter_by_day_period)
 export(filter_by_route_id)
 export(filter_by_route_type)
 export(filter_by_service_id)

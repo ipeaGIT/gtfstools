@@ -42,6 +42,7 @@ object.size(smaller_gtfs)
 }
 \seealso{
 Other filtering functions: 
+\code{\link{filter_by_day_period}()},
 \code{\link{filter_by_route_id}()},
 \code{\link{filter_by_route_type}()},
 \code{\link{filter_by_service_id}()},

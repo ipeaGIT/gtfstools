@@ -75,6 +75,8 @@ utils::globalVariables(
     "checked",
     "children_list",
     "from_to_within",
-    "within_from_to"
-  )
+    "within_from_to",
+    "from_within",
+    "to_within"
+)
 )
