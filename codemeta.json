@@ -250,7 +250,7 @@
       "name": "utils"
     }
   ],
-  "fileSize": "3134.767KB",
+  "fileSize": "3216.134KB",
   "contIntegration": "https://app.codecov.io/gh/ipeaGIT/gtfstools?branch=master",
   "developmentStatus": "https://lifecycle.r-lib.org/articles/stages.html",
   "keywords": [
