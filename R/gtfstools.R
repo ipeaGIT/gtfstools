@@ -77,6 +77,8 @@ utils::globalVariables(
     "from_to_within",
     "within_from_to",
     "from_within",
-    "to_within"
-)
+    "to_within",
+    ".N",
+    "is_duplicated"
+  )
 )

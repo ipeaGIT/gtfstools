@@ -59,18 +59,13 @@ filter_by_day_period <- function(gtfs,
       rep("character", 3)
     )
 
-    gtfs$frequencies <- filter_frequencies(gtfs, from_secs, to_secs, keep)
-
-    if (update_frequencies) {
-      gtfsio::assert_field_class(
-        gtfs,
-        "frequencies",
-        "headway_secs",
-        "character"
-      )
-      # TODO: implement frequency adjustment based on headway_secs and 'from'
-      # and 'to'
-    }
+    gtfs$frequencies <- filter_frequencies(
+      gtfs,
+      from_secs,
+      to_secs,
+      keep,
+      update_frequencies
+    )
   }
 
   return(gtfs)
@@ -78,7 +73,11 @@ filter_by_day_period <- function(gtfs,
 
 
 #' @keywords internal
-filter_frequencies <- function(gtfs, from_secs, to_secs, keep) {
+filter_frequencies <- function(gtfs,
+                               from_secs,
+                               to_secs,
+                               keep,
+                               update_frequencies) {
   # conditionally create time-in-seconds columns, depending if they exist before
   # or not. if they didn't exist beforehand, they have to be removed afterwards
 
@@ -111,21 +110,6 @@ filter_frequencies <- function(gtfs, from_secs, to_secs, keep) {
     )
   ]
 
-  # remove time-in-seconds columns before subsetting the table, otherwise it
-  # will create a copy of the table and we won't be able to remove the columns
-  # by reference anymore
-
-  if (exists("created_start_secs")) {
-    gtfs$frequencies[, start_time_secs := NULL]
-  }
-
-  if (exists("created_end_secs")) {
-    gtfs$frequencies[, end_time_secs := NULL]
-  }
-
-  # and also remove the newly created columns from gtfs$frequencies and
-  # filtered_frequencies, otherwise the original gtfs will be changed
-
   if (keep) {
     filtered_frequencies <- gtfs$frequencies[
       from_within == TRUE | to_within == TRUE | within_from_to == TRUE
@@ -136,11 +120,107 @@ filter_frequencies <- function(gtfs, from_secs, to_secs, keep) {
     ]
   }
 
+  # update the start and end time in the frequencies table if update_frequencies
+  # is TRUE
+
+  if (update_frequencies) {
+    filtered_frequencies <- update_frequencies_times(
+      filtered_frequencies,
+      from_secs,
+      to_secs,
+      keep
+    )
+  }
+
+  # conditionally remove time-in-seconds columns
+
+  if (exists("created_start_secs")) {
+    gtfs$frequencies[, start_time_secs := NULL]
+    filtered_frequencies[, start_time_secs := NULL]
+  }
+
+  if (exists("created_end_secs")) {
+    gtfs$frequencies[, end_time_secs := NULL]
+    filtered_frequencies[, end_time_secs := NULL]
+  }
+
+  # and remove the auxiliary columns
+
   gtfs$frequencies[, c("from_within", "to_within", "within_from_to") := NULL]
   filtered_frequencies[
     ,
     c("from_within", "to_within", "within_from_to") := NULL
   ]
+
+  return(filtered_frequencies)
+}
+
+
+#' @keywords internal
+update_frequencies_times <- function(filtered_frequencies,
+                                     from_secs,
+                                     to_secs,
+                                     keep) {
+  # how frequencies times should be updated depends if:
+  #   - exact_times is 0 or 1. if it's 0, just update start and end time to the
+  #   corresponding to/from. if it's 1, we need to adhere to the headway. if
+  #   exact_times doesn't exist, the behaviour is like when it's 0
+  #   - keep is TRUE or FALSE. this changes whether start/end time relates to
+  #   to/from.
+
+  if (is.null(filtered_frequencies$exact_times)) {
+    if (keep) {
+      filtered_frequencies[
+        from_within == TRUE,
+        start_time := seconds_to_string(from_secs)
+      ]
+      filtered_frequencies[
+        to_within == TRUE,
+        end_time := seconds_to_string(to_secs)
+      ]
+    } else {
+      # when keep = FALSE, there may be cases in which the the day period to
+      # filter is between start and end time, so we want to preserve the
+      # periods between start time and from, and between end time and to. to do
+      # so, we need to identify these rows, duplicate them, and then edit one by
+      # one
+      filtered_frequencies <- rbind(
+        filtered_frequencies,
+        filtered_frequencies[to_within == TRUE & from_within == TRUE]
+      )
+      cols <- names(filtered_frequencies)
+      filtered_frequencies[, is_duplicated := .N > 1, by = cols]
+
+      filtered_frequencies[
+        filtered_frequencies[is_duplicated == TRUE, .I[1], by = cols]$V1,
+        `:=`(
+          to_within = FALSE,
+          is_duplicated = FALSE
+        )
+      ]
+      filtered_frequencies[
+        is_duplicated == TRUE,
+        `:=`(
+          from_within = FALSE,
+          is_duplicated = FALSE
+        )
+      ]
+      filtered_frequencies[, is_duplicated := NULL]
+
+      # the rest of the filtering is pretty standard but "inverted" when
+      # compared to keep = TRUE
+      filtered_frequencies[
+        from_within == TRUE,
+        end_time := seconds_to_string(from_secs)
+      ]
+      filtered_frequencies[
+        to_within == TRUE,
+        start_time := seconds_to_string(to_secs)
+      ]
+    }
+  } else {
+    # TODO: implement update frequencies function when exact_times is present
+  }
 
   return(filtered_frequencies)
 }

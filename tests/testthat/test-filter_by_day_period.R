@@ -14,10 +14,17 @@ gtfs <- read_gtfs(path)
 tester <- function(gtfs = get("gtfs", envir = parent.frame()),
                    from = "03:30:00",
                    to = "06:30:00",
-                   keep = TRUE) {
+                   keep = TRUE,
+                   update_frequencies = FALSE) {
   from_secs <- string_to_seconds(from)
   to_secs <- string_to_seconds(to)
-  gtfstools:::filter_frequencies(gtfs, from_secs, to_secs, keep)[]
+  gtfstools:::filter_frequencies(
+    gtfs,
+    from_secs,
+    to_secs,
+    keep,
+    update_frequencies
+  )[]
 }
 
 test_that("doesn't change specified gtfs", {
@@ -25,7 +32,11 @@ test_that("doesn't change specified gtfs", {
   expect_identical(gtfs, original_gtfs)
 
   result <- tester()
+  expect_identical(gtfs, original_gtfs)
 
+  # should also work when update_frequencies = TRUE
+
+  result <- tester(update_frequencies = TRUE)
   expect_identical(gtfs, original_gtfs)
 
   # should also work if gtfs previously contained time-in-seconds columns (i.e.
@@ -46,9 +57,20 @@ test_that("doesn't change specified gtfs", {
 })
 
 test_that("output doesn't contain auxiliary columns", {
+  aux_columns <- c(
+    "from_within",
+    "to_within",
+    "within_from_to",
+    "is_duplicated"
+  )
   result <- tester()
   expect_true(
-    !any(c("from_within", "to_within", "within_from_to") %chin% names(result))
+    !any(aux_columns %chin% names(result))
+  )
+
+  result <- tester(keep = FALSE, update_frequencies = TRUE)
+  expect_true(
+    !any(aux_columns %chin% names(result))
   )
 })
 
@@ -63,6 +85,7 @@ test_that("filters frequencies correctly", {
   )
   expect_identical(tester(from = "05:30:00", to = "28:00:00"), frequencies)
 
+  # the behaviour is a bit different with keep = FALSE
   expect_identical(tester(keep = FALSE), frequencies[c(2, 3)])
   expect_identical(
     tester(from = "05:00:00", keep = FALSE),
@@ -76,4 +99,42 @@ test_that("filters frequencies correctly", {
     tester(from = "05:30:00", to = "28:00:00", keep = FALSE),
     frequencies[0]
   )
+})
+
+test_that("updates frequencies correctly when exact_times doesn't exist", {
+  expect_equal(
+    tester(to = "06:29:00", update_frequencies = TRUE)$end_time,
+    "06:29:00"
+  )
+  expect_equal(
+    tester(from = "05:31:00", update_frequencies = TRUE)$start_time,
+    "05:31:00"
+  )
+
+  result <- tester(
+    from = "05:31:00",
+    to = "07:29:00",
+    update_frequencies = TRUE
+  )
+  expect_equal(result$start_time, c("05:31:00", "06:30:00"))
+  expect_equal(result$end_time, c("06:30:00", "07:29:00"))
+
+  # the behaviour is a bit different with keep = FALSE
+  result <- tester(
+    from = "05:31:00",
+    to = "07:29:00",
+    update_frequencies = TRUE,
+    keep = FALSE
+  )
+  expect_equal(result$start_time, c("05:30:00", "07:29:00", "20:30:00"))
+  expect_equal(result$end_time, c("05:31:00", "20:30:00", "28:00:00"))
+
+  result <- tester(
+    from = "05:35:00",
+    to = "05:45:00",
+    update_frequencies = TRUE,
+    keep = FALSE
+  )
+  expect_equal(result[c(1, 4)]$start_time, c("05:30:00", "05:45:00"))
+  expect_equal(result[c(1, 4)]$end_time, c("05:35:00", "06:30:00"))
 })
