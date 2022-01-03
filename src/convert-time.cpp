@@ -19,7 +19,8 @@ int convert_time_to_seconds(std::string hms) {
 //' Vectorize the above function
 //'
 //' @noRd
-[[cpp11::register]] integers cpp_time_to_seconds(const strings times_in) {
+[[cpp11::register]]
+integers cpp_time_to_seconds(const strings times_in) {
     const R_xlen_t n = times_in.size();
     const size_t ns = static_cast<size_t>(n);
 
