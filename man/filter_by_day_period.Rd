@@ -112,14 +112,14 @@ gtfs <- read_gtfs(data_path)
 
 # taking a look at the original frequencies and stop_times
 head(gtfs$frequencies)
-head(gtfs$stop_times[, .(trip_id, arrival_time, departure_time)])
+head(gtfs$stop_times)
 
 smaller_gtfs <- filter_by_day_period(gtfs, "05:00:00", "06:00:00")
 
 # filter_by_day_period filters the frequencies table but doesn't filter the
 # stop_times table because they're just templates
 head(smaller_gtfs$frequencies)
-head(smaller_gtfs$stop_times[, .(trip_id, arrival_time, departure_time)])
+head(smaller_gtfs$stop_times)
 
 # frequencies entries can be adjusted using update_frequencies = TRUE
 smaller_gtfs <- filter_by_day_period(
@@ -148,12 +148,7 @@ smaller_gtfs <- filter_by_day_period(
   "05:30:00",
   "06:00:00"
 )
-head(
-  smaller_gtfs$stop_times[
-    ,
-    .(trip_id, arrival_time, departure_time, stop_sequence)
-  ]
-)
+head(smaller_gtfs$stop_times)
 
 smaller_gtfs <- filter_by_day_period(
   gtfs,
@@ -161,12 +156,7 @@ smaller_gtfs <- filter_by_day_period(
   "06:00:00",
   full_trips = TRUE
 )
-head(
-  smaller_gtfs$stop_times[
-    ,
-    .(trip_id, arrival_time, departure_time, stop_sequence)
-  ]
-)
+head(smaller_gtfs$stop_times)
 }
 \seealso{
 Other filtering functions: 
