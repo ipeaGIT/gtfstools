@@ -26,9 +26,15 @@ format.}
 period should be kept or dropped (defaults to \code{TRUE}, which keeps the
 entries).}
 
-\item{full_trips}{A logical.}
+\item{full_trips}{A logical. Whether trips should be treated as immutable
+blocks or each of its stops should be considered separately when filtering
+the \code{stop_times} table (defaults to \code{FALSE}, which considers each stop
+individually). Please check the details section for more information on how
+this parameter changes the function behaviour.}
 
-\item{update_frequencies}{A logical.}
+\item{update_frequencies}{A logical. Whether the \code{frequencies} table should
+have its \code{start_time} and \code{end_time} fields updated to fit inside/outside the
+specified day period (defaults to \code{FALSE}, which doesn't update the fields).}
 }
 \value{
 The GTFS object passed to the \code{gtfs} parameter, after the filtering
@@ -36,17 +42,131 @@ process.
 }
 \description{
 Filters a GTFS object by a day period, keeping (or dropping) the relevant
-entries in each file. Please see the details for more information on how this
-function filters the \code{frequencies} and \code{stop_times} tables, as well as how it
-handles \code{stop_times} tables that contain trips with some empty departure and
-arrival times.
+entries in each file. Please see the details section for more information on
+how this function filters the \code{frequencies} and \code{stop_times} tables, as well
+as how it handles \code{stop_times} tables that contain trips with some empty
+departure and arrival times.
 }
+\section{Details}{
+
+When filtering the \code{frequencies} table, \code{filter_by_day_period()} respects the
+\code{exact_times} field. This field indicates whether the service follows a fixed
+schedule throughout the day or not. If it's 0 (or if it's not present), the
+service does not follow a fixed schedule. Instead, the operators try to
+maintain the listed headways. In such cases, if \code{update_frequencies} is
+\code{TRUE} we just update \code{start_time} and \code{end_time} to the appropriate value of
+\code{from} or \code{to} (which of this value is used depends on \code{keep}).
+
+If \code{exact_times} is 1, however, operators try to strictly adhere to the start
+times and headway. As a result, when updating the \code{start_time} field we need
+to follow the listed headway. For example, take a trip that has its start
+time listed as 06:00:00, its end time listed as 08:00:00 and its headway
+listed as 300 secs (5 minutes). If you decide to filter the feed to keep the
+day period between 06:32:00 and 08:00:00 while updating \code{frequencies}, the
+\code{start_time} field must be updated to 06:35:00 in order to preserve the
+correct departure times of this trips, instead of simply updating it to
+06:32:00.
+
+Another things to keep an eye on when filtering the \code{frequencies} table is
+that the corresponding \code{stop_times} entries of trips listed in the
+\code{frequencies} table should not be filtered, even if their departure and
+arrival times fall outside the specified period. This is because the
+\code{stop_times} entries of \code{frequencies}' trips are just templates that describe
+how long a segment between two stops takes, so the departure and arrival
+times listed there do not actually represent the actual departure and
+arrival times seen in practice. Taking the same example listed above, the
+corresponding \code{stop_times} entries of that trip could describe a departure
+from the first stop at 12:00:00 and an arrival at the second stop at
+12:03:00. That doesn't mean the trip will actually leave and arrive at the
+stops at these times, but rather that it takes 3 minutes to get from the
+first to the second stop. So when the trip departs from the first stop at
+06:35:00, it will get to the second at 06:38:00.
+
+When filtering the \code{stop_times} table, a few other details should be
+observed. First, one could wish to filter a GTFS object in order to keep all
+trips that cross a given time period, whereas others may want to keep only
+the specific entries that fall inside the specified period. For example, take
+a trip that leaves the first stop at 06:30:00, gets to the second at 06:35:00
+and then gets to the third at 06:45:00. When filtering to keep entire trips
+that cross the period between 06:30:00 and 06:40:00, all three stops will
+have to be kept. If, however, you want to keep only the entries that fall
+within the period, only the first two should be kept. To control such
+behaviour you need to set the \code{full_trips} parameter. When it's \code{TRUE}, the
+function behaves like the first case, and when it's \code{FALSE}, like the
+second.
+
+When using \code{full_trips} in conjunction with \code{keep}, please note how their
+behaviour stack. When both are \code{TRUE}, trips are always fully kept. When
+\code{keep} is \code{FALSE}, however, trips are fully dropped, even if some of their
+stops are visited outside the specified period.
+
+Finally, please note that many GTFS feeds may contain \code{stop_times} entries
+with empty departure and arrival times. In such cases, filtering by day
+period with \code{full_trips} as \code{FALSE} will drop the entries with empty times.
+Please set \code{full_trips} to \code{TRUE} to preserve these entries.
+}
+
 \examples{
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 
-object.size(gtfs)
+# taking a look at the original frequencies and stop_times
+head(gtfs$frequencies)
+head(gtfs$stop_times[, .(trip_id, arrival_time, departure_time)])
 
+smaller_gtfs <- filter_by_day_period(gtfs, "05:00:00", "06:00:00")
+
+# filter_by_day_period filters the frequencies table but doesn't filter the
+# stop_times table because they're just templates
+head(smaller_gtfs$frequencies)
+head(smaller_gtfs$stop_times[, .(trip_id, arrival_time, departure_time)])
+
+# frequencies entries can be adjusted using update_frequencies = TRUE
+smaller_gtfs <- filter_by_day_period(
+  gtfs,
+  "05:30:00",
+  "06:00:00",
+  update_frequencies = TRUE
+)
+head(smaller_gtfs$frequencies)
+
+# when keep = FALSE, the behaviour of the function in general, and of
+# update_frequencies in particular, is a bit different
+smaller_gtfs <- filter_by_day_period(
+  gtfs,
+  "05:30:00",
+  "06:00:00",
+  keep = FALSE,
+  update_frequencies = TRUE
+)
+head(smaller_gtfs$frequencies)
+
+# let's remove the frequencies table to check the behaviour of full_trips
+gtfs$frequencies <- NULL
+smaller_gtfs <- filter_by_day_period(
+  gtfs,
+  "05:30:00",
+  "06:00:00"
+)
+head(
+  smaller_gtfs$stop_times[
+    ,
+    .(trip_id, arrival_time, departure_time, stop_sequence)
+  ]
+)
+
+smaller_gtfs <- filter_by_day_period(
+  gtfs,
+  "05:30:00",
+  "06:00:00",
+  full_trips = TRUE
+)
+head(
+  smaller_gtfs$stop_times[
+    ,
+    .(trip_id, arrival_time, departure_time, stop_sequence)
+  ]
+)
 }
 \seealso{
 Other filtering functions: 

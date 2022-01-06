@@ -1,8 +1,64 @@
-path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
-gtfs <- read_gtfs(path)
-
 context("Filter by day period: overall usage")
 
+path <- system.file("extdata/ggl_gtfs.zip", package = "gtfstools")
+gtfs <- read_gtfs(path)
+
+tester <- function(gtfs = get("gtfs", envir = parent.frame()),
+                   from = "00:00:00",
+                   to = "06:30:00",
+                   keep = TRUE,
+                   full_trips = FALSE,
+                   update_frequencies = FALSE) {
+  filter_by_day_period(gtfs, from, to, keep, full_trips, update_frequencies)
+}
+
+# most of the tests are covered in the sections that test filter_frequencies()
+# and filter_stop_times() individually. this section only covers some sanity
+# checks
+
+test_that("raises errors due to incorrect input types", {
+  expect_error(tester(unclass(gtfs)))
+  expect_error(tester(from = factor("03:30:00")))
+  expect_error(tester(to = factor("06:30:00")))
+  expect_error(tester(from = "05:00:00", to = "04:30:00"))
+  expect_error(tester(keep = 1))
+  expect_error(tester(full_trips = 1))
+  expect_error(tester(update_frequencies = 1))
+})
+
+test_that("raises warning if a trip in stop_times is not listed in trips", {
+  expect_warning(tester())
+})
+
+test_that("results in a dt_gtfs object", {
+  dt_gtfs_class <- c("dt_gtfs", "gtfs", "list")
+  suppressWarnings(smaller_gtfs <- tester())
+  expect_s3_class(smaller_gtfs, dt_gtfs_class)
+  expect_type(smaller_gtfs, "list")
+  invisible(lapply(smaller_gtfs, expect_s3_class, "data.table"))
+})
+
+test_that("doesn't change given gtfs", {
+  # (except for some tables' indices)
+  original_gtfs <- read_gtfs(path)
+  gtfs <- read_gtfs(path)
+  expect_identical(original_gtfs, gtfs)
+
+  suppressWarnings(smaller_gtfs <- tester())
+  expect_false(identical(original_gtfs, gtfs))
+
+  data.table::setindex(gtfs$agency, NULL)
+  data.table::setindex(gtfs$calendar, NULL)
+  data.table::setindex(gtfs$calendar_dates, NULL)
+  data.table::setindex(gtfs$fare_attributes, NULL)
+  data.table::setindex(gtfs$fare_rules, NULL)
+  data.table::setindex(gtfs$levels, NULL)
+  data.table::setindex(gtfs$pathways, NULL)
+  data.table::setindex(gtfs$routes, NULL)
+  data.table::setindex(gtfs$stops, NULL)
+  data.table::setindex(gtfs$transfers, NULL)
+  expect_identical(original_gtfs, gtfs)
+})
 
 # frequencies filtering ---------------------------------------------------
 
