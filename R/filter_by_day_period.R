@@ -1,7 +1,10 @@
 #' Filter GTFS object by day period
 #'
 #' Filters a GTFS object by a day period, keeping (or dropping) the relevant
-#' entries in each file.
+#' entries in each file. Please see the details for more information on how this
+#' function filters the `frequencies` and `stop_times` tables, as well as how it
+#' handles `stop_times` tables that contain trips with some empty departure and
+#' arrival times.
 #'
 #' @param gtfs A GTFS object.
 #' @param from A string. The starting point of the day period, in the
@@ -30,7 +33,7 @@ filter_by_day_period <- function(gtfs,
                                  from,
                                  to,
                                  keep = TRUE,
-                                 full_trips = TRUE,
+                                 full_trips = FALSE,
                                  update_frequencies = FALSE) {
   checkmate::assert_class(gtfs, "dt_gtfs")
   checkmate::assert_string(from, pattern = "^\\d{2}:\\d{2}:\\d{2}$")
@@ -66,7 +69,18 @@ filter_by_day_period <- function(gtfs,
       keep,
       update_frequencies
     )
+
+    frequency_trips <- unique(gtfs$frequencies$trip_id)
   }
+
+  gtfs$stop_times <- filter_stop_times(
+    gtfs,
+    from_secs,
+    to_secs,
+    keep,
+    full_trips,
+    frequency_trips
+  )
 
   return(gtfs)
 }
@@ -302,4 +316,98 @@ update_frequencies_times <- function(filtered_frequencies,
   }
 
   return(filtered_frequencies)
+}
+
+
+#' @keywords internal
+filter_stop_times <- function(gtfs,
+                              from_secs,
+                              to_secs,
+                              keep,
+                              full_trips,
+                              frequency_trips) {
+  # conditionally create time-in-seconds columns, depending if they exist before
+  # or not. if they didn't exist beforehand, they have to be removed afterwards
+
+  if (!gtfsio::check_field_exists(gtfs, "stop_times", "departure_time_secs")) {
+    gtfs$stop_times[, departure_time_secs := string_to_seconds(departure_time)]
+    created_departure_secs <- TRUE
+  }
+
+  if (!gtfsio::check_field_exists(gtfs, "stop_times", "arrival_time_secs")) {
+    gtfs$stop_times[, arrival_time_secs := string_to_seconds(arrival_time)]
+    created_arrival_secs <- TRUE
+  }
+
+  # when filtering the stop_times table, we have to pay attention to the
+  # full_trips and keep parameters. if both are TRUE, then we keep the trips
+  # that have any of their stops visited inside the specified period. if
+  # full_trips is TRUE and keep is FALSE, we drop the trips that have any of
+  # their stops visited inside the period. and if full_trips is FALSE, we
+  # keep/drop only the stops that fall outside the period
+
+  if (keep) {
+    filtered_stop_times <- gtfs$stop_times[
+      (!(trip_id %chin% frequency_trips) &
+        (departure_time_secs >= from_secs | arrival_time_secs >= from_secs) &
+        (departure_time_secs <= to_secs | arrival_time_secs <= to_secs)) |
+      trip_id %chin% frequency_trips
+    ]
+
+    if (full_trips) {
+      trips_kept <- unique(filtered_stop_times$trip_id)
+      filtered_stop_times <- gtfs$stop_times[trip_id %chin% trips_kept]
+    }
+  } else {
+    filtered_stop_times <- gtfs$stop_times[
+      (!(trip_id %chin% frequency_trips) &
+        ((departure_time_secs < from_secs & arrival_time_secs < from_secs) |
+        (departure_time_secs > to_secs & arrival_time_secs > to_secs))) |
+      trip_id %chin% frequency_trips
+    ]
+
+    if (full_trips) {
+      # to drop trips that had any of their stops filtered, we compare the
+      # filtered stop_times to the original stop_times and remove trips that
+      # had stops removed
+
+      trips_kept <- unique(filtered_stop_times$trip_id)
+      original_stop_times <- gtfs$stop_times[trip_id %chin% trips_kept]
+      original_stop_count <- original_stop_times[
+        ,
+        .(n_stops = .N),
+        by = trip_id
+      ]
+      filtered_stop_count <- filtered_stop_times[
+        ,
+        .(n_stops = .N),
+        by = trip_id
+      ]
+
+      original_stop_count[
+        filtered_stop_count,
+        on = "trip_id",
+        filtered_n_stops := i.n_stops
+      ]
+      trips_to_drops <- original_stop_count[n_stops != filtered_n_stops]
+
+      filtered_stop_times <- filtered_stop_times[
+        ! trip_id %chin% trips_to_drops
+      ]
+    }
+  }
+
+  # conditionally remove time-in-seconds columns
+
+  if (exists("created_departure_secs")) {
+    gtfs$stop_times[, departure_time_secs := NULL]
+    filtered_stop_times[, departure_time_secs := NULL]
+  }
+
+  if (exists("created_arrival_secs")) {
+    gtfs$stop_times[, arrival_time_secs := NULL]
+    filtered_stop_times[, arrival_time_secs := NULL]
+  }
+
+  return(filtered_stop_times)
 }

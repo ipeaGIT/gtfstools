@@ -230,3 +230,181 @@ test_that("drops entries where start_time > end_time when exact_times = 1", {
   )
   expect_true(nrow(result) == 0)
 })
+
+
+# stop_times filtering ----------------------------------------------------
+
+context("Filter by day period: filter stop_times")
+
+path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
+gtfs <- read_gtfs(path)
+
+tester <- function(gtfs = get("gtfs", envir = parent.frame()),
+                   from = "03:30:00",
+                   to = "06:30:00",
+                   keep = TRUE,
+                   full_trips = FALSE,
+                   frequency_trips = character()) {
+  from_secs <- string_to_seconds(from)
+  to_secs <- string_to_seconds(to)
+  gtfstools:::filter_stop_times(
+    gtfs,
+    from_secs,
+    to_secs,
+    keep,
+    full_trips,
+    frequency_trips
+  )[]
+}
+
+test_that("doesn't change specified gtfs", {
+  original_gtfs <- read_gtfs(path)
+  expect_identical(gtfs, original_gtfs)
+
+  result <- tester()
+  expect_identical(gtfs, original_gtfs)
+
+  # should also work if gtfs previously contained time-in-seconds columns (i.e.
+  # these columns should not be removed if they previously existed)
+
+  secs_gtfs <- read_gtfs(path)
+  secs_gtfs$stop_times[
+    ,
+    `:=`(
+      departure_time_secs = string_to_seconds(departure_time),
+      arrival_time_secs = string_to_seconds(arrival_time)
+    )
+  ]
+  original_gtfs$stop_times <- data.table::copy(secs_gtfs$stop_times)
+  expect_identical(secs_gtfs, original_gtfs)
+  result <- tester(secs_gtfs)
+  expect_identical(secs_gtfs, original_gtfs)
+})
+
+test_that("filters stop_times correctly when full_trips = FALSE", {
+  # building a smaller gtfs to keep a more focused test
+  small_gtfs <- filter_by_trip_id(gtfs, "CPTM L07-0")
+
+  filtered_stop_times <- tester(small_gtfs, from = "04:00:00", to = "04:48:00")
+  expect_identical(filtered_stop_times, small_gtfs$stop_times[1:7])
+
+  filtered_stop_times <- tester(
+    small_gtfs,
+    from = "04:00:00",
+    to = "04:48:00",
+    keep = FALSE
+  )
+  expect_identical(filtered_stop_times, small_gtfs$stop_times[8:18])
+
+  filtered_stop_times <- tester(small_gtfs, from = "04:30:00", to = "04:48:00")
+  expect_identical(filtered_stop_times, small_gtfs$stop_times[5:7])
+
+  filtered_stop_times <- tester(
+    small_gtfs,
+    from = "04:30:00",
+    to = "04:48:00",
+    keep = FALSE
+  )
+  expect_identical(filtered_stop_times, small_gtfs$stop_times[c(1:4, 8:18)])
+})
+
+test_that("filters stop_times correctly when full_trips = FALSE", {
+  small_gtfs <- filter_by_trip_id(gtfs, "CPTM L07-0")
+
+  filtered_stop_times <- tester(
+    small_gtfs,
+    from = "04:00:00",
+    to = "04:48:00",
+    full_trips = TRUE
+  )
+  data.table::setindex(small_gtfs$stop_times, NULL)
+  expect_identical(filtered_stop_times, small_gtfs$stop_times)
+
+  filtered_stop_times <- tester(
+    small_gtfs,
+    from = "04:00:00",
+    to = "04:48:00",
+    keep = FALSE,
+    full_trips = TRUE
+  )
+  expect_identical(filtered_stop_times, small_gtfs$stop_times[0])
+
+  filtered_stop_times <- tester(
+    small_gtfs,
+    from = "04:30:00",
+    to = "04:48:00",
+    full_trips = TRUE
+  )
+  data.table::setindex(small_gtfs$stop_times, NULL)
+  expect_identical(filtered_stop_times, small_gtfs$stop_times)
+
+  filtered_stop_times <- tester(
+    small_gtfs,
+    from = "04:30:00",
+    to = "04:48:00",
+    keep = FALSE,
+    full_trips = TRUE
+  )
+  expect_identical(filtered_stop_times, small_gtfs$stop_times[0])
+})
+
+test_that("doesn't filter trips listed in frequency_trips", {
+  small_gtfs <- filter_by_trip_id(gtfs, "CPTM L07-0")
+
+  filtered_stop_times <- tester(
+    small_gtfs,
+    from = "04:00:00",
+    to = "04:48:00",
+    frequency_trips = "CPTM L07-0"
+  )
+  expect_identical(filtered_stop_times, small_gtfs$stop_times)
+
+  filtered_stop_times <- tester(
+    small_gtfs,
+    from = "04:00:00",
+    to = "04:48:00",
+    full_trips = TRUE,
+    frequency_trips = "CPTM L07-0"
+  )
+  data.table::setindex(small_gtfs$stop_times, NULL)
+  expect_identical(filtered_stop_times, small_gtfs$stop_times)
+
+  filtered_stop_times <- tester(
+    small_gtfs,
+    from = "04:00:00",
+    to = "04:48:00",
+    keep = FALSE,
+    frequency_trips = "CPTM L07-0"
+  )
+  expect_identical(filtered_stop_times, small_gtfs$stop_times)
+
+  filtered_stop_times <- tester(
+    small_gtfs,
+    from = "04:00:00",
+    to = "04:48:00",
+    keep = FALSE,
+    full_trips = TRUE,
+    frequency_trips = "CPTM L07-0"
+  )
+  expect_identical(filtered_stop_times, small_gtfs$stop_times)
+})
+
+test_that("handles trips with some non specified departure/arrival times", {
+  path <- system.file("extdata/ggl_gtfs.zip", package = "gtfstools")
+  gtfs <- read_gtfs(path)
+
+  # when only the first and last departure and arrival times are specified, the
+  # function will only work "correctly" when full_trips = TRUE. when it's not,
+  # it will drop all stops in which the times are not specified.
+
+  filtered_stop_times <- tester(from = "00:06:10", to = "00:06:45")
+  expect_equal(nrow(filtered_stop_times), nrow(gtfs$stop_times) - 5)
+
+  filtered_stop_times <- tester(
+    from = "00:06:10",
+    to = "00:06:45",
+    full_trips = TRUE
+  )
+  data.table::setindex(gtfs$stop_times, NULL)
+  expect_identical(filtered_stop_times, gtfs$stop_times)
+})

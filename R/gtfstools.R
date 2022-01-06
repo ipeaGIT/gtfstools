@@ -80,6 +80,9 @@ utils::globalVariables(
     "to_within",
     ".N",
     "is_duplicated",
-    "exact_times"
+    "exact_times",
+    "filtered_n_stops",
+    "i.n_stops",
+    "n_stops"
   )
 )

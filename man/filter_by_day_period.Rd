@@ -9,7 +9,7 @@ filter_by_day_period(
   from,
   to,
   keep = TRUE,
-  full_trips = TRUE,
+  full_trips = FALSE,
   update_frequencies = FALSE
 )
 }
@@ -36,7 +36,10 @@ process.
 }
 \description{
 Filters a GTFS object by a day period, keeping (or dropping) the relevant
-entries in each file.
+entries in each file. Please see the details for more information on how this
+function filters the \code{frequencies} and \code{stop_times} tables, as well as how it
+handles \code{stop_times} tables that contain trips with some empty departure and
+arrival times.
 }
 \examples{
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
