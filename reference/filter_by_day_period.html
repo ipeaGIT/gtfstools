@@ -268,19 +268,14 @@ Please set <code>full_trips</code> to <code>TRUE</code> to preserve these entrie
 <span class="r-in">  <span class="st">"05:30:00"</span>,</span>
 <span class="r-in">  <span class="st">"06:00:00"</span></span>
 <span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">smaller_gtfs</span><span class="op">$</span><span class="va">stop_times</span><span class="op">[</span></span>
-<span class="r-in">    ,</span>
-<span class="r-in">    <span class="fu">.</span><span class="op">(</span><span class="va">trip_id</span>, <span class="va">arrival_time</span>, <span class="va">departure_time</span>, <span class="va">stop_sequence</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">]</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       trip_id arrival_time departure_time stop_sequence</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: CPTM L07-0     05:36:00       05:36:00            13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: CPTM L07-0     05:44:00       05:44:00            14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: CPTM L07-0     05:52:00       05:52:00            15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: CPTM L07-0     06:00:00       06:00:00            16</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: CPTM L07-1     05:36:00       05:36:00            13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: CPTM L07-1     05:44:00       05:44:00            14</span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">smaller_gtfs</span><span class="op">$</span><span class="va">stop_times</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       trip_id arrival_time departure_time stop_id stop_sequence</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: CPTM L07-0     05:36:00       05:36:00   18926            13</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: CPTM L07-0     05:44:00       05:44:00   18971            14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: CPTM L07-0     05:52:00       05:52:00   18972            15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: CPTM L07-0     06:00:00       06:00:00   18973            16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: CPTM L07-1     05:36:00       05:36:00   18965            13</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: CPTM L07-1     05:44:00       05:44:00   18916            14</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">smaller_gtfs</span> <span class="op">&lt;-</span> <span class="fu">filter_by_day_period</span><span class="op">(</span></span>
 <span class="r-in">  <span class="va">gtfs</span>,</span>
@@ -288,19 +283,14 @@ Please set <code>full_trips</code> to <code>TRUE</code> to preserve these entrie
 <span class="r-in">  <span class="st">"06:00:00"</span>,</span>
 <span class="r-in">  full_trips <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">smaller_gtfs</span><span class="op">$</span><span class="va">stop_times</span><span class="op">[</span></span>
-<span class="r-in">    ,</span>
-<span class="r-in">    <span class="fu">.</span><span class="op">(</span><span class="va">trip_id</span>, <span class="va">arrival_time</span>, <span class="va">departure_time</span>, <span class="va">stop_sequence</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">]</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       trip_id arrival_time departure_time stop_sequence</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: CPTM L07-0     04:00:00       04:00:00             1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: CPTM L07-0     04:08:00       04:08:00             2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: CPTM L07-0     04:16:00       04:16:00             3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: CPTM L07-0     04:24:00       04:24:00             4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: CPTM L07-0     04:32:00       04:32:00             5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: CPTM L07-0     04:40:00       04:40:00             6</span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">smaller_gtfs</span><span class="op">$</span><span class="va">stop_times</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       trip_id arrival_time departure_time stop_id stop_sequence</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: CPTM L07-0     04:00:00       04:00:00   18940             1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: CPTM L07-0     04:08:00       04:08:00   18920             2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: CPTM L07-0     04:16:00       04:16:00   18919             3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: CPTM L07-0     04:24:00       04:24:00   18917             4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: CPTM L07-0     04:32:00       04:32:00   18916             5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: CPTM L07-0     04:40:00       04:40:00   18965             6</span>
 </code></pre></div>
     </div>
   </div>
