@@ -162,11 +162,11 @@ update_frequencies_times <- function(filtered_frequencies,
                                      to_secs,
                                      keep) {
   # how frequencies times should be updated depends if:
-  #   - exact_times is 0 or 1. if it's 0, just update start and end time to the
-  #   corresponding to/from. if it's 1, we need to adhere to the headway. if
-  #   exact_times doesn't exist, the behaviour is like when it's 0
-  #   - keep is TRUE or FALSE. this changes whether start/end time relates to
-  #   to/from.
+  # - exact_times is 0 or 1. if it's 0, just update start and end time to the
+  # corresponding to/from. if it's 1, we need to adhere to the headway. if
+  # exact_times doesn't exist, the behaviour is like when it's 0
+  # - keep is TRUE or FALSE. this changes whether start/end time relates to
+  # to/from.
 
   if (is.null(filtered_frequencies$exact_times)) {
     if (keep) {
@@ -219,7 +219,86 @@ update_frequencies_times <- function(filtered_frequencies,
       ]
     }
   } else {
-    # TODO: implement update frequencies function when exact_times is present
+    if (keep) {
+      # if exact_times is 0, the behaviour is like when exact_times doesn't
+      # exist. if it's 1, the start_time should respect the headway. we can just
+      # set end_time to to_secs because what matters is the time the trips
+      # start, but not when the frequency period finishes
+
+      filtered_frequencies[to_within == TRUE, end_time_secs := to_secs]
+      filtered_frequencies[
+        to_within == TRUE,
+        end_time := seconds_to_string(end_time_secs)
+      ]
+
+      filtered_frequencies[
+        from_within == TRUE & exact_times == 0,
+        start_time_secs := from_secs
+      ]
+      filtered_frequencies[
+        from_within == TRUE & exact_times == 1,
+        start_time_secs := start_time_secs +
+          ceiling((from_secs - start_time_secs) / headway_secs) * headway_secs
+      ]
+      filtered_frequencies[
+        from_within == TRUE,
+        start_time := seconds_to_string(start_time_secs)
+      ]
+    } else {
+      # we follow the same procedure to update the times when both from and to
+      # fall within start and end_times that was followed when exact_times
+      # didn't exist. except that now we also have to pay attention to the
+      # headway when updating the start_time when exact_times = 1
+      filtered_frequencies <- rbind(
+        filtered_frequencies,
+        filtered_frequencies[to_within == TRUE & from_within == TRUE]
+      )
+      cols <- names(filtered_frequencies)
+      filtered_frequencies[, is_duplicated := .N > 1, by = cols]
+
+      filtered_frequencies[
+        filtered_frequencies[is_duplicated == TRUE, .I[1], by = cols]$V1,
+        `:=`(
+          to_within = FALSE,
+          is_duplicated = FALSE
+        )
+      ]
+      filtered_frequencies[
+        is_duplicated == TRUE,
+        `:=`(
+          from_within = FALSE,
+          is_duplicated = FALSE
+        )
+      ]
+      filtered_frequencies[, is_duplicated := NULL]
+
+      filtered_frequencies[from_within == TRUE, end_time_secs := from_secs]
+      filtered_frequencies[
+        from_within == TRUE,
+        end_time := seconds_to_string(end_time_secs)
+      ]
+
+      filtered_frequencies[
+        to_within == TRUE & exact_times == 0,
+        start_time_secs := to_secs
+      ]
+      filtered_frequencies[
+        to_within == TRUE & exact_times == 1,
+        start_time_secs := start_time_secs +
+          ceiling((to_secs - start_time_secs) / headway_secs) * headway_secs
+      ]
+      filtered_frequencies[
+        to_within == TRUE,
+        start_time := seconds_to_string(start_time_secs)
+      ]
+    }
+
+    # updating the start_time respecting the headway may yield start_times
+    # higher than the end_times. we remove the entries in which this situation
+    # happens
+    filtered_frequencies <- filtered_frequencies[
+      start_time_secs <= end_time_secs
+    ]
   }
 
   return(filtered_frequencies)

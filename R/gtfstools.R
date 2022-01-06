@@ -79,6 +79,7 @@ utils::globalVariables(
     "from_within",
     "to_within",
     ".N",
-    "is_duplicated"
+    "is_duplicated",
+    "exact_times"
   )
 )
