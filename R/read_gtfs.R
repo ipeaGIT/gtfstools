@@ -17,7 +17,7 @@
 #'   no files are skipped. Cannot be used if `files` is already set.
 #' @param quiet Whether to hide log messages and progress bars (defaults to
 #'   `TRUE`).
-#' @param encoding A string, ultimately passed to `\link[data.table]{fread}`.
+#' @param encoding A string, ultimately passed to [data.table::fread()].
 #'   Defaults to `"unknown"`. Other possible options are `"UTF-8"` and
 #'   `"Latin-1"`. Please note that this is not used to re-encode the input, but
 #'   to enable handling encoded strings in their native encoding.
