@@ -89,13 +89,13 @@ object.size(smaller_gtfs)
 \seealso{
 Other filtering functions: 
 \code{\link{filter_by_agency_id}()},
-\code{\link{filter_by_day_period}()},
 \code{\link{filter_by_route_id}()},
 \code{\link{filter_by_route_type}()},
 \code{\link{filter_by_service_id}()},
 \code{\link{filter_by_sf}()},
 \code{\link{filter_by_shape_id}()},
 \code{\link{filter_by_stop_id}()},
+\code{\link{filter_by_time_of_day}()},
 \code{\link{filter_by_trip_id}()}
 }
 \concept{filtering functions}

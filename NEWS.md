@@ -3,6 +3,7 @@
 ## New features
 
 - New function `filter_by_service_id()`.
+- New function `filter_by_time_of_day()`.
 - New function `filter_by_weekday()`.
 - New function `frequencies_to_stop_times()`.
 

@@ -1,19 +1,18 @@
-#' Filter GTFS object by day period
+#' Filter GTFS object by time of day
 #'
-#' Filters a GTFS object by a day period, keeping (or dropping) the relevant
+#' Filters a GTFS object by time of day, keeping (or dropping) the relevant
 #' entries in each file. Please see the details section for more information on
 #' how this function filters the `frequencies` and `stop_times` tables, as well
 #' as how it handles `stop_times` tables that contain trips with some empty
 #' departure and arrival times.
 #'
 #' @param gtfs A GTFS object.
-#' @param from A string. The starting point of the day period, in the
+#' @param from A string. The starting point of the time of day, in the
 #' "HH:MM:SS" format.
-#' @param to A string. The ending point of the day period, in the "HH:MM:SS"
+#' @param to A string. The ending point of the time of day, in the "HH:MM:SS"
 #' format.
-#' @param keep A logical. Whether the entries related to the specified day
-#' period should be kept or dropped (defaults to `TRUE`, which keeps the
-#' entries).
+#' @param keep A logical. Whether the entries related to the specified time of
+#' day should be kept or dropped (defaults to `TRUE`, which keeps the entries).
 #' @param full_trips A logical. Whether trips should be treated as immutable
 #' blocks or each of its stops should be considered separately when filtering
 #' the `stop_times` table (defaults to `FALSE`, which considers each stop
@@ -21,26 +20,27 @@
 #' this parameter changes the function behaviour.
 #' @param update_frequencies A logical. Whether the `frequencies` table should
 #' have its `start_time` and `end_time` fields updated to fit inside/outside the
-#' specified day period (defaults to `FALSE`, which doesn't update the fields).
+#' specified time of day (defaults to `FALSE`, which doesn't update the fields).
 #'
 #' @return The GTFS object passed to the `gtfs` parameter, after the filtering
 #' process.
 #'
 #' @section Details:
-#' When filtering the `frequencies` table, `filter_by_day_period()` respects the
-#' `exact_times` field. This field indicates whether the service follows a fixed
-#' schedule throughout the day or not. If it's 0 (or if it's not present), the
-#' service does not follow a fixed schedule. Instead, the operators try to
-#' maintain the listed headways. In such cases, if `update_frequencies` is
-#' `TRUE` we just update `start_time` and `end_time` to the appropriate value of
-#' `from` or `to` (which of this value is used depends on `keep`).
+#' When filtering the `frequencies` table, `filter_by_time_of_day()` respects
+#' the `exact_times` field. This field indicates whether the service follows a
+#' fixed schedule throughout the day or not. If it's 0 (or if it's not
+#' present), the service does not follow a fixed schedule. Instead, the
+#' operators try to maintain the listed headways. In such cases, if
+#' `update_frequencies` is `TRUE` we just update `start_time` and `end_time` to
+#' the appropriate value of `from` or `to` (which of this value is used depends
+#' on `keep`).
 #'
 #' If `exact_times` is 1, however, operators try to strictly adhere to the start
 #' times and headway. As a result, when updating the `start_time` field we need
 #' to follow the listed headway. For example, take a trip that has its start
 #' time listed as 06:00:00, its end time listed as 08:00:00 and its headway
 #' listed as 300 secs (5 minutes). If you decide to filter the feed to keep the
-#' day period between 06:32:00 and 08:00:00 while updating `frequencies`, the
+#' time of day between 06:32:00 and 08:00:00 while updating `frequencies`, the
 #' `start_time` field must be updated to 06:35:00 in order to preserve the
 #' correct departure times of this trips, instead of simply updating it to
 #' 06:32:00.
@@ -48,7 +48,7 @@
 #' Another things to keep an eye on when filtering the `frequencies` table is
 #' that the corresponding `stop_times` entries of trips listed in the
 #' `frequencies` table should not be filtered, even if their departure and
-#' arrival times fall outside the specified period. This is because the
+#' arrival times fall outside the specified time of day. This is because the
 #' `stop_times` entries of `frequencies`' trips are just templates that describe
 #' how long a segment between two stops takes, so the departure and arrival
 #' times listed there do not actually represent the actual departure and
@@ -62,25 +62,25 @@
 #'
 #' When filtering the `stop_times` table, a few other details should be
 #' observed. First, one could wish to filter a GTFS object in order to keep all
-#' trips that cross a given time period, whereas others may want to keep only
-#' the specific entries that fall inside the specified period. For example, take
-#' a trip that leaves the first stop at 06:30:00, gets to the second at 06:35:00
-#' and then gets to the third at 06:45:00. When filtering to keep entire trips
-#' that cross the period between 06:30:00 and 06:40:00, all three stops will
-#' have to be kept. If, however, you want to keep only the entries that fall
-#' within the period, only the first two should be kept. To control such
-#' behaviour you need to set the `full_trips` parameter. When it's `TRUE`, the
-#' function behaves like the first case, and when it's `FALSE`, like the
-#' second.
+#' trips that cross a given time of day, whereas others may want to keep only
+#' the specific entries that fall inside the specified time of day. For
+#' example, take a trip that leaves the first stop at 06:30:00, gets to the
+#' second at 06:35:00 and then gets to the third at 06:45:00. When filtering to
+#' keep entire trips that cross the time of day between 06:30:00 and 06:40:00,
+#' all three stops will have to be kept. If, however, you want to keep only the
+#' entries that fall within the specified time of day, only the first two
+#' should be kept. To control such behaviour you need to set the `full_trips`
+#' parameter. When it's `TRUE`, the function behaves like the first case, and
+#' when it's `FALSE`, like the second.
 #'
 #' When using `full_trips` in conjunction with `keep`, please note how their
 #' behaviour stack. When both are `TRUE`, trips are always fully kept. When
 #' `keep` is `FALSE`, however, trips are fully dropped, even if some of their
-#' stops are visited outside the specified period.
+#' stops are visited outside the specified time of day.
 #'
 #' Finally, please note that many GTFS feeds may contain `stop_times` entries
-#' with empty departure and arrival times. In such cases, filtering by day
-#' period with `full_trips` as `FALSE` will drop the entries with empty times.
+#' with empty departure and arrival times. In such cases, filtering by time of
+#' day with `full_trips` as `FALSE` will drop the entries with empty times.
 #' Please set `full_trips` to `TRUE` to preserve these entries.
 #'
 #' @family filtering functions
@@ -93,15 +93,15 @@
 #' head(gtfs$frequencies)
 #' head(gtfs$stop_times)
 #'
-#' smaller_gtfs <- filter_by_day_period(gtfs, "05:00:00", "06:00:00")
+#' smaller_gtfs <- filter_by_time_of_day(gtfs, "05:00:00", "06:00:00")
 #'
-#' # filter_by_day_period filters the frequencies table but doesn't filter the
+#' # filter_by_time_of_day filters the frequencies table but doesn't filter the
 #' # stop_times table because they're just templates
 #' head(smaller_gtfs$frequencies)
 #' head(smaller_gtfs$stop_times)
 #'
 #' # frequencies entries can be adjusted using update_frequencies = TRUE
-#' smaller_gtfs <- filter_by_day_period(
+#' smaller_gtfs <- filter_by_time_of_day(
 #'   gtfs,
 #'   "05:30:00",
 #'   "06:00:00",
@@ -111,7 +111,7 @@
 #'
 #' # when keep = FALSE, the behaviour of the function in general, and of
 #' # update_frequencies in particular, is a bit different
-#' smaller_gtfs <- filter_by_day_period(
+#' smaller_gtfs <- filter_by_time_of_day(
 #'   gtfs,
 #'   "05:30:00",
 #'   "06:00:00",
@@ -122,14 +122,14 @@
 #'
 #' # let's remove the frequencies table to check the behaviour of full_trips
 #' gtfs$frequencies <- NULL
-#' smaller_gtfs <- filter_by_day_period(
+#' smaller_gtfs <- filter_by_time_of_day(
 #'   gtfs,
 #'   "05:30:00",
 #'   "06:00:00"
 #' )
 #' head(smaller_gtfs$stop_times)
 #'
-#' smaller_gtfs <- filter_by_day_period(
+#' smaller_gtfs <- filter_by_time_of_day(
 #'   gtfs,
 #'   "05:30:00",
 #'   "06:00:00",
@@ -137,12 +137,12 @@
 #' )
 #' head(smaller_gtfs$stop_times)
 #' @export
-filter_by_day_period <- function(gtfs,
-                                 from,
-                                 to,
-                                 keep = TRUE,
-                                 full_trips = FALSE,
-                                 update_frequencies = FALSE) {
+filter_by_time_of_day <- function(gtfs,
+                                  from,
+                                  to,
+                                  keep = TRUE,
+                                  full_trips = FALSE,
+                                  update_frequencies = TRUE) {
   checkmate::assert_class(gtfs, "dt_gtfs")
   checkmate::assert_string(from, pattern = "^\\d{2}:\\d{2}:\\d{2}$")
   checkmate::assert_string(to, pattern = "^\\d{2}:\\d{2}:\\d{2}$")
@@ -320,11 +320,11 @@ update_frequencies_times <- function(filtered_frequencies,
         end_time := seconds_to_string(to_secs)
       ]
     } else {
-      # when keep = FALSE, there may be cases in which the the day period to
+      # when keep = FALSE, there may be cases in which the the time of day to
       # filter is between start and end time, so we want to preserve the
-      # periods between start time and from, and between end time and to. to do
-      # so, we need to identify these rows, duplicate them, and then edit one by
-      # one
+      # intervals between start time and from, and between end time and to. to
+      # do so, we need to identify these rows, duplicate them, and then edit
+      # one by one
       filtered_frequencies <- rbind(
         filtered_frequencies,
         filtered_frequencies[to_within == TRUE & from_within == TRUE]
@@ -468,10 +468,10 @@ filter_stop_times <- function(gtfs,
 
   # when filtering the stop_times table, we have to pay attention to the
   # full_trips and keep parameters. if both are TRUE, then we keep the trips
-  # that have any of their stops visited inside the specified period. if
+  # that have any of their stops visited inside the specified time of day. if
   # full_trips is TRUE and keep is FALSE, we drop the trips that have any of
-  # their stops visited inside the period. and if full_trips is FALSE, we
-  # keep/drop only the stops that fall outside the period
+  # their stops visited inside the time interval, and if full_trips is FALSE, we
+  # keep/drop only the stops that fall outside the time interval 
 
   if (keep) {
     filtered_stop_times <- gtfs$stop_times[
