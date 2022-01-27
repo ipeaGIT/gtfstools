@@ -52,9 +52,6 @@
     <loc>/reference/filter_by_agency_id.html</loc>
   </url>
   <url>
-    <loc>/reference/filter_by_day_period.html</loc>
-  </url>
-  <url>
     <loc>/reference/filter_by_route_id.html</loc>
   </url>
   <url>
@@ -71,6 +68,9 @@
   </url>
   <url>
     <loc>/reference/filter_by_stop_id.html</loc>
+  </url>
+  <url>
+    <loc>/reference/filter_by_time_of_day.html</loc>
   </url>
   <url>
     <loc>/reference/filter_by_trip_id.html</loc>
