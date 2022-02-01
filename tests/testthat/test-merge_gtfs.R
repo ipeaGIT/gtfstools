@@ -18,7 +18,6 @@ test_that("raises errors due to incorrect input types", {
   expect_error(merge_gtfs("spo_gtfs", ggl_gtfs))
   expect_error(merge_gtfs(spo_gtfs, "ggl_gtfs"))
   expect_error(merge_gtfs(spo_gtfs, ggl_gtfs, files = 1))
-  expect_error(merge_gtfs(spo_gtfs, ggl_gtfs, quiet = "TRUE"))
   expect_error(merge_gtfs(spo_gtfs, ggl_gtfs, warnings = "TRUE"))
 })
 

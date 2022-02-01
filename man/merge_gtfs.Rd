@@ -4,36 +4,24 @@
 \alias{merge_gtfs}
 \title{Merge GTFS files}
 \usage{
-merge_gtfs(..., files = NULL, quiet = TRUE, warnings = TRUE)
+merge_gtfs(..., files = NULL, warnings = TRUE)
 }
 \arguments{
-\item{...}{GTFS objects, as created by \code{\link{read_gtfs}}, to be merged.
-Each argument can either be a GTFS or a list of GTFS objects.}
+\item{...}{GTFS objects to be merged. Each argument can either be a GTFS or
+a list of GTFS objects.}
 
-\item{files}{A character vector listing the GTFS text files (i.e. the ones
-represented by \code{data.table}s) to be merged. If \code{NULL} (the
-default) all files are merged.}
+\item{files}{A character vector listing the GTFS tables to be merged. If
+\code{NULL} (the default), all tables are merged.}
 
-\item{quiet}{Whether to hide log messages (defaults to TRUE).}
-
-\item{warnings}{Whether to display warning messages (defaults to TRUE).}
+\item{warnings}{Whether to display warning messages (defaults to \code{TRUE}).}
 }
 \value{
-Returns a GTFS object, with an updated \code{validation_result}
-attribute, in which each \code{data.table} is the combination (by row) of
-\code{data.table}s with the same name from the GTFS objects passed in
-\code{...}.
+A GTFS object in which each table is a combination (by row) of the
+tables from the specified GTFS objects.
 }
 \description{
-Combines many GTFS file into a single one.
+Combines many GTFS objects into a single one.
 }
-\section{Details}{
-
-Please note that this function does not disambiguate \code{ids} that may be
-repeated within different GTFS objects. Please let us know if you'd like to
-see this feature implemented.
-}
-
 \examples{
 spo_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 ggl_path <- system.file("extdata/ggl_gtfs.zip", package = "gtfstools")

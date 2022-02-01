@@ -2,6 +2,7 @@
 
 ## New features
 
+- New function `get_children_stops()`.
 - New function `filter_by_service_id()`.
 - New function `filter_by_time_of_day()`.
 - New function `filter_by_weekday()`.
