@@ -7,6 +7,7 @@
 - New function `filter_by_time_of_day()`.
 - New function `filter_by_weekday()`.
 - New function `frequencies_to_stop_times()`.
+- New function `get_trip_length()`.
 
 ## Bug fixes
 

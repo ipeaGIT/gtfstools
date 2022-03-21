@@ -83,6 +83,7 @@ utils::globalVariables(
     "exact_times",
     "filtered_n_stops",
     "i.n_stops",
-    "n_stops"
+    "n_stops",
+    "i.length"
   )
 )
