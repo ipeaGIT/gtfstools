@@ -94,6 +94,9 @@
     <loc>/reference/get_trip_geometry.html</loc>
   </url>
   <url>
+    <loc>/reference/get_trip_length.html</loc>
+  </url>
+  <url>
     <loc>/reference/get_trip_segment_duration.html</loc>
   </url>
   <url>
