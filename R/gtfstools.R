@@ -84,6 +84,8 @@ utils::globalVariables(
     "filtered_n_stops",
     "i.n_stops",
     "n_stops",
-    "i.length"
+    "i.length",
+    "pattern_id",
+    "data"
   )
 )
