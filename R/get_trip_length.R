@@ -91,17 +91,12 @@ get_trip_length <- function(gtfs, trip_id = NULL, file = NULL, unit = "km") {
     )
   }
 
-  # select trip_ids to get geometry of
+  # select trip_ids to get geometry of and raise warning if a given trip_id
+  # doesn't exist in trips
 
   if (!is.null(trip_id)) {
     relevant_trips <- trip_id
-  } else {
-    relevant_trips <- unique(gtfs$trips$trip_id)
-  }
 
-  # raise warning if a given 'trip_id' doesn't exist in 'trips'
-
-  if (!is.null(trip_id)) {
     invalid_trip_id <- trip_id[! trip_id %chin% unique(gtfs$trips$trip_id)]
 
     if (!identical(invalid_trip_id, character(0))) {
@@ -113,7 +108,12 @@ get_trip_length <- function(gtfs, trip_id = NULL, file = NULL, unit = "km") {
   }
 
   if ("shapes" %in% file) {
-    trips <- gtfs$trips[trip_id %chin% relevant_trips & shape_id != ""]
+    if (!is.null(trip_id)) {
+      trips <- gtfs$trips[trip_id %chin% relevant_trips & shape_id != ""]
+    } else {
+      trips <- gtfs$trips[shape_id != ""]
+    }
+
     relevant_shapes <- unique(trips$shape_id)
 
     # generate geometry and calculate the length of each unique shape_id
@@ -161,9 +161,14 @@ get_trip_length <- function(gtfs, trip_id = NULL, file = NULL, unit = "km") {
   }
 
   if ("stop_times" %in% file) {
+    if (!is.null(trip_id)) {
+      stop_times <- gtfs$stop_times[trip_id %chin% relevant_trips]
+    } else {
+      stop_times <- gtfs$stop_times
+    }
+
     # generate geometry; the condition for nrow == 0 prevents an sfheaders error
 
-    stop_times <- gtfs$stop_times[trip_id %chin% relevant_trips]
     stop_times <- stop_times[order(trip_id, stop_sequence)]
     stop_times[
       gtfs$stops,
@@ -192,7 +197,11 @@ get_trip_length <- function(gtfs, trip_id = NULL, file = NULL, unit = "km") {
     stop_times_sf <- sf::st_set_crs(stop_times_sf, 4326)
     stop_times_length <- sf::st_length(stop_times_sf)
     if (unit != "m") {
-      stop_times_length <- units::set_units(stop_times_length, unit, mode = "standard")
+      stop_times_length <- units::set_units(
+        stop_times_length,
+        unit,
+        mode = "standard"
+      )
     }
     stop_times_length <- as.numeric(stop_times_length)
     length_from_stop_times <- data.table::data.table(

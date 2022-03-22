@@ -7,15 +7,15 @@
 get_trip_duration(gtfs, trip_id = NULL, unit = "min")
 }
 \arguments{
-\item{gtfs}{A GTFS object as created by \code{\link{read_gtfs}}.}
+\item{gtfs}{A GTFS object.}
 
 \item{trip_id}{A string vector including the \code{trip_id}s to have their
-duration calculated. If \code{NULL} (the default) the function calculates
-the duration of every \code{trip_id} in the GTFS.}
+duration calculated. If \code{NULL} (the default) the function calculates the
+duration of every \code{trip_id} in the GTFS.}
 
 \item{unit}{A string representing the time unit in which the duration is
-desired. One of \code{"s"} (seconds), \code{"min"} (minutes, the default),
-\code{"h"} (hours) or \code{"d"} (days).}
+desired. One of \code{"s"} (seconds), \code{"min"} (minutes, the default), \code{"h"}
+(hours) or \code{"d"} (days).}
 }
 \value{
 A \code{data.table} containing the duration of each specified trip.
@@ -26,8 +26,8 @@ Returns the duration of each specified \code{trip_id}.
 \section{Details}{
 
 The duration of a trip is defined as the time difference between its last
-arrival time and its first departure time, as specified in the
-\code{stop_times} file.
+arrival time and its first departure time, as specified in the \code{stop_times}
+table.
 }
 
 \examples{
