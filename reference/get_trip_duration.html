@@ -72,15 +72,15 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>gtfs</dt>
-<dd><p>A GTFS object as created by <code><a href="read_gtfs.html">read_gtfs</a></code>.</p></dd>
+<dd><p>A GTFS object.</p></dd>
 <dt>trip_id</dt>
 <dd><p>A string vector including the <code>trip_id</code>s to have their
-duration calculated. If <code>NULL</code> (the default) the function calculates
-the duration of every <code>trip_id</code> in the GTFS.</p></dd>
+duration calculated. If <code>NULL</code> (the default) the function calculates the
+duration of every <code>trip_id</code> in the GTFS.</p></dd>
 <dt>unit</dt>
 <dd><p>A string representing the time unit in which the duration is
-desired. One of <code>"s"</code> (seconds), <code>"min"</code> (minutes, the default),
-<code>"h"</code> (hours) or <code>"d"</code> (days).</p></dd>
+desired. One of <code>"s"</code> (seconds), <code>"min"</code> (minutes, the default), <code>"h"</code>
+(hours) or <code>"d"</code> (days).</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -91,8 +91,8 @@ desired. One of <code>"s"</code> (seconds), <code>"min"</code> (minutes, the def
     
 
 <p>The duration of a trip is defined as the time difference between its last
-arrival time and its first departure time, as specified in the
-<code>stop_times</code> file.</p>
+arrival time and its first departure time, as specified in the <code>stop_times</code>
+table.</p>
     </div>
 
     <div id="ref-examples">
