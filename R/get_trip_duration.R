@@ -64,7 +64,7 @@ get_trip_duration <- function(gtfs, trip_id = NULL, unit = "min") {
 
   if (!is.null(trip_id)) {
 
-    invalid_trip_id <- trip_id[! trip_id %chin% unique(gtfs$stop_times$trip_id)]
+    invalid_trip_id <- trip_id[! trip_id %chin% gtfs$stop_times$trip_id]
 
     if (!identical(invalid_trip_id, character(0))) {
 
