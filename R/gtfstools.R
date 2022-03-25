@@ -18,7 +18,7 @@
 #' @aliases gtfstools-package
 #' @useDynLib gtfstools, .registration = TRUE
 #'
-#' @importFrom data.table := .I .SD %chin%
+#' @importFrom data.table := .I .SD %chin% .GRP
 #' @importFrom utils globalVariables
 "_PACKAGE"
 
@@ -86,6 +86,8 @@ utils::globalVariables(
     "n_stops",
     "i.length",
     "pattern_id",
-    "data"
+    "data",
+    "template_departure",
+    "template_arrival"
   )
 )
