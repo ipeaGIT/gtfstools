@@ -44,15 +44,9 @@ test_that("raises errors if gtfs doesn't have required files/fields", {
   no_shp_shapelon_gtfs <- copy_gtfs_without_field(
     gtfs, "shapes", "shape_pt_lon"
   )
-  no_shp_shapeseq_gtfs <- copy_gtfs_without_field(
-    gtfs, "shapes", "shape_pt_sequence"
-  )
 
   no_stt_tripid_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "trip_id")
   no_stt_stopid_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "stop_id")
-  no_stt_stopseq_gtfs <- copy_gtfs_without_field(
-    gtfs, "stop_times", "stop_sequence"
-  )
 
   no_sts_stopid_gtfs <- copy_gtfs_without_field(gtfs, "stops", "stop_id")
   no_sts_stoplat_gtfs <- copy_gtfs_without_field(gtfs, "stops", "stop_lat")
@@ -76,9 +70,6 @@ test_that("raises errors if gtfs doesn't have required files/fields", {
   )
   expect_error(
     get_trip_geometry(no_shp_shapelon_gtfs, "CPTM L07-0", file = "shapes")
-  )
-  expect_error(
-    get_trip_geometry(no_shp_shapeseq_gtfs, "CPTM L07-0", file = "shapes")
   )
 
   expect_s3_class(
@@ -109,9 +100,6 @@ test_that("raises errors if gtfs doesn't have required files/fields", {
   )
   expect_error(
     get_trip_geometry(no_stt_stopid_gtfs, "CPTM L07-0", file = "stop_times")
-  )
-  expect_error(
-    get_trip_geometry(no_stt_stopseq_gtfs, "CPTM L07-0", file = "stop_times")
   )
   expect_error(
     get_trip_geometry(no_sts_stopid_gtfs, "CPTM L07-0", file = "stop_times")

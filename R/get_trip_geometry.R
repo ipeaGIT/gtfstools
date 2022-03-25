@@ -46,7 +46,6 @@ get_trip_geometry <- function(gtfs,
                               trip_id = NULL,
                               file = NULL,
                               crs = 4326) {
-
   checkmate::assert_class(gtfs, "dt_gtfs")
   checkmate::assert_character(trip_id, null.ok = TRUE)
   checkmate::assert_character(file, null.ok = TRUE)
@@ -66,14 +65,14 @@ get_trip_geometry <- function(gtfs,
     file <- names(gtfs)
     file <- file[file %chin% c("shapes", "stop_times")]
 
-    if (identical(file, character(0)))
+    if (identical(file, character(0))) {
       stop(
         "The GTFS object must have either a 'shapes' or a 'stop_times' table."
       )
+    }
   }
 
   if ("shapes" %in% file) {
-
     gtfsio::assert_field_class(
       gtfs,
       "trips",
@@ -83,20 +82,18 @@ get_trip_geometry <- function(gtfs,
     gtfsio::assert_field_class(
       gtfs,
       "shapes",
-      c("shape_id", "shape_pt_lat", "shape_pt_lon", "shape_pt_sequence"),
-      c("character", "numeric", "numeric", "integer")
+      c("shape_id", "shape_pt_lat", "shape_pt_lon"),
+      c("character", "numeric", "numeric")
     )
-
   }
 
   if ("stop_times" %in% file) {
-
     gtfsio::assert_field_class(gtfs, "trips", "trip_id", "character")
     gtfsio::assert_field_class(
       gtfs,
       "stop_times",
-      c("trip_id", "stop_id", "stop_sequence"),
-      c("character", "character", "integer")
+      c("trip_id", "stop_id"),
+      c("character", "character")
     )
     gtfsio::assert_field_class(
       gtfs,
@@ -104,7 +101,6 @@ get_trip_geometry <- function(gtfs,
       c("stop_id", "stop_lat", "stop_lon"),
       c("character", "numeric", "numeric")
     )
-
   }
 
   # select trip_ids to get geometry of
@@ -118,19 +114,14 @@ get_trip_geometry <- function(gtfs,
   # raise warning if a given 'trip_id' doesn't exist in 'trips'
 
   if (!is.null(trip_id)) {
-
     invalid_trip_id <- trip_id[! trip_id %chin% unique(gtfs$trips$trip_id)]
 
     if (!identical(invalid_trip_id, character(0))) {
-
       warning(
-        paste0(
-          "'trips' doesn't contain the following trip_id(s): "),
+        "'trips' doesn't contain the following trip_id(s): ",
         paste0("'", invalid_trip_id, "'", collapse = ", ")
       )
-
     }
-
   }
 
   # create linestrings from shapes
@@ -146,10 +137,8 @@ get_trip_geometry <- function(gtfs,
     # generate geometry; the condition for nrow == 0 prevents an sfheaders error
 
     shapes <- gtfs$shapes[shape_id %chin% relevant_shapes]
-    shapes <- shapes[order(shape_id, shape_pt_sequence)]
 
     if (nrow(shapes) == 0) {
-
       empty_linestring <- sf::st_sfc()
       class(empty_linestring)[1] <- "sfc_LINESTRING"
 
@@ -158,16 +147,13 @@ get_trip_geometry <- function(gtfs,
         geometry = empty_linestring,
         stringsAsFactors = FALSE
       )
-
     } else {
-
       shapes_sf <- sfheaders::sf_linestring(
         shapes,
         x = "shape_pt_lon",
         y = "shape_pt_lat",
         linestring_id = "shape_id"
       )
-
     }
 
     shapes_sf <- sf::st_set_crs(shapes_sf, 4326)
@@ -179,7 +165,6 @@ get_trip_geometry <- function(gtfs,
       c("trip_id", "origin_file", "geometry")
     )
     shapes_sf <- shapes_sf[, eval(cols_to_remove) := NULL]
-
   }
 
   # create linestrings from stop_times
@@ -189,7 +174,6 @@ get_trip_geometry <- function(gtfs,
     # generate geometry; the condition for nrow == 0 prevents an sfheaders error
 
     stop_times <- gtfs$stop_times[trip_id %chin% relevant_trips]
-    stop_times <- stop_times[order(trip_id, stop_sequence)]
     stop_times[
       gtfs$stops,
       on = "stop_id",
@@ -197,7 +181,6 @@ get_trip_geometry <- function(gtfs,
     ]
 
     if (nrow(stop_times) == 0) {
-
       empty_linestring <- sf::st_sfc()
       class(empty_linestring)[1] <- "sfc_LINESTRING"
 
@@ -206,22 +189,18 @@ get_trip_geometry <- function(gtfs,
         geometry = empty_linestring,
         stringsAsFactors = FALSE
       )
-
     } else {
-
       stop_times_sf <- sfheaders::sf_linestring(
         stop_times,
         x = "stop_lon",
         y = "stop_lat",
         linestring_id = "trip_id"
       )
-
     }
 
     stop_times_sf <- sf::st_set_crs(stop_times_sf, 4326)
     data.table::setDT(stop_times_sf)
     stop_times_sf[, origin_file := "stop_times"]
-
   }
 
   # tidy final object
@@ -237,9 +216,9 @@ get_trip_geometry <- function(gtfs,
 
   # transform crs from 4326 to the one passed to 'crs'
 
-  if (crs != 4326 && crs != sf::st_crs(4326))
+  if (crs != 4326 && crs != sf::st_crs(4326)) {
     final_sf <- sf::st_transform(final_sf, crs)
+  }
 
   return(final_sf)
-
 }
