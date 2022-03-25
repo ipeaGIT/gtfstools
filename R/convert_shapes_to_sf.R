@@ -34,19 +34,16 @@ convert_shapes_to_sf <- function(gtfs, shape_id = NULL, crs = 4326) {
   gtfsio::assert_field_class(
     gtfs,
     "shapes",
-    c("shape_id", "shape_pt_lat", "shape_pt_lon", "shape_pt_sequence"),
-    c("character", "numeric", "numeric", "integer")
+    c("shape_id", "shape_pt_lat", "shape_pt_lon"),
+    c("character", "numeric", "numeric")
   )
 
-  # select relevant shape_ids
+  # select relevant shape_ids and  raise warning/error if given shape_ids don't
+  # exist in shapes
+
   if (!is.null(shape_id)) {
     relevant_shapes <- shape_id
-  } else {
-    relevant_shapes <- unique(gtfs$shapes$shape_id)
-  }
 
-  # raise warning/error if given 'shape_id's don't exist in 'shapes'
-  if (!is.null(shape_id)) {
     invalid_shape_id <- shape_id[! shape_id %chin% unique(gtfs$shapes$shape_id)]
 
     if (!identical(invalid_shape_id, character(0))) {
@@ -56,13 +53,13 @@ convert_shapes_to_sf <- function(gtfs, shape_id = NULL, crs = 4326) {
         paste0("'", invalid_shape_id, "'", collapse = ", ")
       )
     }
+
+    shapes <- gtfs$shapes[shape_id %chin% relevant_shapes]
+  } else {
+    shapes <- gtfs$shapes
   }
 
-  # filter 'shapes' table, sort it by 'shape_pt_sequence' and 'shape_id' and
-  # create sf from it. if empty, create an empty LINESTRING sf
-
-  shapes <- gtfs$shapes[shape_id %chin% relevant_shapes]
-  shapes <- shapes[order(shape_id, shape_pt_sequence)]
+  # create an empty LINESTRING sf if shapes is empty
 
   if (nrow(shapes) == 0) {
     empty_linestring <- sf::st_sfc()
@@ -85,6 +82,7 @@ convert_shapes_to_sf <- function(gtfs, shape_id = NULL, crs = 4326) {
   shapes_sf <- sf::st_set_crs(shapes_sf, 4326)
 
   # transform crs from 4326 to the one passed to 'crs'
+
   if (crs != 4326 && crs != sf::st_crs(4326)) {
     shapes_sf <- sf::st_transform(shapes_sf, crs)
   }

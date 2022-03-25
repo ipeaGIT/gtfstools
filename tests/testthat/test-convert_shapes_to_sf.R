@@ -37,15 +37,6 @@ test_that("raises errors due to incorrect input types", {
     )
   ]
   expect_error(convert_shapes_to_sf(wrong_types_gtfs))
-
-  wrong_types_gtfs$shapes[
-    ,
-    `:=`(
-      shape_pt_lat = as.numeric(shape_pt_lon),
-      shape_pt_sequence = as.character(shape_pt_sequence)
-    )
-  ]
-  expect_error(convert_shapes_to_sf(wrong_types_gtfs))
 })
 
 test_that("convert correct shapes", {
