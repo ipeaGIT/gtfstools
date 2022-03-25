@@ -7,7 +7,7 @@ get_stop_times_patterns <- function(gtfs, trip_id = NULL, type = "spatial") {
     combine = "and"
   )
 
-  must_exist <- c("trip_id", "stop_id", "stop_sequence")
+  must_exist <- c("trip_id", "stop_id")
   if (type == "spatiotemporal") {
     must_exist <- c("departure_time", "arrival_time")
   }
@@ -23,8 +23,7 @@ get_stop_times_patterns <- function(gtfs, trip_id = NULL, type = "spatial") {
 
     if (!identical(invalid_trips, character(0))) {
       warning(
-        paste0(
-          "'stop_times' doesn't contain the following trip_id(s): "),
+        "'stop_times' doesn't contain the following trip_id(s): ",
         paste0("'", invalid_trips, "'", collapse = ", ")
       )
     }
@@ -37,9 +36,8 @@ get_stop_times_patterns <- function(gtfs, trip_id = NULL, type = "spatial") {
   if (type == "spatial") {
     patterns <- patterns[
       ,
-      .(data = list(.SD)),
-      keyby = trip_id,
-      .SDcols = setdiff(must_exist, "trip_id")
+      .(data = paste0(stop_id, collapse = ";")),
+      keyby = trip_id
     ]
   } else {
     if (
@@ -66,14 +64,16 @@ get_stop_times_patterns <- function(gtfs, trip_id = NULL, type = "spatial") {
 
     patterns <- patterns[
       ,
-      .(data = list(.SD)),
-      keyby = trip_id,
-      .SDcols = c(
-        "stop_id",
-        "stop_sequence",
-        "template_departure",
-        "template_arrival"
-      )
+      .(
+        data = paste(
+          stop_id,
+          template_departure,
+          template_arrival,
+          sep = "|",
+          collapse = ";"
+        )
+      ),
+      keyby = trip_id
     ]
 
     if (gtfsio::check_field_exists(gtfs, "stop_times", "template_arrival")) {
@@ -95,8 +95,7 @@ get_stop_times_patterns <- function(gtfs, trip_id = NULL, type = "spatial") {
     }
   }
 
-  unique_groups <- unique(patterns$data)
-  patterns[, pattern_id := match(data, unique_groups)]
+  patterns[, pattern_id := .GRP, by = data]
   patterns[, data := NULL]
 
   return(patterns[])
