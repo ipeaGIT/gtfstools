@@ -120,7 +120,6 @@ get_trip_length <- function(gtfs, trip_id = NULL, file = NULL, unit = "km") {
     # the condition for nrow == 0 prevents an sfheaders error
 
     shapes <- gtfs$shapes[shape_id %chin% relevant_shapes]
-    shapes <- shapes[order(shape_id, shape_pt_sequence)]
 
     if (nrow(shapes) == 0) {
       empty_linestring <- sf::st_sfc()
@@ -169,7 +168,6 @@ get_trip_length <- function(gtfs, trip_id = NULL, file = NULL, unit = "km") {
 
     # generate geometry; the condition for nrow == 0 prevents an sfheaders error
 
-    stop_times <- stop_times[order(trip_id, stop_sequence)]
     stop_times[
       gtfs$stops,
       on = "stop_id",
@@ -192,6 +190,14 @@ get_trip_length <- function(gtfs, trip_id = NULL, file = NULL, unit = "km") {
         y = "stop_lat",
         linestring_id = "trip_id"
       )
+    }
+
+    # joining stops to stop_times may change the original gtfs if stop_times
+    # didn't create a copy of gtfs$stop_times before, so we have to cleanup the
+    # table
+
+    if (gtfsio::check_field_exists(gtfs, "stop_times", "stop_lat")) {
+      gtfs$stop_times[, c("stop_lat", "stop_lon") := NULL]
     }
 
     stop_times_sf <- sf::st_set_crs(stop_times_sf, 4326)
