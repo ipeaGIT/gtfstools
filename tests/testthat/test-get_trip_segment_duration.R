@@ -39,15 +39,11 @@ test_that("raises errors if gtfs doesn't have required files/fields", {
   no_st_deptime_gtfs <- copy_gtfs_without_field(
     gtfs, "stop_times", "departure_time"
   )
-  no_st_stopseq_gtfs <- copy_gtfs_without_field(
-    gtfs, "stop_times", "stop_sequence"
-  )
 
   expect_error(get_trip_segment_duration(no_stop_times_gtfs))
   expect_error(get_trip_segment_duration(no_st_tripid_gtfs))
   expect_error(get_trip_segment_duration(no_st_arrtime_gtfs))
   expect_error(get_trip_segment_duration(no_st_deptime_gtfs))
-  expect_error(get_trip_segment_duration(no_st_stopseq_gtfs))
 
 })
 

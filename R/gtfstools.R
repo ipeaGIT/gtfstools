@@ -18,7 +18,7 @@
 #' @aliases gtfstools-package
 #' @useDynLib gtfstools, .registration = TRUE
 #'
-#' @importFrom data.table := .I .SD %chin% .GRP
+#' @importFrom data.table := .I .SD %chin% .GRP .N
 #' @importFrom utils globalVariables
 "_PACKAGE"
 
@@ -78,7 +78,6 @@ utils::globalVariables(
     "within_from_to",
     "from_within",
     "to_within",
-    ".N",
     "is_duplicated",
     "exact_times",
     "filtered_n_stops",
