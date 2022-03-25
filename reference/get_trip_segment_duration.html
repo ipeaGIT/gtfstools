@@ -107,55 +107,55 @@ between its arrival time and its departure time, as specified in the
 <span class="r-in"></span>
 <span class="r-in"><span class="va">trip_segment_dur</span> <span class="op">&lt;-</span> <span class="fu">get_trip_segment_duration</span><span class="op">(</span><span class="va">gtfs</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">trip_segment_dur</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      trip_id segment duration</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 2002-10-0       1 2.166667</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 2002-10-0       2 2.166667</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 2002-10-0       3 2.166667</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 2002-10-0       4 2.166667</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 2002-10-0       5 2.166667</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 2002-10-0       6 2.166667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       trip_id segment duration</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: CPTM L07-0      17        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: CPTM L07-0      18        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: CPTM L07-0      19        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: CPTM L07-0      20        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: CPTM L07-0      21        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: CPTM L07-0      22        8</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">trip_segment_dur</span> <span class="op">&lt;-</span> <span class="fu">get_trip_segment_duration</span><span class="op">(</span><span class="va">gtfs</span>, trip_id <span class="op">=</span> <span class="st">"CPTM L07-0"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">trip_segment_dur</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        trip_id segment duration</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1: CPTM L07-0       1        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2: CPTM L07-0       2        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3: CPTM L07-0       3        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  4: CPTM L07-0       4        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  5: CPTM L07-0       5        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  6: CPTM L07-0       6        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  7: CPTM L07-0       7        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  8: CPTM L07-0       8        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  9: CPTM L07-0       9        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10: CPTM L07-0      10        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11: CPTM L07-0      11        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12: CPTM L07-0      12        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13: CPTM L07-0      13        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14: CPTM L07-0      14        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15: CPTM L07-0      15        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16: CPTM L07-0      16        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17: CPTM L07-0      17        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1: CPTM L07-0      17        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2: CPTM L07-0      18        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3: CPTM L07-0      19        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  4: CPTM L07-0      20        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5: CPTM L07-0      21        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  6: CPTM L07-0      22        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  7: CPTM L07-0      23        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  8: CPTM L07-0      24        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  9: CPTM L07-0      25        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10: CPTM L07-0      26        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11: CPTM L07-0      27        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12: CPTM L07-0      28        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13: CPTM L07-0      29        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14: CPTM L07-0      30        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15: CPTM L07-0      31        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16: CPTM L07-0      32        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17: CPTM L07-0      33        8</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">trip_segment_dur</span> <span class="op">&lt;-</span> <span class="fu">get_trip_segment_duration</span><span class="op">(</span><span class="va">gtfs</span>, <span class="st">"CPTM L07-0"</span>, unit <span class="op">=</span> <span class="st">"s"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">trip_segment_dur</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        trip_id segment duration</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1: CPTM L07-0       1      480</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2: CPTM L07-0       2      480</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3: CPTM L07-0       3      480</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  4: CPTM L07-0       4      480</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  5: CPTM L07-0       5      480</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  6: CPTM L07-0       6      480</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  7: CPTM L07-0       7      480</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  8: CPTM L07-0       8      480</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  9: CPTM L07-0       9      480</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10: CPTM L07-0      10      480</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11: CPTM L07-0      11      480</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12: CPTM L07-0      12      480</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13: CPTM L07-0      13      480</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14: CPTM L07-0      14      480</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15: CPTM L07-0      15      480</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16: CPTM L07-0      16      480</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17: CPTM L07-0      17      480</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1: CPTM L07-0      17      480</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2: CPTM L07-0      18      480</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3: CPTM L07-0      19      480</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  4: CPTM L07-0      20      480</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5: CPTM L07-0      21      480</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  6: CPTM L07-0      22      480</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  7: CPTM L07-0      23      480</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  8: CPTM L07-0      24      480</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  9: CPTM L07-0      25      480</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10: CPTM L07-0      26      480</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11: CPTM L07-0      27      480</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12: CPTM L07-0      28      480</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13: CPTM L07-0      29      480</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14: CPTM L07-0      30      480</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15: CPTM L07-0      31      480</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16: CPTM L07-0      32      480</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17: CPTM L07-0      33      480</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>
