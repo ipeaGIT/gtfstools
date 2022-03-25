@@ -103,17 +103,12 @@ get_trip_geometry <- function(gtfs,
     )
   }
 
-  # select trip_ids to get geometry of
+  # select trip_ids to get geometry of and raise warning if a given trip_id
+  # doesn't exist in trips
 
   if (!is.null(trip_id)) {
     relevant_trips <- trip_id
-  } else {
-    relevant_trips <- unique(gtfs$trips$trip_id)
-  }
 
-  # raise warning if a given 'trip_id' doesn't exist in 'trips'
-
-  if (!is.null(trip_id)) {
     invalid_trip_id <- trip_id[! trip_id %chin% unique(gtfs$trips$trip_id)]
 
     if (!identical(invalid_trip_id, character(0))) {
@@ -127,10 +122,11 @@ get_trip_geometry <- function(gtfs,
   # create linestrings from shapes
 
   if ("shapes" %in% file) {
-
-    # select shape_ids to get geometry of
-
-    trips <- gtfs$trips[trip_id %chin% relevant_trips & shape_id != ""]
+    if (!is.null(trip_id)) {
+      trips <- gtfs$trips[trip_id %chin% relevant_trips & shape_id != ""]
+    } else {
+      trips <- gtfs$trips[shape_id != ""]
+    }
 
     relevant_shapes <- unique(trips$shape_id)
 
@@ -170,10 +166,14 @@ get_trip_geometry <- function(gtfs,
   # create linestrings from stop_times
 
   if ("stop_times" %in% file) {
+    if (!is.null(trip_id)) {
+      stop_times <- gtfs$stop_times[trip_id %chin% relevant_trips]
+    } else {
+      stop_times <- gtfs$stop_times
+    }
 
     # generate geometry; the condition for nrow == 0 prevents an sfheaders error
 
-    stop_times <- gtfs$stop_times[trip_id %chin% relevant_trips]
     stop_times[
       gtfs$stops,
       on = "stop_id",
@@ -196,6 +196,14 @@ get_trip_geometry <- function(gtfs,
         y = "stop_lat",
         linestring_id = "trip_id"
       )
+    }
+
+    # joining stops to stop_times may change the original gtfs if stop_times
+    # didn't create a copy of gtfs$stop_times before, so we have to cleanup the
+    # table
+
+    if (gtfsio::check_field_exists(gtfs, "stop_times", "stop_lat")) {
+      gtfs$stop_times[, c("stop_lat", "stop_lon") := NULL]
     }
 
     stop_times_sf <- sf::st_set_crs(stop_times_sf, 4326)
