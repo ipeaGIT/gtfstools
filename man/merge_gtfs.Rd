@@ -4,7 +4,7 @@
 \alias{merge_gtfs}
 \title{Merge GTFS files}
 \usage{
-merge_gtfs(..., files = NULL, warnings = TRUE)
+merge_gtfs(..., files = NULL, warnings = TRUE, prefix = FALSE)
 }
 \arguments{
 \item{...}{GTFS objects to be merged. Each argument can either be a GTFS or
@@ -14,6 +14,8 @@ a list of GTFS objects.}
 \code{NULL} (the default), all tables are merged.}
 
 \item{warnings}{Whether to display warning messages (defaults to \code{TRUE}).}
+
+\item{prefix}{Either a logical or a character vector (defaults to \code{FALSE}).}
 }
 \value{
 A GTFS object in which each table is a combination (by row) of the

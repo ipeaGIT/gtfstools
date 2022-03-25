@@ -87,6 +87,7 @@ utils::globalVariables(
     "pattern_id",
     "data",
     "template_departure",
-    "template_arrival"
+    "template_arrival",
+    "origin_gtfs"
   )
 )
