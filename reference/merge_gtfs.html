@@ -66,7 +66,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">merge_gtfs</span><span class="op">(</span><span class="va">...</span>, files <span class="op">=</span> <span class="cn">NULL</span>, warnings <span class="op">=</span> <span class="cn">TRUE</span>, prefix <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">merge_gtfs</span><span class="op">(</span><span class="va">...</span>, files <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">warnings</span>, prefix <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -80,7 +80,14 @@ a list of GTFS objects.</p></dd>
 <dt>warnings</dt>
 <dd><p>Whether to display warning messages (defaults to <code>TRUE</code>).</p></dd>
 <dt>prefix</dt>
-<dd><p>Either a logical or a character vector (defaults to <code>FALSE</code>).</p></dd>
+<dd><p>Either a logical or a character vector (defaults to <code>FALSE</code>).
+Whether to add a prefix to the value of id fields that identify from which
+GTFS object the value comes from. If <code>TRUE</code>, the prefixes will range from
+<code>"1"</code> to <code>n</code>, where <code>n</code> is the number of objects passed to the function. If a
+character vector, its elements will be used to identify the GTFS objects, and
+the length of the vector must equal the total amount of objects passed in
+<code>...</code> (the first element will identify the first GTFS, the second element the
+second GTFS, and so on).</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -115,8 +122,33 @@ tables from the specified GTFS objects.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [17] "attributions"   </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># use a list() to programatically merge many GTFS objects</span></span>
-<span class="r-in"><span class="va">merged_gtfs</span> <span class="op">&lt;-</span> <span class="fu">merge_gtfs</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">spo_gtfs</span>, <span class="va">ggl_gtfs</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">gtfs_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">spo_gtfs</span>, <span class="va">ggl_gtfs</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">merged_gtfs</span> <span class="op">&lt;-</span> <span class="fu">merge_gtfs</span><span class="op">(</span><span class="va">gtfs_list</span><span class="op">)</span></span>
 <span class="r-in"></span>
+<span class="r-in"><span class="co"># 'prefix' helps disambiguating from which GTFS each id comes from.</span></span>
+<span class="r-in"><span class="co"># if TRUE, the ids range from 1:n, where n is the number of gtfs</span></span>
+<span class="r-in"><span class="va">merged_gtfs</span> <span class="op">&lt;-</span> <span class="fu">merge_gtfs</span><span class="op">(</span><span class="va">gtfs_list</span>, prefix <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">merged_gtfs</span><span class="op">$</span><span class="va">agency</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      agency_id    agency_name                               agency_url</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:         1_1        SPTRANS http://www.sptrans.com.br/?versao=011019</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:         1_1        SPTRANS http://www.sptrans.com.br/?versao=011019</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 2_agency001 Transit Agency       http://www.transitcommuterbus.com/</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      agency_timezone agency_lang</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: America/Sao_Paulo          pt</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: America/Sao_Paulo          pt</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:               PST          en</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># if a character vector, its elements will be used to identify the each gtfs</span></span>
+<span class="r-in"><span class="va">merged_gtfs</span> <span class="op">&lt;-</span> <span class="fu">merge_gtfs</span><span class="op">(</span><span class="va">gtfs_list</span>, prefix <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"spo"</span>, <span class="st">"ggl"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">merged_gtfs</span><span class="op">$</span><span class="va">agency</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        agency_id    agency_name                               agency_url</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:         spo_1        SPTRANS http://www.sptrans.com.br/?versao=011019</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:         spo_1        SPTRANS http://www.sptrans.com.br/?versao=011019</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: ggl_agency001 Transit Agency       http://www.transitcommuterbus.com/</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      agency_timezone agency_lang</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: America/Sao_Paulo          pt</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: America/Sao_Paulo          pt</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:               PST          en</span>
 </code></pre></div>
     </div>
   </div>
