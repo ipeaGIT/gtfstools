@@ -18,7 +18,8 @@ test_that("raises errors due to incorrect input types", {
   expect_error(merge_gtfs("spo_gtfs", ggl_gtfs))
   expect_error(merge_gtfs(spo_gtfs, "ggl_gtfs"))
   expect_error(merge_gtfs(spo_gtfs, ggl_gtfs, files = 1))
-  expect_error(merge_gtfs(spo_gtfs, ggl_gtfs, warnings = "TRUE"))
+  expect_error(merge_gtfs(spo_gtfs, ggl_gtfs, prefix = 1))
+  expect_error(merge_gtfs(spo_gtfs, ggl_gtfs, prefix = "oi"))
 })
 
 test_that("raises errors/warnings due to unavailable files passed to 'files'", {
@@ -26,16 +27,6 @@ test_that("raises errors/warnings due to unavailable files passed to 'files'", {
   # should throw a warning if a specified file doesn't exist
   expect_warning(
     merge_gtfs(spo_gtfs, ggl_gtfs, files = c("shapes", "ola", "oie"))
-  )
-
-  # but should not throw a warning if warnings = FALSE
-  expect_silent(
-    merge_gtfs(
-      spo_gtfs,
-      ggl_gtfs,
-      files = c("shapes", "ola", "oie"),
-      warnings = FALSE
-    )
   )
 
   # should throw an error when none of the specified files exist
@@ -169,7 +160,6 @@ test_that("bind the rows of each GTFS object adequately", {
 })
 
 test_that("does not change the original GTFS objects", {
-
   spo_gtfs <- original_spo_gtfs <- read_gtfs(spo_path)
   ggl_gtfs <- original_ggl_gtfs <- read_gtfs(ggl_path)
 
@@ -177,5 +167,53 @@ test_that("does not change the original GTFS objects", {
 
   expect_identical(spo_gtfs, original_spo_gtfs)
   expect_identical(ggl_gtfs, original_ggl_gtfs)
+})
 
+test_that("prefix argument works correctly", {
+  # retrieve id fields in both gtfs
+
+  all_fields <- lapply(
+    list(spo_gtfs, ggl_gtfs),
+    function(gtfs) unlist(lapply(gtfs, names))
+  )
+  all_fields <- unique(unlist(all_fields))
+  id_fields <- all_fields[grepl("_id$", all_fields)]
+  id_fields <- setdiff(id_fields, "direction_id")
+
+  merged_gtfs <- merge_gtfs(spo_gtfs, ggl_gtfs, prefix = TRUE)
+
+  # check if all id fields were edited
+
+  tests <- lapply(
+    merged_gtfs,
+    function(gtfs_table) {
+      table_ids <- id_fields[id_fields %chin% names(gtfs_table)]
+      vapply(
+        table_ids,
+        FUN.VALUE = logical(1),
+        FUN = function(id) {
+          all(grepl("^\\d_", gtfs_table[[id]]) | gtfs_table[[id]] == "")
+        }
+      )
+    }
+  )
+  tests <- unlist(tests)
+  expect_true(all(tests))
+
+  # check that direction_id wasn't changed
+  expect_type(merged_gtfs$trips$direction_id, "integer")
+
+  # check that correct prefixes were assigned to the values
+  expect_identical(merged_gtfs$agency$agency_id, c("1_1", "1_1", "2_agency001"))
+
+  # check that correct prefixes are assigned when prefix is a character vector
+  merged_gtfs <- merge_gtfs(spo_gtfs, ggl_gtfs, prefix = c("spo", "ggl"))
+  expect_identical(
+    merged_gtfs$agency$agency_id,
+    c("spo_1", "spo_1", "ggl_agency001")
+  )
+})
+
+test_that("'warnings' arguments is deprecated", {
+  expect_warning(merge_gtfs(spo_gtfs, ggl_gtfs, warnings = TRUE))
 })

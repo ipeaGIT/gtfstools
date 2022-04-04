@@ -4,7 +4,7 @@
 \alias{merge_gtfs}
 \title{Merge GTFS files}
 \usage{
-merge_gtfs(..., files = NULL, warnings = TRUE, prefix = FALSE)
+merge_gtfs(..., files = NULL, warnings, prefix = FALSE)
 }
 \arguments{
 \item{...}{GTFS objects to be merged. Each argument can either be a GTFS or
@@ -15,7 +15,14 @@ a list of GTFS objects.}
 
 \item{warnings}{Whether to display warning messages (defaults to \code{TRUE}).}
 
-\item{prefix}{Either a logical or a character vector (defaults to \code{FALSE}).}
+\item{prefix}{Either a logical or a character vector (defaults to \code{FALSE}).
+Whether to add a prefix to the value of id fields that identify from which
+GTFS object the value comes from. If \code{TRUE}, the prefixes will range from
+\code{"1"} to \code{n}, where \code{n} is the number of objects passed to the function. If a
+character vector, its elements will be used to identify the GTFS objects, and
+the length of the vector must equal the total amount of objects passed in
+\code{...} (the first element will identify the first GTFS, the second element the
+second GTFS, and so on).}
 }
 \value{
 A GTFS object in which each table is a combination (by row) of the
@@ -38,6 +45,15 @@ merged_gtfs <- merge_gtfs(spo_gtfs, ggl_gtfs)
 names(merged_gtfs)
 
 # use a list() to programatically merge many GTFS objects
-merged_gtfs <- merge_gtfs(list(spo_gtfs, ggl_gtfs))
+gtfs_list <- list(spo_gtfs, ggl_gtfs)
+merged_gtfs <- merge_gtfs(gtfs_list)
 
+# 'prefix' helps disambiguating from which GTFS each id comes from.
+# if TRUE, the ids range from 1:n, where n is the number of gtfs
+merged_gtfs <- merge_gtfs(gtfs_list, prefix = TRUE)
+merged_gtfs$agency
+
+# if a character vector, its elements will be used to identify the each gtfs
+merged_gtfs <- merge_gtfs(gtfs_list, prefix = c("spo", "ggl"))
+merged_gtfs$agency
 }

@@ -8,6 +8,7 @@
 - New function `filter_by_weekday()`.
 - New function `frequencies_to_stop_times()`.
 - New function `get_trip_length()`.
+- New parameter to `merge_gtfs()`: `prefix`. The `warnings` parameter was flagged as deprecated.
 
 ## Bug fixes
 

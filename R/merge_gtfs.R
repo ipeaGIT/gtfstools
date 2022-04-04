@@ -8,6 +8,13 @@
 #' `NULL` (the default), all tables are merged.
 #' @param warnings Whether to display warning messages (defaults to `TRUE`).
 #' @param prefix Either a logical or a character vector (defaults to `FALSE`).
+#' Whether to add a prefix to the value of id fields that identify from which
+#' GTFS object the value comes from. If `TRUE`, the prefixes will range from
+#' `"1"` to `n`, where `n` is the number of objects passed to the function. If a
+#' character vector, its elements will be used to identify the GTFS objects, and
+#' the length of the vector must equal the total amount of objects passed in
+#' `...` (the first element will identify the first GTFS, the second element the
+#' second GTFS, and so on).
 #'
 #' @return A GTFS object in which each table is a combination (by row) of the
 #' tables from the specified GTFS objects.
@@ -26,13 +33,28 @@
 #' names(merged_gtfs)
 #'
 #' # use a list() to programatically merge many GTFS objects
-#' merged_gtfs <- merge_gtfs(list(spo_gtfs, ggl_gtfs))
+#' gtfs_list <- list(spo_gtfs, ggl_gtfs)
+#' merged_gtfs <- merge_gtfs(gtfs_list)
 #'
+#' # 'prefix' helps disambiguating from which GTFS each id comes from.
+#' # if TRUE, the ids range from 1:n, where n is the number of gtfs
+#' merged_gtfs <- merge_gtfs(gtfs_list, prefix = TRUE)
+#' merged_gtfs$agency
+#'
+#' # if a character vector, its elements will be used to identify the each gtfs
+#' merged_gtfs <- merge_gtfs(gtfs_list, prefix = c("spo", "ggl"))
+#' merged_gtfs$agency
 #' @export
-merge_gtfs <- function(..., files = NULL, warnings = TRUE, prefix = FALSE) {
-  checkmate::assert_logical(warnings)
+merge_gtfs <- function(..., files = NULL, warnings, prefix = FALSE) {
   checkmate::assert_character(files, null.ok = TRUE)
   checkmate::assert_character(files, null.ok = TRUE)
+
+  if (!missing(warnings)) {
+    warning(
+      "Argument 'warnings' is deprecated and has no effect. ",
+      "The argument will be completely removed from v1.2.0 onwards."
+    )
+  }
 
   # store gtfs objects in a list and unlist eventual lists of gtfs
 
@@ -94,7 +116,7 @@ merge_gtfs <- function(..., files = NULL, warnings = TRUE, prefix = FALSE) {
     files_to_merge <- files[! files %chin% invalid_files]
 
     if (!identical(invalid_files, character(0))) {
-      if (!identical(files_to_merge, character(0)) & warnings) {
+      if (!identical(files_to_merge, character(0))) {
         warning(
           "None of the GTFS to be merged contain the following files: ",
           paste0("'", invalid_files, "'", collapse = ", ")
