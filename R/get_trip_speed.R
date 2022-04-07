@@ -78,6 +78,7 @@ get_trip_speed <- function(gtfs,
   # but it prevents cases where the files required to generate geometries are
   # present but those required to estimate trip duration are not, which would
   # cause errors to be thrown very late)
+
   gtfsio::assert_field_class(
     gtfs,
     "stop_times",

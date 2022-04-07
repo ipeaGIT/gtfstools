@@ -59,14 +59,8 @@ test_that("raises errors if gtfs doesn't have required files/fields", {
   no_shp_shapeptlon_gtfs <- copy_gtfs_without_field(
     gtfs, "shapes", "shape_pt_lon"
   )
-  no_shp_shapeptseq_gtfs <- copy_gtfs_without_field(
-    gtfs, "shapes", "shape_pt_sequence"
-  )
   no_stt_tripid_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "trip_id")
   no_stt_stopid_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "stop_id")
-  no_stt_stopseqid_gtfs <- copy_gtfs_without_field(
-    gtfs, "stop_times", "stop_sequence"
-  )
   no_stt_arrtime_gtfs <- copy_gtfs_without_field(
     gtfs, "stop_times", "arrival_time"
   )
@@ -88,13 +82,9 @@ test_that("raises errors if gtfs doesn't have required files/fields", {
   expect_error(get_trip_speed(no_shp_shapeid_gtfs, "CPTM L07-0"))
   expect_error(get_trip_speed(no_shp_shapeptlat_gtfs, "CPTM L07-0"))
   expect_error(get_trip_speed(no_shp_shapeptlon_gtfs, "CPTM L07-0"))
-  expect_error(get_trip_speed(no_shp_shapeptseq_gtfs, "CPTM L07-0"))
   expect_error(get_trip_speed(no_trp_tripid_gtfs, "CPTM L07-0", "stop_times"))
   expect_error(get_trip_speed(no_stt_tripid_gtfs, "CPTM L07-0", "stop_times"))
   expect_error(get_trip_speed(no_stt_stopid_gtfs, "CPTM L07-0", "stop_times"))
-  expect_error(
-    get_trip_speed(no_stt_stopseqid_gtfs, "CPTM L07-0", "stop_times")
-  )
   expect_error(get_trip_speed(no_sto_stopid_gtfs, "CPTM L07-0", "stop_times"))
   expect_error(get_trip_speed(no_sto_stoplat_gtfs, "CPTM L07-0", "stop_times"))
   expect_error(get_trip_speed(no_sto_stoplon_gtfs, "CPTM L07-0", "stop_times"))

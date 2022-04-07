@@ -42,6 +42,11 @@ get_trip_length <- function(gtfs, trip_id = NULL, file = NULL, unit = "km") {
   checkmate::assert_class(gtfs, "dt_gtfs")
   checkmate::assert_character(trip_id, null.ok = TRUE)
   checkmate::assert_character(file, null.ok = TRUE)
+  checkmate::assert(
+    checkmate::check_string(unit),
+    checkmate::check_names(unit, subset.of = c("km", "m")),
+    combine = "and"
+  )
 
   if (!is.null(file)) {
     checkmate::assert_names(file, subset.of = c("shapes", "stop_times"))
@@ -70,8 +75,8 @@ get_trip_length <- function(gtfs, trip_id = NULL, file = NULL, unit = "km") {
     gtfsio::assert_field_class(
       gtfs,
       "shapes",
-      c("shape_id", "shape_pt_lat", "shape_pt_lon", "shape_pt_sequence"),
-      c("character", "numeric", "numeric", "integer")
+      c("shape_id", "shape_pt_lat", "shape_pt_lon"),
+      c("character", "numeric", "numeric")
     )
   }
 
@@ -80,8 +85,8 @@ get_trip_length <- function(gtfs, trip_id = NULL, file = NULL, unit = "km") {
     gtfsio::assert_field_class(
       gtfs,
       "stop_times",
-      c("trip_id", "stop_id", "stop_sequence"),
-      c("character", "character", "integer")
+      c("trip_id", "stop_id"),
+      c("character", "character")
     )
     gtfsio::assert_field_class(
       gtfs,
@@ -213,7 +218,7 @@ get_trip_length <- function(gtfs, trip_id = NULL, file = NULL, unit = "km") {
     length_from_stop_times <- data.table::data.table(
       trip_id = stop_times_sf$trip_id,
       length = stop_times_length,
-      origin_file = "stop_times"
+      origin_file = rep("stop_times", length(stop_times_length))
     )
   }
 
