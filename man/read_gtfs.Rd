@@ -10,8 +10,7 @@ read_gtfs(
   fields = NULL,
   skip = NULL,
   quiet = TRUE,
-  encoding = "unknown",
-  warnings
+  encoding = "unknown"
 )
 }
 \arguments{
@@ -39,8 +38,6 @@ no files are skipped. Cannot be used if \code{files} is already set.}
 Defaults to \code{"unknown"}. Other possible options are \code{"UTF-8"} and
 \code{"Latin-1"}. Please note that this is not used to re-encode the input, but
 to enable handling encoded strings in their native encoding.}
-
-\item{warnings}{DEPRECATED. Whether to display warning messages.}
 }
 \value{
 A \code{data.table}-based GTFS object: a \code{list} of \code{data.table}s in which
@@ -57,7 +54,7 @@ date-related columns (such as \code{calendar.txt}'s \code{start_date} and \code{
 for example), which are converted to \code{Date} objects, instead of being kept as
 \code{integer}s, allowing for easier data manipulation. These columns are
 converted back to \code{integer}s when writing the GTFS object to a \code{.zip} file
-using \code{\link{write_gtfs}}.
+using \code{\link[=write_gtfs]{write_gtfs()}}.
 }
 
 \examples{
