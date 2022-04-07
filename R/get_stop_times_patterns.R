@@ -1,3 +1,45 @@
+#' Get stop times patterns
+#'
+#' @param gtfs A GTFS object.
+#' @param trip_id A character vector including the `trip_id`s to have their
+#' `stop_times` entries analyzed. If `NULL` (the default), the function
+#' analyses the pattern of every `trip_id` in the GTFS.
+#' @param type A string specifying the type of patterns to be analyzed. Either
+#' `"spatial"` (the default), when only the sequence of stops that compose the
+#' trips are analyzed, or "spatiotemporal", when the departure time
+#' from/arrival time to stops are also taken into account. In such case, only
+#' the difference between departure and arrival times are taken into account,
+#' and not the actual time the trip started (e.g. if two trips depart from the
+#' same stop and arrive to the same stop, taking both 1 minute to do so, their
+#' spatiotemporal pattern will be considered the same, even if one departed at
+#' 6 am and another at 7 am).
+#'
+#' @return A `data.table` associating each `trip_id` to a `pattern_id`.
+#'
+#' @examples
+#' data_path <- system.file("extdata/ber_gtfs.zip", package = "gtfstools")
+#'
+#' gtfs <- read_gtfs(data_path)
+#'
+#' patterns <- get_stop_times_patterns(gtfs)
+#' head(patterns)
+#'
+#' # use the trip_id argument to control which trips are analyzed
+#' patterns <- get_stop_times_patterns(
+#'   gtfs,
+#'   trip_id = c("143765658", "143765659", "143765660")
+#' )
+#' patterns
+#'
+#' # use the type argument to control the type of pattern analyzed
+#' patterns <- get_stop_times_patterns(
+#'   gtfs,
+#'   trip_id = c("143765658", "143765659", "143765660"),
+#'   type = "spatiotemporal"
+#' )
+#' patterns
+#'
+#' @export
 get_stop_times_patterns <- function(gtfs, trip_id = NULL, type = "spatial") {
   checkmate::assert_class(gtfs, "dt_gtfs")
   checkmate::assert_character(trip_id, null.ok = TRUE)
