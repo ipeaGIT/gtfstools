@@ -88,6 +88,9 @@
     <loc>/reference/get_parent_station.html</loc>
   </url>
   <url>
+    <loc>/reference/get_stop_times_patterns.html</loc>
+  </url>
+  <url>
     <loc>/reference/get_trip_duration.html</loc>
   </url>
   <url>
