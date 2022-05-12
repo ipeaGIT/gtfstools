@@ -20,6 +20,8 @@
 #'
 #' @importFrom data.table := .I .SD %chin% .GRP .N
 #' @importFrom utils globalVariables
+#'
+#' @keywords internal
 "_PACKAGE"
 
 utils::globalVariables(
