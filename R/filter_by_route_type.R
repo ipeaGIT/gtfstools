@@ -3,7 +3,7 @@
 #' Filters a GTFS object by `route_type`s, keeping (or dropping) the relevant
 #' entries in each file.
 #'
-#' @param gtfs A GTFS object.
+#' @template gtfs
 #' @param route_type An integer vector. The `route_type`s used to filter the
 #'   data.
 #' @param keep A logical. Whether the entries related to the specified

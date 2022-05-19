@@ -7,7 +7,7 @@
 remove_duplicates(gtfs)
 }
 \arguments{
-\item{gtfs}{A GTFS object.}
+\item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
 }
 \value{
 A GTFS object containing only unique entries.

@@ -2,7 +2,7 @@
 #'
 #' Removes duplicated entries from GTFS objects tables.
 #'
-#' @param gtfs A GTFS object.
+#' @template gtfs
 #'
 #' @return A GTFS object containing only unique entries.
 #'

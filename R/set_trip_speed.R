@@ -3,7 +3,7 @@
 #' Sets the average speed of each specified \code{trip_id} by changing the
 #' \code{arrival_time} and \code{departure_time} columns in \code{stop_times}.
 #'
-#' @param gtfs A GTFS object as created by \code{\link{read_gtfs}}.
+#' @template gtfs
 #' @param trip_id A string vector including the \code{trip_id}s to have their
 #'   average speed set.
 #' @param speed A numeric representing the speed to be set. Its length must

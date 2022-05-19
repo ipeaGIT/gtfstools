@@ -7,7 +7,7 @@
 filter_by_agency_id(gtfs, agency_id, keep = TRUE)
 }
 \arguments{
-\item{gtfs}{A GTFS object.}
+\item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
 
 \item{agency_id}{A character vector. The \code{agency_id}s used to filter the
 data.}

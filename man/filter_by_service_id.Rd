@@ -7,7 +7,7 @@
 filter_by_service_id(gtfs, service_id, keep = TRUE)
 }
 \arguments{
-\item{gtfs}{A GTFS object.}
+\item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
 
 \item{service_id}{A character vector. The \code{service_id}s used to filter the
 data.}

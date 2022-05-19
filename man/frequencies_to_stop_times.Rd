@@ -7,7 +7,7 @@
 frequencies_to_stop_times(gtfs, trip_id = NULL, force = FALSE)
 }
 \arguments{
-\item{gtfs}{A GTFS object.}
+\item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
 
 \item{trip_id}{A character vector including the \code{trip_id}s to have their
 frequencies converted to \code{stop_times} entries. If \code{NULL} (the default), the

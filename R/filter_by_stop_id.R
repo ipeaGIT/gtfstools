@@ -5,7 +5,7 @@
 #' `stop_times` table, the `stop_id`s are actually used to filter `trip_id`s,
 #' which are then used to filter the rest of the GTFS object.
 #'
-#' @param gtfs A GTFS object.
+#' @template gtfs
 #' @param stop_id A character vector. The `stop_id`s used to filter the data.
 #' @param keep A logical. Whether the entries related to the `trip_id`s that
 #'   passes through the specified `stop_id`s should be kept or dropped (defaults

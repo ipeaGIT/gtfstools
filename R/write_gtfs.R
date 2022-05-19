@@ -2,7 +2,7 @@
 #'
 #' Writes GTFS objects as GTFS `.zip` files.
 #'
-#' @param gtfs A GTFS object as created by \code{\link{read_gtfs}}.
+#' @template gtfs
 #' @param path The path to the `.zip` file in which the feed should be written
 #'   to.
 #' @param files A character vector containing the name of the elements to be

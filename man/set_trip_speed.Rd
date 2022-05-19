@@ -7,7 +7,7 @@
 set_trip_speed(gtfs, trip_id, speed, unit = "km/h", by_reference = FALSE)
 }
 \arguments{
-\item{gtfs}{A GTFS object as created by \code{\link{read_gtfs}}.}
+\item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
 
 \item{trip_id}{A string vector including the \code{trip_id}s to have their
 average speed set.}

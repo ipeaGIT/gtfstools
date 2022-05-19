@@ -7,7 +7,7 @@
 filter_by_sf(gtfs, geom, spatial_operation = sf::st_intersects, keep = TRUE)
 }
 \arguments{
-\item{gtfs}{A GTFS object.}
+\item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
 
 \item{geom}{An \code{sf} object. Describes the geometry used to filter the data.}
 

@@ -7,7 +7,7 @@
 convert_shapes_to_sf(gtfs, shape_id = NULL, crs = 4326)
 }
 \arguments{
-\item{gtfs}{A GTFS object.}
+\item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
 
 \item{shape_id}{A character vector including the \code{shape_id}s to be converted.
 If \code{NULL} (the default), all shapes are converted.}

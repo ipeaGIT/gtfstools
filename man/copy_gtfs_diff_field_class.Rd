@@ -7,7 +7,7 @@
 copy_gtfs_diff_field_class(gtfs, file, field, class)
 }
 \arguments{
-\item{gtfs}{The GTFS to be copied, as created by \code{\link{read_gtfs}}.}
+\item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
 
 \item{file}{File whose field must have the class changed.}
 

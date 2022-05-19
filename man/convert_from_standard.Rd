@@ -7,7 +7,7 @@
 convert_from_standard(gtfs)
 }
 \arguments{
-\item{gtfs}{A GTFS object.}
+\item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
 }
 \value{
 The GTFS object passed to the \code{gtfs} parameter, after converting the

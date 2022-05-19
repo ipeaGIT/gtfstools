@@ -14,7 +14,7 @@ filter_by_time_of_day(
 )
 }
 \arguments{
-\item{gtfs}{A GTFS object.}
+\item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
 
 \item{from}{A string. The starting point of the time of day, in the
 "HH:MM:SS" format.}

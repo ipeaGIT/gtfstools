@@ -7,7 +7,7 @@
 get_trip_geometry(gtfs, trip_id = NULL, file = NULL, crs = 4326)
 }
 \arguments{
-\item{gtfs}{A GTFS object.}
+\item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
 
 \item{trip_id}{A character vector including the \code{trip_id}s to have their
 geometries generated. If \code{NULL} (the default), the function generates

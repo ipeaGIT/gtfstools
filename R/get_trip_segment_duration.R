@@ -3,7 +3,7 @@
 #' Returns the duration of segments between stops of each specified
 #' \code{trip_id}.
 #'
-#' @param gtfs A GTFS object as created by \code{\link{read_gtfs}}.
+#' @template gtfs
 #' @param trip_id A string vector including the \code{trip_id}s to have their
 #'   segments' duration calculated. If \code{NULL} (the default) the function
 #'   calculates the segments' duration of every \code{trip_id} in the GTFS.

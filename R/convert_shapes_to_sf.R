@@ -2,7 +2,7 @@
 #'
 #' Converts the `shapes` table to a `LINESTRING sf` object.
 #'
-#' @param gtfs A GTFS object.
+#' @template gtfs
 #' @param shape_id A character vector including the `shape_id`s to be converted.
 #'   If `NULL` (the default), all shapes are converted.
 #' @param crs The CRS of the resulting object, either as an EPSG code or as an

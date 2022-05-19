@@ -3,7 +3,7 @@
 #' Filters a GTFS object by `route_id`s, keeping (or dropping) the relevant
 #' entries in each file.
 #'
-#' @param gtfs A GTFS object.
+#' @template gtfs
 #' @param route_id A character vector. The `route_id`s used to filter the data.
 #' @param keep A logical. Whether the entries related to the specified
 #'   `route_id`s should be kept or dropped (defaults to `TRUE`, which keeps the

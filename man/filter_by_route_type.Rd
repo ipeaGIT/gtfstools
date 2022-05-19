@@ -7,7 +7,7 @@
 filter_by_route_type(gtfs, route_type, keep = TRUE)
 }
 \arguments{
-\item{gtfs}{A GTFS object.}
+\item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
 
 \item{route_type}{An integer vector. The \code{route_type}s used to filter the
 data.}

@@ -17,7 +17,7 @@
 #' followed by stop B with `stop_sequence`s 1 and 3, they are assigned to the
 #' same `pattern_id`).
 #'
-#' @param gtfs A GTFS object.
+#' @template gtfs
 #' @param trip_id A character vector including the `trip_id`s to have their
 #'   `stop_times` entries analyzed. If `NULL` (the default), the function
 #'   analyses the pattern of every `trip_id` in the GTFS.

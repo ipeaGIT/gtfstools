@@ -7,7 +7,7 @@
 filter_by_weekday(gtfs, weekday, combine = "or", keep = TRUE)
 }
 \arguments{
-\item{gtfs}{A GTFS object.}
+\item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
 
 \item{weekday}{A character vector. The weekdays used to filter the data.
 Possible values are \code{c("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday")}.}

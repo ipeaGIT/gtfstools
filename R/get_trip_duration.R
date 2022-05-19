@@ -2,7 +2,7 @@
 #'
 #' Returns the duration of each specified `trip_id`.
 #'
-#' @param gtfs A GTFS object.
+#' @template gtfs
 #' @param trip_id A string vector including the `trip_id`s to have their
 #'   duration calculated. If `NULL` (the default) the function calculates the
 #'   duration of every `trip_id` in the GTFS.

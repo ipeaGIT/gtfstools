@@ -7,7 +7,7 @@
 get_stop_times_patterns(gtfs, trip_id = NULL, type = "spatial")
 }
 \arguments{
-\item{gtfs}{A GTFS object.}
+\item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
 
 \item{trip_id}{A character vector including the \code{trip_id}s to have their
 \code{stop_times} entries analyzed. If \code{NULL} (the default), the function

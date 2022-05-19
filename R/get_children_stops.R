@@ -5,7 +5,7 @@
 #' first children, then children's children, and then their children, and so
 #' on).
 #'
-#' @param gtfs A GTFS object.
+#' @template gtfs
 #' @param stop_id A string vector including the `stop_id`s to have their
 #' children returned.
 #'

@@ -6,7 +6,7 @@
 #' as how it handles `stop_times` tables that contain trips with some empty
 #' departure and arrival times.
 #'
-#' @param gtfs A GTFS object.
+#' @template gtfs
 #' @param from A string. The starting point of the time of day, in the
 #' "HH:MM:SS" format.
 #' @param to A string. The ending point of the time of day, in the "HH:MM:SS"

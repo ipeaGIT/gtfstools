@@ -7,7 +7,7 @@
 get_parent_station(gtfs, stop_id)
 }
 \arguments{
-\item{gtfs}{A GTFS object as created by \code{\link{read_gtfs}}.}
+\item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
 
 \item{stop_id}{A string vector including the \code{stop_id}s to have their
 parents returned.}

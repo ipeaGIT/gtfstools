@@ -3,7 +3,7 @@
 #' Filters a GTFS object by weekday, keeping (or dropping) the relevant entries
 #' in each file.
 #'
-#' @param gtfs A GTFS object.
+#' @template gtfs
 #' @param weekday A character vector. The weekdays used to filter the data.
 #' Possible values are `c("monday", "tuesday", "wednesday", "thursday",
 #' "friday", "saturday", "sunday")`.

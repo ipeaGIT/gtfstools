@@ -3,7 +3,7 @@
 #' Filters a GTFS object by `agency_id`s, keeping (or dropping) the relevant
 #' entries in each file.
 #'
-#' @param gtfs A GTFS object.
+#' @template gtfs
 #' @param agency_id A character vector. The `agency_id`s used to filter the
 #' data.
 #' @param keep A logical. Whether the entries related to the specified

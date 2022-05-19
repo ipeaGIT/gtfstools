@@ -4,7 +4,7 @@
 #' seconds after midnight. Instead of overwritting the existing fields, creates
 #' new fields with the `_secs` suffix.
 #'
-#' @param gtfs A GTFS object, as created by [read_gtfs()].
+#' @template gtfs
 #' @param file A character vector, specifying the file whose fields should be
 #' converted. If `NULL` (the default), the function attempts to convert the
 #' times from both files, but only raises an error if none of them exist.

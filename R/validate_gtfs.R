@@ -9,7 +9,7 @@
 #' and note that its usage and output may heavily change in future versions of
 #' `gtfstools`.
 #'
-#' @param gtfs A GTFS object as created by \code{\link{read_gtfs}}.
+#' @template gtfs
 #' @param files A character vector containing the text files to be validated
 #'   against the GTFS specification (without the \code{.txt} extension). If
 #'   \code{NULL} (the default) the provided GTFS is validated against all

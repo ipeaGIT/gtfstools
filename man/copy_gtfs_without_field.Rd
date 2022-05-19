@@ -7,7 +7,7 @@
 copy_gtfs_without_field(gtfs, file, field)
 }
 \arguments{
-\item{gtfs}{The GTFS to be copied, as created by \code{\link{read_gtfs}}.}
+\item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
 
 \item{file}{File from which the field must be removed.}
 

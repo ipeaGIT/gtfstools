@@ -7,7 +7,7 @@
 filter_by_route_id(gtfs, route_id, keep = TRUE)
 }
 \arguments{
-\item{gtfs}{A GTFS object.}
+\item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
 
 \item{route_id}{A character vector. The \code{route_id}s used to filter the data.}
 

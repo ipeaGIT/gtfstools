@@ -7,7 +7,7 @@
 get_trip_speed(gtfs, trip_id = NULL, file = "shapes", unit = "km/h")
 }
 \arguments{
-\item{gtfs}{A GTFS object.}
+\item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
 
 \item{trip_id}{A character vector including the \code{trip_id}s to have their
 speeds calculated. If \code{NULL} (the default), the function calculates the

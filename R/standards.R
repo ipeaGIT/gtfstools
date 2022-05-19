@@ -3,7 +3,7 @@
 #' Converts a standards-compliant GTFS into a gtfstools' GTFS (i.e. one in which
 #' date fields are Date objects, not integers).
 #'
-#' @param gtfs A GTFS object.
+#' @template gtfs
 #'
 #' @return The GTFS object passed to the `gtfs` parameter, after converting the
 #' relevant fields.
@@ -51,7 +51,7 @@ integer_to_date <- function(field) {
 #' Converts a gtfstools' GTFS into a standards-compliant GTFS (i.e. date fields
 #' are converted from Date to integer).
 #'
-#' @param gtfs A GTFS object.
+#' @template gtfs
 #'
 #' @return The GTFS object passed to the `gtfs` parameter, after converting the
 #' relevant fields.

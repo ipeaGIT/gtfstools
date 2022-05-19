@@ -2,7 +2,7 @@
 #'
 #' Converts the `stops` table to a `POINT sf` object.
 #'
-#' @param gtfs A GTFS object.
+#' @template gtfs
 #' @param stop_id A character vector including the `stop_id`s to be converted.
 #'   If `NULL` (the default), all stops are converted.
 #' @param crs The CRS of the resulting object, either as an EPSG code or as an

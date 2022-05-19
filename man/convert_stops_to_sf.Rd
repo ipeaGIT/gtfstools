@@ -7,7 +7,7 @@
 convert_stops_to_sf(gtfs, stop_id = NULL, crs = 4326)
 }
 \arguments{
-\item{gtfs}{A GTFS object.}
+\item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
 
 \item{stop_id}{A character vector including the \code{stop_id}s to be converted.
 If \code{NULL} (the default), all stops are converted.}

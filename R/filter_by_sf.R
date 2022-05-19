@@ -4,7 +4,7 @@
 #' dropping) entries related to shapes and trips selected through a spatial
 #' operation.
 #'
-#' @param gtfs A GTFS object.
+#' @template gtfs
 #' @param geom An `sf` object. Describes the geometry used to filter the data.
 #' @param spatial_operation A spatial operation function from the set of
 #'   options listed in [geos_binary_pred][sf::geos_binary_pred] (check the

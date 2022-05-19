@@ -3,7 +3,7 @@
 #' Returns the length of each specified `trip_id`, based either on the `shapes`
 #' or the `stop_times` file (or both).
 #'
-#' @param gtfs A GTFS object.
+#' @template gtfs
 #' @param trip_id A character vector including the `trip_id`s to have their
 #'   length calculated If `NULL` (the default), the function calculates the
 #'   length of each `trip_id` in the GTFS.

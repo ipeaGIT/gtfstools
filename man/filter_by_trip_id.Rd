@@ -7,7 +7,7 @@
 filter_by_trip_id(gtfs, trip_id, keep = TRUE)
 }
 \arguments{
-\item{gtfs}{A GTFS object.}
+\item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
 
 \item{trip_id}{A character vector. The \code{trip_id}s used to filter the data.}
 

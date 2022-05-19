@@ -3,7 +3,7 @@
 #' Creates `stop_times` entries based on the frequencies specified in the
 #' `frequencies` table.
 #'
-#' @param gtfs A GTFS object.
+#' @template gtfs
 #' @param trip_id A character vector including the `trip_id`s to have their
 #' frequencies converted to `stop_times` entries. If `NULL` (the default), the
 #' function converts all trips listed in the `frequencies` table.

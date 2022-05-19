@@ -4,7 +4,7 @@
 #' Recursive in this context means it returns all parents' parents (i.e. first
 #' parents, then parents' parents, and then their parents, and so on).
 #'
-#' @param gtfs A GTFS object as created by \code{\link{read_gtfs}}.
+#' @template gtfs
 #' @param stop_id A string vector including the \code{stop_id}s to have their
 #'   parents returned.
 #'

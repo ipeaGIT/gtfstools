@@ -3,7 +3,7 @@
 #' Returns the speed of each specified `trip_id`, based on the geometry created
 #' from either the `shapes` or the `stop_times` file (or both).
 #'
-#' @param gtfs A GTFS object.
+#' @template gtfs
 #' @param trip_id A character vector including the `trip_id`s to have their
 #'   speeds calculated. If `NULL` (the default), the function calculates the
 #'   speed of every `trip_id` in the GTFS.
