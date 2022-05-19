@@ -51,7 +51,6 @@ Suggests:
     covr,
     ggplot2,
     knitr,
-    lwgeom,
     rmarkdown,
     testthat,
     zip

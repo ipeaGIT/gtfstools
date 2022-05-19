@@ -36,20 +36,15 @@
 #'
 #' gtfs <- read_gtfs(data_path)
 #'
-#' # the examples below require the 'lwgeom' package to be installed
-#' if (requireNamespace("lwgeom", quietly = TRUE)) {
+#' gtfs_new_speed <- set_trip_speed(gtfs, trip_id = "CPTM L07-0", 50)
+#' gtfs_new_speed$stop_times[trip_id == "CPTM L07-0"]
 #'
-#'   gtfs_new_speed <- set_trip_speed(gtfs, trip_id = "CPTM L07-0", 50)
-#'   gtfs_new_speed$stop_times[trip_id == "CPTM L07-0"]
+#' # original gtfs remains unchanged
+#' gtfs$stop_times[trip_id == "CPTM L07-0"]
 #'
-#'   # original gtfs remains unchanged
-#'   gtfs$stop_times[trip_id == "CPTM L07-0"]
-#'
-#'   # now do it by reference
-#'   set_trip_speed(gtfs, trip_id = "CPTM L07-0", 50, by_reference = TRUE)
-#'   gtfs$stop_times[trip_id == "CPTM L07-0"]
-#'
-#' }
+#' # now do it by reference
+#' set_trip_speed(gtfs, trip_id = "CPTM L07-0", 50, by_reference = TRUE)
+#' gtfs$stop_times[trip_id == "CPTM L07-0"]
 #'
 #' @export
 set_trip_speed <- function(gtfs,
@@ -57,19 +52,7 @@ set_trip_speed <- function(gtfs,
                            speed,
                            unit = "km/h",
                            by_reference = FALSE) {
-
   env <- environment()
-
-  # checking if {lwgeom} is installed. {lwgeom} is a {sf} dependency required to
-  # run sf::st_length()
-
-  if (!requireNamespace("lwgeom", quietly = TRUE))
-    stop(
-      "The 'lwgeom' package is required to run this function. ",
-      "Please install it first."
-    )
-
-  # input checking
 
   checkmate::assert_class(gtfs, "dt_gtfs")
   checkmate::assert_character(trip_id)

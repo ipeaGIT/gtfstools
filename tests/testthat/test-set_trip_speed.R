@@ -7,22 +7,6 @@ context("Set trip speed")
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 
-# skip tests if {lwgeom} is not installed
-
-if (!requireNamespace("lwgeom", quietly = TRUE)) {
-
-  expect_error(
-    set_trip_speed(gtfs, "CPTM L07-0", 50),
-    regexp = paste0(
-      "The \\'lwgeom\\' package is required to run this function\\. ",
-      "Please install it first\\."
-    )
-  )
-
-  skip("'lwgeom' package required to run set_trip_speed() tests.")
-
-}
-
 
 # tests -------------------------------------------------------------------
 
