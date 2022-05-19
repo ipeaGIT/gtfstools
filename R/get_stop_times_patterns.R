@@ -1,18 +1,28 @@
 #' Get stop times patterns
 #'
+#' Identifies spatial and spatiotemporal patterns within the `stop_times`
+#' table. Two trips are assigned to the same spatial `pattern_id` if they
+#' travel along the same sequence of stops. They are assigned to the same
+#' spatiotemporal `pattern_id`, on the other hand, if they travel along the
+#' same sequence of stops and they take the same time between stops. Please
+#' note that, in such case, only the time between stops is taken into account,
+#' and the time that the trip started is ignored (e.g. if two trips depart from
+#' stop A and follow the same sequence of stops to arrive at stop B, taking
+#' both 1 hour to do so, their spatiotemporal pattern will be considered the
+#' same, even if one departed at 6 am and another at 7 am). Please also note
+#' that the `stop_times`' `stop_sequence` field is currently ignored - which
+#' means that two stops are considered to follow the same sequence if one is
+#' listed right below the other on the table (e.g. if trip X lists stops A
+#' followed by stop B with `stop_sequence`s 1 and 2, and trip Y lists stops A
+#' followed by stop B with `stop_sequence`s 1 and 3, they are assigned to the
+#' same `pattern_id`).
+#'
 #' @param gtfs A GTFS object.
 #' @param trip_id A character vector including the `trip_id`s to have their
-#' `stop_times` entries analyzed. If `NULL` (the default), the function
-#' analyses the pattern of every `trip_id` in the GTFS.
+#'   `stop_times` entries analyzed. If `NULL` (the default), the function
+#'   analyses the pattern of every `trip_id` in the GTFS.
 #' @param type A string specifying the type of patterns to be analyzed. Either
-#' `"spatial"` (the default), when only the sequence of stops that compose the
-#' trips are analyzed, or "spatiotemporal", when the departure time
-#' from/arrival time to stops are also taken into account. In such case, only
-#' the difference between departure and arrival times are taken into account,
-#' and not the actual time the trip started (e.g. if two trips depart from the
-#' same stop and arrive to the same stop, taking both 1 minute to do so, their
-#' spatiotemporal pattern will be considered the same, even if one departed at
-#' 6 am and another at 7 am).
+#'   `"spatial"` (the default) or "spatiotemporal".
 #'
 #' @return A `data.table` associating each `trip_id` to a `pattern_id`.
 #'
@@ -51,7 +61,7 @@ get_stop_times_patterns <- function(gtfs, trip_id = NULL, type = "spatial") {
 
   must_exist <- c("trip_id", "stop_id")
   if (type == "spatiotemporal") {
-    must_exist <- c("departure_time", "arrival_time")
+    must_exist <- c(must_exist, "departure_time", "arrival_time")
   }
   gtfsio::assert_field_exists(gtfs, "stop_times", fields = must_exist)
 
