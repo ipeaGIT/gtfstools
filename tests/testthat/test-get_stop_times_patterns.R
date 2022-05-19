@@ -1,0 +1,98 @@
+data_path <- system.file("extdata/ber_gtfs.zip", package = "gtfstools")
+gtfs <- read_gtfs(data_path)
+trip_id <- "143765658"
+
+tester <- function(gtfs = get("gtfs", envir = parent.frame()),
+                   trip_id = NULL,
+                   type = "spatial") {
+  get_stop_times_patterns(gtfs, trip_id, type)
+}
+
+test_that("raises errors due to incorrect input types/value", {
+  expect_error(tester(unclass(gtfs)))
+  expect_error(tester(trip_id = as.factor(trip_id)))
+  expect_error(tester(trip_id = NA))
+  expect_error(tester(type = NA))
+  expect_error(tester(type = c("spatial", "spatial")))
+  expect_error(tester(type = "oie"))
+})
+
+test_that("raises warning if a non-existent trip_id is specified", {
+  expect_warning(tester(trip_id = "a"))
+  expect_warning(tester(trip_id = c("a", trip_id)))
+})
+
+test_that("output is a data.table with right columns", {
+  patterns <- tester(trip_id = trip_id)
+  expect_s3_class(patterns, "data.table")
+  expect_type(patterns$trip_id, "character")
+  expect_type(patterns$pattern_id, "integer")
+
+  # should also work with trip_id = character(0), when result is an empty dt
+
+  patterns <- tester(trip_id = character(0))
+  expect_s3_class(patterns, "data.table")
+  expect_true(nrow(patterns) == 0)
+  expect_type(patterns$trip_id, "character")
+  expect_type(patterns$pattern_id, "integer")
+})
+
+test_that("identifies patterns correctly", {
+  # trips 143765659 and 143765658 have the same spatial pattern, which is
+  # different than 143765656 pattern
+
+  expect_identical(
+    gtfs$stop_times[trip_id == c("143765658")]$stop_id,
+    gtfs$stop_times[trip_id == c("143765659")]$stop_id
+  )
+  same_pattern <- tester(trip_id = c("143765658", "143765659"))
+  expect_equal(unique(same_pattern$pattern_id), 1)
+
+  expect_false(
+    identical(
+      gtfs$stop_times[trip_id == c("143765656")]$stop_id,
+      gtfs$stop_times[trip_id == c("143765659")]$stop_id
+    )
+  )
+  diff_pattern <- tester(trip_id = c("143765656", "143765659"))
+  expect_identical(diff_pattern$pattern_id, c(1L, 2L))
+
+  # trips 143765659 and 143765658, however, have different spatiotemporal
+  # patterns. 143765659 and 143765660 have the same spatiotemporal pattern
+
+  diff_pattern_temp <- tester(
+    trip_id = c("143765658", "143765659"),
+    type = "spatiotemporal"
+  )
+  expect_identical(diff_pattern_temp$pattern_id, c(1L, 2L))
+
+  same_pattern_temp <- tester(
+    trip_id = c("143765660", "143765659"),
+    type = "spatiotemporal"
+  )
+  expect_identical(same_pattern_temp$pattern_id, c(1L, 1L))
+})
+
+test_that("doesn't change original gtfs", {
+  new_gtfs <- read_gtfs(data_path)
+  original_gtfs <- read_gtfs(data_path)
+  patterns <- tester(new_gtfs)
+  expect_identical(new_gtfs, original_gtfs)
+
+  # should also work if type = "spatiotemporal"
+
+  patterns <- tester(new_gtfs, type = "spatiotemporal")
+  expect_identical(new_gtfs, original_gtfs)
+
+  # should also work if gtfs contain time-in-seconds columns
+
+  convert_time_to_seconds(new_gtfs, file = "stop_times", by_reference = TRUE)
+  convert_time_to_seconds(
+    original_gtfs,
+    file = "stop_times",
+    by_reference = TRUE
+  )
+  expect_identical(new_gtfs, original_gtfs)
+  patterns <- tester(new_gtfs, type = "spatiotemporal")
+  expect_identical(new_gtfs, original_gtfs)
+})

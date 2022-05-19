@@ -52,7 +52,7 @@
 #' @export
 get_stop_times_patterns <- function(gtfs, trip_id = NULL, type = "spatial") {
   checkmate::assert_class(gtfs, "dt_gtfs")
-  checkmate::assert_character(trip_id, null.ok = TRUE)
+  checkmate::assert_character(trip_id, null.ok = TRUE, any.missing = FALSE)
   checkmate::assert(
     checkmate::check_string(type),
     checkmate::check_names(type, subset.of = c("spatial", "spatiotemporal")),
