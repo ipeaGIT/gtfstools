@@ -1,9 +1,3 @@
-context("Filter by sf")
-
-
-# setup -------------------------------------------------------------------
-
-
 spo_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 spo_gtfs <- read_gtfs(spo_path)
 spo_shape <- "68962"

@@ -1,9 +1,3 @@
-context("Get parent station")
-
-
-# setup -------------------------------------------------------------------
-
-
 data_path <- system.file("extdata/ggl_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 
@@ -12,12 +6,10 @@ gtfs <- read_gtfs(data_path)
 
 
 test_that("raises errors due to incorrect input types/value", {
-
   no_class_gtfs <- unclass(gtfs)
-
   expect_error(get_parent_station(no_class_gtfs))
   expect_error(get_parent_station(gtfs, as.factor("N1")))
-
+  expect_error(get_parent_station(gtfs, NA))
 })
 
 test_that("raises errors if reqrd fields do not exist or have the right type", {

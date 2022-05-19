@@ -61,16 +61,20 @@ read_gtfs <- function(path,
                       quiet = TRUE,
                       encoding = "unknown") {
 
-  # inputs are more thoroughly check in gtfsio::import_gtfs()
+  # inputs are more thoroughly checked in gtfsio::import_gtfs()
 
   checkmate::assert_string(path)
-  checkmate::assert_character(files, null.ok = TRUE)
-  checkmate::assert_list(fields, null.ok = TRUE)
-  checkmate::assert_character(skip, null.ok = TRUE)
-  checkmate::assert_logical(quiet)
-  checkmate::assert_names(
-    encoding,
-    subset.of = c("unknown", "UTF-8", "Latin-1")
+  checkmate::assert_character(files, null.ok = TRUE, any.missing = FALSE)
+  checkmate::assert_list(fields, null.ok = TRUE, any.missing = FALSE)
+  checkmate::assert_character(skip, null.ok = TRUE, any.missing = FALSE)
+  checkmate::assert_logical(quiet, any.missing = FALSE, len = 1)
+  checkmate::assert(
+    checkmate::check_names(
+      encoding,
+      subset.of = c("unknown", "UTF-8", "Latin-1")
+    ),
+    checkmate::check_string(encoding),
+    combine = "and"
   )
 
   # read gtfs file using {gtfsio} and convert relevant fields from standard type

@@ -55,10 +55,10 @@ set_trip_speed <- function(gtfs,
   env <- environment()
 
   checkmate::assert_class(gtfs, "dt_gtfs")
-  checkmate::assert_character(trip_id)
+  checkmate::assert_character(trip_id, any.missing = FALSE)
   checkmate::assert(
-    checkmate::check_numeric(speed, len = 1),
-    checkmate::check_numeric(speed, len = length(trip_id)),
+    checkmate::check_number(speed),
+    checkmate::check_numeric(speed, len = length(trip_id), any.missing = FALSE),
     combine = "or"
   )
   checkmate::assert(
@@ -66,7 +66,7 @@ set_trip_speed <- function(gtfs,
     checkmate::check_names(unit, subset.of = c("km/h", "m/s")),
     combine = "and"
   )
-  checkmate::assert_logical(by_reference)
+  checkmate::assert_logical(by_reference, any.missing = FALSE, len = 1)
 
   # check if required fields and files exist
 

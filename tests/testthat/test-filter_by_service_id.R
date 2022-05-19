@@ -16,7 +16,9 @@ env <- environment()
 test_that("raises error due to incorrect input types", {
   expect_error(filter_by_service_id(unclass(gtfs), service_id))
   expect_error(filter_by_service_id(gtfs, factor(service_id)))
+  expect_error(filter_by_service_id(gtfs, NA))
   expect_error(filter_by_service_id(gtfs, service_id, keep = "TRUE"))
+  expect_error(filter_by_service_id(gtfs, service_id, keep = NA))
 })
 
 test_that("results in a dt_gtfs object", {

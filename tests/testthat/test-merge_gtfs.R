@@ -1,9 +1,3 @@
-context("Merge GTFS")
-
-
-# setup -------------------------------------------------------------------
-
-
 spo_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 ggl_path <- system.file("extdata/ggl_gtfs.zip", package = "gtfstools")
 
@@ -18,8 +12,11 @@ test_that("raises errors due to incorrect input types", {
   expect_error(merge_gtfs("spo_gtfs", ggl_gtfs))
   expect_error(merge_gtfs(spo_gtfs, "ggl_gtfs"))
   expect_error(merge_gtfs(spo_gtfs, ggl_gtfs, files = 1))
+  expect_error(merge_gtfs(spo_gtfs, ggl_gtfs, files = NA))
   expect_error(merge_gtfs(spo_gtfs, ggl_gtfs, prefix = 1))
+  expect_error(merge_gtfs(spo_gtfs, ggl_gtfs, prefix = NA))
   expect_error(merge_gtfs(spo_gtfs, ggl_gtfs, prefix = "oi"))
+  expect_error(merge_gtfs(spo_gtfs, ggl_gtfs, prefix = c("oi", NA)))
 })
 
 test_that("raises errors/warnings due to unavailable files passed to 'files'", {

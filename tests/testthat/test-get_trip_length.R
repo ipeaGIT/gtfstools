@@ -1,9 +1,3 @@
-context("Get trip length")
-
-
-# setup -------------------------------------------------------------------
-
-
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 trip_id <- "CPTM L07-0"
@@ -20,7 +14,8 @@ tester <- function(gtfs = get("gtfs", envir = parent.frame()),
 
 test_that("raises errors due to incorrect input types/value", {
   expect_error(tester(unclass(gtfs)))
-  expect_error(tester(as.factor("CPTM L07-0")))
+  expect_error(tester(trip_id = as.factor("CPTM L07-0")))
+  expect_error(tester(trip_id = NA))
   expect_error(tester(file = c("shapes", "stops")))
   expect_error(tester(unit = "s"))
   expect_error(tester(unit = c("km", "m")))

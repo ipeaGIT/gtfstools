@@ -1,9 +1,3 @@
-context("Get trip geometry")
-
-
-# setup -------------------------------------------------------------------
-
-
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 
@@ -12,15 +6,13 @@ gtfs <- read_gtfs(data_path)
 
 
 test_that("raises errors due to incorrect input types/value", {
-
   no_class_gtfs <- gtfs
   attr(no_class_gtfs, "class") <- NULL
-
   expect_error(get_trip_geometry(no_class_gtfs))
   expect_error(get_trip_geometry(gtfs, as.factor("CPTM L07-0")))
+  expect_error(get_trip_geometry(gtfs, NA))
   expect_error(get_trip_geometry(gtfs, file = c("shapes", "stops")))
   expect_error(get_trip_geometry(gtfs, crs = "4674"))
-
 })
 
 test_that("raises errors if gtfs doesn't have required files/fields", {

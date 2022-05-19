@@ -25,11 +25,8 @@
 #'
 #' @export
 get_parent_station <- function(gtfs, stop_id) {
-
   checkmate::assert_class(gtfs, "dt_gtfs")
-  checkmate::assert_character(stop_id)
-
-  # check if required files and fields exist and are of correct type
+  checkmate::assert_character(stop_id, any.missing = FALSE)
 
   gtfsio::assert_field_class(
     gtfs,

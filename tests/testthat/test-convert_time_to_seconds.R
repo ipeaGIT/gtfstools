@@ -1,5 +1,3 @@
-context("Convert time to seconds")
-
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 
@@ -14,7 +12,8 @@ test_that("raises errors due to incorrect input types/value", {
   expect_error(tester(file = "shapes"))
   expect_error(tester(file = 2))
   expect_error(tester(by_reference = "TRUE"))
-
+  expect_error(tester(by_reference = c(TRUE, TRUE)))
+  expect_error(tester(by_reference = NA))
 })
 
 test_that("raises errors if gtfs doesn't have stop_times and frequencies", {

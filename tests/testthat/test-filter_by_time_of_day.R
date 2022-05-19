@@ -22,8 +22,11 @@ test_that("raises errors due to incorrect input types", {
   expect_error(tester(to = factor("06:30:00")))
   expect_error(tester(from = "05:00:00", to = "04:30:00"))
   expect_error(tester(keep = 1))
+  expect_error(tester(keep = NA))
   expect_error(tester(full_trips = 1))
+  expect_error(tester(full_trips = NA))
   expect_error(tester(update_frequencies = 1))
+  expect_error(tester(update_frequencies = NA))
 })
 
 test_that("raises warning if a trip in stop_times is not listed in trips", {

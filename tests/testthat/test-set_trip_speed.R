@@ -1,9 +1,3 @@
-context("Set trip speed")
-
-
-# setup -------------------------------------------------------------------
-
-
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 
@@ -12,19 +6,24 @@ gtfs <- read_gtfs(data_path)
 
 
 test_that("raises errors due to incorrect input types/value", {
-
   no_class_gtfs <- gtfs
   attr(no_class_gtfs, "class") <- NULL
-
   expect_error(set_trip_speed(no_class_gtfs, "CPTM L07-0", 50))
   expect_error(set_trip_speed(gtfs, as.factor("CPTM L07-0"), 50))
+  expect_error(set_trip_speed(gtfs, NA, 50))
   expect_error(set_trip_speed(gtfs, "CPTM L07-0", "50"))
   expect_error(
     set_trip_speed(gtfs, c("CPTM L07-0", "6450-51-0", "2105-10-0"), c(50, 60))
   )
+  expect_error(
+    set_trip_speed(gtfs, c("CPTM L07-0", "6450-51-0"), c(50, NA))
+  )
   expect_error(set_trip_speed(gtfs, "CPTM L07-0", 50, unit = "kms/h"))
   expect_error(set_trip_speed(gtfs, "CPTM L07-0", 50, by_reference = "TRUE"))
-
+  expect_error(set_trip_speed(gtfs, "CPTM L07-0", 50, by_reference = NA))
+  expect_error(
+    set_trip_speed(gtfs, "CPTM L07-0", 50, by_reference = c(TRUE, TRUE))
+  )
 })
 
 test_that("raises errors if gtfs doesn't have required files/fields", {

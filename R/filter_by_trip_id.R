@@ -31,12 +31,9 @@
 #'
 #' @export
 filter_by_trip_id <- function(gtfs, trip_id, keep = TRUE) {
-
-  # input checking
-
   checkmate::assert_class(gtfs, "dt_gtfs")
-  checkmate::assert_character(trip_id)
-  checkmate::assert_logical(keep, len = 1)
+  checkmate::assert_character(trip_id, any.missing = FALSE)
+  checkmate::assert_logical(keep, len = 1, any.missing = FALSE)
 
   # selecting the filter operator used to filter 'trip_id's based on 'keep' and
   # storing the current environment to filter using the values of 'trip_id'

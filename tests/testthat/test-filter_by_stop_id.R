@@ -1,9 +1,3 @@
-context("Filter by stop_id")
-
-
-# setup -------------------------------------------------------------------
-
-
 path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(path)
 stop_ids <- c("18848", "940004157")
@@ -17,7 +11,9 @@ env <- environment()
 test_that("raises error due to incorrect input types", {
   expect_error(filter_by_stop_id(unclass(gtfs), stop_ids))
   expect_error(filter_by_stop_id(gtfs, factor(stop_ids)))
+  expect_error(filter_by_stop_id(gtfs, NA))
   expect_error(filter_by_stop_id(gtfs, stop_ids, keep = "TRUE"))
+  expect_error(filter_by_stop_id(gtfs, stop_ids, NA))
 })
 
 test_that("results in a dt_gtfs object", {

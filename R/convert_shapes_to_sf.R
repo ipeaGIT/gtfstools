@@ -24,9 +24,9 @@
 #' @export
 convert_shapes_to_sf <- function(gtfs, shape_id = NULL, crs = 4326) {
   checkmate::assert_class(gtfs, "dt_gtfs")
-  checkmate::assert_character(shape_id, null.ok = TRUE)
+  checkmate::assert_character(shape_id, null.ok = TRUE, any.missing = FALSE)
   checkmate::assert(
-    checkmate::check_numeric(crs),
+    checkmate::check_number(crs),
     checkmate::check_class(crs, "crs"),
     combine = "or"
   )

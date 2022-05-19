@@ -1,9 +1,3 @@
-context("Filter by route_id")
-
-
-# setup -------------------------------------------------------------------
-
-
 spo_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 spo_gtfs <- read_gtfs(spo_path)
 spo_routes <- c("6450-51", "CPTM L11")
@@ -19,7 +13,9 @@ ggl_routes <- c("A", "TSW")
 test_that("raises error due to incorrect input types", {
   expect_error(filter_by_route_id(unclass(spo_gtfs), spo_routes))
   expect_error(filter_by_route_id(spo_gtfs, factor(spo_routes)))
+  expect_error(filter_by_route_id(spo_gtfs, NA))
   expect_error(filter_by_route_id(spo_gtfs, spo_routes, keep = "TRUE"))
+  expect_error(filter_by_route_id(spo_gtfs, spo_routes, keep = NA))
 })
 
 test_that("results in a dt_gtfs object", {

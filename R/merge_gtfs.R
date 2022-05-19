@@ -46,8 +46,7 @@
 #' merged_gtfs$agency
 #' @export
 merge_gtfs <- function(..., files = NULL, warnings, prefix = FALSE) {
-  checkmate::assert_character(files, null.ok = TRUE)
-  checkmate::assert_character(files, null.ok = TRUE)
+  checkmate::assert_character(files, null.ok = TRUE, any.missing = FALSE)
 
   if (!missing(warnings)) {
     warning(
@@ -90,8 +89,8 @@ merge_gtfs <- function(..., files = NULL, warnings, prefix = FALSE) {
   gtfs_count <- length(gtfs_objects)
 
   checkmate::assert(
-    checkmate::check_logical(prefix, len = 1),
-    checkmate::check_character(prefix, len = gtfs_count),
+    checkmate::check_logical(prefix, len = 1, any.missing = FALSE),
+    checkmate::check_character(prefix, len = gtfs_count, any.missing = FALSE),
     combine = "or"
   )
 

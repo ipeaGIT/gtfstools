@@ -33,8 +33,8 @@
 #' @export
 filter_by_service_id <- function(gtfs, service_id, keep = TRUE) {
   checkmate::assert_class(gtfs, "dt_gtfs")
-  checkmate::assert_character(service_id)
-  checkmate::assert_logical(keep, len = 1)
+  checkmate::assert_character(service_id, any.missing = FALSE)
+  checkmate::assert_logical(keep, len = 1, any.missing = FALSE)
 
   # selecting the filter operator used to filter 'service_id's based on 'keep'
   # and storing the current environment to filter using the values of 'trip_id'

@@ -58,10 +58,11 @@ write_gtfs <- function(gtfs,
     overwrite = overwrite,
     extension = "zip"
   )
-  checkmate::assert_character(files, null.ok = TRUE)
-  checkmate::assert_logical(standard_only)
-  checkmate::assert_logical(as_dir)
-  checkmate::assert_logical(overwrite)
+  checkmate::assert_character(files, null.ok = TRUE, any.missing = FALSE)
+  checkmate::assert_logical(standard_only, any.missing = FALSE, len = 1)
+  checkmate::assert_logical(as_dir, any.missing = FALSE, len = 1)
+  checkmate::assert_logical(overwrite, any.missing = FALSE, len = 1)
+  checkmate::assert_logical(quiet, any.missing = FALSE, len = 1)
 
   # convert relevant fields to standard types and write result using {gtfsio}
 

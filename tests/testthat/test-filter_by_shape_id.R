@@ -1,9 +1,3 @@
-context("Filter by shape_id")
-
-
-# setup -------------------------------------------------------------------
-
-
 spo_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 spo_gtfs <- read_gtfs(spo_path)
 spo_shapes <- c("17846", "68962")
@@ -19,7 +13,9 @@ ggl_shapes <- "A_shp"
 test_that("raises error due to incorrect input types", {
   expect_error(filter_by_shape_id(unclass(spo_gtfs), spo_shapes))
   expect_error(filter_by_shape_id(spo_gtfs, factor(spo_shapes)))
+  expect_error(filter_by_shape_id(spo_gtfs, NA))
   expect_error(filter_by_shape_id(spo_gtfs, spo_shapes, keep = "TRUE"))
+  expect_error(filter_by_shape_id(spo_gtfs, spo_shapes, NA))
 })
 
 test_that("results in a dt_gtfs object", {

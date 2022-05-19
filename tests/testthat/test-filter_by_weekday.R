@@ -1,9 +1,3 @@
-context("Filter by weekday")
-
-
-# setup -------------------------------------------------------------------
-
-
 path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(path)
 weekday <- c("monday", "sunday")
@@ -22,6 +16,7 @@ test_that("raises error due to incorrect input types", {
   expect_error(filter_by_weekday(gtfs, weekday, combine = factor("or")))
   expect_error(filter_by_weekday(gtfs, weekday, combine = "oie"))
   expect_error(filter_by_weekday(gtfs, weekday, keep = "TRUE"))
+  expect_error(filter_by_weekday(gtfs, weekday, keep = NA))
 })
 
 test_that("results in a dt_gtfs object", {

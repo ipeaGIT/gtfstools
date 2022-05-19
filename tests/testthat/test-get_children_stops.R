@@ -1,9 +1,3 @@
-context("Get children stops")
-
-
-# setup -------------------------------------------------------------------
-
-
 data_path <- system.file("extdata/ggl_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 
@@ -19,6 +13,7 @@ test_that("raises errors due to incorrect input types/value", {
   no_class_gtfs <- unclass(gtfs)
   expect_error(tester(no_class_gtfs, "N1"))
   expect_error(tester(stop_id = as.factor("N1")))
+  expect_error(tester(stop_id = NA))
 })
 
 test_that("raises errors if reqrd fields do not exist or have the right type", {

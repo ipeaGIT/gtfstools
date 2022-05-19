@@ -1,8 +1,3 @@
-context("Convert stops to sf")
-
-
-# setup -------------------------------------------------------------------
-
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 
@@ -14,7 +9,9 @@ test_that("raises errors due to incorrect input types", {
 
   expect_error(convert_stops_to_sf(no_class_gtfs))
   expect_error(convert_stops_to_sf(gtfs, stop_id = as.factor("18848")))
+  expect_error(convert_stops_to_sf(gtfs, stop_id = NA))
   expect_error(convert_stops_to_sf(gtfs, crs = "4326"))
+  expect_error(convert_stops_to_sf(gtfs, crs = NA))
 
   wrong_types_gtfs <- read_gtfs(data_path)
   wrong_types_gtfs$stops[, stop_id := as.factor(stop_id)]

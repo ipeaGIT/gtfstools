@@ -33,10 +33,9 @@
 #'
 #' @export
 filter_by_stop_id <- function(gtfs, stop_id, keep = TRUE) {
-
   checkmate::assert_class(gtfs, "dt_gtfs")
-  checkmate::assert_character(stop_id)
-  checkmate::assert_logical(keep, len = 1)
+  checkmate::assert_character(stop_id, any.missing = FALSE)
+  checkmate::assert_logical(keep, len = 1, any.missing = FALSE)
 
   env <- environment()
 

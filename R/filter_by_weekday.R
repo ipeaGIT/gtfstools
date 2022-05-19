@@ -88,9 +88,9 @@ filter_by_weekday <- function(gtfs, weekday, combine = "or", keep = TRUE) {
   )
   checkmate::assert_class(gtfs, "dt_gtfs")
   checkmate::assert_names(weekday, subset.of = days)
-  checkmate::assert_character(combine, len = 1)
+  checkmate::assert_string(combine)
   checkmate::assert_names(combine, subset.of = c("or", "and"))
-  checkmate::assert_logical(keep, len = 1)
+  checkmate::assert_logical(keep, len = 1, any.missing = FALSE)
 
   if (gtfsio::check_file_exists(gtfs, "calendar")) {
     gtfsio::assert_field_class(

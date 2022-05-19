@@ -42,24 +42,18 @@
 #' plot(trip_geometry["origin_file"])
 #'
 #' @export
-get_trip_geometry <- function(gtfs,
-                              trip_id = NULL,
-                              file = NULL,
-                              crs = 4326) {
+get_trip_geometry <- function(gtfs, trip_id = NULL, file = NULL, crs = 4326) {
   checkmate::assert_class(gtfs, "dt_gtfs")
-  checkmate::assert_character(trip_id, null.ok = TRUE)
-  checkmate::assert_character(file, null.ok = TRUE)
+  checkmate::assert_character(trip_id, null.ok = TRUE, any.missing = FALSE)
   checkmate::assert(
-    checkmate::check_numeric(crs),
+    checkmate::check_number(crs),
     checkmate::check_class(crs, "crs"),
     combine = "or"
   )
-
+  checkmate::assert_character(file, null.ok = TRUE)
   if (!is.null(file)) {
     checkmate::assert_names(file, subset.of = c("shapes", "stop_times"))
   }
-
-  # check if required fields and files exist
 
   if (is.null(file)) {
     file <- names(gtfs)

@@ -146,9 +146,9 @@ filter_by_time_of_day <- function(gtfs,
   checkmate::assert_class(gtfs, "dt_gtfs")
   checkmate::assert_string(from, pattern = "^\\d{2}:\\d{2}:\\d{2}$")
   checkmate::assert_string(to, pattern = "^\\d{2}:\\d{2}:\\d{2}$")
-  checkmate::assert_logical(keep, len = 1)
-  checkmate::assert_logical(full_trips, len = 1)
-  checkmate::assert_logical(update_frequencies, len = 1)
+  checkmate::assert_logical(keep, len = 1, any.missing = FALSE)
+  checkmate::assert_logical(full_trips, len = 1, any.missing = FALSE)
+  checkmate::assert_logical(update_frequencies, len = 1, any.missing = FALSE)
 
   from_secs <- string_to_seconds(from)
   to_secs <- string_to_seconds(to)

@@ -51,12 +51,9 @@
 #'
 #' @export
 filter_by_route_type <- function(gtfs, route_type, keep = TRUE) {
-
-  # input checking
-
   checkmate::assert_class(gtfs, "dt_gtfs")
   checkmate::assert_integerish(route_type)
-  checkmate::assert_logical(keep, len = 1)
+  checkmate::assert_logical(keep, len = 1, any.missing = FALSE)
 
   possible_types <- c(0, 1, 2, 3, 4, 5, 6, 7, 11, 12)
   checkmate::assert_names(

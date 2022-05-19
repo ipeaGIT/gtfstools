@@ -1,9 +1,3 @@
-context("Filter by trip_id")
-
-
-# setup -------------------------------------------------------------------
-
-
 spo_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 spo_gtfs <- read_gtfs(spo_path)
 spo_trips <- c("CPTM L07-0", "2002-10-0")
@@ -19,7 +13,9 @@ ggl_trips <- "AWE1"
 test_that("raises error due to incorrect input types", {
   expect_error(filter_by_trip_id(unclass(spo_gtfs), spo_trips))
   expect_error(filter_by_trip_id(spo_gtfs, factor(spo_trips)))
+  expect_error(filter_by_trip_id(spo_gtfs, NA))
   expect_error(filter_by_trip_id(spo_gtfs, spo_trips, keep = "TRUE"))
+  expect_error(filter_by_trip_id(spo_gtfs, spo_trips, NA))
 })
 
 test_that("results in a dt_gtfs object", {

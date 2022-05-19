@@ -1,9 +1,3 @@
-context("Filter by agency_id")
-
-
-# setup -------------------------------------------------------------------
-
-
 ber_path <- system.file("extdata/ber_gtfs.zip", package = "gtfstools")
 ber_gtfs <- read_gtfs(ber_path)
 ber_agency <- "92"
@@ -19,7 +13,9 @@ ggl_agency <- "agency001"
 test_that("raises error due to incorrect input types", {
   expect_error(filter_by_agency_id(unclass(ber_gtfs), ber_agency))
   expect_error(filter_by_agency_id(ber_gtfs, factor(ber_agency)))
+  expect_error(filter_by_agency_id(ber_gtfs, NA))
   expect_error(filter_by_agency_id(ber_gtfs, ber_agency, keep = "TRUE"))
+  expect_error(filter_by_agency_id(ber_gtfs, ber_agency, keep = NA))
 })
 
 test_that("results in a dt_gtfs object", {

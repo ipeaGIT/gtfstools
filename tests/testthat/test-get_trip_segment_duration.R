@@ -1,9 +1,3 @@
-context("Get trip segment duration")
-
-
-# setup -------------------------------------------------------------------
-
-
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 
@@ -12,16 +6,14 @@ gtfs <- read_gtfs(data_path)
 
 
 test_that("raises errors due to incorrect input types/value", {
-
   no_class_gtfs <- gtfs
   attr(no_class_gtfs, "class") <- NULL
-
   expect_error(get_trip_segment_duration(no_class_gtfs))
   expect_error(get_trip_segment_duration(gtfs, as.factor("CPTM L07-0")))
+  expect_error(get_trip_segment_duration(gtfs, NA))
   expect_error(get_trip_segment_duration(gtfs, unit = min))
   expect_error(get_trip_segment_duration(gtfs, unit = "mins"))
   expect_error(get_trip_segment_duration(gtfs, unit = c("s", "min")))
-
 })
 
 test_that("raises errors if gtfs doesn't have required files/fields", {

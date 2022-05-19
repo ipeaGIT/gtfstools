@@ -40,7 +40,7 @@
 #' @export
 convert_time_to_seconds <- function(gtfs, file = NULL, by_reference = FALSE) {
   checkmate::assert_class(gtfs, "dt_gtfs")
-  checkmate::assert_logical(by_reference)
+  checkmate::assert_logical(by_reference, len = 1, any.missing = FALSE)
   checkmate::assert_character(file, null.ok = TRUE)
   if (!is.null(file)) {
     checkmate::assert_names(file, subset.of = c("frequencies", "stop_times"))

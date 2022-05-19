@@ -1,5 +1,3 @@
-context("Write GTFS")
-
 # fix this later - necessary to conditionally run tests that require {zip}
 if (requireNamespace("zip", quietly = TRUE)) {
 
@@ -32,20 +30,25 @@ optional_files <- setdiff(specified_files, required_files)
 
 
 test_that("raises errors due to incorrect input types", {
-
   no_class_gtfs <- gtfs
   attr(no_class_gtfs, "class") <- NULL
-
   expect_error(write_gtfs(no_class_gtfs, temp_file))
   expect_error(write_gtfs(gtfs))
   expect_error(write_gtfs(gtfs, as.factor(temp_file)))
   expect_error(write_gtfs(gtfs, tempfile(pattern = "gtfs")))
   expect_error(write_gtfs(gtfs, temp_file, files = as.factor("agency")))
   expect_error(write_gtfs(gtfs, temp_file, standard_only = "TRUE"))
+  expect_error(write_gtfs(gtfs, temp_file, standard_only = NA))
+  expect_error(write_gtfs(gtfs, temp_file, standard_only = c(TRUE, TRUE)))
   expect_error(write_gtfs(gtfs, temp_file, as_dir = "TRUE"))
+  expect_error(write_gtfs(gtfs, temp_file, as_dir = NA))
+  expect_error(write_gtfs(gtfs, temp_file, as_dir = c(TRUE, TRUE)))
   expect_error(write_gtfs(gtfs, temp_file, overwrite = "TRUE"))
+  expect_error(write_gtfs(gtfs, temp_file, overwrite = NA))
+  expect_error(write_gtfs(gtfs, temp_file, overwrite = c(TRUE, TRUE)))
   expect_error(write_gtfs(gtfs, temp_file, quiet = "TRUE"))
-
+  expect_error(write_gtfs(gtfs, temp_file, quiet = NA))
+  expect_error(write_gtfs(gtfs, temp_file, quiet = c(TRUE, TRUE)))
 })
 
 test_that("raises an errors if file exists and should not be overwritten", {

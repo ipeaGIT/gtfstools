@@ -18,7 +18,9 @@ test_that("raises error due to incorrect input types", {
   expect_error(filter_by_route_type(unclass(gtfs), route_type))
   expect_error(filter_by_route_type(gtfs, factor(route_type)))
   expect_error(filter_by_route_type(gtfs, 124))
+  expect_error(filter_by_route_type(gtfs, NA))
   expect_error(filter_by_route_type(gtfs, route_type, keep = "TRUE"))
+  expect_error(filter_by_route_type(gtfs, route_type, keep = NA))
 })
 
 test_that("results in a dt_gtfs object", {

@@ -1,9 +1,3 @@
-context("Convert frequencies to stop_times")
-
-
-# setup -------------------------------------------------------------------
-
-
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 trip_id <- "CPTM L07-0"
@@ -22,6 +16,9 @@ test_that("raises errors due to incorrect input types/value", {
   no_class_gtfs <- structure(gtfs, class = NULL)
   expect_error(tester(no_class_gtfs))
   expect_error(tester(trip_id = as.factor(trip_id)))
+  expect_error(tester(trip_id = NA))
+  expect_error(tester(force = 1))
+  expect_error(tester(force = NA))
 })
 
 test_that("raises warning if a non-existent trip_id is specified", {

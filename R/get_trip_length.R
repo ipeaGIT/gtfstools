@@ -40,14 +40,13 @@
 #' @export
 get_trip_length <- function(gtfs, trip_id = NULL, file = NULL, unit = "km") {
   checkmate::assert_class(gtfs, "dt_gtfs")
-  checkmate::assert_character(trip_id, null.ok = TRUE)
-  checkmate::assert_character(file, null.ok = TRUE)
+  checkmate::assert_character(trip_id, null.ok = TRUE, any.missing = FALSE)
   checkmate::assert(
     checkmate::check_string(unit),
     checkmate::check_names(unit, subset.of = c("km", "m")),
     combine = "and"
   )
-
+  checkmate::assert_character(file, null.ok = TRUE)
   if (!is.null(file)) {
     checkmate::assert_names(file, subset.of = c("shapes", "stop_times"))
   }
@@ -56,7 +55,7 @@ get_trip_length <- function(gtfs, trip_id = NULL, file = NULL, unit = "km") {
 
   if (is.null(file)) {
     file <- names(gtfs)
-    file <- file[file %chin% c("shapes", "stop_times")]
+    file <- file[file %in% c("shapes", "stop_times")]
 
     if (identical(file, character(0))) {
       stop(
