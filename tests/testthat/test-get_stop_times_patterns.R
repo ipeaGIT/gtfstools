@@ -95,6 +95,14 @@ test_that("output is a data.table with right columns", {
   expect_true(nrow(patterns) == 0)
   expect_type(patterns$trip_id, "character")
   expect_type(patterns$pattern_id, "integer")
+
+  # also when none of the trips exist
+
+  expect_warning(patterns <- tester(trip_id = "a"))
+  expect_s3_class(patterns, "data.table")
+  expect_true(nrow(patterns) == 0)
+  expect_type(patterns$trip_id, "character")
+  expect_type(patterns$pattern_id, "integer")
 })
 
 test_that("output includes the correct trip_ids", {
