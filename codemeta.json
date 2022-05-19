@@ -1,12 +1,10 @@
 {
-  "@context": [
-    "https://doi.org/10.5063/schema/codemeta-2.0",
-    "http://schema.org"
-  ],
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "gtfstools",
-  "description": "Utility functions to read, manipulate, analyse and write\n    transit feeds in the General Transit Feed Specification (GTFS) data\n    format.",
+  "description": "Utility functions to read, manipulate, analyse and write transit feeds in the General Transit Feed Specification (GTFS) data format.",
   "name": "gtfstools: General Transit Feed Specification (GTFS) Editing and Analysing\n    Tools",
+  "relatedLink": ["https://ipeagit.github.io/gtfstools/", "https://CRAN.R-project.org/package=gtfstools"],
   "codeRepository": "https://github.com/ipeaGIT/gtfstools",
   "issueTracker": "https://github.com/ipeaGIT/gtfstools/issues",
   "license": "https://spdx.org/licenses/MIT",
@@ -16,7 +14,13 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.2 (2021-11-01)",
+  "runtimePlatform": "R version 4.2.0 (2022-04-22)",
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  },
   "author": [
     {
       "@type": "Person",
@@ -164,14 +168,14 @@
       "sameAs": "https://CRAN.R-project.org/package=zip"
     }
   ],
-  "softwareRequirements": [
-    {
+  "softwareRequirements": {
+    "1": {
       "@type": "SoftwareApplication",
       "identifier": "R",
       "name": "R",
       "version": ">= 2.10"
     },
-    {
+    "2": {
       "@type": "SoftwareApplication",
       "identifier": "checkmate",
       "name": "checkmate",
@@ -183,7 +187,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=checkmate"
     },
-    {
+    "3": {
       "@type": "SoftwareApplication",
       "identifier": "data.table",
       "name": "data.table",
@@ -195,7 +199,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=data.table"
     },
-    {
+    "4": {
       "@type": "SoftwareApplication",
       "identifier": "gtfsio",
       "name": "gtfsio",
@@ -208,7 +212,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=gtfsio"
     },
-    {
+    "5": {
       "@type": "SoftwareApplication",
       "identifier": "sf",
       "name": "sf",
@@ -220,7 +224,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=sf"
     },
-    {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "sfheaders",
       "name": "sfheaders",
@@ -232,7 +236,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=sfheaders"
     },
-    {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "units",
       "name": "units",
@@ -244,31 +248,14 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=units"
     },
-    {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
-    }
-  ],
-  "fileSize": "3216.134KB",
-  "contIntegration": "https://app.codecov.io/gh/ipeaGIT/gtfstools?branch=master",
-  "developmentStatus": "https://lifecycle.r-lib.org/articles/stages.html",
-  "keywords": [
-    "r",
-    "gtfs"
-  ],
-  "relatedLink": [
-    "https://ipeagit.github.io/gtfstools/",
-    "https://CRAN.R-project.org/package=gtfstools"
-  ],
-  "provider": {
-    "@id": "https://cran.r-project.org",
-    "@type": "Organization",
-    "name": "Comprehensive R Archive Network (CRAN)",
-    "url": "https://cran.r-project.org"
+    },
+    "SystemRequirements": null
   },
-  "releaseNotes": "https://github.com/ipeaGIT/gtfstools/blob/master/NEWS.md",
-  "readme": "https://github.com/ipeaGIT/gtfstools/blob/master/README.md",
+  "fileSize": "2935.14KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -286,5 +273,10 @@
       "@id": "https://doi.org/10.5281/zenodo.5703285",
       "sameAs": "https://doi.org/10.5281/zenodo.5703285"
     }
-  ]
+  ],
+  "releaseNotes": "https://github.com/ipeaGIT/gtfstools/blob/master/NEWS.md",
+  "readme": "https://github.com/ipeaGIT/gtfstools/blob/master/README.md",
+  "contIntegration": ["https://github.com/ipeaGIT/gtfstools/actions?query=workflow%3AR-CMD-check", "https://app.codecov.io/gh/ipeaGIT/gtfstools?branch=master"],
+  "developmentStatus": "https://lifecycle.r-lib.org/articles/stages.html",
+  "keywords": ["r", "gtfs"]
 }
