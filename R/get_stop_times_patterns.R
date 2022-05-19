@@ -60,10 +60,18 @@ get_stop_times_patterns <- function(gtfs, trip_id = NULL, type = "spatial") {
   )
 
   must_exist <- c("trip_id", "stop_id")
+  classes <- rep("character", 2)
   if (type == "spatiotemporal") {
     must_exist <- c(must_exist, "departure_time", "arrival_time")
+    classes <- c(classes, rep("character", 2))
+
   }
-  gtfsio::assert_field_exists(gtfs, "stop_times", fields = must_exist)
+  gtfsio::assert_field_class(
+    gtfs,
+    "stop_times",
+    fields = must_exist,
+    classes = classes
+  )
 
   # select trips to check patterns of and raise warning if any of them doesn't
   # exist in stop_times

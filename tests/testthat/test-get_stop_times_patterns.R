@@ -22,6 +22,66 @@ test_that("raises warning if a non-existent trip_id is specified", {
   expect_warning(tester(trip_id = c("a", trip_id)))
 })
 
+test_that("raises errors if gtfs doesn't have required tables/fields", {
+  no_stop_times_gtfs <- copy_gtfs_without_file(gtfs, "stop_times")
+
+  no_st_tripid_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "trip_id")
+  no_st_stopid_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "stop_id")
+  no_st_arrtime_gtfs <- copy_gtfs_without_field(
+    gtfs, "stop_times", "arrival_time"
+  )
+  no_st_deptime_gtfs <- copy_gtfs_without_field(
+    gtfs, "stop_times", "departure_time"
+  )
+
+  diff_st_tripid_gtfs <- copy_gtfs_diff_field_class(
+    gtfs,
+    "stop_times",
+    "trip_id",
+    "factor"
+  )
+  diff_st_stopid_gtfs <- copy_gtfs_diff_field_class(
+    gtfs,
+    "stop_times",
+    "stop_id",
+    "factor"
+  )
+  diff_st_arrtime_gtfs <- copy_gtfs_diff_field_class(
+    gtfs,
+    "stop_times",
+    "arrival_time",
+    "factor"
+  )
+  diff_st_deptime_gtfs <- copy_gtfs_diff_field_class(
+    gtfs,
+    "stop_times",
+    "departure_time",
+    "factor"
+  )
+
+  # type = "spatial"
+  expect_error(tester(no_stop_times_gtfs))
+  expect_error(tester(no_st_tripid_gtfs))
+  expect_error(tester(no_st_stopid_gtfs))
+  expect_silent(tester(no_st_arrtime_gtfs, trip_id = trip_id))
+  expect_silent(tester(no_st_deptime_gtfs, trip_id = trip_id))
+  expect_error(tester(diff_st_tripid_gtfs))
+  expect_error(tester(diff_st_stopid_gtfs))
+  expect_silent(tester(diff_st_arrtime_gtfs, trip_id = trip_id))
+  expect_silent(tester(diff_st_deptime_gtfs, trip_id = trip_id))
+
+  # type = "spatiotemporal"
+  expect_error(tester(no_stop_times_gtfs, type = "spatiotemporal"))
+  expect_error(tester(no_st_tripid_gtfs, type = "spatiotemporal"))
+  expect_error(tester(no_st_stopid_gtfs, type = "spatiotemporal"))
+  expect_error(tester(no_st_arrtime_gtfs, type = "spatiotemporal"))
+  expect_error(tester(no_st_deptime_gtfs, type = "spatiotemporal"))
+  expect_error(tester(diff_st_tripid_gtfs, type = "spatiotemporal"))
+  expect_error(tester(diff_st_stopid_gtfs, type = "spatiotemporal"))
+  expect_error(tester(diff_st_arrtime_gtfs, type = "spatiotemporal"))
+  expect_error(tester(diff_st_deptime_gtfs, type = "spatiotemporal"))
+})
+
 test_that("output is a data.table with right columns", {
   patterns <- tester(trip_id = trip_id)
   expect_s3_class(patterns, "data.table")
@@ -35,6 +95,20 @@ test_that("output is a data.table with right columns", {
   expect_true(nrow(patterns) == 0)
   expect_type(patterns$trip_id, "character")
   expect_type(patterns$pattern_id, "integer")
+})
+
+test_that("output includes the correct trip_ids", {
+  # by default includes all trips in stop_times table
+  patterns <- tester()
+  expect_true(all(unique(gtfs$stop_times$trip_id) %chin% patterns$trip_id))
+
+  # otherwise, only listed trips should be included
+  patterns <- tester(trip_id = trip_id)
+  expect_true(patterns$trip_id == trip_id)
+
+  # should only include one entry for each trip_id
+  patterns <- tester(trip_id = rep(trip_id, 2))
+  expect_true(patterns$trip_id == trip_id)
 })
 
 test_that("identifies patterns correctly", {
@@ -71,6 +145,22 @@ test_that("identifies patterns correctly", {
     type = "spatiotemporal"
   )
   expect_identical(same_pattern_temp$pattern_id, c(1L, 1L))
+})
+
+test_that("type = 'spatiotemporal' work correctly when times are NA", {
+  poa_path <- system.file("extdata/poa_gtfs.zip", package = "gtfstools")
+  poa_gtfs <- read_gtfs(poa_path)
+
+  # trips T2-1@1#520 and T2-1@1#540 follow the same stops, depart from first
+  # stop at the same time and arrive at last stop at the same time, so should
+  # have the same spatiotemporal pattern
+
+  poa_same_pattern <- tester(
+    poa_gtfs,
+    c("T2-1@1#520", "T2-1@1#540"),
+    "spatiotemporal"
+  )
+  expect_identical(poa_same_pattern$pattern_id, c(1L, 1L))
 })
 
 test_that("doesn't change original gtfs", {
