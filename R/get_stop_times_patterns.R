@@ -1,21 +1,8 @@
 #' Get stop times patterns
 #'
 #' Identifies spatial and spatiotemporal patterns within the `stop_times`
-#' table. Two trips are assigned to the same spatial `pattern_id` if they
-#' travel along the same sequence of stops. They are assigned to the same
-#' spatiotemporal `pattern_id`, on the other hand, if they travel along the
-#' same sequence of stops and they take the same time between stops. Please
-#' note that, in such case, only the time between stops is taken into account,
-#' and the time that the trip started is ignored (e.g. if two trips depart from
-#' stop A and follow the same sequence of stops to arrive at stop B, taking
-#' both 1 hour to do so, their spatiotemporal pattern will be considered the
-#' same, even if one departed at 6 am and another at 7 am). Please also note
-#' that the `stop_times`' `stop_sequence` field is currently ignored - which
-#' means that two stops are considered to follow the same sequence if one is
-#' listed right below the other on the table (e.g. if trip X lists stops A
-#' followed by stop B with `stop_sequence`s 1 and 2, and trip Y lists stops A
-#' followed by stop B with `stop_sequence`s 1 and 3, they are assigned to the
-#' same `pattern_id`).
+#' table. Please see the details to understand what a "pattern" means in each of
+#' these cases.
 #'
 #' @template gtfs
 #' @param trip_id A character vector including the `trip_id`s to have their
@@ -25,6 +12,23 @@
 #'   `"spatial"` (the default) or "spatiotemporal".
 #'
 #' @return A `data.table` associating each `trip_id` to a `pattern_id`.
+#'
+#' @section Details:
+#' Two trips are assigned to the same spatial `pattern_id` if they travel along
+#' the same sequence of stops. They are assigned to the same spatiotemporal
+#' `pattern_id`, on the other hand, if they travel along the same sequence of
+#' stops and they take the same time between stops. Please note that, in such
+#' case, only the time between stops is taken into account, and the time that
+#' the trip started is ignored (e.g. if two trips depart from stop A and follow
+#' the same sequence of stops to arrive at stop B, taking both 1 hour to do so,
+#' their spatiotemporal pattern will be considered the same, even if one
+#' departed at 6 am and another at 7 am). Please also note that the
+#' `stop_sequence` field is currently ignored - which means that two stops are
+#' considered to follow the same sequence if one is listed right below the
+#' other on the `stop_times` table (e.g. if trip X lists stops A followed by
+#' stop B with `stop_sequence`s 1 and 2, and trip Y lists stops A followed by
+#' stop B with `stop_sequence`s 1 and 3, they are assigned to the same
+#' `pattern_id`).
 #'
 #' @examples
 #' data_path <- system.file("extdata/ber_gtfs.zip", package = "gtfstools")
