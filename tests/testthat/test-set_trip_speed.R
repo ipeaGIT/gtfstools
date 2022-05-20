@@ -262,4 +262,12 @@ test_that("results in identical gtfs if none of the specified trip_ids exist", {
   expect_false(identical(gtfs, same_speeds_gtfs))
   data.table::setindex(same_speeds_gtfs$stop_times, NULL)
   expect_identical(gtfs, same_speeds_gtfs)
+
+  # also when speed = numeric(0)
+  expect_silent(
+    same_speeds_gtfs <- set_trip_speed(gtfs, character(0), numeric(0))
+  )
+  expect_false(identical(gtfs, same_speeds_gtfs))
+  data.table::setindex(same_speeds_gtfs$stop_times, NULL)
+  expect_identical(gtfs, same_speeds_gtfs)
 })

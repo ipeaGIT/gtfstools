@@ -23,10 +23,9 @@ of \code{"km/h"} (the default) or \code{"m/s"}.}
 reference. Defaults to \code{FALSE}.}
 }
 \value{
-If \code{by_reference} is set to \code{FALSE}, returns a GTFS object
-with the time columns of its \code{stop_times} adjusted. Else, returns a
-GTFS object invisibly (note that in this case the original GTFS object is
-altered).
+If \code{by_reference} is set to \code{FALSE}, returns a GTFS object with the
+time columns of its \code{stop_times} adjusted. Else, returns a GTFS object
+invisibly (note that in this case the original GTFS object is altered).
 }
 \description{
 Sets the average speed of each specified \code{trip_id} by changing the
@@ -34,16 +33,16 @@ Sets the average speed of each specified \code{trip_id} by changing the
 }
 \section{Details}{
 
-The average speed is calculated as the difference between the arrival time at
-the last stop minus the departure time at the first top, over the trip's
-length (as calculated via \code{\link{get_trip_geometry}}, based on the
-\code{shapes} file). The arrival and departure times at all other stops (i.e.
-not the first neither the last) are set as \code{""}, which is written as
-\code{NA} with \code{\link{write_gtfs}}. Some transport routing software,
-such as \href{http://www.opentripplanner.org/}{OpenTripPlanner}, support
-specifying stop times like so. In such cases, they estimate arrival/departure
-times at the others stops based on the average speed as well. We plan to add
-that feature to this function in the future.
+The average speed is calculated as the difference between the arrival time
+at the last stop minus the departure time at the first top, over the trip's
+length (as calculated via \code{\link[=get_trip_geometry]{get_trip_geometry()}}, based on the \code{shapes}
+file). The arrival and departure times at all other stops (i.e. not the
+first neither the last) are set as \code{""}, which is written as \code{NA} with
+\code{\link[=write_gtfs]{write_gtfs()}}. Some transport routing software, such as
+\href{http://www.opentripplanner.org/}{OpenTripPlanner}, support specifying stop
+times like so. In such cases, they estimate arrival/departure times at the
+others stops based on the average speed as well. We plan to add that feature
+to this function in the future.
 }
 
 \examples{
@@ -54,10 +53,19 @@ gtfs <- read_gtfs(data_path)
 gtfs_new_speed <- set_trip_speed(gtfs, trip_id = "CPTM L07-0", 50)
 gtfs_new_speed$stop_times[trip_id == "CPTM L07-0"]
 
+# use the unit argument to change the speed unit
+gtfs_new_speed <- set_trip_speed(
+  gtfs,
+  trip_id = "CPTM L07-0",
+  speed = 15,
+  unit = "m/s"
+)
+gtfs_new_speed$stop_times[trip_id == "CPTM L07-0"]
+
 # original gtfs remains unchanged
 gtfs$stop_times[trip_id == "CPTM L07-0"]
 
-# now do it by reference
+# when doing by reference, original gtfs is changed
 set_trip_speed(gtfs, trip_id = "CPTM L07-0", 50, by_reference = TRUE)
 gtfs$stop_times[trip_id == "CPTM L07-0"]
 
