@@ -11,6 +11,7 @@
 - New function `convert_time_to_seconds()`.
 - New function `get_stop_times_patterns()`.
 - New parameter to `merge_gtfs()`: `prefix`. The `warnings` parameter was flagged as deprecated.
+- Functions `get_parent_station()` and `get_children_stops` now accept `stop_id = NULL` to analyze all `stop_id`s in the `stops` table.
 
 ## Bug fixes
 
