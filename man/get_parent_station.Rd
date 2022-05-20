@@ -4,18 +4,19 @@
 \alias{get_parent_station}
 \title{Get parent stations recursively}
 \usage{
-get_parent_station(gtfs, stop_id)
+get_parent_station(gtfs, stop_id = NULL)
 }
 \arguments{
 \item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
 
-\item{stop_id}{A string vector including the \code{stop_id}s to have their
-parents returned.}
+\item{stop_id}{A string vector including the \code{stop_id}s to have their parents
+returned. If \code{NULL} (the default), the function returns the parents of
+every \code{stop_id} in the GTFS.}
 }
 \value{
-A \code{data.table} containing the \code{stop_id}s and their
-\code{parent_station}s. If a stop doesn't have a parent, its
-\code{parent_station} is \code{""}.
+A \code{data.table} containing the \code{stop_id}s and their \code{parent_station}s.
+If a stop doesn't have a parent, its correspondent \code{parent_station} entry
+is marked as \code{""}.
 }
 \description{
 Returns the (recursive) parent stations of each specified \code{stop_id}.
@@ -27,10 +28,14 @@ data_path <- system.file("extdata/ggl_gtfs.zip", package = "gtfstools")
 
 gtfs <- read_gtfs(data_path)
 
-parents <- get_parent_station(gtfs, "N3")
-parents
+parents <- get_parent_station(gtfs)
+head(parents)
 
+# use the stop_id argument to control which stops are analyzed
 parents <- get_parent_station(gtfs, c("B1", "B2"))
 parents
 
+}
+\seealso{
+\code{\link[=get_children_stops]{get_children_stops()}}
 }
