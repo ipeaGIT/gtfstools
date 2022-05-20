@@ -205,22 +205,22 @@
 <code class="sourceCode R"><span class="va">trip_seg_durtn</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_trip_segment_duration.html">get_trip_segment_duration</a></span><span class="op">(</span><span class="va">spo_gtfs</span>, unit <span class="op">=</span> <span class="st">"s"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">trip_seg_durtn</span><span class="op">)</span>
 <span class="co">#&gt;       trip_id segment duration</span>
-<span class="co">#&gt; 1: CPTM L07-0      17      480</span>
-<span class="co">#&gt; 2: CPTM L07-0      18      480</span>
-<span class="co">#&gt; 3: CPTM L07-0      19      480</span>
-<span class="co">#&gt; 4: CPTM L07-0      20      480</span>
-<span class="co">#&gt; 5: CPTM L07-0      21      480</span>
-<span class="co">#&gt; 6: CPTM L07-0      22      480</span>
+<span class="co">#&gt; 1: CPTM L07-0       1      480</span>
+<span class="co">#&gt; 2: CPTM L07-0       2      480</span>
+<span class="co">#&gt; 3: CPTM L07-0       3      480</span>
+<span class="co">#&gt; 4: CPTM L07-0       4      480</span>
+<span class="co">#&gt; 5: CPTM L07-0       5      480</span>
+<span class="co">#&gt; 6: CPTM L07-0       6      480</span>
 
 <span class="va">single_seg_durtn</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_trip_segment_duration.html">get_trip_segment_duration</a></span><span class="op">(</span><span class="va">spo_gtfs</span>, trip_id <span class="op">=</span> <span class="va">single_trip</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">single_seg_durtn</span><span class="op">)</span>
 <span class="co">#&gt;       trip_id segment duration</span>
-<span class="co">#&gt; 1: CPTM L07-0      17        8</span>
-<span class="co">#&gt; 2: CPTM L07-0      18        8</span>
-<span class="co">#&gt; 3: CPTM L07-0      19        8</span>
-<span class="co">#&gt; 4: CPTM L07-0      20        8</span>
-<span class="co">#&gt; 5: CPTM L07-0      21        8</span>
-<span class="co">#&gt; 6: CPTM L07-0      22        8</span></code></pre></div>
+<span class="co">#&gt; 1: CPTM L07-0       1        8</span>
+<span class="co">#&gt; 2: CPTM L07-0       2        8</span>
+<span class="co">#&gt; 3: CPTM L07-0       3        8</span>
+<span class="co">#&gt; 4: CPTM L07-0       4        8</span>
+<span class="co">#&gt; 5: CPTM L07-0       5        8</span>
+<span class="co">#&gt; 6: CPTM L07-0       6        8</span></code></pre></div>
 <p>The quick example above shows how this function may help you diagnosing some problems in your GTFS data: apparently every single trip in <code>spo_gtfs</code> is composed by several equally long segments, which looks unreasonable.</p>
 <p>Finally, <code><a href="../reference/get_trip_speed.html">get_trip_speed()</a></code> is a helper around <code><a href="../reference/get_trip_geometry.html">get_trip_geometry()</a></code> and <code><a href="../reference/get_trip_duration.html">get_trip_duration()</a></code> that returns the average speed of each trip in a GTFS object:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
