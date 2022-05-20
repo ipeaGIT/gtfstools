@@ -4,17 +4,19 @@
 \alias{get_children_stops}
 \title{Get children stops recursively}
 \usage{
-get_children_stops(gtfs, stop_id)
+get_children_stops(gtfs, stop_id = NULL)
 }
 \arguments{
 \item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
 
 \item{stop_id}{A string vector including the \code{stop_id}s to have their
-children returned.}
+children returned. If \code{NULL} (the default), the function returns the
+children of every \code{stop_id} in the GTFS.}
 }
 \value{
 A \code{data.table} containing the \code{stop_id}s and their children'
-\code{stop_id}s. If a stop doesn't have a child, its \code{child_id} is \code{""}.
+\code{stop_id}s. If a stop doesn't have a child, its correspondent \code{child_id}
+entry is marked as \code{""}.
 }
 \description{
 Returns the (recursive) children stops of each specified \code{stop_id}.
@@ -26,10 +28,11 @@ on).
 data_path <- system.file("extdata/ggl_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 
-children <- get_children_stops(gtfs, "F12")
-children
+children <- get_children_stops(gtfs)
+head(children)
 
-children <- get_children_stops(gtfs, c("F12S", "F12N"))
+# use the stop_id argument to control which stops are analyzed
+children <- get_children_stops(gtfs, stop_id = c("F12S", "F12N"))
 children
 
 }

@@ -1,32 +1,36 @@
 #' Get parent stations recursively
 #'
-#' Returns the (recursive) parent stations of each specified \code{stop_id}.
+#' Returns the (recursive) parent stations of each specified `stop_id`.
 #' Recursive in this context means it returns all parents' parents (i.e. first
 #' parents, then parents' parents, and then their parents, and so on).
 #'
 #' @template gtfs
-#' @param stop_id A string vector including the \code{stop_id}s to have their
-#'   parents returned.
+#' @param stop_id A string vector including the `stop_id`s to have their parents
+#'   returned. If `NULL` (the default), the function returns the parents of
+#'   every `stop_id` in the GTFS.
 #'
-#' @return A \code{data.table} containing the \code{stop_id}s and their
-#'   \code{parent_station}s. If a stop doesn't have a parent, its
-#'   \code{parent_station} is \code{""}.
+#' @return A `data.table` containing the `stop_id`s and their `parent_station`s.
+#'   If a stop doesn't have a parent, its correspondent `parent_station` entry
+#'   is marked as `""`.
+#'
+#' @seealso [get_children_stops()]
 #'
 #' @examples
 #' data_path <- system.file("extdata/ggl_gtfs.zip", package = "gtfstools")
 #'
 #' gtfs <- read_gtfs(data_path)
 #'
-#' parents <- get_parent_station(gtfs, "N3")
-#' parents
+#' parents <- get_parent_station(gtfs)
+#' head(parents)
 #'
+#' # use the stop_id argument to control which stops are analyzed
 #' parents <- get_parent_station(gtfs, c("B1", "B2"))
 #' parents
 #'
 #' @export
-get_parent_station <- function(gtfs, stop_id) {
+get_parent_station <- function(gtfs, stop_id = NULL) {
   checkmate::assert_class(gtfs, "dt_gtfs")
-  checkmate::assert_character(stop_id, any.missing = FALSE)
+  checkmate::assert_character(stop_id, null.ok = TRUE, any.missing = FALSE)
 
   gtfsio::assert_field_class(
     gtfs,
@@ -35,42 +39,39 @@ get_parent_station <- function(gtfs, stop_id) {
     rep("character", 2)
   )
 
+  # select stop_ids to identify parents and raise warning if a given stop_id
+  # doesn't exist in 'stops'
+
+  if (!is.null(stop_id)) {
+    invalid_stop_id <- stop_id[! stop_id %chin% gtfs$stops$stop_id]
+
+    if (!identical(invalid_stop_id, character(0))) {
+      warning(
+        paste0(
+          "'stops' doesn't contain the following stop_id(s): "),
+        paste0("'", invalid_stop_id, "'", collapse = ", ")
+      )
+    }
+
+    stop_id <- setdiff(stop_id, invalid_stop_id)
+  } else {
+    stop_id <- gtfs$stops$stop_id
+  }
+
   # create a "relational" vector, whose names are the stop ids and values are
-  # the parent stations
+  # the parent stations, used to lookup parent stations
 
   parents <- gtfs$stops$parent_station
   names(parents) <- gtfs$stops$stop_id
-
-  # raise warning if passed 'stop_id' doesn't exist in 'stops'
-  # and remove invalid ids from 'stop_id'
-
-  invalid_stop_id <- stop_id[! stop_id %chin% gtfs$stops$stop_id]
-
-  if (!identical(invalid_stop_id, character(0))) {
-
-    warning(
-      paste0(
-        "'stops' doesn't contain the following stop_id(s): "),
-      paste0("'", invalid_stop_id, "'", collapse = ", ")
-    )
-
-  }
-
-  stop_id <- setdiff(stop_id, invalid_stop_id)
-
-  # create the data.table where parent stops will be stored
 
   result <- data.table::data.table(
     stop_id = stop_id,
     parent_station = rep(NA_character_, length(stop_id))
   )
 
-  # get the parent stations of each stop
-
   do_check <- TRUE
 
   while (do_check) {
-
     result[is.na(parent_station), parent_station := parents[stop_id]]
 
     # when a stop not listed in stops (in the stop_id field) is used to subset
@@ -86,7 +87,6 @@ get_parent_station <- function(gtfs, stop_id) {
     found_parents <- setdiff(result$parent_station, "")
 
     if (!all(found_parents %chin% result$stop_id)) {
-
       new_parents <- unique(setdiff(found_parents, result$stop_id))
 
       result <- rbind(
@@ -98,11 +98,8 @@ get_parent_station <- function(gtfs, stop_id) {
       )
 
       do_check <- TRUE
-
     }
-
   }
 
   return(result[])
-
 }
