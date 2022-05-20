@@ -1,24 +1,23 @@
 #' Get trip segments' duration
 #'
-#' Returns the duration of segments between stops of each specified
-#' \code{trip_id}.
+#' Returns the duration of segments between stops of each specified `trip_id`.
 #'
 #' @template gtfs
-#' @param trip_id A string vector including the \code{trip_id}s to have their
-#'   segments' duration calculated. If \code{NULL} (the default) the function
-#'   calculates the segments' duration of every \code{trip_id} in the GTFS.
+#' @param trip_id A string vector including the `trip_id`s to have their
+#'   segments' duration calculated. If `NULL` (the default) the function
+#'   calculates the segments' duration of every `trip_id` in the GTFS.
 #' @param unit A string representing the time unit in which the duration is
-#'   desired. One of \code{"s"} (seconds), \code{"min"} (minutes, the default),
-#'   \code{"h"} (hours) or \code{"d"} (days).
+#'   desired. One of `"s"` (seconds), `"min"` (minutes, the default),
+#'   `"h"` (hours) or `"d"` (days).
 #'
-#' @return A \code{data.table} containing the segments' duration of each
-#'   specified trip.
+#' @return A `data.table` containing the segments' duration of each specified
+#'   trip.
 #'
 #' @section Details:
 #' A trip segment is defined as the path between two subsequent stops in the
 #' same trip. The  duration of a segment is defined as the time difference
 #' between its arrival time and its departure time, as specified in the
-#' \code{stop_times} file.
+#' `stop_times` file.
 #'
 #' @examples
 #' data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
@@ -28,9 +27,11 @@
 #' trip_segment_dur <- get_trip_segment_duration(gtfs)
 #' head(trip_segment_dur)
 #'
+#' # use the trip_id argument to control which trips are analyzed
 #' trip_segment_dur <- get_trip_segment_duration(gtfs, trip_id = "CPTM L07-0")
 #' trip_segment_dur
 #'
+#' # use the unit argument to control in which unit the durations are calculated
 #' trip_segment_dur <- get_trip_segment_duration(gtfs, "CPTM L07-0", unit = "s")
 #' trip_segment_dur
 #'

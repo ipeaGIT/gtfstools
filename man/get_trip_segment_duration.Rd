@@ -18,12 +18,11 @@ desired. One of \code{"s"} (seconds), \code{"min"} (minutes, the default),
 \code{"h"} (hours) or \code{"d"} (days).}
 }
 \value{
-A \code{data.table} containing the segments' duration of each
-specified trip.
+A \code{data.table} containing the segments' duration of each specified
+trip.
 }
 \description{
-Returns the duration of segments between stops of each specified
-\code{trip_id}.
+Returns the duration of segments between stops of each specified \code{trip_id}.
 }
 \section{Details}{
 
@@ -41,9 +40,11 @@ gtfs <- read_gtfs(data_path)
 trip_segment_dur <- get_trip_segment_duration(gtfs)
 head(trip_segment_dur)
 
+# use the trip_id argument to control which trips are analyzed
 trip_segment_dur <- get_trip_segment_duration(gtfs, trip_id = "CPTM L07-0")
 trip_segment_dur
 
+# use the unit argument to control in which unit the durations are calculated
 trip_segment_dur <- get_trip_segment_duration(gtfs, "CPTM L07-0", unit = "s")
 trip_segment_dur
 
