@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-The General Transit Feed Specification (GTFS) data format defines a common scheme for describing transit systems, and is widely used by transit agencies around the world and consumed by many software applications. The **gtfstools** package makes handling GTFS data in **R** very easy and fast, offering many utility functions to read, manipulate, analyse and write transit feeds in such format.
+The General Transit Feed Specification (GTFS) data format defines a common scheme for describing transit systems, and is widely used by transit agencies around the world and consumed by many software applications. The **gtfstools** package makes handling GTFS data in **R** very easy and fast, offering many utility functions to read, manipulate, analyze and write transit feeds in such format.
 
 # GTFS feeds
 
@@ -78,7 +78,7 @@ spo_gtfs <- read_gtfs(spo_path)
 names(spo_gtfs)
 
 # only reads the 'shapes.txt' file
-spo_shapes <- read_gtfs(spo_path, files = "shapes")
+spo_shapes <- read_gtfs(spo_path, files = c("shapes", "trips"))
 names(spo_shapes)
 ```
 
@@ -137,7 +137,7 @@ single_trip_speed
 
 ## Manipulate feeds
 
-Each table inside a GTFS object can be easily manipulated using the usual `data.table` syntax. `{data.table}` provides many useful features, such as updating columns by reference, fast binary search, efficient data aggregation, and many others, that allows you to deal with large data sets very efficiently. Please check its [official website](https://rdatatable.gitlab.io/data.table/index.html) for more details on syntax and usage.
+Each table inside a GTFS object can be easily manipulated using the usual `data.table` syntax. `{data.table}` provides many useful features, such as updating columns by reference, fast binary search, efficient data aggregation, and many others, that allows you to deal with large data sets very efficiently. Please data.table's [official website](https://rdatatable.gitlab.io/data.table/index.html) for more details on syntax and usage.
 
 Just remember that, since every GTFS object is a *`list`* of `data.table`s, you must refer to each table using the `$` operator. For example, this is how you'd remove the `headway_secs` column from the `frequencies` file and add it again afterwards:
 
@@ -168,12 +168,12 @@ merged_files <- merge_gtfs(spo_gtfs, ggl_gtfs, files = c("shapes", "trips"))
 names(merged_files)
 ```
 
-`set_trip_speed()` sets the average speed of specified trips by adjusting the `arrival_time` and `departure_time` columns in the `stop_times` table. Average speed is calculated as the difference between the arrival time at the last stop minus the departure time at the first top, divided by the trip's length. Please note that arrival and departure times at intermediate stops are set as `""`. Some transport routing software, such as [OpenTripPlanner](https://www.opentripplanner.org/), support specifying stop times like so, in which case they interpolate arrival/departure times at intermediate stops based on the trip's average speed and the euclidean distance between stops.
+`set_trip_speed()` sets the average speed of specified trips by adjusting the `arrival_time` and `departure_time` columns in the `stop_times` table. Average speed is calculated as the difference between the arrival time at the last stop minus the departure time at the first top, divided by the trip's length. Please note that arrival and departure times at intermediate stops are set as `""`. Some transport routing software, such as [OpenTripPlanner](https://www.opentripplanner.org/) and [R5](https://github.com/conveyal/r5), support specifying stop times like so, in which case they interpolate arrival/departure times at intermediate stops based on the trip's average speed and the euclidean distance between stops.
 
 ```{r}
-selected_trips <- c("CPTM L07-0", "2002-10-0")
+selected_trips <- c("2002-10-0", "CPTM L07-0")
 
-get_trip_speed(spo_gtfs, selected_trips)
+get_trip_speed(spo_gtfs, selected_trips, unit = "km/h")
 
 # 'speed' is recycled to all trips if only a single value is given
 new_speed_gtfs <- set_trip_speed(spo_gtfs, selected_trips, 50)
