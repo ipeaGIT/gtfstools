@@ -104,6 +104,20 @@ test_that("outputs the correct number of segments", {
   )
 })
 
+test_that("segment numbers range from 1 to the total number of segments", {
+  trip_ids <- c("CPTM L07-0", "CPTM L07-1")
+  segments_durations <- tester(trip_id = trip_ids)
+
+  expect_identical(
+    segments_durations[trip_id == "CPTM L07-0"]$segment,
+    1:17
+  )
+  expect_identical(
+    segments_durations[trip_id == "CPTM L07-1"]$segment,
+    1:17
+  )
+})
+
 test_that("calculates duration correctly", {
   segments_duration <- tester(trip_id = "CPTM L07-0", unit = "min")
   expect_identical(segments_duration$duration, rep(8, 17))
@@ -119,6 +133,15 @@ test_that("calculates duration correctly", {
 
   segments_duration <- tester(modified_st_gtfs, "CPTM L07-0")
   expect_identical(segments_duration$duration, c(rep(8, 16), 1072))
+})
+
+test_that("returns NA duration when arr/dep time are NA", {
+  poa_path <- system.file("extdata/poa_gtfs.zip", package = "gtfstools")
+  poa_gtfs <- read_gtfs(poa_path)
+  poa_trip <- "T2-1@1#520"
+
+  durations <- tester(poa_gtfs, poa_trip)
+  expect_true(all(is.na(durations$duration)))
 })
 
 test_that("doesn't change given gtfs (except for stop_times index)", {

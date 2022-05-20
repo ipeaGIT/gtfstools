@@ -15,6 +15,8 @@
 
 ## Bug fixes
 
+- Fixed a bug in which `get_trip_segment_duration()` would list segment numbers not starting from 1. Now segment numbers always range from 1 to N, where N is the total number of segments that compose each trip.
+
 ## Notes
 
 - Removed `{lwgeom}` from dependencies (Suggests), now that it's not required to run `get_trip_speed()` and `set_trip_speed()` anymore.

@@ -89,12 +89,14 @@ get_trip_segment_duration <- function(gtfs, trip_id = NULL, unit = "min") {
   durations[
     ,
     last_stop_departure := data.table::shift(
-      departure_time_secs, 1L, type = "lag"
+      departure_time_secs,
+      1L,
+      type = "lag"
     )
   ]
   durations <- durations[!durations[, .I[1], by = trip_id]$V1]
   durations[, duration := arrival_time_secs - last_stop_departure]
-  durations[, segment := seq.int(.N, length.out = .N), by = trip_id]
+  durations[, segment := seq.int(1, .N, length.out = .N), by = trip_id]
 
   # select desired columns and convert duration to desired unit
 
