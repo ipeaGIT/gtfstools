@@ -81,7 +81,7 @@ And the specified trips (and their respective shapes as well) are nowhere to be 
 
 The same logic applies to other filtering functions that you can use to filter a GTFS feed by `trip_id`, `route_id`, `shape_id`, `stop_id`, `route_type` or `service_id`.
 
-## Filtering GTFS by day of the week of period of the day:
+## Filtering GTFS by day of the week or period of the day:
 
 Some times, though, you might want to analyze only service levels on a certain days of the week or different periods of the day.
 
@@ -91,25 +91,31 @@ smaller_gtfs <- filter_by_weekday(gtfs,
                                   weekday = c("sunday", "saturday"), 
                                   combine="and")
 
-smaller_gtfs$calendar
+smaller_gtfs$calendar[, c("service_id", "sunday", "saturday")]
 object.size(smaller_gtfs)
 
 # keeps entries related to services than run EITHER Sunday or Saturday
 smaller_gtfs <- filter_by_weekday(gtfs, 
                                   weekday = c("sunday", "saturday"), 
                                   combine="or")
-smaller_gtfs$calendar
+smaller_gtfs$calendar[, c("service_id", "sunday", "saturday")]
 object.size(smaller_gtfs)
 
 ```
 
-Meanwhile, the `filter_by_time_of_day()` allows you to filter for example all services between
+Meanwhile, the `filter_by_time_of_day()` allows you to filter for example all services within a specified time period. 
 
 
 ```{r}
-smaller_gtfs <- filter_by_time_of_day(gtfs, from = "05:00:00", to = "06:00:00")
+smaller_gtfs <- filter_by_time_of_day(gtfs, from = "14:00:00", to = "15:00:00")
+
+# filter_by_time_of_day filters the frequencies table but doesn't filter the
+# stop_times table because they're just templates
+head(smaller_gtfs$frequencies)
+head(smaller_gtfs$stop_times)
 
 ```
+
 
 ## Filtering GTFS by a spatial extent:
 
