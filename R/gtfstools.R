@@ -90,6 +90,8 @@ utils::globalVariables(
     "data",
     "template_departure",
     "template_arrival",
-    "origin_gtfs"
+    "origin_gtfs",
+    "total_departures",
+    "i.route_id"
   )
 )
