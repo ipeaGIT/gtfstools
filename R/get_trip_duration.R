@@ -73,7 +73,7 @@ get_trip_duration <- function(gtfs, trip_id = NULL, unit = "min") {
     } else {
       durations <- gtfs$stop_times[trip_id %chin% relevant_trips]
     }
- } else {
+  } else {
     durations <- gtfs$stop_times
   }
 
