@@ -7,25 +7,28 @@
 #'
 #' @template gtfs
 #' @param stop_id A string vector including the `stop_id`s to have their
-#' children returned.
+#'   children returned. If `NULL` (the default), the function returns the
+#'   children of every `stop_id` in the GTFS.
 #'
 #' @return A `data.table` containing the `stop_id`s and their children'
-#' `stop_id`s. If a stop doesn't have a child, its `child_id` is `""`.
+#'   `stop_id`s. If a stop doesn't have a child, its correspondent `child_id`
+#'   entry is marked as `""`.
 #'
 #' @examples
 #' data_path <- system.file("extdata/ggl_gtfs.zip", package = "gtfstools")
 #' gtfs <- read_gtfs(data_path)
 #'
-#' children <- get_children_stops(gtfs, "F12")
-#' children
+#' children <- get_children_stops(gtfs)
+#' head(children)
 #'
-#' children <- get_children_stops(gtfs, c("F12S", "F12N"))
+#' # use the stop_id argument to control which stops are analyzed
+#' children <- get_children_stops(gtfs, stop_id = c("F12S", "F12N"))
 #' children
 #'
 #' @export
-get_children_stops <- function(gtfs, stop_id) {
+get_children_stops <- function(gtfs, stop_id = NULL) {
   checkmate::assert_class(gtfs, "dt_gtfs")
-  checkmate::assert_character(stop_id, any.missing = FALSE)
+  checkmate::assert_character(stop_id, null.ok = TRUE, any.missing = FALSE)
   gtfsio::assert_field_class(
     gtfs,
     "stops",
@@ -33,19 +36,24 @@ get_children_stops <- function(gtfs, stop_id) {
     rep("character", 2)
   )
 
-  # raise warning if one of the specified stop_ids doesn't exist in 'stops'.
-  # also drop invalid ids
+  # select stop_ids to identify parents and raise warning if a given stop_id
+  # doesn't exist in 'stops'
 
-  invalid_ids <- stop_id[! stop_id %chin% gtfs$stops$stop_id]
+  if (!is.null(stop_id)) {
+    invalid_stop_id <- stop_id[! stop_id %chin% gtfs$stops$stop_id]
 
-  if (!identical(invalid_ids, character(0))) {
-    warning(
-      "'stops' doesn't contain the following stop_id(s): ",
-      paste0("'", invalid_ids, "'", collapse = ", ")
-    )
+    if (!identical(invalid_stop_id, character(0))) {
+      warning(
+        paste0(
+          "'stops' doesn't contain the following stop_id(s): "),
+        paste0("'", invalid_stop_id, "'", collapse = ", ")
+      )
+    }
+
+    stop_id <- setdiff(stop_id, invalid_stop_id)
+  } else {
+    stop_id <- gtfs$stops$stop_id
   }
-
-  relevant_stops <- setdiff(stop_id, invalid_ids)
 
   # recursively find children
 
@@ -53,8 +61,8 @@ get_children_stops <- function(gtfs, stop_id) {
   names(parents) <- gtfs$stops$stop_id
 
   result <- data.table::data.table(
-    stop_id = relevant_stops,
-    checked = rep(FALSE, length(relevant_stops))
+    stop_id = stop_id,
+    checked = rep(FALSE, length(stop_id))
   )
 
   do_check <- TRUE
