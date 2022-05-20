@@ -70,7 +70,7 @@ parents, then parents' parents, and then their parents, and so on).</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_parent_station</span><span class="op">(</span><span class="va">gtfs</span>, <span class="va">stop_id</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_parent_station</span><span class="op">(</span><span class="va">gtfs</span>, stop_id <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -78,14 +78,19 @@ parents, then parents' parents, and then their parents, and so on).</p>
     <dl><dt>gtfs</dt>
 <dd><p>A GTFS object, as created by <code><a href="read_gtfs.html">read_gtfs()</a></code>.</p></dd>
 <dt>stop_id</dt>
-<dd><p>A string vector including the <code>stop_id</code>s to have their
-parents returned.</p></dd>
+<dd><p>A string vector including the <code>stop_id</code>s to have their parents
+returned. If <code>NULL</code> (the default), the function returns the parents of
+every <code>stop_id</code> in the GTFS.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>data.table</code> containing the <code>stop_id</code>s and their
-<code>parent_station</code>s. If a stop doesn't have a parent, its
-<code>parent_station</code> is <code>""</code>.</p>
+    <p>A <code>data.table</code> containing the <code>stop_id</code>s and their <code>parent_station</code>s.
+If a stop doesn't have a parent, its correspondent <code>parent_station</code> entry
+is marked as <code>""</code>.</p>
+    </div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p><code><a href="get_children_stops.html">get_children_stops()</a></code></p></div>
     </div>
 
     <div id="ref-examples">
@@ -94,12 +99,17 @@ parents returned.</p></dd>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_gtfs.html">read_gtfs</a></span><span class="op">(</span><span class="va">data_path</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">parents</span> <span class="op">&lt;-</span> <span class="fu">get_parent_station</span><span class="op">(</span><span class="va">gtfs</span>, <span class="st">"N3"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">parents</span></span>
+<span class="r-in"><span class="va">parents</span> <span class="op">&lt;-</span> <span class="fu">get_parent_station</span><span class="op">(</span><span class="va">gtfs</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">parents</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    stop_id parent_station</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:      N3            F12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     F12               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     F12               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:      E1            F12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:      E2            F12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:      E3            F12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:      E4            F12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:      E5            F12</span>
 <span class="r-in"></span>
+<span class="r-in"><span class="co"># use the stop_id argument to control which stops are analyzed</span></span>
 <span class="r-in"><span class="va">parents</span> <span class="op">&lt;-</span> <span class="fu">get_parent_station</span><span class="op">(</span><span class="va">gtfs</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B1"</span>, <span class="st">"B2"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">parents</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    stop_id parent_station</span>

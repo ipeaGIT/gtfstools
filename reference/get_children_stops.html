@@ -72,7 +72,7 @@ on).</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_children_stops</span><span class="op">(</span><span class="va">gtfs</span>, <span class="va">stop_id</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_children_stops</span><span class="op">(</span><span class="va">gtfs</span>, stop_id <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -81,12 +81,13 @@ on).</p>
 <dd><p>A GTFS object, as created by <code><a href="read_gtfs.html">read_gtfs()</a></code>.</p></dd>
 <dt>stop_id</dt>
 <dd><p>A string vector including the <code>stop_id</code>s to have their
-children returned.</p></dd>
+children returned. If <code>NULL</code> (the default), the function returns the
+children of every <code>stop_id</code> in the GTFS.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>A <code>data.table</code> containing the <code>stop_id</code>s and their children'
-<code>stop_id</code>s. If a stop doesn't have a child, its <code>child_id</code> is <code>""</code>.</p>
+<code>stop_id</code>s. If a stop doesn't have a child, its correspondent <code>child_id</code>entry is marked as <code>""</code>.</p>
     </div>
 
     <div id="ref-examples">
@@ -94,40 +95,18 @@ children returned.</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/ggl_gtfs.zip"</span>, package <span class="op">=</span> <span class="st">"gtfstools"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_gtfs.html">read_gtfs</a></span><span class="op">(</span><span class="va">data_path</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">children</span> <span class="op">&lt;-</span> <span class="fu">get_children_stops</span><span class="op">(</span><span class="va">gtfs</span>, <span class="st">"F12"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">children</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     stop_id child_id</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1:     F12       E1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2:     F12       E2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3:     F12       E3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  4:     F12       E4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  5:     F12       E5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  6:     F12       N1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  7:     F12       N2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  8:     F12       N3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  9:     F12       N4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10:     F12     F12S</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11:     F12     F12N</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12:      E1         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13:      E2         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14:      E3         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15:      E4         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16:      E5         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17:      N1         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18:      N2         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19:      N3         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20:      N4         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21:    F12S       B1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22:    F12S       B3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23:    F12N       B2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24:    F12N       B4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25:      B1         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26:      B3         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27:      B2         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28:      B4         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     stop_id child_id</span>
+<span class="r-in"><span class="va">children</span> <span class="op">&lt;-</span> <span class="fu">get_children_stops</span><span class="op">(</span><span class="va">gtfs</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">children</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    stop_id child_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     F12       E1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     F12       E2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:     F12       E3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:     F12       E4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:     F12       E5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:     F12       N1</span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">children</span> <span class="op">&lt;-</span> <span class="fu">get_children_stops</span><span class="op">(</span><span class="va">gtfs</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"F12S"</span>, <span class="st">"F12N"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="co"># use the stop_id argument to control which stops are analyzed</span></span>
+<span class="r-in"><span class="va">children</span> <span class="op">&lt;-</span> <span class="fu">get_children_stops</span><span class="op">(</span><span class="va">gtfs</span>, stop_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"F12S"</span>, <span class="st">"F12N"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">children</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    stop_id child_id</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:    F12S       B1</span>
