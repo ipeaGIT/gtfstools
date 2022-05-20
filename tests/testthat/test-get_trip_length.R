@@ -9,9 +9,6 @@ tester <- function(gtfs = get("gtfs", envir = parent.frame()),
   get_trip_length(gtfs, trip_id, file, unit)
 }
 
-# tests -------------------------------------------------------------------
-
-
 test_that("raises errors due to incorrect input types/value", {
   expect_error(tester(unclass(gtfs)))
   expect_error(tester(trip_id = as.factor("CPTM L07-0")))
@@ -51,47 +48,84 @@ test_that("raises errors if gtfs doesn't have required files/fields", {
 
   # shapes-based lengths
 
-  expect_error(tester(no_trips_gtfs, "CPTM L07-0", file = "shapes"))
-  expect_error(tester(no_shapes_gtfs, "CPTM L07-0", file = "shapes"))
-  expect_error(tester(no_trp_tripid_gtfs, "CPTM L07-0", file = "shapes"))
-  expect_error(tester(no_trp_shapeid_gtfs, "CPTM L07-0", file = "shapes"))
-  expect_error(tester(no_shp_shapeid_gtfs, "CPTM L07-0", file = "shapes"))
-  expect_error(tester(no_shp_shapelat_gtfs, "CPTM L07-0", file = "shapes"))
-  expect_error(tester(no_shp_shapelon_gtfs, "CPTM L07-0", file = "shapes"))
-
-  expect_s3_class(
-    tester(no_stop_times_gtfs, "CPTM L07-0", file = "shapes"),
-    "data.table"
+  expect_error(
+    tester(no_trips_gtfs, trip_id, "shapes"),
+    class = "missing_required_file"
   )
-  expect_s3_class(
-    tester(no_stops_gtfs, "CPTM L07-0", file = "shapes"),
-    "data.table"
+  expect_error(
+    tester(no_shapes_gtfs, trip_id, "shapes"),
+    class = "missing_required_file"
   )
+  expect_error(
+    tester(no_trp_tripid_gtfs, trip_id, "shapes"),
+    class = "missing_required_field"
+  )
+  expect_error(
+    tester(no_trp_shapeid_gtfs, trip_id, "shapes"),
+    class = "missing_required_field"
+  )
+  expect_error(
+    tester(no_shp_shapeid_gtfs, trip_id, "shapes"),
+    class = "missing_required_field"
+  )
+  expect_error(
+    tester(no_shp_shapelat_gtfs, trip_id, "shapes"),
+    class = "missing_required_field"
+  )
+  expect_error(
+    tester(no_shp_shapelon_gtfs, trip_id, "shapes"),
+    class = "missing_required_field"
+  )
+  expect_s3_class(tester(no_stop_times_gtfs, trip_id, "shapes"), "data.table")
+  expect_s3_class(tester(no_stops_gtfs, trip_id, "shapes"), "data.table")
 
   # stop_times-based lengths
 
-  expect_error(tester(no_trips_gtfs, "CPTM L07-0", file = "stop_times"))
-  expect_error(tester(no_stop_times_gtfs, "CPTM L07-0", file = "stop_times"))
-  expect_error(tester(no_stops_gtfs, "CPTM L07-0", file = "stop_times"))
-  expect_error(tester(no_trp_tripid_gtfs, "CPTM L07-0", file = "stop_times"))
-  expect_error(tester(no_stt_tripid_gtfs, "CPTM L07-0", file = "stop_times"))
-  expect_error(tester(no_stt_stopid_gtfs, "CPTM L07-0", file = "stop_times"))
-  expect_error(tester(no_sts_stopid_gtfs, "CPTM L07-0", file = "stop_times"))
-  expect_error(tester(no_sts_stoplat_gtfs, "CPTM L07-0", file = "stop_times"))
-  expect_error(tester(no_sts_stoplon_gtfs, "CPTM L07-0", file = "stop_times"))
-
-  expect_s3_class(
-    tester(no_shapes_gtfs, "CPTM L07-0", file = "stop_times"),
-    "data.table"
+  expect_error(
+    tester(no_trips_gtfs, trip_id, "stop_times"),
+    class = "missing_required_file"
   )
+  expect_error(
+    tester(no_stop_times_gtfs, trip_id, "stop_times"),
+    class = "missing_required_file"
+  )
+  expect_error(
+    tester(no_stops_gtfs, trip_id, "stop_times"),
+    class = "missing_required_file"
+  )
+  expect_error(
+    tester(no_trp_tripid_gtfs, trip_id, "stop_times"),
+    class = "missing_required_field"
+  )
+  expect_error(
+    tester(no_stt_tripid_gtfs, trip_id, "stop_times"),
+    class = "missing_required_field"
+  )
+  expect_error(
+    tester(no_stt_stopid_gtfs, trip_id, "stop_times"),
+    class = "missing_required_field"
+  )
+  expect_error(
+    tester(no_sts_stopid_gtfs, trip_id, "stop_times"),
+    class = "missing_required_field"
+  )
+  expect_error(
+    tester(no_sts_stoplat_gtfs, trip_id, "stop_times"),
+    class = "missing_required_field"
+  )
+  expect_error(
+    tester(no_sts_stoplon_gtfs, trip_id, "stop_times"),
+    class = "missing_required_field"
+  )
+  expect_s3_class(tester(no_shapes_gtfs, trip_id, "stop_times"), "data.table")
   expect_s3_class(
-    tester(no_trp_shapeid_gtfs, "CPTM L07-0", file = "stop_times"),
+    tester(no_trp_shapeid_gtfs, trip_id, "stop_times"),
     "data.table"
   )
 
   # when file = NULL, the gtfs must have either a shapes or a stop_times table
 
-  expect_error(tester(no_shapes_and_stop_times_gtfs, "CPTM L07-0"))
+  expect_error(tester(no_shapes_and_stop_times_gtfs, trip_id))
 })
 
 test_that("returns the lengths of correct trip_ids", {
@@ -138,7 +172,16 @@ test_that("outputs a data.table with correct column types", {
 
   # should work even when none of the trip_ids privded exist in the gtfs
 
-  suppressWarnings(lengths <- tester(trip_id = "oi"))
+  expect_warning(lengths <- tester(trip_id = "oi"))
+  expect_true(nrow(lengths) == 0)
+  expect_s3_class(lengths, "data.table")
+  expect_type(lengths$trip_id, "character")
+  expect_type(lengths$length, "double")
+  expect_type(lengths$origin_file, "character")
+
+  # and when trip_id = character(0)
+
+  lengths <- tester(trip_id = character(0))
   expect_true(nrow(lengths) == 0)
   expect_s3_class(lengths, "data.table")
   expect_type(lengths$trip_id, "character")
