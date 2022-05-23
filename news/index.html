@@ -77,7 +77,9 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
-<ul><li>Fixed a bug in which <code><a href="../reference/get_trip_segment_duration.html">get_trip_segment_duration()</a></code> would list segment numbers not starting from 1. Now segment numbers always range from 1 to N, where N is the total number of segments that compose each trip.</li></ul></div>
+<ul><li>Fixed a bug in which <code><a href="../reference/get_trip_segment_duration.html">get_trip_segment_duration()</a></code> would list segment numbers not starting from 1. Now segment numbers always range from 1 to N, where N is the total number of segments that compose each trip.</li>
+<li>Fixed a bug in <code>filter_by_{route,service,shape,trip}_id()</code> that resulted in the <code>agency</code> table not getting filtered when the specified id was <code>character(0)</code>.</li>
+</ul></div>
 <div class="section level3">
 <h3 id="notes-development-version">Notes<a class="anchor" aria-label="anchor" href="#notes-development-version"></a></h3>
 <ul><li>Removed <a href="https://github.com/r-spatial/lwgeom/" class="external-link">lwgeom</a> from dependencies (Suggests), now that it’s not required to run <code><a href="../reference/get_trip_speed.html">get_trip_speed()</a></code> and <code><a href="../reference/set_trip_speed.html">set_trip_speed()</a></code> anymore.</li>
