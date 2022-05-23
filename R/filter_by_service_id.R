@@ -155,7 +155,7 @@ filter_by_service_id <- function(gtfs, service_id, keep = TRUE) {
     # 'agency' (agency_id, that comes both from routes and fare_attributes)
 
     if (gtfsio::check_field_exists(gtfs, "agency", "agency_id") &&
-        length(relevant_agencies) > 0) {
+        exists("relevant_agencies")) {
       # keeping only unique agency_ids from relevant_agencies, since they may
       # come from two different sources
       relevant_agencies <- unique(relevant_agencies)

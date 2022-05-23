@@ -274,7 +274,7 @@ filter_by_route_id <- function(gtfs, route_id, keep = TRUE) {
 
   # filtering 'agency' based on relevant_agencies
 
-  if (length(relevant_agencies) >= 1) {
+  if (exists("relevant_agencies")) {
 
     relevant_agencies <- unique(relevant_agencies)
     gtfs$agency <- gtfs$agency[agency_id %chin% relevant_agencies]

@@ -158,3 +158,24 @@ test_that("the function filters google's gtfs correctly", {
   expect_true(nrow(smaller_ggl$pathways) == 0)
   expect_true(nrow(smaller_ggl$levels) == 0)
 })
+
+test_that("behaves correctly when service_id = character(0)", {
+  ber_path <- system.file("extdata/ber_gtfs.zip", package = "gtfstools")
+  ber_gtfs <- read_gtfs(ber_path)
+
+  # if keep = TRUE, gtfs should be empty
+  empty <- filter_by_service_id(ber_gtfs, character(0))
+  n_rows <- vapply(empty, nrow, FUN.VALUE = integer(1))
+  expect_true(all(n_rows == 0))
+
+  # if keep = FALSE, gtfs should remain unchanged
+  # this is actually not true because the calendar, calendar_dates and agency
+  # tables contain ids not listed in the routes and trips tables, which and up
+  # removed anyway (I like this behaviour, so not considering a bug)
+  full <- filter_by_service_id(ber_gtfs, character(0), keep = FALSE)
+  modified_ber <- read_gtfs(ber_path)
+  modified_ber$agency <- modified_ber$agency[
+    agency_id %in% modified_ber$routes$agency_id
+  ]
+  expect_identical(modified_ber, full)
+})

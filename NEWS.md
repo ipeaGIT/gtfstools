@@ -16,6 +16,7 @@
 ## Bug fixes
 
 - Fixed a bug in which `get_trip_segment_duration()` would list segment numbers not starting from 1. Now segment numbers always range from 1 to N, where N is the total number of segments that compose each trip.
+- Fixed a bug in `filter_by_{route,service,shape,trip}_id()` that resulted in the `agency` table not getting filtered when the specified id was `character(0)`.
 
 ## Notes
 
