@@ -2,24 +2,27 @@
 
 ## New features
 
-- New function `get_children_stops()`.
+- New function `convert_time_to_seconds()`.
+- New function `filter_by_agency_id()`.
 - New function `filter_by_service_id()`.
 - New function `filter_by_time_of_day()`.
 - New function `filter_by_weekday()`.
 - New function `frequencies_to_stop_times()`.
-- New function `get_trip_length()`.
-- New function `convert_time_to_seconds()`.
+- New function `get_children_stops()`.
 - New function `get_stop_times_patterns()`.
+- New function `get_trip_length()`.
 - New parameter to `merge_gtfs()`: `prefix`. The `warnings` parameter was flagged as deprecated.
 - Functions `get_parent_station()` and `get_children_stops` now accept `stop_id = NULL` to analyze all `stop_id`s in the `stops` table.
 
 ## Bug fixes
 
-- Fixed a bug in which `get_trip_segment_duration()` would list segment numbers not starting from 1. Now segment numbers always range from 1 to N, where N is the total number of segments that compose each trip.
+- Fixed a bug in which `get_trip_segment_duration()` would list wrong segment numbers, not necessarily starting from 1. Now segment numbers always range from 1 to N, where N is the total number of segments that compose each trip.
 - Fixed a bug in `filter_by_{route,service,shape,trip}_id()` that resulted in the `agency` table not getting filtered when the specified id was `character(0)`.
 
 ## Notes
 
+- Performance improvements to `get_trip_geometry()`, `get_trip_duration()`, `get_trip_segment_duration()` and `convert_shapes_to_sf()`.
+- Stopped ordering points by `shape_pt_sequence`/`stop_sequence` in `get_trip_geometry()` and `convert_shapes_to_sf()`, since the GTFS reference says that the `stop_times` and `shapes` tables must be ordered by point/stop sequence anyway.
 - Removed `{lwgeom}` from dependencies (Suggests), now that it's not required to run `get_trip_speed()` and `set_trip_speed()` anymore.
 - Removed the `warnings` parameter from `read_gtfs()` and `write_gtfs()` and the `optional` and `extra` parameters from `write_gtfs()`, flagged as deprecated on gtfstools v1.0.0.
 
