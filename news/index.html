@@ -64,25 +64,28 @@
 <h2 class="page-header" data-toc-text="development version" id="gtfstools-development-version">gtfstools (development version)<a class="anchor" aria-label="anchor" href="#gtfstools-development-version"></a></h2>
 <div class="section level3">
 <h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
-<ul><li>New function <code><a href="../reference/get_children_stops.html">get_children_stops()</a></code>.</li>
+<ul><li>New function <code><a href="../reference/convert_time_to_seconds.html">convert_time_to_seconds()</a></code>.</li>
+<li>New function <code><a href="../reference/filter_by_agency_id.html">filter_by_agency_id()</a></code>.</li>
 <li>New function <code><a href="../reference/filter_by_service_id.html">filter_by_service_id()</a></code>.</li>
 <li>New function <code><a href="../reference/filter_by_time_of_day.html">filter_by_time_of_day()</a></code>.</li>
 <li>New function <code><a href="../reference/filter_by_weekday.html">filter_by_weekday()</a></code>.</li>
 <li>New function <code><a href="../reference/frequencies_to_stop_times.html">frequencies_to_stop_times()</a></code>.</li>
-<li>New function <code><a href="../reference/get_trip_length.html">get_trip_length()</a></code>.</li>
-<li>New function <code><a href="../reference/convert_time_to_seconds.html">convert_time_to_seconds()</a></code>.</li>
+<li>New function <code><a href="../reference/get_children_stops.html">get_children_stops()</a></code>.</li>
 <li>New function <code><a href="../reference/get_stop_times_patterns.html">get_stop_times_patterns()</a></code>.</li>
+<li>New function <code><a href="../reference/get_trip_length.html">get_trip_length()</a></code>.</li>
 <li>New parameter to <code><a href="../reference/merge_gtfs.html">merge_gtfs()</a></code>: <code>prefix</code>. The <code>warnings</code> parameter was flagged as deprecated.</li>
 <li>Functions <code><a href="../reference/get_parent_station.html">get_parent_station()</a></code> and <code>get_children_stops</code> now accept <code>stop_id = NULL</code> to analyze all <code>stop_id</code>s in the <code>stops</code> table.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
-<ul><li>Fixed a bug in which <code><a href="../reference/get_trip_segment_duration.html">get_trip_segment_duration()</a></code> would list segment numbers not starting from 1. Now segment numbers always range from 1 to N, where N is the total number of segments that compose each trip.</li>
+<ul><li>Fixed a bug in which <code><a href="../reference/get_trip_segment_duration.html">get_trip_segment_duration()</a></code> would list wrong segment numbers, not necessarily starting from 1. Now segment numbers always range from 1 to N, where N is the total number of segments that compose each trip.</li>
 <li>Fixed a bug in <code>filter_by_{route,service,shape,trip}_id()</code> that resulted in the <code>agency</code> table not getting filtered when the specified id was <code>character(0)</code>.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="notes-development-version">Notes<a class="anchor" aria-label="anchor" href="#notes-development-version"></a></h3>
-<ul><li>Removed <a href="https://github.com/r-spatial/lwgeom/" class="external-link">lwgeom</a> from dependencies (Suggests), now that it’s not required to run <code><a href="../reference/get_trip_speed.html">get_trip_speed()</a></code> and <code><a href="../reference/set_trip_speed.html">set_trip_speed()</a></code> anymore.</li>
+<ul><li>Performance improvements to <code><a href="../reference/get_trip_geometry.html">get_trip_geometry()</a></code>, <code><a href="../reference/get_trip_duration.html">get_trip_duration()</a></code>, <code><a href="../reference/get_trip_segment_duration.html">get_trip_segment_duration()</a></code> and <code><a href="../reference/convert_shapes_to_sf.html">convert_shapes_to_sf()</a></code>.</li>
+<li>Stopped ordering points by <code>shape_pt_sequence</code>/<code>stop_sequence</code> in <code><a href="../reference/get_trip_geometry.html">get_trip_geometry()</a></code> and <code><a href="../reference/convert_shapes_to_sf.html">convert_shapes_to_sf()</a></code>, since the GTFS reference says that the <code>stop_times</code> and <code>shapes</code> tables must be ordered by point/stop sequence anyway.</li>
+<li>Removed <a href="https://github.com/r-spatial/lwgeom/" class="external-link">lwgeom</a> from dependencies (Suggests), now that it’s not required to run <code><a href="../reference/get_trip_speed.html">get_trip_speed()</a></code> and <code><a href="../reference/set_trip_speed.html">set_trip_speed()</a></code> anymore.</li>
 <li>Removed the <code>warnings</code> parameter from <code><a href="../reference/read_gtfs.html">read_gtfs()</a></code> and <code><a href="../reference/write_gtfs.html">write_gtfs()</a></code> and the <code>optional</code> and <code>extra</code> parameters from <code><a href="../reference/write_gtfs.html">write_gtfs()</a></code>, flagged as deprecated on gtfstools v1.0.0.</li>
 </ul></div>
 </div>
