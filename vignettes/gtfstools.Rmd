@@ -77,7 +77,7 @@ spo_path <- file.path(data_path, "spo_gtfs.zip")
 spo_gtfs <- read_gtfs(spo_path)
 names(spo_gtfs)
 
-# only reads the 'shapes.txt' file
+# only reads the 'shapes.txt' and 'trips.txt' files
 spo_shapes <- read_gtfs(spo_path, files = c("shapes", "trips"))
 names(spo_shapes)
 ```
@@ -137,7 +137,7 @@ single_trip_speed
 
 ## Manipulate feeds
 
-Each table inside a GTFS object can be easily manipulated using the usual `data.table` syntax. `{data.table}` provides many useful features, such as updating columns by reference, fast binary search, efficient data aggregation, and many others, that allows you to deal with large data sets very efficiently. Please data.table's [official website](https://rdatatable.gitlab.io/data.table/index.html) for more details on syntax and usage.
+Each table inside a GTFS object can be easily manipulated using the usual `data.table` syntax. `{data.table}` provides many useful features, such as updating columns by reference, fast binary search, efficient data aggregation, and many others, allowing you to deal with large data sets very efficiently. Please check its [official website](https://rdatatable.gitlab.io/data.table/index.html) for more details on syntax and usage.
 
 Just remember that, since every GTFS object is a *`list`* of `data.table`s, you must refer to each table using the `$` operator. For example, this is how you'd remove the `headway_secs` column from the `frequencies` file and add it again afterwards:
 
