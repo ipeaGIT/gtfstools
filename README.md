@@ -13,7 +13,7 @@ coverage](https://codecov.io/gh/ipeaGIT/gtfstools/branch/master/graph/badge.svg)
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![CRAN/METACRAN Total
 downloads](http://cranlogs.r-pkg.org/badges/grand-total/gtfstools?color=yellow)](https://CRAN.R-project.org/package=gtfstools)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5703236.svg)](https://doi.org/10.5281/zenodo.5703236)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6577028.svg)](https://doi.org/10.5281/zenodo.6577028)
 
 **gtfstools** offers a set of convenient tools for editing and analysing
 transit feeds in GTFS format. Feeds are read as a `list` of
@@ -71,22 +71,22 @@ citation("gtfstools")
 #> To cite gtfstools in publications use:
 #> 
 #>   Daniel Herszenhut, Rafael H. M. Pereira, Pedro R.
-#>   Andrade & Joao Bazzo. (2021, November). gtfstools:
+#>   Andrade & Joao Bazzo. (2022, May). gtfstools:
 #>   General Transit Feed Specification (GTFS) Editing
-#>   and Analysing Tools (Version v1.0.0). Zenodo.
-#>   http://doi.org/10.5281/zenodo.5703285
+#>   and Analysing Tools (Version v1.1.0). Zenodo.
+#>   http://doi.org/10.5281/zenodo.6577028
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
 #>   @Manual{,
 #>     title = {gtfstools: General Transit Feed Specification (GTFS) Editing and Analysing Tools},
-#>     author = {Daniel Herszenhut},
-#>     month = {nov},
-#>     year = {2021},
+#>     author = {Daniel Herszenhut and Rafael H. M. Pereira and Pedro R. Andrade and Joao Bazzo},
+#>     month = {may},
+#>     year = {2022},
 #>     publisher = {Zenodo},
-#>     version = {v1.0.0},
-#>     doi = {10.5281/zenodo.5703285},
-#>     url = {https://doi.org/10.5281/zenodo.5703285},
+#>     version = {v1.1.0},
+#>     doi = {10.5281/zenodo.6577028},
+#>     url = {https://doi.org/10.5281/zenodo.6577028},
 #>   }
 ```
 

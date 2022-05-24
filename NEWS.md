@@ -1,4 +1,4 @@
-# gtfstools (development version)
+# gtfstools 1.1.0
 
 ## New features
 
@@ -25,6 +25,7 @@
 - Stopped ordering points by `shape_pt_sequence`/`stop_sequence` in `get_trip_geometry()` and `convert_shapes_to_sf()`, since the GTFS reference says that the `stop_times` and `shapes` tables must be ordered by point/stop sequence anyway.
 - Removed `{lwgeom}` from dependencies (Suggests), now that it's not required to run `get_trip_speed()` and `set_trip_speed()` anymore.
 - Removed the `warnings` parameter from `read_gtfs()` and `write_gtfs()` and the `optional` and `extra` parameters from `write_gtfs()`, flagged as deprecated on gtfstools v1.0.0.
+- Updated filtering vignette to demonstrate new functions.
 
 # gtfstools 1.0.0
 
