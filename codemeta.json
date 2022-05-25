@@ -8,7 +8,7 @@
   "codeRepository": "https://github.com/ipeaGIT/gtfstools",
   "issueTracker": "https://github.com/ipeaGIT/gtfstools/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.1.0",
+  "version": "1.1.0.9000",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -243,23 +243,38 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "2977.513KB",
+  "fileSize": "3977.06KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
-      "datePublished": "2021",
+      "datePublished": "2022",
       "author": [
         {
           "@type": "Person",
           "givenName": "Daniel",
           "familyName": "Herszenhut"
+        },
+        {
+          "@type": "Person",
+          "givenName": ["Rafael", "H.", "M."],
+          "familyName": "Pereira"
+        },
+        {
+          "@type": "Person",
+          "givenName": ["Pedro", "R."],
+          "familyName": "Andrade"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Joao",
+          "familyName": "Bazzo"
         }
       ],
       "name": "gtfstools: General Transit Feed Specification (GTFS) Editing and Analysing Tools",
-      "identifier": "10.5281/zenodo.5703285",
-      "url": "https://doi.org/10.5281/zenodo.5703285",
-      "@id": "https://doi.org/10.5281/zenodo.5703285",
-      "sameAs": "https://doi.org/10.5281/zenodo.5703285"
+      "identifier": "10.5281/zenodo.6577028",
+      "url": "https://doi.org/10.5281/zenodo.6577028",
+      "@id": "https://doi.org/10.5281/zenodo.6577028",
+      "sameAs": "https://doi.org/10.5281/zenodo.6577028"
     }
   ],
   "releaseNotes": "https://github.com/ipeaGIT/gtfstools/blob/master/NEWS.md",
