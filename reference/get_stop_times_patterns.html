@@ -77,17 +77,24 @@ these cases.</p>
     <h2>Arguments</h2>
     <dl><dt>gtfs</dt>
 <dd><p>A GTFS object, as created by <code><a href="read_gtfs.html">read_gtfs()</a></code>.</p></dd>
+
+
 <dt>trip_id</dt>
 <dd><p>A character vector including the <code>trip_id</code>s to have their
 <code>stop_times</code> entries analyzed. If <code>NULL</code> (the default), the function
 analyses the pattern of every <code>trip_id</code> in the GTFS.</p></dd>
+
+
 <dt>type</dt>
 <dd><p>A string specifying the type of patterns to be analyzed. Either
 <code>"spatial"</code> (the default) or "spatiotemporal".</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>data.table</code> associating each <code>trip_id</code> to a <code>pattern_id</code>.</p>
+    
+
+<p>A <code>data.table</code> associating each <code>trip_id</code> to a <code>pattern_id</code>.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -163,7 +170,7 @@ stop B with <code>stop_sequence</code>s 1 and 3, they are assigned to the same
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

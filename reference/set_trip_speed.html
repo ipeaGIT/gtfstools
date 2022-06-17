@@ -75,23 +75,34 @@ arrival_time and departure_time columns in stop_times."><meta property="og:image
     <h2>Arguments</h2>
     <dl><dt>gtfs</dt>
 <dd><p>A GTFS object, as created by <code><a href="read_gtfs.html">read_gtfs()</a></code>.</p></dd>
+
+
 <dt>trip_id</dt>
 <dd><p>A string vector including the <code>trip_id</code>s to have their
 average speed set.</p></dd>
+
+
 <dt>speed</dt>
 <dd><p>A numeric representing the speed to be set. Its length must
 either equal 1, in which case the value is recycled for all
 <code>trip_id</code>s, or equal <code>trip_id</code>'s length.</p></dd>
+
+
 <dt>unit</dt>
 <dd><p>A string representing the unit in which the speed is given. One
 of <code>"km/h"</code> (the default) or <code>"m/s"</code>.</p></dd>
+
+
 <dt>by_reference</dt>
 <dd><p>Whether to update <code>stop_times</code>' <code>data.table</code> by
 reference. Defaults to <code>FALSE</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>If <code>by_reference</code> is set to <code>FALSE</code>, returns a GTFS object with the
+    
+
+<p>If <code>by_reference</code> is set to <code>FALSE</code>, returns a GTFS object with the
 time columns of its <code>stop_times</code> adjusted. Else, returns a GTFS object
 invisibly (note that in this case the original GTFS object is altered).</p>
     </div>
@@ -226,7 +237,7 @@ to this function in the future.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

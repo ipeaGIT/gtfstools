@@ -74,11 +74,17 @@
     <dl><dt>...</dt>
 <dd><p>GTFS objects to be merged. Each argument can either be a GTFS or
 a list of GTFS objects.</p></dd>
+
+
 <dt>files</dt>
 <dd><p>A character vector listing the GTFS tables to be merged. If
 <code>NULL</code> (the default), all tables are merged.</p></dd>
+
+
 <dt>warnings</dt>
 <dd><p>Whether to display warning messages (defaults to <code>TRUE</code>).</p></dd>
+
+
 <dt>prefix</dt>
 <dd><p>Either a logical or a character vector (defaults to <code>FALSE</code>).
 Whether to add a prefix to the value of id fields that identify from which
@@ -88,10 +94,13 @@ character vector, its elements will be used to identify the GTFS objects, and
 the length of the vector must equal the total amount of objects passed in
 <code>...</code> (the first element will identify the first GTFS, the second element the
 second GTFS, and so on).</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A GTFS object in which each table is a combination (by row) of the
+    
+
+<p>A GTFS object in which each table is a combination (by row) of the
 tables from the specified GTFS objects.</p>
     </div>
 
@@ -163,7 +172,7 @@ tables from the specified GTFS objects.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

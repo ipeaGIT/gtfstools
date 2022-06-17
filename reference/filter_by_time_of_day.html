@@ -88,29 +88,42 @@ departure and arrival times.</p>
     <h2>Arguments</h2>
     <dl><dt>gtfs</dt>
 <dd><p>A GTFS object, as created by <code><a href="read_gtfs.html">read_gtfs()</a></code>.</p></dd>
+
+
 <dt>from</dt>
 <dd><p>A string. The starting point of the time of day, in the
 "HH:MM:SS" format.</p></dd>
+
+
 <dt>to</dt>
 <dd><p>A string. The ending point of the time of day, in the "HH:MM:SS"
 format.</p></dd>
+
+
 <dt>keep</dt>
 <dd><p>A logical. Whether the entries related to the specified time of
 day should be kept or dropped (defaults to <code>TRUE</code>, which keeps the entries).</p></dd>
+
+
 <dt>full_trips</dt>
 <dd><p>A logical. Whether trips should be treated as immutable
 blocks or each of its stops should be considered separately when filtering
 the <code>stop_times</code> table (defaults to <code>FALSE</code>, which considers each stop
 individually). Please check the details section for more information on how
 this parameter changes the function behaviour.</p></dd>
+
+
 <dt>update_frequencies</dt>
 <dd><p>A logical. Whether the <code>frequencies</code> table should
 have its <code>start_time</code> and <code>end_time</code> fields updated to fit inside/outside the
 specified time of day (defaults to <code>FALSE</code>, which doesn't update the fields).</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The GTFS object passed to the <code>gtfs</code> parameter, after the filtering
+    
+
+<p>The GTFS object passed to the <code>gtfs</code> parameter, after the filtering
 process.</p>
     </div>
     <div id="details">
@@ -305,7 +318,7 @@ Please set <code>full_trips</code> to <code>TRUE</code> to preserve these entrie
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

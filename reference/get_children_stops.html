@@ -79,15 +79,23 @@ on).</p>
     <h2>Arguments</h2>
     <dl><dt>gtfs</dt>
 <dd><p>A GTFS object, as created by <code><a href="read_gtfs.html">read_gtfs()</a></code>.</p></dd>
+
+
 <dt>stop_id</dt>
 <dd><p>A string vector including the <code>stop_id</code>s to have their
 children returned. If <code>NULL</code> (the default), the function returns the
 children of every <code>stop_id</code> in the GTFS.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>data.table</code> containing the <code>stop_id</code>s and their children'
-<code>stop_id</code>s. If a stop doesn't have a child, its correspondent <code>child_id</code>entry is marked as <code>""</code>.</p>
+    
+
+<p>A <code>data.table</code> containing the <code>stop_id</code>s and their children'
+<code>stop_id</code>s. If a stop doesn't have a child, its correspondent <code>child_id</code></p>
+
+
+<p>entry is marked as <code>""</code>.</p>
     </div>
 
     <div id="ref-examples">
@@ -132,7 +140,7 @@ children of every <code>stop_id</code> in the GTFS.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

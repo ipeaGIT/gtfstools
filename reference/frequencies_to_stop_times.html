@@ -75,20 +75,30 @@ frequencies table."><meta property="og:image" content="/logo.png"><!-- mathjax -
     <h2>Arguments</h2>
     <dl><dt>gtfs</dt>
 <dd><p>A GTFS object, as created by <code><a href="read_gtfs.html">read_gtfs()</a></code>.</p></dd>
+
+
 <dt>trip_id</dt>
 <dd><p>A character vector including the <code>trip_id</code>s to have their
 frequencies converted to <code>stop_times</code> entries. If <code>NULL</code> (the default), the
 function converts all trips listed in the <code>frequencies</code> table.</p></dd>
+
+
 <dt>force</dt>
 <dd><p>Whether to convert trips specified in the <code>frequencies</code> table
 even if they are not described in <code>stop_times</code> (defaults to <code>FALSE</code>). When
 set to <code>TRUE</code>, these mismatched trip are removed from the <code>frequencies</code> table
 and their correspondent entries in <code>trips</code> are substituted by what would be
 their converted counterpart.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A GTFS object with updated <code>frequencies</code>, <code>stop_times</code> and <code>trips</code>tables.</p>
+    
+
+<p>A GTFS object with updated <code>frequencies</code>, <code>stop_times</code> and <code>trips</code></p>
+
+
+<p>tables.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -158,7 +168,7 @@ would be called <code>"example_trip_1"</code>, <code>"example_trip_2"</code> and
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

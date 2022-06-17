@@ -77,8 +77,12 @@ operation.</p>
     <h2>Arguments</h2>
     <dl><dt>gtfs</dt>
 <dd><p>A GTFS object, as created by <code><a href="read_gtfs.html">read_gtfs()</a></code>.</p></dd>
+
+
 <dt>geom</dt>
 <dd><p>An <code>sf</code> object. Describes the geometry used to filter the data.</p></dd>
+
+
 <dt>spatial_operation</dt>
 <dd><p>A spatial operation function from the set of
 options listed in <a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html" class="external-link">geos_binary_pred</a> (check the
@@ -87,14 +91,19 @@ definition of each function). Defaults to <code><a href="https://r-spatial.githu
 if the shapes and trips have ANY intersection with the object specified in
 <code>geom</code>. Please note that <code>geom</code> is passed as the <code>x</code> argument of these
 functions.</p></dd>
+
+
 <dt>keep</dt>
 <dd><p>A logical. Whether the entries related to the shapes and trips
 that cross through the given geometry should be kept or dropped (defaults
 to <code>TRUE</code>, which keeps the entries).</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The GTFS object passed to the <code>gtfs</code> parameter, after the filtering
+    
+
+<p>The GTFS object passed to the <code>gtfs</code> parameter, after the filtering
 process.</p>
     </div>
     <div id="see-also">
@@ -151,7 +160,7 @@ process.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

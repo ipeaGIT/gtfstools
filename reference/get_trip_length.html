@@ -75,22 +75,31 @@ or the <code>stop_times</code> file (or both).</p>
     <h2>Arguments</h2>
     <dl><dt>gtfs</dt>
 <dd><p>A GTFS object, as created by <code><a href="read_gtfs.html">read_gtfs()</a></code>.</p></dd>
+
+
 <dt>trip_id</dt>
 <dd><p>A character vector including the <code>trip_id</code>s to have their
 length calculated If <code>NULL</code> (the default), the function calculates the
 length of each <code>trip_id</code> in the GTFS.</p></dd>
+
+
 <dt>file</dt>
 <dd><p>A character vector specifying the file from which lengths should
 be calculated (either one of or both <code>shapes</code> and <code>stop_times</code>). If <code>NULL</code>
 (the default), the function attempts to calculate the lengths from both
 files, but only raises an error if none of the files exist.</p></dd>
+
+
 <dt>unit</dt>
 <dd><p>A string representing the unit in which lengths are desired.
 Either <code>"km"</code> (the default) or <code>"m"</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>data.table</code> containing the length of each specified trip.</p>
+    
+
+<p>A <code>data.table</code> containing the length of each specified trip.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -151,7 +160,7 @@ chosen file.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

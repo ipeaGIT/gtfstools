@@ -77,17 +77,24 @@ new fields with the <code>_secs</code> suffix.</p>
     <h2>Arguments</h2>
     <dl><dt>gtfs</dt>
 <dd><p>A GTFS object, as created by <code><a href="read_gtfs.html">read_gtfs()</a></code>.</p></dd>
+
+
 <dt>file</dt>
 <dd><p>A character vector, specifying the file whose fields should be
 converted. If <code>NULL</code> (the default), the function attempts to convert the
 times from both files, but only raises an error if none of them exist.</p></dd>
+
+
 <dt>by_reference</dt>
 <dd><p>Whether to update the tables by reference. Defaults to
 <code>FALSE</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>If <code>by_reference</code> is <code>FALSE</code>, returns a GTFS object with additional
+    
+
+<p>If <code>by_reference</code> is <code>FALSE</code>, returns a GTFS object with additional
 time in seconds columns (identified by a <code>_secs</code> suffix). Else, returns a
 GTFS object invisibly (please note that in such case the original GTFS object
 is altered).</p>
@@ -185,7 +192,7 @@ is altered).</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

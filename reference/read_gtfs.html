@@ -80,10 +80,14 @@
     <h2>Arguments</h2>
     <dl><dt>path</dt>
 <dd><p>The path to a GTFS <code>.zip</code> file.</p></dd>
+
+
 <dt>files</dt>
 <dd><p>A character vector containing the text files to be read from the
 GTFS (without the <code>.txt</code> extension). If <code>NULL</code> (the default) all existing
 files are read.</p></dd>
+
+
 <dt>fields</dt>
 <dd><p>A named list containing the fields to be read from each text
 file, in the format <code>list(file = c("field1", "field2"))</code>. If <code>NULL</code> (the
@@ -91,22 +95,31 @@ default), all fields from the files specified in <code>files</code> are read. If
 file is specified in <code>files</code> but not in <code>fields</code>, all fields from that file
 will be read (i.e. you may specify in <code>fields</code> only files whose fields you
 want to subset).</p></dd>
+
+
 <dt>skip</dt>
 <dd><p>A character vector containing the text files that should not be
 read from the GTFS, without the <code>.txt</code> extension. If <code>NULL</code> (the default),
 no files are skipped. Cannot be used if <code>files</code> is already set.</p></dd>
+
+
 <dt>quiet</dt>
 <dd><p>Whether to hide log messages and progress bars (defaults to
 <code>TRUE</code>).</p></dd>
+
+
 <dt>encoding</dt>
 <dd><p>A string, ultimately passed to <code><a href="https://Rdatatable.gitlab.io/data.table/reference/fread.html" class="external-link">data.table::fread()</a></code>.
 Defaults to <code>"unknown"</code>. Other possible options are <code>"UTF-8"</code> and
 <code>"Latin-1"</code>. Please note that this is not used to re-encode the input, but
 to enable handling encoded strings in their native encoding.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>data.table</code>-based GTFS object: a <code>list</code> of <code>data.table</code>s in which
+    
+
+<p>A <code>data.table</code>-based GTFS object: a <code>list</code> of <code>data.table</code>s in which
 each table represents a GTFS text file.</p>
     </div>
     <div id="details">
@@ -166,7 +179,7 @@ using <code><a href="write_gtfs.html">write_gtfs()</a></code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

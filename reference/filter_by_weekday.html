@@ -75,21 +75,30 @@ in each file.</p>
     <h2>Arguments</h2>
     <dl><dt>gtfs</dt>
 <dd><p>A GTFS object, as created by <code><a href="read_gtfs.html">read_gtfs()</a></code>.</p></dd>
+
+
 <dt>weekday</dt>
 <dd><p>A character vector. The weekdays used to filter the data.
 Possible values are <code>c("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday")</code>.</p></dd>
+
+
 <dt>combine</dt>
 <dd><p>A string. Specifies which logic operation (OR or AND) should
 be used to filter the calendar table when multiple weekdays are specified.
 Defaults to <code>"or"</code>. Please check the details and examples sections for more
 information on this argument usage.</p></dd>
+
+
 <dt>keep</dt>
 <dd><p>A logical. Whether the entries related to the specified weekdays
 should be kept or dropped (defaults to <code>TRUE</code>, which keeps the entries).</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The GTFS object passed to the <code>gtfs</code> parameter, after the filtering
+    
+
+<p>The GTFS object passed to the <code>gtfs</code> parameter, after the filtering
 process.</p>
     </div>
     <div id="combine-usage">
@@ -210,7 +219,7 @@ pass to <code>keep</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>
