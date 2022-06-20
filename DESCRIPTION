@@ -41,6 +41,7 @@ Depends:
     R (>= 2.10)
 Imports:
     checkmate,
+    curl,
     data.table,
     gtfsio (>= 1.0.0),
     sf,

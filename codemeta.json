@@ -177,6 +177,18 @@
     },
     "3": {
       "@type": "SoftwareApplication",
+      "identifier": "curl",
+      "name": "curl",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=curl"
+    },
+    "4": {
+      "@type": "SoftwareApplication",
       "identifier": "data.table",
       "name": "data.table",
       "provider": {
@@ -187,7 +199,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=data.table"
     },
-    "4": {
+    "5": {
       "@type": "SoftwareApplication",
       "identifier": "gtfsio",
       "name": "gtfsio",
@@ -200,7 +212,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=gtfsio"
     },
-    "5": {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "sf",
       "name": "sf",
@@ -212,7 +224,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=sf"
     },
-    "6": {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "sfheaders",
       "name": "sfheaders",
@@ -224,7 +236,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=sfheaders"
     },
-    "7": {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "units",
       "name": "units",
@@ -236,14 +248,14 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=units"
     },
-    "8": {
+    "9": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
     "SystemRequirements": null
   },
-  "fileSize": "3977.06KB",
+  "fileSize": "2982.083KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
