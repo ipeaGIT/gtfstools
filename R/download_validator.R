@@ -35,7 +35,7 @@ download_validator <- function(path, version = "latest", quiet = TRUE) {
     "1.4.0",
     "1.3.1",
     "1.3.0",
-    "1.2.2",
+    # "1.2.2", # .jar not available on release
     "1.2.1",
     "1.2.0",
     "1.1.0",
@@ -53,6 +53,11 @@ download_validator <- function(path, version = "latest", quiet = TRUE) {
     checkmate::check_names(version, subset.of = available_versions),
     combine = "and"
   )
+  checkmate::assert_logical(quiet, any.missing = FALSE, len = 1)
+
+  if (version == "latest") {
+    version <- setdiff(available_versions, "latest")[1]
+  }
 
   validator_url <- get_validator_url(version, available_versions)
 
@@ -62,26 +67,32 @@ download_validator <- function(path, version = "latest", quiet = TRUE) {
     return(response$status_code)
   }
 
-  output_file <- file.path(path, basename(validator_url))
+  validator_basename <- paste0("gtfs-validator-v", version)
+  output_file <- file.path(path, validator_basename)
   if (!quiet) message("Downloading ", validator_url, " to ", output_file, ".")
 
   curl::curl_download(validator_url, destfile = output_file, quiet = quiet)
-  return(invisible(normalizePath(path)))
+  return(invisible(normalizePath(output_file)))
 }
 
 get_validator_url <- function(version, available_versions) {
   base_url <- "https://github.com/MobilityData/gtfs-validator/releases/"
 
-  if (version == "latest") {
-    version <- setdiff(available_versions, "latest")[1]
-  }
-
   release_url <- paste0(base_url, "download/v", version, "/")
   cli_basename <- paste0("gtfs-validator-", version, "-cli.jar")
-  if (numeric_version(version) < numeric_version("3.1.0")) {
-    cli_basename <- sub("-cli", "_cli", cli_basename)
+
+  if (version == "1.0.0") {
+    cli_basename <- "gtfs-validator.jar"
+  } else if (numeric_version(version) < numeric_version("3.1.0")) {
     cli_basename <- sub("gtfs-validator-", "gtfs-validator-v", cli_basename)
+
+    if (numeric_version(version) > numeric_version("1.2.2")) {
+      cli_basename <- sub("-cli", "_cli", cli_basename)
+    } else if (numeric_version(version) < numeric_version("1.2.2")) {
+      cli_basename <- sub("-cli", "", cli_basename)
+    }
   }
+
   validator_url <- paste0(release_url, cli_basename)
 
   return(validator_url)
