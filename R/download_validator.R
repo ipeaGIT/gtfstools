@@ -54,20 +54,12 @@ download_validator <- function(path, version = "latest", quiet = TRUE) {
     combine = "and"
   )
 
-  base_url <- "https://github.com/MobilityData/gtfs-validator/releases/"
+  validator_url <- get_validator_url(version, available_versions)
 
-  if (version == "latest") {
-    release_url <- paste0(base_url, "latest")
-  } else {
-    release_url <- paste0(base_url, "tag/v", version)
-  }
-
-  validator_url <- get_validator_url(release_url)
-
-  do_download <- as.logical(Sys.getenv("DOWNLOAD_VALIDATOR", unset = TRUE))
-  if (!do_download) {
-    download_request <- curl::curl_fetch_memory(validator_url)
-    return(download_request$status_code)
+  parse_content <- getOption("GTFSTOOLS_PARSE_RESPONSE", default = TRUE)
+  if (!parse_content) {
+    response <- curl::curl_fetch_memory(validator_url)
+    return(response$status_code)
   }
 
   output_file <- file.path(path, basename(validator_url))
@@ -77,30 +69,20 @@ download_validator <- function(path, version = "latest", quiet = TRUE) {
   return(invisible(normalizePath(path)))
 }
 
-get_validator_url <- function(release_url) {
-  # we have to inspect the url first to get a "real" version from 'latest'.
-  # this way we don't need to manually update the list of versions every time a
-  # new version is released (people would still be able to get the latest
-  # version, at least)
+get_validator_url <- function(version, available_versions) {
+  base_url <- "https://github.com/MobilityData/gtfs-validator/releases/"
 
-  request <- curl::curl_fetch_memory(release_url)
-
-  versioned_url <- request$url
-  versioned_download_url <- sub("\\/tag\\/", "\\/download\\/", versioned_url)
-
-  string_length <- nchar(versioned_download_url)
-  url_version <- substring(
-    versioned_download_url,
-    first = regexpr("\\d+\\.\\d+\\.\\d+", versioned_download_url),
-    last = string_length
-  )
-  cli_basename <- paste0("gtfs-validator-", url_version, "-cli.jar")
-  validator_url <- file.path(versioned_download_url, cli_basename)
-
-  if (numeric_version(url_version) < numeric_version("3.1.0")) {
-    validator_url <- sub("-cli", "_cli", validator_url)
-    validator_url <- sub("gtfs-validator-", "gtfs-validator-v", validator_url)
+  if (version == "latest") {
+    version <- setdiff(available_versions, "latest")[1]
   }
+
+  release_url <- paste0(base_url, "download/v", version, "/")
+  cli_basename <- paste0("gtfs-validator-", version, "-cli.jar")
+  if (numeric_version(version) < numeric_version("3.1.0")) {
+    cli_basename <- sub("-cli", "_cli", cli_basename)
+    cli_basename <- sub("gtfs-validator-", "gtfs-validator-v", cli_basename)
+  }
+  validator_url <- paste0(release_url, cli_basename)
 
   return(validator_url)
 }
