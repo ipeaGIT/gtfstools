@@ -23,6 +23,12 @@ jobs:
       - uses: r-lib/actions/setup-r@v1
         id: install-r
 
+      - name: Java setup
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+          java-package: jdk
+
       - name: Install pak and query dependencies
         run: |
           install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")
