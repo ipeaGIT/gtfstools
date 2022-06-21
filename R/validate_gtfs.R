@@ -11,8 +11,11 @@
 #'   and in which the results will be saved to.
 #' @param validator_path The path to the GTFS validator, previously downloaded
 #'   with [download_validator()].
+#' @param overwrite Whether to overwrite existing validation results in
+#'   `output_path` (defaults to `TRUE`).
 #' @param html_preview Whether to show HTML report in a viewer, such as RStudio
 #'   or a browser. Defaults to `TRUE` (only works on interactive sessions).
+#' @param quiet Whether to hide informative messages (defaults to `TRUE`).
 #'
 #' @return Invisibly returns the normalized path to the directory where the
 #'   validation results were saved to.
@@ -43,40 +46,37 @@
 validate_gtfs <- function(gtfs,
                           output_path,
                           validator_path,
-                          html_preview = TRUE) {
+                          overwrite = TRUE,
+                          html_preview = TRUE,
+                          quiet = TRUE) {
   assert_java_version()
-  checkmate::assert_path_for_output(output_path)
-  checkmate::assert_file_exists(validator_path)
+  assert_gtfs(gtfs)
+  checkmate::assert(
+    checkmate::check_string(output_path),
+    checkmate::check_path_for_output(output_path, overwrite = TRUE),
+    combine = "and"
+  )
+  checkmate::assert(
+    checkmate::check_string(validator_path),
+    checkmate::check_file_exists(validator_path),
+    combine = "and"
+  )
+  checkmate::assert_logical(overwrite, any.missing = FALSE, len = 1)
   checkmate::assert_logical(html_preview, any.missing = FALSE, len = 1)
-
-  if (!inherits(gtfs, "dt_gtfs")) {
-    if (!checkmate::test_string(gtfs)) {
-      stop(
-        "Assertion on 'gtfs' failed: Must either be a GTFS object (with ",
-        "dt_gtfs class), a path to a local GTFS feed or an URL to a feed."
-      )
-    }
-    is_url <- grepl("^http[s]?\\:\\/\\/\\.*", gtfs)
-    if (!(file.exists(gtfs) || is_url)) {
-      stop(
-        "Assertion on 'gtfs' failed: Must either be a GTFS object (with ",
-        "dt_gtfs class), a path to a local GTFS feed or an URL to a feed."
-      )
-    }
-  }
-
-  command_flags <- c("-jar", validator_path, "-o", output_path)
+  checkmate::assert_logical(quiet, any.missing = FALSE, len = 1)
+  assert_overwritten_files(output_path, overwrite)
 
   if (inherits(gtfs, "dt_gtfs")) {
     gtfs_path <- tempfile("gtfs", fileext = ".zip")
     write_gtfs(gtfs, gtfs_path)
-    command_flags <- c(command_flags, "-i", gtfs_path)
-  } else if (!is_url) {
-    command_flags <- c(command_flags, "-i", gtfs)
-  } else {
-    command_flags <- c(command_flags, "-u", gtfs)
+    gtfs <- gtfs_path
   }
 
+  command_flags <- c(
+    "-jar", validator_path,
+    "-i", gtfs,
+    "-o", output_path
+  )
   call_output <- processx::run("java", command_flags)
 
   if (call_output$stdout != "") {
@@ -99,6 +99,41 @@ validate_gtfs <- function(gtfs,
   }
 
   return(invisible(normalizePath(output_path)))
+}
+
+assert_gtfs <- function(gtfs) {
+  if (!inherits(gtfs, "dt_gtfs")) {
+    if (!checkmate::test_string(gtfs)) {
+      stop(
+        "Assertion on 'gtfs' failed: Must either be a GTFS object (with ",
+        "dt_gtfs class), a path to a local GTFS file or an URL to a feed."
+      )
+    }
+    is_url <- grepl("^http[s]?\\:\\/\\/\\.*", gtfs)
+    if (is_url) {
+      tmpfile <- tempfile("gtfs", fileext = ".zip")
+      curl::curl_download(gtfs, tmpfile, quiet = quiet)
+      gtfs <- tmpfile
+    }
+
+    if (file.exists(gtfs)) {
+      ziplist <- tryCatch(zip::zip_list(gtfs), error = function(cnd) cnd)
+      is_zip <- !inherits(ziplist, "error")
+
+      if (!is_zip) {
+        element <- ifelse(is_url, " URL ", " path ")
+        stop(
+          "Assertion on 'gtfs' failed: The provided",
+          element,
+          "doesn't seem to point to a GTFS file."
+        )
+      }
+    } else {
+      stop("Assertion on 'gtfs' failed: File does not exist.")
+    }
+  }
+
+  return(invisible(TRUE))
 }
 
 assert_java_version <- function() {
@@ -127,4 +162,29 @@ assert_java_version <- function() {
   }
 
   return(invisible(TRUE))
+}
+
+assert_overwritten_files <- function(output_path, overwrite) {
+  if (dir.exists(output_path)) {
+    checkmate::assert_path_for_output(
+      file.path(output_path, "report.html"),
+      overwrite = overwrite
+    )
+    checkmate::assert_path_for_output(
+      file.path(output_path, "report.json"),
+      overwrite = overwrite
+    )
+    checkmate::assert_path_for_output(
+      file.path(output_path, "system_errors.json"),
+      overwrite = overwrite
+    )
+    checkmate::assert_path_for_output(
+      file.path(output_path, "validation_stdout.txt"),
+      overwrite = overwrite
+    )
+    checkmate::assert_path_for_output(
+      file.path(output_path, "validation_stderr.txt"),
+      overwrite = overwrite
+    )
+  }
 }

@@ -142,18 +142,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=testthat"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "zip",
-      "name": "zip",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=zip"
     }
   ],
   "softwareRequirements": {
@@ -265,9 +253,21 @@
       "identifier": "utils",
       "name": "utils"
     },
+    "11": {
+      "@type": "SoftwareApplication",
+      "identifier": "zip",
+      "name": "zip",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=zip"
+    },
     "SystemRequirements": null
   },
-  "fileSize": "2975.636KB",
+  "fileSize": "2969.086KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",

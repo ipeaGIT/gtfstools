@@ -48,14 +48,14 @@ Imports:
     sf,
     sfheaders,
     units,
-    utils
+    utils,
+    zip
 Suggests: 
     covr,
     ggplot2,
     knitr,
     rmarkdown,
     testthat,
-    zip
 LinkingTo:
     cpp11
 VignetteBuilder: 
