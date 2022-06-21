@@ -6,10 +6,10 @@ on:
     branches:
       - master
 
-name: R-CMD-check
+name: check_as_cran
 
 jobs:
-  R-CMD-check-CRAN:
+  check_as_cran:
     runs-on: ${{ matrix.config.os }}
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})

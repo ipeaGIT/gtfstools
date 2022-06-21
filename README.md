@@ -6,7 +6,7 @@ status](https://www.r-pkg.org/badges/version/gtfstools)](https://CRAN.R-project.
 [![gtfstools status
 badge](https://dhersz.r-universe.dev/badges/gtfstools)](https://dhersz.r-universe.dev)
 [![B
-status](https://github.com/ipeaGIT/gtfstools/workflows/R-CMD-check/badge.svg)](https://github.com/ipeaGIT/gtfstools/actions?query=workflow%3AR-CMD-check)
+status](https://github.com/ipeaGIT/gtfstools/workflows/check/badge.svg)](https://github.com/ipeaGIT/gtfstools/actions?query=workflow%3Acheck)
 [![Codecov test
 coverage](https://codecov.io/gh/ipeaGIT/gtfstools/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ipeaGIT/gtfstools?branch=master)
 [![Lifecycle:
