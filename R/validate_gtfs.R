@@ -25,6 +25,8 @@
 #' validate_gtfs(gtfs_path, output_path, validator_path)
 #' @export
 validate_gtfs <- function(gtfs, output_path, validator_path) {
+  assert_java_version()
+
   call_output <- processx::run(
     "java",
     c("-jar", validator_path, "-i", gtfs, "-o", output_path)
@@ -45,4 +47,32 @@ validate_gtfs <- function(gtfs, output_path, validator_path) {
   }
 
   return(invisible(normalizePath(output_path)))
+}
+
+assert_java_version <- function() {
+  informative_message <- paste0(
+    "Please install Java version 11 or higher to run the validator.\n",
+    "You can download Java 11 from https://jdk.java.net/java-se-ri/11."
+  )
+  java_version_output <- tryCatch(
+    processx::run("java", "-version"),
+    error = function(cnd) cnd
+  )
+
+  if (inherits(java_version_output, "error")) {
+    stop("Could not find Java on the system path. ", informative_message)
+  }
+
+  full_java_version <- strsplit(java_version_output$stderr, "\"")[[1]][2]
+  java_version <- strsplit(full_java_version, "_")[[1]][1]
+  java_version <- numeric_version(java_version)
+
+  if (java_version < numeric_version("11.0.0")) {
+    stop(
+      "You seem to have Java version ", full_java_version, " installed. ",
+      informative_message
+    )
+  }
+
+  return(invisible(TRUE))
 }
