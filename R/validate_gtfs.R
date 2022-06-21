@@ -50,7 +50,7 @@ validate_gtfs <- function(gtfs,
                           html_preview = TRUE,
                           quiet = TRUE) {
   assert_java_version()
-  assert_gtfs(gtfs)
+  checkmate::assert_logical(quiet, any.missing = FALSE, len = 1)
   checkmate::assert(
     checkmate::check_string(output_path),
     checkmate::check_path_for_output(output_path, overwrite = TRUE),
@@ -63,8 +63,9 @@ validate_gtfs <- function(gtfs,
   )
   checkmate::assert_logical(overwrite, any.missing = FALSE, len = 1)
   checkmate::assert_logical(html_preview, any.missing = FALSE, len = 1)
-  checkmate::assert_logical(quiet, any.missing = FALSE, len = 1)
   assert_overwritten_files(output_path, overwrite)
+
+  gtfs <- assert_and_assign_gtfs(gtfs, quiet)
 
   if (inherits(gtfs, "dt_gtfs")) {
     gtfs_path <- tempfile("gtfs", fileext = ".zip")
@@ -101,7 +102,7 @@ validate_gtfs <- function(gtfs,
   return(invisible(normalizePath(output_path)))
 }
 
-assert_gtfs <- function(gtfs) {
+assert_and_assign_gtfs <- function(gtfs, quiet) {
   if (!inherits(gtfs, "dt_gtfs")) {
     if (!checkmate::test_string(gtfs)) {
       stop(
@@ -133,7 +134,7 @@ assert_gtfs <- function(gtfs) {
     }
   }
 
-  return(invisible(TRUE))
+  return(gtfs)
 }
 
 assert_java_version <- function() {

@@ -4,7 +4,14 @@
 \alias{validate_gtfs}
 \title{Validate GTFS feed}
 \usage{
-validate_gtfs(gtfs, output_path, validator_path, html_preview = TRUE)
+validate_gtfs(
+  gtfs,
+  output_path,
+  validator_path,
+  overwrite = TRUE,
+  html_preview = TRUE,
+  quiet = TRUE
+)
 }
 \arguments{
 \item{gtfs}{The path to the GTFS feed to be validated.}
@@ -15,8 +22,13 @@ and in which the results will be saved to.}
 \item{validator_path}{The path to the GTFS validator, previously downloaded
 with \code{\link[=download_validator]{download_validator()}}.}
 
+\item{overwrite}{Whether to overwrite existing validation results in
+\code{output_path} (defaults to \code{TRUE}).}
+
 \item{html_preview}{Whether to show HTML report in a viewer, such as RStudio
 or a browser. Defaults to \code{TRUE} (only works on interactive sessions).}
+
+\item{quiet}{Whether to hide informative messages (defaults to \code{TRUE}).}
 }
 \value{
 Invisibly returns the normalized path to the directory where the
