@@ -26,7 +26,7 @@ Downloads MobilityData's command line tool to validate GTFS feeds.
 }
 \examples{
 \dontshow{if (identical(tolower(Sys.getenv("NOT_CRAN")), "true")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-path <- tempfile()
+path <- tempdir()
 dir.create(path)
 
 download_validator(path)
@@ -34,5 +34,9 @@ download_validator(path)
 # specifying a specific version
 download_validator(path, version = "3.1.0")
 \dontshow{\}) # examplesIf}
+}
+\seealso{
+Other validation: 
+\code{\link{validate_gtfs}()}
 }
 \concept{validation}

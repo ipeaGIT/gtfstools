@@ -214,6 +214,18 @@
     },
     "6": {
       "@type": "SoftwareApplication",
+      "identifier": "processx",
+      "name": "processx",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=processx"
+    },
+    "7": {
+      "@type": "SoftwareApplication",
       "identifier": "sf",
       "name": "sf",
       "provider": {
@@ -224,7 +236,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=sf"
     },
-    "7": {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "sfheaders",
       "name": "sfheaders",
@@ -236,7 +248,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=sfheaders"
     },
-    "8": {
+    "9": {
       "@type": "SoftwareApplication",
       "identifier": "units",
       "name": "units",
@@ -248,14 +260,14 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=units"
     },
-    "9": {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
     "SystemRequirements": null
   },
-  "fileSize": "2982.083KB",
+  "fileSize": "2975.636KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",

@@ -17,7 +17,7 @@
 #' @family validation
 #'
 #' @examplesIf identical(tolower(Sys.getenv("NOT_CRAN")), "true")
-#' path <- tempfile()
+#' path <- tempdir()
 #' dir.create(path)
 #'
 #' download_validator(path)

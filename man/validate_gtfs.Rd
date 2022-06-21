@@ -2,73 +2,40 @@
 % Please edit documentation in R/validate_gtfs.R
 \name{validate_gtfs}
 \alias{validate_gtfs}
-\title{Validate GTFS file}
+\title{Validate GTFS feed}
 \usage{
-validate_gtfs(gtfs, files = NULL, quiet = TRUE, warnings = TRUE)
+validate_gtfs(gtfs, output_path, validator_path)
 }
 \arguments{
-\item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
+\item{gtfs}{The path to the GTFS feed to be validated.}
 
-\item{files}{A character vector containing the text files to be validated
-against the GTFS specification (without the \code{.txt} extension). If
-\code{NULL} (the default) the provided GTFS is validated against all
-possible GTFS text files.}
+\item{output_path}{The path to the directory that the validator will create
+and in which the results will be saved to.}
 
-\item{quiet}{Whether to hide log messages (defaults to TRUE).}
-
-\item{warnings}{Whether to display warning messages (defaults to TRUE).}
+\item{validator_path}{The path to the GTFS validator, previously downloaded
+with \code{\link[=download_validator]{download_validator()}}.}
 }
 \value{
-A GTFS object with a \code{validation_result} attribute. This
-attribute is a \code{data.table} containing the validation summary of all
-possible fields from the specified files.
+Invisibly returns the normalized path to the directory where the
+validation results were saved to.
 }
 \description{
-Validates the GTFS object against GTFS specifications and raises warnings if
-required files/fields are not found.
-
-Important note: this function is considered deprecated. Use it with caution,
-and note that its usage and output may heavily change in future versions of
-\code{gtfstools}.
+Uses MobilityData's \href{https://github.com/MobilityData/gtfs-validator}{GTFS validator} to perform a GTFS
+business rule validation. The results are available as an HTML report and in
+JSON format. Please check the complete set of rules used in the validation
+\href{https://github.com/MobilityData/gtfs-validator/blob/master/RULES.md}{here}.
 }
-\section{Details}{
-
-GTFS object's files and fields are validated against the GTFS specifications
-as documented in \href{https://developers.google.com/transit/gtfs/reference}{
-Google's Static GTFS Reference}:
-\itemize{
-\item GTFS feeds are considered valid if they include all required files
-and fields. If a required file/field is missing the function (optionally)
-raises a warning.
-\item Optional files/fields are listed in the reference above but are not
-required, thus no warning is raised if they are missing.
-\item Extra files/fields are those who are not listed in the reference
-above (either because they refer to a specific GTFS extension or due to
-any other reason).
-}
-Note that some files (\code{calendar.txt}, \code{calendar_dates.txt} and
-\code{feed_info.txt}) are conditionally required. This means that:
-\itemize{
-\item \code{calendar.txt} is initially set as a required file. If it's not
-present, however, it becomes optional and \code{calendar_dates.txt}
-(originally set as optional) becomes required.
-\item \code{feed_info.txt} is initially set as an optional file. If
-\code{translations.txt} is present, however, it becomes required.
-}
-}
-
 \examples{
-data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
+\dontshow{if (identical(tolower(Sys.getenv("NOT_CRAN")), "true")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+gtfs_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
+output_path <- tempfile("validation_result")
+validator_path <- download_validator(tempdir())
 
-gtfs <- read_gtfs(data_path)
-attr(gtfs, "validation_result")
-
-# should not raise a warning, because 'shapes' is not a required file
-gtfs$shapes <- NULL
-validation_result <- validate_gtfs(gtfs)
-
-# should raise a warning, because 'stop_times' is a required file
-gtfs$stop_times <- NULL
-validation_result <- validate_gtfs(gtfs)
-
+validate_gtfs(gtfs_path, output_path, validator_path)
+\dontshow{\}) # examplesIf}
 }
+\seealso{
+Other validation: 
+\code{\link{download_validator}()}
+}
+\concept{validation}
