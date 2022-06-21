@@ -4,7 +4,7 @@
 \alias{validate_gtfs}
 \title{Validate GTFS feed}
 \usage{
-validate_gtfs(gtfs, output_path, validator_path)
+validate_gtfs(gtfs, output_path, validator_path, html_preview = TRUE)
 }
 \arguments{
 \item{gtfs}{The path to the GTFS feed to be validated.}
@@ -14,6 +14,9 @@ and in which the results will be saved to.}
 
 \item{validator_path}{The path to the GTFS validator, previously downloaded
 with \code{\link[=download_validator]{download_validator()}}.}
+
+\item{html_preview}{Whether to show HTML report in a viewer, such as RStudio
+or a browser. Defaults to \code{TRUE} (only works on interactive sessions).}
 }
 \value{
 Invisibly returns the normalized path to the directory where the
@@ -27,11 +30,24 @@ JSON format. Please check the complete set of rules used in the validation
 }
 \examples{
 \dontshow{if (identical(tolower(Sys.getenv("NOT_CRAN")), "true")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-gtfs_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
+data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 output_path <- tempfile("validation_result")
 validator_path <- download_validator(tempdir())
+gtfs <- read_gtfs(data_path)
 
-validate_gtfs(gtfs_path, output_path, validator_path)
+validate_gtfs(gtfs, output_path, validator_path)
+list.files(output_path)
+
+# works with feeds saved to disk
+new_output_path <- tempfile("new_validation_result")
+validate_gtfs(data_path, new_output_path, validator_path)
+list.files(new_output_path)
+
+# and with feeds pointed by an url
+newer_output_path <- tempfile("newer_validation_result")
+gtfs_url <- "https://github.com/ipeaGIT/gtfstools/raw/master/inst/extdata/spo_gtfs.zip"
+validate_gtfs(gtfs_url, newer_output_path, validator_path)
+list.files(newer_output_path)
 \dontshow{\}) # examplesIf}
 }
 \seealso{
