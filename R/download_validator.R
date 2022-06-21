@@ -16,7 +16,7 @@
 #'
 #' @family validation
 #'
-#' @examples
+#' @examplesIf identical(tolower(Sys.getenv("NOT_CRAN")), "true")
 #' path <- tempfile()
 #' dir.create(path)
 #'
