@@ -73,7 +73,7 @@ test_that("quiet argument is respected", {
   )
 
   curl_messages <- readLines(download_messages)
-  expect_true(any(grepl("\\[\\d%\\] Downloaded \\d* bytes", curl_messages)))
+  expect_true(any(grepl("\\[\\d*%\\] Downloaded \\d* bytes", curl_messages)))
 })
 
 test_that("all versions can be downloaded", {
