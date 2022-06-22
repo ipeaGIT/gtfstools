@@ -76,3 +76,57 @@ test_that("doesn't overwrite existing results with overwrite = FALSE", {
   create_test_delete("validation_stdout.txt")
   create_test_delete("validation_stderr.txt")
 })
+
+test_that("errors if validator_basename is not gtfs-validator-vX.Y.Z.jar", {
+  invalid_validator_path <- sub("\\.jar$", "", validator)
+  expect_error(tester(validator_path = invalid_validator_path))
+})
+
+validation_works <- function(input, validator_version = "latest") {
+  validation_dir <- tempfile(paste0("validator_", validator_version))
+  validator_path <- download_validator(tempdir(), validator_version)
+  validator_numeric_version <- gtfstools:::parse_validator_version(
+    validator_path
+  )
+
+  validation_result <- tester(
+    input,
+    validation_dir,
+    validator_path = validator_path,
+    html_preview = FALSE
+  )
+
+  if (validator_numeric_version >= numeric_version("3.1.0")) {
+    expect_true(file.exists(file.path(validation_dir, "report.html")))
+  }
+
+  if (validator_numeric_version < numeric_version("3.1.0")) {
+    expect_true(file.exists(file.path(validation_dir, "validation_stdout.txt")))
+  }
+
+  expect_true(file.exists(file.path(validation_dir, "report.json")))
+  expect_true(file.exists(file.path(validation_dir, "system_errors.json")))
+  expect_true(file.exists(file.path(validation_dir, "validation_stderr.txt")))
+  expect_identical(validation_result, normalizePath(validation_dir))
+
+  return(invisible(TRUE))
+}
+
+test_that("validation works with the 3 types of input (url, path, object)", {
+  validation_works(gtfs)
+  validation_works(data_path)
+  validation_works(gtfs_url)
+})
+
+test_that("all versions of the validation work", {
+  available_versions <- c(
+    "latest",
+    "3.1.0",
+    "3.0.1",
+    "3.0.0"
+  )
+
+  for (version in available_versions) {
+    expect_true(validation_works(data_path, version))
+  }
+})

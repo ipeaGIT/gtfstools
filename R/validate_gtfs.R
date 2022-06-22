@@ -56,7 +56,6 @@ validate_gtfs <- function(gtfs,
                           pretty_json = FALSE,
                           quiet = TRUE) {
   assert_java_version()
-  checkmate::assert_logical(quiet, any.missing = FALSE, len = 1)
   checkmate::assert(
     checkmate::check_string(output_path),
     checkmate::check_path_for_output(output_path, overwrite = TRUE),
@@ -70,9 +69,11 @@ validate_gtfs <- function(gtfs,
   checkmate::assert_logical(overwrite, any.missing = FALSE, len = 1)
   checkmate::assert_logical(html_preview, any.missing = FALSE, len = 1)
   checkmate::assert_logical(pretty_json, any.missing = FALSE, len = 1)
+  checkmate::assert_logical(quiet, any.missing = FALSE, len = 1)
   assert_overwritten_files(output_path, overwrite)
 
   gtfs <- assert_and_assign_gtfs(gtfs, quiet)
+  validator_version <- parse_validator_version(validator_path)
 
   if (inherits(gtfs, "dt_gtfs")) {
     gtfs_path <- tempfile("gtfs", fileext = ".zip")
@@ -105,12 +106,37 @@ validate_gtfs <- function(gtfs,
     )
   }
 
-  if (interactive() && html_preview) {
+  if (
+    interactive() &&
+      html_preview &&
+      validator_version >= numeric_version("3.1.0")
+  ) {
     html_path <- file.path(output_path, "report.html")
     utils::browseURL(html_path)
   }
 
   return(invisible(normalizePath(output_path)))
+}
+
+parse_validator_version <- function(validator_path) {
+  version_region <- regexpr("\\d+\\.\\d+\\.\\d+\\.jar$", validator_path)
+
+  if (version_region == -1) {
+    stop(
+      "Assertion on 'validator_path' failed: Could not parse validator ",
+      "version. Please make sure that the path is in the format ",
+      "gtfs-validator-vX.Y.Z.jar"
+    )
+  }
+
+  version <- substring(
+    validator_path,
+    version_region,
+    nchar(validator_path) - 4
+  )
+  version <- numeric_version(version)
+
+  return(version)
 }
 
 assert_and_assign_gtfs <- function(gtfs, quiet) {
