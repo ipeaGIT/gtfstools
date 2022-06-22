@@ -78,6 +78,7 @@ JSON format. Please check the complete set of rules used in the validation
   <span class="va">validator_path</span>,
   overwrite <span class="op">=</span> <span class="cn">TRUE</span>,
   html_preview <span class="op">=</span> <span class="cn">TRUE</span>,
+  pretty_json <span class="op">=</span> <span class="cn">FALSE</span>,
   quiet <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -89,27 +90,35 @@ JSON format. Please check the complete set of rules used in the validation
 
 
 <dt>output_path</dt>
-<dd><p>The path to the directory that the validator will create
-and in which the results will be saved to.</p></dd>
+<dd><p>A string. The path to the directory that the validator
+will create and in which the results will be saved to.</p></dd>
 
 
 <dt>validator_path</dt>
-<dd><p>The path to the GTFS validator, previously downloaded
-with <code><a href="download_validator.html">download_validator()</a></code>.</p></dd>
+<dd><p>A string. The path to the GTFS validator, previously
+downloaded with <code><a href="download_validator.html">download_validator()</a></code>.</p></dd>
 
 
 <dt>overwrite</dt>
-<dd><p>Whether to overwrite existing validation results in
-<code>output_path</code> (defaults to <code>TRUE</code>).</p></dd>
+<dd><p>A logical. Whether to overwrite existing validation results
+in <code>output_path</code>. Defaults to <code>TRUE</code>.</p></dd>
 
 
 <dt>html_preview</dt>
-<dd><p>Whether to show HTML report in a viewer, such as RStudio
-or a browser. Defaults to <code>TRUE</code> (only works on interactive sessions).</p></dd>
+<dd><p>A logical. Whether to show HTML report in a viewer, such
+as RStudio or a browser. Defaults to <code>TRUE</code> (only works on interactive
+sessions).</p></dd>
+
+
+<dt>pretty_json</dt>
+<dd><p>A logical. Whether JSON results should be printed in a
+readable way, that allows it to be inspected without manually formatting.
+Defaults to <code>FALSE</code>.</p></dd>
 
 
 <dt>quiet</dt>
-<dd><p>Whether to hide informative messages (defaults to <code>TRUE</code>).</p></dd>
+<dd><p>A logical. Whether to hide informative messages. Defaults to
+<code>TRUE</code>.</p></dd>
 
 </dl></div>
     <div id="value">
