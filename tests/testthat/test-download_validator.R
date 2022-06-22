@@ -45,10 +45,12 @@ test_that("validator is saved to path", {
 test_that("correct version is downloaded", {
   # latest defaults to highest version, else downloads specified version
   tester(version = "latest")
-  expect_true(grepl("gtfs-validator-v3\\.1\\.0", list.files(tmpdir)))
+  expect_true(grepl("gtfs-validator-v3\\.1\\.0\\.jar$", list.files(tmpdir)))
 
   tester(version = "3.0.0")
-  expect_true(any(grepl("gtfs-validator-v3\\.0\\.0", list.files(tmpdir))))
+  expect_true(
+    any(grepl("gtfs-validator-v3\\.0\\.0\\.jar$", list.files(tmpdir)))
+  )
   invisible(file.remove(list.files(tmpdir, full.names = TRUE)))
 })
 

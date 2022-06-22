@@ -67,7 +67,7 @@ download_validator <- function(path, version = "latest", quiet = TRUE) {
     return(response$status_code)
   }
 
-  validator_basename <- paste0("gtfs-validator-v", version)
+  validator_basename <- paste0("gtfs-validator-v", version, ".jar")
   output_file <- file.path(path, validator_basename)
   if (!quiet) message("Downloading ", validator_url, " to ", output_file, ".")
 
