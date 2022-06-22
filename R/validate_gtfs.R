@@ -7,15 +7,20 @@
 #' [here](https://github.com/MobilityData/gtfs-validator/blob/master/RULES.md).
 #'
 #' @param gtfs The path to the GTFS feed to be validated.
-#' @param output_path The path to the directory that the validator will create
-#'   and in which the results will be saved to.
-#' @param validator_path The path to the GTFS validator, previously downloaded
-#'   with [download_validator()].
-#' @param overwrite Whether to overwrite existing validation results in
-#'   `output_path` (defaults to `TRUE`).
-#' @param html_preview Whether to show HTML report in a viewer, such as RStudio
-#'   or a browser. Defaults to `TRUE` (only works on interactive sessions).
-#' @param quiet Whether to hide informative messages (defaults to `TRUE`).
+#' @param output_path A string. The path to the directory that the validator
+#'   will create and in which the results will be saved to.
+#' @param validator_path A string. The path to the GTFS validator, previously
+#'   downloaded with [download_validator()].
+#' @param overwrite A logical. Whether to overwrite existing validation results
+#'   in `output_path`. Defaults to `TRUE`.
+#' @param html_preview A logical. Whether to show HTML report in a viewer, such
+#'   as RStudio or a browser. Defaults to `TRUE` (only works on interactive
+#'   sessions).
+#' @param pretty_json A logical. Whether JSON results should be printed in a
+#'   readable way, that allows it to be inspected without manually formatting.
+#'   Defaults to `FALSE`.
+#' @param quiet A logical. Whether to hide informative messages. Defaults to
+#'   `TRUE`.
 #'
 #' @return Invisibly returns the normalized path to the directory where the
 #'   validation results were saved to.
@@ -48,6 +53,7 @@ validate_gtfs <- function(gtfs,
                           validator_path,
                           overwrite = TRUE,
                           html_preview = TRUE,
+                          pretty_json = FALSE,
                           quiet = TRUE) {
   assert_java_version()
   checkmate::assert_logical(quiet, any.missing = FALSE, len = 1)
@@ -63,6 +69,7 @@ validate_gtfs <- function(gtfs,
   )
   checkmate::assert_logical(overwrite, any.missing = FALSE, len = 1)
   checkmate::assert_logical(html_preview, any.missing = FALSE, len = 1)
+  checkmate::assert_logical(pretty_json, any.missing = FALSE, len = 1)
   assert_overwritten_files(output_path, overwrite)
 
   gtfs <- assert_and_assign_gtfs(gtfs, quiet)
@@ -73,10 +80,14 @@ validate_gtfs <- function(gtfs,
     gtfs <- gtfs_path
   }
 
+  pretty_json_flag <- ""
+  if (pretty_json) pretty_json_flag <- "-p"
+
   command_flags <- c(
     "-jar", validator_path,
     "-i", gtfs,
-    "-o", output_path
+    "-o", output_path,
+    pretty_json_flag
   )
   call_output <- processx::run("java", command_flags)
 

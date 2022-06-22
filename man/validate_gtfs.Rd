@@ -10,25 +10,32 @@ validate_gtfs(
   validator_path,
   overwrite = TRUE,
   html_preview = TRUE,
+  pretty_json = FALSE,
   quiet = TRUE
 )
 }
 \arguments{
 \item{gtfs}{The path to the GTFS feed to be validated.}
 
-\item{output_path}{The path to the directory that the validator will create
-and in which the results will be saved to.}
+\item{output_path}{A string. The path to the directory that the validator
+will create and in which the results will be saved to.}
 
-\item{validator_path}{The path to the GTFS validator, previously downloaded
-with \code{\link[=download_validator]{download_validator()}}.}
+\item{validator_path}{A string. The path to the GTFS validator, previously
+downloaded with \code{\link[=download_validator]{download_validator()}}.}
 
-\item{overwrite}{Whether to overwrite existing validation results in
-\code{output_path} (defaults to \code{TRUE}).}
+\item{overwrite}{A logical. Whether to overwrite existing validation results
+in \code{output_path}. Defaults to \code{TRUE}.}
 
-\item{html_preview}{Whether to show HTML report in a viewer, such as RStudio
-or a browser. Defaults to \code{TRUE} (only works on interactive sessions).}
+\item{html_preview}{A logical. Whether to show HTML report in a viewer, such
+as RStudio or a browser. Defaults to \code{TRUE} (only works on interactive
+sessions).}
 
-\item{quiet}{Whether to hide informative messages (defaults to \code{TRUE}).}
+\item{pretty_json}{A logical. Whether JSON results should be printed in a
+readable way, that allows it to be inspected without manually formatting.
+Defaults to \code{FALSE}.}
+
+\item{quiet}{A logical. Whether to hide informative messages. Defaults to
+\code{TRUE}.}
 }
 \value{
 Invisibly returns the normalized path to the directory where the

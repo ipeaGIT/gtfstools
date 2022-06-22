@@ -14,6 +14,7 @@ tester <- function(gtfs = get("gtfs", envir = parent.frame()),
                    validator_path = validator,
                    overwrite = TRUE,
                    html_preview = TRUE,
+                   pretty_json = FALSE,
                    quiet = TRUE) {
   validate_gtfs(
     gtfs,
@@ -21,6 +22,7 @@ tester <- function(gtfs = get("gtfs", envir = parent.frame()),
     validator_path,
     overwrite,
     html_preview,
+    pretty_json,
     quiet
   )
 }
@@ -50,6 +52,10 @@ test_that("raises error due to incorrect input", {
   expect_error(tester(html_preview = 1))
   expect_error(tester(html_preview = c(TRUE, TRUE)))
   expect_error(tester(html_preview = NA))
+
+  expect_error(tester(pretty_json = 1))
+  expect_error(tester(pretty_json = c(TRUE, TRUE)))
+  expect_error(tester(pretty_json = NA))
 
   expect_error(tester(quiet = 1))
   expect_error(tester(quiet = c(TRUE, TRUE)))
