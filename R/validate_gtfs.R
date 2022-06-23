@@ -22,6 +22,9 @@
 #'   Defaults to `FALSE`.
 #' @param quiet A logical. Whether to hide informative messages. Defaults to
 #'   `TRUE`.
+#' @param n_threads An integer between 1 and the number of cores in the running
+#'   machine. Control how many threads are used during the validation. Defaults
+#'   to using all but one of the available cores.
 #'
 #' @return Invisibly returns the normalized path to the directory where the
 #'   validation results were saved to.
@@ -55,7 +58,8 @@ validate_gtfs <- function(gtfs,
                           overwrite = TRUE,
                           html_preview = TRUE,
                           pretty_json = FALSE,
-                          quiet = TRUE) {
+                          quiet = TRUE,
+                          n_threads = parallel::detectCores() - 1) {
   assert_java_version()
   checkmate::assert(
     checkmate::check_string(output_path),
@@ -71,6 +75,12 @@ validate_gtfs <- function(gtfs,
   checkmate::assert_logical(html_preview, any.missing = FALSE, len = 1)
   checkmate::assert_logical(pretty_json, any.missing = FALSE, len = 1)
   checkmate::assert_logical(quiet, any.missing = FALSE, len = 1)
+  checkmate::assert_number(
+    n_threads,
+    lower = 1,
+    upper = parallel::detectCores(),
+    finite = TRUE
+  )
   assert_overwritten_files(output_path, overwrite)
 
   gtfs <- assert_and_assign_gtfs(gtfs, quiet)
@@ -83,6 +93,7 @@ validate_gtfs <- function(gtfs,
     "-jar", validator_path,
     "-i", gtfs,
     "-o", output_path,
+    "-t", n_threads,
     pretty_json_flag
   )
   if (!quiet) {

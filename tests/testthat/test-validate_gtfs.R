@@ -15,17 +15,16 @@ gtfs_dir <- tempfile("gtfs")
 write_gtfs(gtfs, gtfs_dir, as_dir = TRUE)
 
 output_dir <- tempfile("validate_gtfs_tests")
-validator_dir <- tempfile()
-dir.create(validator_dir)
-validator <- download_validator(validator_dir)
+validator <- download_validator(tempdir())
 
-tester <- function(gtfs = get("gtfs", envir = parent.frame()),
+tester <- function(gtfs = data_path,
                    output_path = output_dir,
                    validator_path = validator,
                    overwrite = TRUE,
                    html_preview = TRUE,
                    pretty_json = FALSE,
-                   quiet = TRUE) {
+                   quiet = TRUE,
+                   n_threads = 2) {
   validate_gtfs(
     gtfs,
     output_path,
@@ -33,7 +32,8 @@ tester <- function(gtfs = get("gtfs", envir = parent.frame()),
     overwrite,
     html_preview,
     pretty_json,
-    quiet
+    quiet,
+    n_threads
   )
 }
 
@@ -70,6 +70,12 @@ test_that("raises error due to incorrect input", {
   expect_error(tester(quiet = 1))
   expect_error(tester(quiet = c(TRUE, TRUE)))
   expect_error(tester(quiet = NA))
+
+  expect_error(tester(n_threads = "1"))
+  expect_error(tester(n_threads = 0))
+  expect_error(tester(n_threads = parallel::detectCores() + 1))
+  expect_error(tester(n_threads = Inf))
+  expect_error(tester(n_threads = c(1, 1)))
 })
 
 test_that("doesn't overwrite existing results with overwrite = FALSE", {
@@ -215,6 +221,43 @@ test_that("quiet arg works correctly", {
 
   expect_message(tester(gtfs, quiet = FALSE, html_preview = FALSE))
   expect_message(tester(data_path, quiet = FALSE, html_preview = FALSE))
-  expect_message(tester(gtfs_url, quiet = FALSE, html_preview = FALSE))
+  capture.output(
+    expect_message(tester(gtfs_url, quiet = FALSE, html_preview = FALSE)),
+    type = "message"
+  )
   expect_message(tester(gtfs_dir, quiet = FALSE, html_preview = FALSE))
+})
+
+test_that("n_threads arg works correctly", {
+  get_used_threads <- function(result, version) {
+    relevant_file <- file.path(result, "validation_stderr.txt")
+
+    running_info <- readLines(relevant_file)
+    thread_info <- running_info[grepl("thread", running_info)]
+
+    info_pos <- regexpr("\\d", thread_info)
+    n_threads <- as.integer(substring(thread_info, info_pos, info_pos))
+
+    return(n_threads)
+  }
+
+  for (version in available_versions) {
+    validator_path <- download_validator(tempdir(), version = version)
+    result <- tester(
+      validator_path = validator_path,
+      n_threads = 1,
+      html_preview = FALSE
+    )
+    expect_equal(get_used_threads(result), 1)
+  }
+
+  for (version in available_versions) {
+    validator_path <- download_validator(tempdir(), version = version)
+    result <- tester(
+      validator_path = validator_path,
+      n_threads = 2,
+      html_preview = FALSE
+    )
+    expect_equal(get_used_threads(result), 2)
+  }
 })

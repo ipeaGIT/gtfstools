@@ -11,11 +11,13 @@ validate_gtfs(
   overwrite = TRUE,
   html_preview = TRUE,
   pretty_json = FALSE,
-  quiet = TRUE
+  quiet = TRUE,
+  n_threads = parallel::detectCores() - 1
 )
 }
 \arguments{
-\item{gtfs}{The path to the GTFS feed to be validated.}
+\item{gtfs}{The GTFS to be validated. Can be in the format of a GTFS object,
+of a path to a GTFS file, of a path to a directory or an URL to a feed.}
 
 \item{output_path}{A string. The path to the directory that the validator
 will create and in which the results will be saved to.}
@@ -36,6 +38,10 @@ Defaults to \code{FALSE}.}
 
 \item{quiet}{A logical. Whether to hide informative messages. Defaults to
 \code{TRUE}.}
+
+\item{n_threads}{An integer between 1 and the number of cores in the running
+machine. Control how many threads are used during the validation. Defaults
+to using all but one of the available cores.}
 }
 \value{
 Invisibly returns the normalized path to the directory where the
