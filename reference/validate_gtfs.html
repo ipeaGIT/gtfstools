@@ -79,14 +79,16 @@ JSON format. Please check the complete set of rules used in the validation
   overwrite <span class="op">=</span> <span class="cn">TRUE</span>,
   html_preview <span class="op">=</span> <span class="cn">TRUE</span>,
   pretty_json <span class="op">=</span> <span class="cn">FALSE</span>,
-  quiet <span class="op">=</span> <span class="cn">TRUE</span>
+  quiet <span class="op">=</span> <span class="cn">TRUE</span>,
+  n_threads <span class="op">=</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>gtfs</dt>
-<dd><p>The path to the GTFS feed to be validated.</p></dd>
+<dd><p>The GTFS to be validated. Can be in the format of a GTFS object,
+of a path to a GTFS file, of a path to a directory or an URL to a feed.</p></dd>
 
 
 <dt>output_path</dt>
@@ -119,6 +121,12 @@ Defaults to <code>FALSE</code>.</p></dd>
 <dt>quiet</dt>
 <dd><p>A logical. Whether to hide informative messages. Defaults to
 <code>TRUE</code>.</p></dd>
+
+
+<dt>n_threads</dt>
+<dd><p>An integer between 1 and the number of cores in the running
+machine. Control how many threads are used during the validation. Defaults
+to using all but one of the available cores.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -174,7 +182,7 @@ validation results were saved to.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>
