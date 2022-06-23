@@ -53,14 +53,18 @@ write_gtfs <- function(gtfs,
   # inputs are more thoroughly checked on gtfsio::export_gtfs()
 
   checkmate::assert_class(gtfs, "dt_gtfs")
-  checkmate::assert_path_for_output(
-    path,
-    overwrite = overwrite,
-    extension = "zip"
-  )
+  checkmate::assert_logical(as_dir, any.missing = FALSE, len = 1)
+  if (as_dir) {
+    checkmate::assert_path_for_output(path, overwrite = overwrite)
+  } else {
+    checkmate::assert_path_for_output(
+      path,
+      overwrite = overwrite,
+      extension = "zip"
+    )
+  }
   checkmate::assert_character(files, null.ok = TRUE, any.missing = FALSE)
   checkmate::assert_logical(standard_only, any.missing = FALSE, len = 1)
-  checkmate::assert_logical(as_dir, any.missing = FALSE, len = 1)
   checkmate::assert_logical(overwrite, any.missing = FALSE, len = 1)
   checkmate::assert_logical(quiet, any.missing = FALSE, len = 1)
 
