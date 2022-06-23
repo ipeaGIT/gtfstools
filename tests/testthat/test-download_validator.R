@@ -103,5 +103,5 @@ test_that("all versions can be downloaded", {
     tempdir(),
     paste0("gtfs-validator-v", names(non_latest), ".jar")
   )
-  expect_true(all(manually_built == non_latest))
+  expect_true(all(normalizePath(manually_built) == non_latest))
 })
