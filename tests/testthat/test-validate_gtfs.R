@@ -9,8 +9,11 @@ available_versions <- c(
 
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs_url <- "https://github.com/ipeaGIT/gtfstools/raw/master/inst/extdata/spo_gtfs.zip"
-gtfs <- read_gtfs(data_path)
-trip_id <- "CPTM L07-0"
+gtfs <- read_gtfs(data_path, encoding = "UTF-8")
+gtfs_dir <- tempfile("gtfs")
+
+write_gtfs(gtfs, gtfs_dir, as_dir = TRUE)
+
 output_dir <- tempfile("validate_gtfs_tests")
 validator_dir <- tempfile()
 dir.create(validator_dir)
@@ -128,20 +131,31 @@ get_result_json <- function(validation_dir) {
   return(json_report)
 }
 
-test_that("validation works with the 3 types of input (url, path, object)", {
+test_that("works with the 4 types of input (url, path, dir, object)", {
   obj_dir <- validation_works(gtfs)
   path_dir <- validation_works(data_path)
   url_dir <- validation_works(gtfs_url)
+  dir_dir <- validation_works(gtfs_dir)
 
   # and their validation report should be the same
+  # (results from dir are in a different order)
 
   if (requireNamespace("jsonlite", quietly = TRUE)) {
     obj_result <- get_result_json(obj_dir)
     path_result <- get_result_json(path_dir)
     url_result <- get_result_json(url_dir)
+    dir_result <- get_result_json(dir_dir)
 
     expect_identical(obj_result, path_result)
     expect_identical(obj_result, url_result)
+
+    ordered_results <- function(result) {
+      notices <- result$notices$sampleNotices
+      notices <- lapply(notices, data.table::setDT)
+      notices[[1]] <- notices[[1]][order(filename)]
+      notices[[4]] <- notices[[4]][order(filename)]
+    }
+    expect_identical(ordered_results(obj_result), ordered_results(dir_result))
   }
 })
 
@@ -193,12 +207,14 @@ test_that("pretty_json works with all functions and results are the same", {
   }
 })
 
-test_that("is silent when quiet is TRUE", {
+test_that("quiet arg works correctly", {
   expect_silent(tester(gtfs, quiet = TRUE, html_preview = FALSE))
   expect_silent(tester(data_path, quiet = TRUE, html_preview = FALSE))
   expect_silent(tester(gtfs_url, quiet = TRUE, html_preview = FALSE))
+  expect_silent(tester(gtfs_dir, quiet = TRUE, html_preview = FALSE))
 
-  expect_silent(tester(gtfs, quiet = FALSE, html_preview = FALSE))
-  expect_silent(tester(data_path, quiet = FALSE, html_preview = FALSE))
-  expect_silent(tester(gtfs_url, quiet = FALSE, html_preview = FALSE))
+  expect_message(tester(gtfs, quiet = FALSE, html_preview = FALSE))
+  expect_message(tester(data_path, quiet = FALSE, html_preview = FALSE))
+  expect_message(tester(gtfs_url, quiet = FALSE, html_preview = FALSE))
+  expect_message(tester(gtfs_dir, quiet = FALSE, html_preview = FALSE))
 })

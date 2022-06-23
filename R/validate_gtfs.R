@@ -6,7 +6,8 @@
 #' JSON format. Please check the complete set of rules used in the validation
 #' [here](https://github.com/MobilityData/gtfs-validator/blob/master/RULES.md).
 #'
-#' @param gtfs The path to the GTFS feed to be validated.
+#' @param gtfs The GTFS to be validated. Can be in the format of a GTFS object,
+#'   of a path to a GTFS file, of a path to a directory or an URL to a feed.
 #' @param output_path A string. The path to the directory that the validator
 #'   will create and in which the results will be saved to.
 #' @param validator_path A string. The path to the GTFS validator, previously
@@ -148,7 +149,8 @@ assert_and_assign_gtfs <- function(gtfs, quiet) {
     if (!checkmate::test_string(gtfs)) {
       stop(
         "Assertion on 'gtfs' failed: Must either be a GTFS object (with ",
-        "dt_gtfs class), a path to a local GTFS file or an URL to a feed."
+        "dt_gtfs class), a path to a local GTFS file, a path to a local ",
+        "directory or an URL to a feed."
       )
     }
 
@@ -161,16 +163,18 @@ assert_and_assign_gtfs <- function(gtfs, quiet) {
     }
 
     if (file.exists(gtfs)) {
-      ziplist <- tryCatch(zip::zip_list(gtfs), error = function(cnd) cnd)
-      is_zip <- !inherits(ziplist, "error")
+      if (!dir.exists(gtfs)) {
+        ziplist <- tryCatch(zip::zip_list(gtfs), error = function(cnd) cnd)
+        is_zip <- !inherits(ziplist, "error")
 
-      if (!is_zip) {
-        element <- ifelse(is_url, " URL ", " path ")
-        stop(
-          "Assertion on 'gtfs' failed: The provided",
-          element,
-          "doesn't seem to point to a GTFS file."
-        )
+        if (!is_zip) {
+          element <- ifelse(is_url, " URL ", " path ")
+          stop(
+            "Assertion on 'gtfs' failed: The provided",
+            element,
+            "doesn't seem to point to a GTFS file."
+          )
+        }
       }
     } else {
       stop("Assertion on 'gtfs' failed: File does not exist.")
