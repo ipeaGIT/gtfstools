@@ -75,12 +75,6 @@ validate_gtfs <- function(gtfs,
   gtfs <- assert_and_assign_gtfs(gtfs, quiet)
   validator_version <- parse_validator_version(validator_path)
 
-  if (inherits(gtfs, "dt_gtfs")) {
-    gtfs_path <- tempfile("gtfs", fileext = ".zip")
-    write_gtfs(gtfs, gtfs_path)
-    gtfs <- gtfs_path
-  }
-
   pretty_json_flag <- ""
   if (pretty_json) pretty_json_flag <- "-p"
 
@@ -90,6 +84,12 @@ validate_gtfs <- function(gtfs,
     "-o", output_path,
     pretty_json_flag
   )
+  if (!quiet) {
+    message(
+      "Validator invoked with call:\njava ",
+      paste(command_flags, collapse = " ")
+    )
+  }
   call_output <- processx::run("java", command_flags)
 
   if (call_output$stdout != "") {
@@ -140,16 +140,22 @@ parse_validator_version <- function(validator_path) {
 }
 
 assert_and_assign_gtfs <- function(gtfs, quiet) {
-  if (!inherits(gtfs, "dt_gtfs")) {
+  if (inherits(gtfs, "dt_gtfs")) {
+    gtfs_path <- tempfile("gtfs", fileext = ".zip")
+    write_gtfs(gtfs, gtfs_path, quiet = quiet)
+    gtfs <- gtfs_path
+  } else {
     if (!checkmate::test_string(gtfs)) {
       stop(
         "Assertion on 'gtfs' failed: Must either be a GTFS object (with ",
         "dt_gtfs class), a path to a local GTFS file or an URL to a feed."
       )
     }
+
     is_url <- grepl("^http[s]?\\:\\/\\/\\.*", gtfs)
     if (is_url) {
       tmpfile <- tempfile("gtfs", fileext = ".zip")
+      if (!quiet) message("Downloading ", gtfs, " to ", tmpfile, ".")
       curl::curl_download(gtfs, tmpfile, quiet = quiet)
       gtfs <- tmpfile
     }

@@ -1,5 +1,12 @@
 testthat::skip_if_offline() # calls skip_on_cran()
 
+available_versions <- c(
+  "latest",
+  "3.1.0",
+  "3.0.1",
+  "3.0.0"
+)
+
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs_url <- "https://github.com/ipeaGIT/gtfstools/raw/master/inst/extdata/spo_gtfs.zip"
 gtfs <- read_gtfs(data_path)
@@ -82,7 +89,9 @@ test_that("errors if validator_basename is not gtfs-validator-vX.Y.Z.jar", {
   expect_error(tester(validator_path = invalid_validator_path))
 })
 
-validation_works <- function(input, validator_version = "latest") {
+validation_works <- function(input,
+                             validator_version = "latest",
+                             pretty_json = FALSE) {
   validation_dir <- tempfile(paste0("validator_", validator_version))
   validator_path <- download_validator(tempdir(), validator_version)
   validator_numeric_version <- gtfstools:::parse_validator_version(
@@ -93,7 +102,8 @@ validation_works <- function(input, validator_version = "latest") {
     input,
     validation_dir,
     validator_path = validator_path,
-    html_preview = FALSE
+    html_preview = FALSE,
+    pretty_json = pretty_json
   )
 
   if (validator_numeric_version >= numeric_version("3.1.0")) {
@@ -109,24 +119,86 @@ validation_works <- function(input, validator_version = "latest") {
   expect_true(file.exists(file.path(validation_dir, "validation_stderr.txt")))
   expect_identical(validation_result, normalizePath(validation_dir))
 
-  return(invisible(TRUE))
+  return(invisible(validation_result))
+}
+
+get_result_json <- function(validation_dir) {
+  json_report_path <- file.path(validation_dir, "report.json")
+  json_report <- jsonlite::fromJSON(json_report_path)
+  return(json_report)
 }
 
 test_that("validation works with the 3 types of input (url, path, object)", {
-  validation_works(gtfs)
-  validation_works(data_path)
-  validation_works(gtfs_url)
+  obj_dir <- validation_works(gtfs)
+  path_dir <- validation_works(data_path)
+  url_dir <- validation_works(gtfs_url)
+
+  # and their validation report should be the same
+
+  if (requireNamespace("jsonlite", quietly = TRUE)) {
+    obj_result <- get_result_json(obj_dir)
+    path_result <- get_result_json(path_dir)
+    url_result <- get_result_json(url_dir)
+
+    expect_identical(obj_result, path_result)
+    expect_identical(obj_result, url_result)
+  }
 })
 
 test_that("all versions of the validation work", {
-  available_versions <- c(
-    "latest",
-    "3.1.0",
-    "3.0.1",
-    "3.0.0"
+  for (version in available_versions) {
+    validation_works(data_path, version)
+  }
+})
+
+test_that("pretty_json works with all functions and results are the same", {
+  pretty_results <- vapply(
+    available_versions,
+    function(v) validation_works(data_path, v, pretty_json = TRUE),
+    character(1)
   )
 
-  for (version in available_versions) {
-    expect_true(validation_works(data_path, version))
+  non_pretty_results <- vapply(
+    available_versions,
+    function(v) validation_works(data_path, v, pretty_json = FALSE),
+    character(1)
+  )
+
+  json_as_character_length <- function(validation_dir) {
+    json_path <- file.path(validation_dir, "report.json")
+    json_content <- readLines(json_path)
+    json_length <- length(json_content)
+    return(json_length)
   }
+
+  suppressWarnings({
+    pretty_jsons <- vapply(pretty_results, json_as_character_length, integer(1))
+    non_pretty_jsons <- vapply(
+      non_pretty_results,
+      json_as_character_length,
+      integer(1)
+    )
+  })
+
+  expect_true(all(pretty_jsons > 1))
+  expect_true(all(non_pretty_jsons == 1))
+
+  # their content should be identical though
+
+  if (requireNamespace("jsonlite", quietly = TRUE)) {
+    pretty_jsons_parsed <- lapply(pretty_results, get_result_json)
+    non_pretty_jsons_parsed <- lapply(non_pretty_results, get_result_json)
+
+    expect_identical(pretty_jsons_parsed, non_pretty_jsons_parsed)
+  }
+})
+
+test_that("is silent when quiet is TRUE", {
+  expect_silent(tester(gtfs, quiet = TRUE, html_preview = FALSE))
+  expect_silent(tester(data_path, quiet = TRUE, html_preview = FALSE))
+  expect_silent(tester(gtfs_url, quiet = TRUE, html_preview = FALSE))
+
+  expect_silent(tester(gtfs, quiet = FALSE, html_preview = FALSE))
+  expect_silent(tester(data_path, quiet = FALSE, html_preview = FALSE))
+  expect_silent(tester(gtfs_url, quiet = FALSE, html_preview = FALSE))
 })
