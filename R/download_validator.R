@@ -83,16 +83,9 @@ get_validator_url <- function(version, available_versions) {
   release_url <- paste0(base_url, "download/v", version, "/")
   cli_basename <- paste0("gtfs-validator-", version, "-cli.jar")
 
-  if (version == "1.0.0") {
-    cli_basename <- "gtfs-validator.jar"
-  } else if (numeric_version(version) < numeric_version("3.1.0")) {
+  if (numeric_version(version) < numeric_version("3.1.0")) {
     cli_basename <- sub("gtfs-validator-", "gtfs-validator-v", cli_basename)
-
-    if (numeric_version(version) > numeric_version("1.2.2")) {
-      cli_basename <- sub("-cli", "_cli", cli_basename)
-    } else if (numeric_version(version) < numeric_version("1.2.2")) {
-      cli_basename <- sub("-cli", "", cli_basename)
-    }
+    cli_basename <- sub("-cli", "_cli", cli_basename)
   }
 
   validator_url <- paste0(release_url, cli_basename)
