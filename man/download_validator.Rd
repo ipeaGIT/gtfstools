@@ -4,19 +4,22 @@
 \alias{download_validator}
 \title{Download MobilityData's GTFS validator}
 \usage{
-download_validator(path, version = "latest", quiet = TRUE)
+download_validator(path, version = "latest", force = FALSE, quiet = TRUE)
 }
 \arguments{
-\item{path}{The directory where the validator should be saved to.}
+\item{path}{A string. The directory where the validator should be saved to.}
 
-\item{version}{The version of the validator that should be downloaded.
-Defaults to \code{"latest"}, but accepts version numbers as strings (i.e. to
-download version v3.0.0 please enter \code{"3.0.0"}). Please check
+\item{version}{A string. The version of the validator that should be
+downloaded. Defaults to \code{"latest"}, but accepts version numbers as strings
+(i.e. to download version v3.0.0 please enter \code{"3.0.0"}). Please check
 \href{https://github.com/MobilityData/gtfs-validator/releases}{MobilityData/gtfs-validator releases} for the
 full set of available versions.}
 
-\item{quiet}{Whether to hide log messages and progress bars (defaults to
-\code{TRUE}).}
+\item{force}{A logical. Whether to overwrite a previously downloaded
+validator in \code{path}. Defaults to \code{FALSE}.}
+
+\item{quiet}{A logical. Whether to hide log messages and progress bars.
+Defaults to \code{TRUE}.}
 }
 \value{
 Invisibly returns the normalized path to the downloaded validator.
