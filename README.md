@@ -56,6 +56,9 @@ Please read **gtfstools** vignettes for more on the package usage:
   - Filtering GTFS feeds. Run `vignette("filtering", package =
     "gtfstools")` or check it on the website ([Filtering GTFS
     feeds](https://ipeagit.github.io/gtfstools/articles/filtering.html)).
+  - Validating GTFS feeds. Run `vignette("validating", package =
+    "gtfstools")` or check it on the website ([Validating GTFS
+    feeds](https://ipeagit.github.io/gtfstools/articles/validating.html)).
 
 ## Related packages
 

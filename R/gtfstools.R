@@ -12,6 +12,9 @@
 #' - Filtering GTFS feeds. Run `vignette("filtering", package = "gtfstools")` or
 #' check it on the [website](
 #' https://ipeagit.github.io/gtfstools/articles/filtering.html).
+#' - Validating GTFS feeds. Run `vignette("validating", package = "gtfstools")`
+#' or check it on the
+#' [website](https://ipeagit.github.io/gtfstools/articles/validating.html).
 #'
 #' @docType package
 #' @name gtfstools

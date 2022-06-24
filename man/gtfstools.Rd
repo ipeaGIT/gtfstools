@@ -19,6 +19,9 @@ Please check the vignettes for more on the package usage:
 \code{vignette("gtfstools")} or check it on the \href{https://ipeagit.github.io/gtfstools/articles/gtfstools.html}{website}.
 \item Filtering GTFS feeds. Run \code{vignette("filtering", package = "gtfstools")} or
 check it on the \href{https://ipeagit.github.io/gtfstools/articles/filtering.html}{website}.
+\item Validating GTFS feeds. Run \code{vignette("validating", package = "gtfstools")}
+or check it on the
+\href{https://ipeagit.github.io/gtfstools/articles/validating.html}{website}.
 }
 }
 
