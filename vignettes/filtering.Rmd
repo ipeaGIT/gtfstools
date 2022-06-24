@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+library(gtfstools)
 ```
 
 GTFS feeds are often used to describe very large and complex public transport networks. These large files can become quite cumbersome to use, manipulate and move around, and it's not unfrequent that one wants to analyze a specific subset of the data.
@@ -33,7 +34,7 @@ This vignette will introduce you to these functions and will cover their usage i
 
 We will start by loading the packages required by this demonstration into the current **R** session:
 
-```{r, message = FALSE}
+```{r, message = FALSE, eval = requireNamespace("ggplot2", quietly = TRUE)}
 library(gtfstools)
 library(ggplot2)
 ```
@@ -207,7 +208,7 @@ Also, please note that our `plotter()` function takes the same arguments of `fil
 
 Let's say that we want to filter GTFS data using the bounding box of the shape `68962`. Here's how the unfiltered data looks like, with the bounding box placed on top of it.
 
-```{r}
+```{r, eval = requireNamespace("ggplot2", quietly = TRUE)}
 bbox <- sf::st_bbox(convert_shapes_to_sf(gtfs, shape_id = "68962"))
 
 plotter(gtfs, bbox, do_filter = FALSE)
@@ -215,25 +216,25 @@ plotter(gtfs, bbox, do_filter = FALSE)
 
 By default `filter_by_sf()` (and `plotter()`, consequently) keeps all the data related to the trips and shapes that intersect the given geometry. Here's how it looks like:
 
-```{r}
+```{r, eval = requireNamespace("ggplot2", quietly = TRUE)}
 plotter(gtfs, bbox)
 ```
 
 Alternatively you can also *drop* such data:
 
-```{r}
+```{r, eval = requireNamespace("ggplot2", quietly = TRUE)}
 plotter(gtfs, bbox, keep = FALSE)
 ```
 
 You can also control which spatial operation you want to use to filter the data. This is how you'd keep the data that is contained inside the given geometry:
 
-```{r}
+```{r, eval = requireNamespace("ggplot2", quietly = TRUE)}
 plotter(gtfs, bbox, spatial_operation = sf::st_contains)
 ```
 
 And, simultaneously using `spatial_operation` and `keep`, this is how you'd drop the data contained inside the geometry:
 
-```{r}
+```{r, eval = requireNamespace("ggplot2", quietly = TRUE)}
 plotter(gtfs, bbox, spatial_operation = sf::st_contains, keep = FALSE)
 ```
 
