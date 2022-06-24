@@ -11,7 +11,8 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  eval = identical(tolower(Sys.getenv("NOT_CRAN")), "true")
+  eval = identical(tolower(Sys.getenv("NOT_CRAN")), "true"),
+  out.width = "100%"
 )
 ```
 
@@ -67,24 +68,27 @@ validate_gtfs(data_path, path_output_dir, latest_validator)
 list.files(path_output_dir)
 ```
 
-As we can see, the validation generates a few output files. `report.html`
-summarizes the validation results in a nicely formatted HTML page (only
-available when using validator v3.1.0 or higher). `report.json` summarizes the
-exact same information, but in JSON format, which can be used to easily parse
-and process the results. `system_errors.json` summarizes eventual system
-erros that may have happened during the validation and may compromise the
-results. `validation_stderr.txt` lists the informative messages sent by the
-command-line tool to the standard error output stream, which includes the list
-of validators in use, eventual error messages, etc. Finally, had the
-command-line tool printed anything to the standard output stream, the content
-would have been saved in `validation_stdout.txt`[^1].
+As we can see, the validation generates a few output files:
+
+- `report.html`, shown below, summarizes the validation results in a nicely
+  formatted HTML page (only available when using validator v3.1.0 or higher);
+- `report.json` summarizes the exact same information, but in JSON format,
+  which can be used to easily parse and process the results;
+- `system_errors.json` summarizes eventual system erros that may have happened
+  during the validation and may compromise the results;
+- `validation_stderr.txt` lists the informative messages sent by the
+  command-line tool to the standard error output stream, which includes the
+  list of validators in use, eventual error messages, etc;
+- had the command-line tool printed anything to the standard output stream, the
+  content would have been saved in `validation_stdout.txt`[^1].
 
 [^1]: Please note that the content of `validation_stdout.txt` and
 `validation_stderr.txt` may slightly vary depending on the version of the
 validator.
 
-![A snapshot of the HTML report generated using the latest
-validator.](../man/figures/html_validation_report.png){width=100%}
+```{r, echo = FALSE}
+knitr::include_graphics("../man/figures/html_validation_report.png")
+```
 
 Had we run the validator using the same GTFS data in different formats (an URL
 or a GTFS object, for example) the results would be exactly the same:
