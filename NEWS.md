@@ -1,3 +1,17 @@
+# gtfstools (development version)
+
+## New features
+
+- New `validate_gtfs()` behavior. Now used to run MobilityData Canonical GTFS validator with a feed. The old behavior was marked as deprecated since v1.0.0.
+- New function `download_validator()`.
+- New vignette demonstrating how to validate feeds.
+
+## Bug fixes
+
+- Fixed a bug in `write_gtfs()` that prevented `as_dir = TRUE` to be used.
+
+## Notes
+
 # gtfstools 1.1.0
 
 ## New features
