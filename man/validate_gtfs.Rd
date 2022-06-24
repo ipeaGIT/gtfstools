@@ -49,9 +49,12 @@ validation results were saved to.
 }
 \description{
 Uses MobilityData's \href{https://github.com/MobilityData/gtfs-validator}{GTFS validator} to perform a GTFS
-business rule validation. The results are available as an HTML report and in
-JSON format. Please check the complete set of rules used in the validation
+business rule validation. The results are available as an HTML report (if
+validator v3.1.0 or higher is used) and in JSON format. Please check the
+complete set of rules used in the validation
 \href{https://github.com/MobilityData/gtfs-validator/blob/master/RULES.md}{here}.
+Please note that this function requires a working installation of Java 11 or
+higher to work.
 }
 \examples{
 \dontshow{if (identical(tolower(Sys.getenv("NOT_CRAN")), "true")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

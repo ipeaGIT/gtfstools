@@ -2,9 +2,12 @@
 #'
 #' Uses MobilityData's [GTFS
 #' validator](https://github.com/MobilityData/gtfs-validator) to perform a GTFS
-#' business rule validation. The results are available as an HTML report and in
-#' JSON format. Please check the complete set of rules used in the validation
+#' business rule validation. The results are available as an HTML report (if
+#' validator v3.1.0 or higher is used) and in JSON format. Please check the
+#' complete set of rules used in the validation
 #' [here](https://github.com/MobilityData/gtfs-validator/blob/master/RULES.md).
+#' Please note that this function requires a working installation of Java 11 or
+#' higher to work.
 #'
 #' @param gtfs The GTFS to be validated. Can be in the format of a GTFS object,
 #'   of a path to a GTFS file, of a path to a directory or an URL to a feed.
