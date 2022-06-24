@@ -10,3 +10,5 @@ vignettes/*.R
 *.swp
 *.dll
 README.html
+/doc/
+/Meta/
