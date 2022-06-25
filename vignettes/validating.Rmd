@@ -53,7 +53,7 @@ latest_validator
 ```
 
 The second (and final) step is actually running `validate_gtfs()`. To do that
-we need some GTFS data, which the function accepts in varying format: it can be
+we need some GTFS data, which the function accepts in varying formats: it can be
 a GTFS object, as created with `read_gtfs()`, a path to local GTFS file, an URL
 to a feed or a path to a local directory containing the GTFS data. It also
 takes a path to the directory where the validator output should be saved to and
