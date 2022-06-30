@@ -20,7 +20,6 @@
 #'
 #' @examplesIf identical(tolower(Sys.getenv("NOT_CRAN")), "true")
 #' path <- tempdir()
-#' dir.create(path)
 #'
 #' download_validator(path)
 #'
@@ -34,6 +33,7 @@ download_validator <- function(path,
                                quiet = TRUE) {
   available_versions <- c(
     "latest",
+    "3.1.1",
     "3.1.0",
     "3.0.1",
     "3.0.0"
