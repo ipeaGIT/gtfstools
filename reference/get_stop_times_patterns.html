@@ -73,7 +73,7 @@ these cases.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_stop_times_patterns</span><span class="op">(</span><span class="va">gtfs</span>, trip_id <span class="op">=</span> <span class="cn">NULL</span>, type <span class="op">=</span> <span class="st">"spatial"</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_stop_times_patterns</span><span class="op">(</span><span class="va">gtfs</span>, trip_id <span class="op">=</span> <span class="cn">NULL</span>, type <span class="op">=</span> <span class="st">"spatial"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -122,12 +122,12 @@ stop B with <code>stop_sequence</code>s 1 and 3, they are assigned to the same
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/ber_gtfs.zip"</span>, package <span class="op">=</span> <span class="st">"gtfstools"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_gtfs.html">read_gtfs</a></span><span class="op">(</span><span class="va">data_path</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">patterns</span> <span class="op">&lt;-</span> <span class="fu">get_stop_times_patterns</span><span class="op">(</span><span class="va">gtfs</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">patterns</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/ber_gtfs.zip"</span>, package <span class="op">=</span> <span class="st">"gtfstools"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_gtfs.html">read_gtfs</a></span><span class="op">(</span><span class="va">data_path</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">patterns</span> <span class="op">&lt;-</span> <span class="fu">get_stop_times_patterns</span><span class="op">(</span><span class="va">gtfs</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">patterns</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      trip_id pattern_id</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: 143765655          1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: 143765656          2</span>
@@ -135,30 +135,30 @@ stop B with <code>stop_sequence</code>s 1 and 3, they are assigned to the same
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4: 143765659          3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5: 143765660          3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6: 143765661          3</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># use the trip_id argument to control which trips are analyzed</span></span>
-<span class="r-in"><span class="va">patterns</span> <span class="op">&lt;-</span> <span class="fu">get_stop_times_patterns</span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">gtfs</span>,</span>
-<span class="r-in">  trip_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"143765658"</span>, <span class="st">"143765659"</span>, <span class="st">"143765660"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">patterns</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># use the trip_id argument to control which trips are analyzed</span></span></span>
+<span class="r-in"><span><span class="va">patterns</span> <span class="op">&lt;-</span> <span class="fu">get_stop_times_patterns</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">gtfs</span>,</span></span>
+<span class="r-in"><span>  trip_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"143765658"</span>, <span class="st">"143765659"</span>, <span class="st">"143765660"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">patterns</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      trip_id pattern_id</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: 143765658          1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: 143765659          1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3: 143765660          1</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># use the type argument to control the type of pattern analyzed</span></span>
-<span class="r-in"><span class="va">patterns</span> <span class="op">&lt;-</span> <span class="fu">get_stop_times_patterns</span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">gtfs</span>,</span>
-<span class="r-in">  trip_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"143765658"</span>, <span class="st">"143765659"</span>, <span class="st">"143765660"</span><span class="op">)</span>,</span>
-<span class="r-in">  type <span class="op">=</span> <span class="st">"spatiotemporal"</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">patterns</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># use the type argument to control the type of pattern analyzed</span></span></span>
+<span class="r-in"><span><span class="va">patterns</span> <span class="op">&lt;-</span> <span class="fu">get_stop_times_patterns</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">gtfs</span>,</span></span>
+<span class="r-in"><span>  trip_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"143765658"</span>, <span class="st">"143765659"</span>, <span class="st">"143765660"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  type <span class="op">=</span> <span class="st">"spatiotemporal"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">patterns</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      trip_id pattern_id</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: 143765658          1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: 143765659          2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3: 143765660          2</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -173,7 +173,7 @@ stop B with <code>stop_sequence</code>s 1 and 3, they are assigned to the same
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

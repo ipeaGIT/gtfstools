@@ -69,7 +69,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">merge_gtfs</span><span class="op">(</span><span class="va">...</span>, files <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">warnings</span>, prefix <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">merge_gtfs</span><span class="op">(</span><span class="va">...</span>, files <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">warnings</span>, prefix <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -109,38 +109,38 @@ tables from the specified GTFS objects.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">spo_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/spo_gtfs.zip"</span>, package <span class="op">=</span> <span class="st">"gtfstools"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ggl_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/ggl_gtfs.zip"</span>, package <span class="op">=</span> <span class="st">"gtfstools"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">spo_gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_gtfs.html">read_gtfs</a></span><span class="op">(</span><span class="va">spo_path</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">spo_gtfs</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">spo_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/spo_gtfs.zip"</span>, package <span class="op">=</span> <span class="st">"gtfstools"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ggl_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/ggl_gtfs.zip"</span>, package <span class="op">=</span> <span class="st">"gtfstools"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">spo_gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_gtfs.html">read_gtfs</a></span><span class="op">(</span><span class="va">spo_path</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">spo_gtfs</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "agency"      "calendar"    "frequencies" "routes"      "shapes"     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [6] "stop_times"  "stops"       "trips"      </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">ggl_gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_gtfs.html">read_gtfs</a></span><span class="op">(</span><span class="va">ggl_path</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ggl_gtfs</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">ggl_gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_gtfs.html">read_gtfs</a></span><span class="op">(</span><span class="va">ggl_path</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ggl_gtfs</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "calendar_dates"  "fare_attributes" "fare_rules"      "feed_info"      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "frequencies"     "levels"          "pathways"        "routes"         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "shapes"          "stop_times"      "stops"           "transfers"      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [13] "translations"    "trips"           "agency"          "attributions"   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [17] "calendar"       </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">merged_gtfs</span> <span class="op">&lt;-</span> <span class="fu">merge_gtfs</span><span class="op">(</span><span class="va">spo_gtfs</span>, <span class="va">ggl_gtfs</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">merged_gtfs</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">merged_gtfs</span> <span class="op">&lt;-</span> <span class="fu">merge_gtfs</span><span class="op">(</span><span class="va">spo_gtfs</span>, <span class="va">ggl_gtfs</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">merged_gtfs</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "agency"          "calendar"        "frequencies"     "routes"         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "shapes"          "stop_times"      "stops"           "trips"          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "calendar_dates"  "fare_attributes" "fare_rules"      "feed_info"      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [13] "levels"          "pathways"        "transfers"       "translations"   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [17] "attributions"   </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># use a list() to programatically merge many GTFS objects</span></span>
-<span class="r-in"><span class="va">gtfs_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">spo_gtfs</span>, <span class="va">ggl_gtfs</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">merged_gtfs</span> <span class="op">&lt;-</span> <span class="fu">merge_gtfs</span><span class="op">(</span><span class="va">gtfs_list</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># 'prefix' helps disambiguating from which GTFS each id comes from.</span></span>
-<span class="r-in"><span class="co"># if TRUE, the ids range from 1:n, where n is the number of gtfs</span></span>
-<span class="r-in"><span class="va">merged_gtfs</span> <span class="op">&lt;-</span> <span class="fu">merge_gtfs</span><span class="op">(</span><span class="va">gtfs_list</span>, prefix <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">merged_gtfs</span><span class="op">$</span><span class="va">agency</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># use a list() to programatically merge many GTFS objects</span></span></span>
+<span class="r-in"><span><span class="va">gtfs_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">spo_gtfs</span>, <span class="va">ggl_gtfs</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">merged_gtfs</span> <span class="op">&lt;-</span> <span class="fu">merge_gtfs</span><span class="op">(</span><span class="va">gtfs_list</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># 'prefix' helps disambiguating from which GTFS each id comes from.</span></span></span>
+<span class="r-in"><span><span class="co"># if TRUE, the ids range from 1:n, where n is the number of gtfs</span></span></span>
+<span class="r-in"><span><span class="va">merged_gtfs</span> <span class="op">&lt;-</span> <span class="fu">merge_gtfs</span><span class="op">(</span><span class="va">gtfs_list</span>, prefix <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">merged_gtfs</span><span class="op">$</span><span class="va">agency</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      agency_id    agency_name                               agency_url</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:         1_1        SPTRANS http://www.sptrans.com.br/?versao=011019</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:         1_1        SPTRANS http://www.sptrans.com.br/?versao=011019</span>
@@ -149,10 +149,10 @@ tables from the specified GTFS objects.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: America/Sao_Paulo          pt</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: America/Sao_Paulo          pt</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:               PST          en</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># if a character vector, its elements will be used to identify the each gtfs</span></span>
-<span class="r-in"><span class="va">merged_gtfs</span> <span class="op">&lt;-</span> <span class="fu">merge_gtfs</span><span class="op">(</span><span class="va">gtfs_list</span>, prefix <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"spo"</span>, <span class="st">"ggl"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">merged_gtfs</span><span class="op">$</span><span class="va">agency</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># if a character vector, its elements will be used to identify the each gtfs</span></span></span>
+<span class="r-in"><span><span class="va">merged_gtfs</span> <span class="op">&lt;-</span> <span class="fu">merge_gtfs</span><span class="op">(</span><span class="va">gtfs_list</span>, prefix <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"spo"</span>, <span class="st">"ggl"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">merged_gtfs</span><span class="op">$</span><span class="va">agency</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        agency_id    agency_name                               agency_url</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:         spo_1        SPTRANS http://www.sptrans.com.br/?versao=011019</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:         spo_1        SPTRANS http://www.sptrans.com.br/?versao=011019</span>
@@ -175,7 +175,7 @@ tables from the specified GTFS objects.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

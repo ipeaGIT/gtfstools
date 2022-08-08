@@ -71,7 +71,7 @@ in each file.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">filter_by_weekday</span><span class="op">(</span><span class="va">gtfs</span>, <span class="va">weekday</span>, combine <span class="op">=</span> <span class="st">"or"</span>, keep <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">filter_by_weekday</span><span class="op">(</span><span class="va">gtfs</span>, <span class="va">weekday</span>, combine <span class="op">=</span> <span class="st">"or"</span>, keep <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -134,16 +134,16 @@ pass to <code>keep</code>.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># read gtfs</span></span>
-<span class="r-in"><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/spo_gtfs.zip"</span>, package <span class="op">=</span> <span class="st">"gtfstools"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_gtfs.html">read_gtfs</a></span><span class="op">(</span><span class="va">data_path</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">object.size</a></span><span class="op">(</span><span class="va">gtfs</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># read gtfs</span></span></span>
+<span class="r-in"><span><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/spo_gtfs.zip"</span>, package <span class="op">=</span> <span class="st">"gtfstools"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_gtfs.html">read_gtfs</a></span><span class="op">(</span><span class="va">data_path</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">object.size</a></span><span class="op">(</span><span class="va">gtfs</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 811304 bytes</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># keeps entries related to services than run EITHER on monday OR on sunday</span></span>
-<span class="r-in"><span class="va">smaller_gtfs</span> <span class="op">&lt;-</span> <span class="fu">filter_by_weekday</span><span class="op">(</span><span class="va">gtfs</span>, weekday <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"monday"</span>, <span class="st">"sunday"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">smaller_gtfs</span><span class="op">$</span><span class="va">calendar</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"service_id"</span>, <span class="st">"monday"</span>, <span class="st">"sunday"</span><span class="op">)</span><span class="op">]</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># keeps entries related to services than run EITHER on monday OR on sunday</span></span></span>
+<span class="r-in"><span><span class="va">smaller_gtfs</span> <span class="op">&lt;-</span> <span class="fu">filter_by_weekday</span><span class="op">(</span><span class="va">gtfs</span>, weekday <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"monday"</span>, <span class="st">"sunday"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">smaller_gtfs</span><span class="op">$</span><span class="va">calendar</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"service_id"</span>, <span class="st">"monday"</span>, <span class="st">"sunday"</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     service_id monday sunday</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1:        USD      1      1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  2:        U__      1      0</span>
@@ -155,46 +155,46 @@ pass to <code>keep</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  8:        US_      1      0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  9:        _SD      0      1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10:        __D      0      1</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">object.size</a></span><span class="op">(</span><span class="va">smaller_gtfs</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">object.size</a></span><span class="op">(</span><span class="va">smaller_gtfs</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 811248 bytes</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># keeps entries related to services than run on monday AND on sunday</span></span>
-<span class="r-in"><span class="va">smaller_gtfs</span> <span class="op">&lt;-</span> <span class="fu">filter_by_weekday</span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">gtfs</span>,</span>
-<span class="r-in">  weekday <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"monday"</span>, <span class="st">"sunday"</span><span class="op">)</span>,</span>
-<span class="r-in">  combine <span class="op">=</span> <span class="st">"and"</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">smaller_gtfs</span><span class="op">$</span><span class="va">calendar</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"service_id"</span>, <span class="st">"monday"</span>, <span class="st">"sunday"</span><span class="op">)</span><span class="op">]</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># keeps entries related to services than run on monday AND on sunday</span></span></span>
+<span class="r-in"><span><span class="va">smaller_gtfs</span> <span class="op">&lt;-</span> <span class="fu">filter_by_weekday</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">gtfs</span>,</span></span>
+<span class="r-in"><span>  weekday <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"monday"</span>, <span class="st">"sunday"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  combine <span class="op">=</span> <span class="st">"and"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">smaller_gtfs</span><span class="op">$</span><span class="va">calendar</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"service_id"</span>, <span class="st">"monday"</span>, <span class="st">"sunday"</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    service_id monday sunday</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:        USD      1      1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:        USD      1      1</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">object.size</a></span><span class="op">(</span><span class="va">smaller_gtfs</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">object.size</a></span><span class="op">(</span><span class="va">smaller_gtfs</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 762152 bytes</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># drops entries related to services than run EITHER on monday OR on sunday</span></span>
-<span class="r-in"><span class="co"># the resulting gtfs shouldn't include any trips running on these days</span></span>
-<span class="r-in"><span class="va">smaller_gtfs</span> <span class="op">&lt;-</span> <span class="fu">filter_by_weekday</span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">gtfs</span>,</span>
-<span class="r-in">  weekday <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"monday"</span>, <span class="st">"sunday"</span><span class="op">)</span>,</span>
-<span class="r-in">  keep <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">smaller_gtfs</span><span class="op">$</span><span class="va">calendar</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"service_id"</span>, <span class="st">"monday"</span>, <span class="st">"sunday"</span><span class="op">)</span><span class="op">]</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># drops entries related to services than run EITHER on monday OR on sunday</span></span></span>
+<span class="r-in"><span><span class="co"># the resulting gtfs shouldn't include any trips running on these days</span></span></span>
+<span class="r-in"><span><span class="va">smaller_gtfs</span> <span class="op">&lt;-</span> <span class="fu">filter_by_weekday</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">gtfs</span>,</span></span>
+<span class="r-in"><span>  weekday <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"monday"</span>, <span class="st">"sunday"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  keep <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">smaller_gtfs</span><span class="op">$</span><span class="va">calendar</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"service_id"</span>, <span class="st">"monday"</span>, <span class="st">"sunday"</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    service_id monday sunday</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:        _S_      0      0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:        _S_      0      0</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">object.size</a></span><span class="op">(</span><span class="va">smaller_gtfs</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">object.size</a></span><span class="op">(</span><span class="va">smaller_gtfs</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 19168 bytes</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># drops entries related to services than run on monday AND on sunday</span></span>
-<span class="r-in"><span class="co"># the resulting gtfs may include trips that run on these days, but no trips</span></span>
-<span class="r-in"><span class="co"># that run on both these days</span></span>
-<span class="r-in"><span class="va">smaller_gtfs</span> <span class="op">&lt;-</span> <span class="fu">filter_by_weekday</span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">gtfs</span>,</span>
-<span class="r-in">  weekday <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"monday"</span>, <span class="st">"sunday"</span><span class="op">)</span>,</span>
-<span class="r-in">  combine <span class="op">=</span> <span class="st">"and"</span>,</span>
-<span class="r-in">  keep <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">smaller_gtfs</span><span class="op">$</span><span class="va">calendar</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"service_id"</span>, <span class="st">"monday"</span>, <span class="st">"sunday"</span><span class="op">)</span><span class="op">]</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># drops entries related to services than run on monday AND on sunday</span></span></span>
+<span class="r-in"><span><span class="co"># the resulting gtfs may include trips that run on these days, but no trips</span></span></span>
+<span class="r-in"><span><span class="co"># that run on both these days</span></span></span>
+<span class="r-in"><span><span class="va">smaller_gtfs</span> <span class="op">&lt;-</span> <span class="fu">filter_by_weekday</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">gtfs</span>,</span></span>
+<span class="r-in"><span>  weekday <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"monday"</span>, <span class="st">"sunday"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  combine <span class="op">=</span> <span class="st">"and"</span>,</span></span>
+<span class="r-in"><span>  keep <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">smaller_gtfs</span><span class="op">$</span><span class="va">calendar</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"service_id"</span>, <span class="st">"monday"</span>, <span class="st">"sunday"</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     service_id monday sunday</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1:        U__      1      0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  2:        US_      1      0</span>
@@ -206,7 +206,7 @@ pass to <code>keep</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  8:        _SD      0      1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  9:        __D      0      1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10:        _S_      0      0</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">object.size</a></span><span class="op">(</span><span class="va">smaller_gtfs</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">object.size</a></span><span class="op">(</span><span class="va">smaller_gtfs</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 69880 bytes</span>
 </code></pre></div>
     </div>
@@ -222,7 +222,7 @@ pass to <code>keep</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

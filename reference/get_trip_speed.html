@@ -71,7 +71,7 @@ from either the <code>shapes</code> or the <code>stop_times</code> file (or both
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_trip_speed</span><span class="op">(</span><span class="va">gtfs</span>, trip_id <span class="op">=</span> <span class="cn">NULL</span>, file <span class="op">=</span> <span class="st">"shapes"</span>, unit <span class="op">=</span> <span class="st">"km/h"</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_trip_speed</span><span class="op">(</span><span class="va">gtfs</span>, trip_id <span class="op">=</span> <span class="cn">NULL</span>, file <span class="op">=</span> <span class="st">"shapes"</span>, unit <span class="op">=</span> <span class="st">"km/h"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -118,12 +118,12 @@ generation differs depending on the chosen file.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/spo_gtfs.zip"</span>, package <span class="op">=</span> <span class="st">"gtfstools"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_gtfs.html">read_gtfs</a></span><span class="op">(</span><span class="va">data_path</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">trip_speed</span> <span class="op">&lt;-</span> <span class="fu">get_trip_speed</span><span class="op">(</span><span class="va">gtfs</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">trip_speed</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/spo_gtfs.zip"</span>, package <span class="op">=</span> <span class="st">"gtfstools"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_gtfs.html">read_gtfs</a></span><span class="op">(</span><span class="va">data_path</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">trip_speed</span> <span class="op">&lt;-</span> <span class="fu">get_trip_speed</span><span class="op">(</span><span class="va">gtfs</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">trip_speed</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      trip_id origin_file     speed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: 2002-10-0      shapes  8.952511</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: 2105-10-0      shapes 10.253365</span>
@@ -131,32 +131,32 @@ generation differs depending on the chosen file.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4: 2161-10-0      shapes 11.182534</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5: 2161-10-1      shapes 11.784458</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6: 4491-10-0      shapes 13.203560</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">trip_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CPTM L07-0"</span>, <span class="st">"2002-10-0"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">trip_speed</span> <span class="op">&lt;-</span> <span class="fu">get_trip_speed</span><span class="op">(</span><span class="va">gtfs</span>, <span class="va">trip_ids</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">trip_speed</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">trip_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CPTM L07-0"</span>, <span class="st">"2002-10-0"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">trip_speed</span> <span class="op">&lt;-</span> <span class="fu">get_trip_speed</span><span class="op">(</span><span class="va">gtfs</span>, <span class="va">trip_ids</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">trip_speed</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       trip_id origin_file     speed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  2002-10-0      shapes  8.952511</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: CPTM L07-0      shapes 26.787768</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">trip_speed</span> <span class="op">&lt;-</span> <span class="fu">get_trip_speed</span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">gtfs</span>,</span>
-<span class="r-in">  <span class="va">trip_ids</span>,</span>
-<span class="r-in">  file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"shapes"</span>, <span class="st">"stop_times"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">trip_speed</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">trip_speed</span> <span class="op">&lt;-</span> <span class="fu">get_trip_speed</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">gtfs</span>,</span></span>
+<span class="r-in"><span>  <span class="va">trip_ids</span>,</span></span>
+<span class="r-in"><span>  file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"shapes"</span>, <span class="st">"stop_times"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">trip_speed</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       trip_id origin_file     speed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  2002-10-0      shapes  8.952511</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2002-10-0  stop_times  6.559614</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3: CPTM L07-0      shapes 26.787768</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4: CPTM L07-0  stop_times 24.342591</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">trip_speed</span> <span class="op">&lt;-</span> <span class="fu">get_trip_speed</span><span class="op">(</span><span class="va">gtfs</span>, <span class="va">trip_ids</span>, unit <span class="op">=</span> <span class="st">"m/s"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">trip_speed</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">trip_speed</span> <span class="op">&lt;-</span> <span class="fu">get_trip_speed</span><span class="op">(</span><span class="va">gtfs</span>, <span class="va">trip_ids</span>, unit <span class="op">=</span> <span class="st">"m/s"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">trip_speed</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       trip_id origin_file    speed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  2002-10-0      shapes 2.486809</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: CPTM L07-0      shapes 7.441047</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -171,7 +171,7 @@ generation differs depending on the chosen file.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

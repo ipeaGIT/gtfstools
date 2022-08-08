@@ -71,7 +71,7 @@ shapes or the stop_times file (or both)."><meta property="og:image" content="/lo
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_trip_geometry</span><span class="op">(</span><span class="va">gtfs</span>, trip_id <span class="op">=</span> <span class="cn">NULL</span>, file <span class="op">=</span> <span class="cn">NULL</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_trip_geometry</span><span class="op">(</span><span class="va">gtfs</span>, trip_id <span class="op">=</span> <span class="cn">NULL</span>, file <span class="op">=</span> <span class="cn">NULL</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -118,12 +118,12 @@ stops along a straight line (stops' coordinates are retrieved from the
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/spo_gtfs.zip"</span>, package <span class="op">=</span> <span class="st">"gtfstools"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_gtfs.html">read_gtfs</a></span><span class="op">(</span><span class="va">data_path</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">trip_geometry</span> <span class="op">&lt;-</span> <span class="fu">get_trip_geometry</span><span class="op">(</span><span class="va">gtfs</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">trip_geometry</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/spo_gtfs.zip"</span>, package <span class="op">=</span> <span class="st">"gtfstools"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_gtfs.html">read_gtfs</a></span><span class="op">(</span><span class="va">data_path</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">trip_geometry</span> <span class="op">&lt;-</span> <span class="fu">get_trip_geometry</span><span class="op">(</span><span class="va">gtfs</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">trip_geometry</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 6 features and 2 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -136,10 +136,10 @@ stops along a straight line (stops' coordinates are retrieved from the
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 CPTM L08-1      shapes LINESTRING (-46.98404 -23.5...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 CPTM L09-0      shapes LINESTRING (-46.77604 -23.5...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 CPTM L09-1      shapes LINESTRING (-46.69711 -23.7...</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># the above is identical to</span></span>
-<span class="r-in"><span class="va">trip_geometry</span> <span class="op">&lt;-</span> <span class="fu">get_trip_geometry</span><span class="op">(</span><span class="va">gtfs</span>, file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"shapes"</span>, <span class="st">"stop_times"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">trip_geometry</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># the above is identical to</span></span></span>
+<span class="r-in"><span><span class="va">trip_geometry</span> <span class="op">&lt;-</span> <span class="fu">get_trip_geometry</span><span class="op">(</span><span class="va">gtfs</span>, file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"shapes"</span>, <span class="st">"stop_times"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">trip_geometry</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 6 features and 2 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -152,10 +152,10 @@ stops along a straight line (stops' coordinates are retrieved from the
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 CPTM L08-1      shapes LINESTRING (-46.98404 -23.5...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 CPTM L09-0      shapes LINESTRING (-46.77604 -23.5...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 CPTM L09-1      shapes LINESTRING (-46.69711 -23.7...</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">trip_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CPTM L07-0"</span>, <span class="st">"2002-10-0"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">trip_geometry</span> <span class="op">&lt;-</span> <span class="fu">get_trip_geometry</span><span class="op">(</span><span class="va">gtfs</span>, trip_id <span class="op">=</span> <span class="va">trip_ids</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">trip_geometry</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">trip_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CPTM L07-0"</span>, <span class="st">"2002-10-0"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">trip_geometry</span> <span class="op">&lt;-</span> <span class="fu">get_trip_geometry</span><span class="op">(</span><span class="va">gtfs</span>, trip_id <span class="op">=</span> <span class="va">trip_ids</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">trip_geometry</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 4 features and 2 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -166,9 +166,9 @@ stops along a straight line (stops' coordinates are retrieved from the
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  2002-10-0      shapes LINESTRING (-46.62963 -23.5...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 CPTM L07-0  stop_times LINESTRING (-46.63544 -23.5...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4  2002-10-0  stop_times LINESTRING (-46.62962 -23.5...</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">trip_geometry</span><span class="op">[</span><span class="st">"origin_file"</span><span class="op">]</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">trip_geometry</span><span class="op">[</span><span class="st">"origin_file"</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="get_trip_geometry-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -183,7 +183,7 @@ stops along a straight line (stops' coordinates are retrieved from the
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

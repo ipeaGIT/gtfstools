@@ -71,7 +71,7 @@ frequencies table."><meta property="og:image" content="/logo.png"><!-- mathjax -
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">frequencies_to_stop_times</span><span class="op">(</span><span class="va">gtfs</span>, trip_id <span class="op">=</span> <span class="cn">NULL</span>, force <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">frequencies_to_stop_times</span><span class="op">(</span><span class="va">gtfs</span>, trip_id <span class="op">=</span> <span class="cn">NULL</span>, force <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -121,18 +121,18 @@ would be called <code>"example_trip_1"</code>, <code>"example_trip_2"</code> and
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/spo_gtfs.zip"</span>, package <span class="op">=</span> <span class="st">"gtfstools"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_gtfs.html">read_gtfs</a></span><span class="op">(</span><span class="va">data_path</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">trip</span> <span class="op">&lt;-</span> <span class="st">"CPTM L07-0"</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># converts all trips listed in the frequencies table</span></span>
-<span class="r-in"><span class="va">converted_gtfs</span> <span class="op">&lt;-</span> <span class="fu">frequencies_to_stop_times</span><span class="op">(</span><span class="va">gtfs</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># converts only the specified trip_id</span></span>
-<span class="r-in"><span class="va">converted_gtfs</span> <span class="op">&lt;-</span> <span class="fu">frequencies_to_stop_times</span><span class="op">(</span><span class="va">gtfs</span>, <span class="va">trip</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># how the specified trip_id was described in the frequencies table</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">gtfs</span><span class="op">$</span><span class="va">frequencies</span><span class="op">[</span><span class="va">trip_id</span> <span class="op">==</span> <span class="va">trip</span><span class="op">]</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/spo_gtfs.zip"</span>, package <span class="op">=</span> <span class="st">"gtfstools"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_gtfs.html">read_gtfs</a></span><span class="op">(</span><span class="va">data_path</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">trip</span> <span class="op">&lt;-</span> <span class="st">"CPTM L07-0"</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># converts all trips listed in the frequencies table</span></span></span>
+<span class="r-in"><span><span class="va">converted_gtfs</span> <span class="op">&lt;-</span> <span class="fu">frequencies_to_stop_times</span><span class="op">(</span><span class="va">gtfs</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># converts only the specified trip_id</span></span></span>
+<span class="r-in"><span><span class="va">converted_gtfs</span> <span class="op">&lt;-</span> <span class="fu">frequencies_to_stop_times</span><span class="op">(</span><span class="va">gtfs</span>, <span class="va">trip</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># how the specified trip_id was described in the frequencies table</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">gtfs</span><span class="op">$</span><span class="va">frequencies</span><span class="op">[</span><span class="va">trip_id</span> <span class="op">==</span> <span class="va">trip</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       trip_id start_time end_time headway_secs</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: CPTM L07-0   04:00:00 04:59:00          720</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: CPTM L07-0   05:00:00 05:59:00          360</span>
@@ -140,10 +140,10 @@ would be called <code>"example_trip_1"</code>, <code>"example_trip_2"</code> and
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4: CPTM L07-0   07:00:00 07:59:00          360</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5: CPTM L07-0   08:00:00 08:59:00          360</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6: CPTM L07-0   09:00:00 09:59:00          480</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># the first row of each equivalent stop_times entry in the converted gtfs</span></span>
-<span class="r-in"><span class="va">equivalent_stop_times</span> <span class="op">&lt;-</span> <span class="va">converted_gtfs</span><span class="op">$</span><span class="va">stop_times</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="va">trip</span>, <span class="va">trip_id</span><span class="op">)</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">equivalent_stop_times</span><span class="op">[</span><span class="va">equivalent_stop_times</span><span class="op">[</span>, <span class="va">.I</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, by <span class="op">=</span> <span class="va">trip_id</span><span class="op">]</span><span class="op">$</span><span class="va">V1</span><span class="op">]</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># the first row of each equivalent stop_times entry in the converted gtfs</span></span></span>
+<span class="r-in"><span><span class="va">equivalent_stop_times</span> <span class="op">&lt;-</span> <span class="va">converted_gtfs</span><span class="op">$</span><span class="va">stop_times</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="va">trip</span>, <span class="va">trip_id</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">equivalent_stop_times</span><span class="op">[</span><span class="va">equivalent_stop_times</span><span class="op">[</span>, <span class="va">.I</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, by <span class="op">=</span> <span class="va">trip_id</span><span class="op">]</span><span class="op">$</span><span class="va">V1</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             trip_id arrival_time departure_time stop_id stop_sequence</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1:   CPTM L07-0_1     04:00:00       04:00:00   18940             1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   2:   CPTM L07-0_2     04:12:00       04:12:00   18940             1</span>
@@ -156,7 +156,7 @@ would be called <code>"example_trip_1"</code>, <code>"example_trip_2"</code> and
 <span class="r-out co"><span class="r-pr">#&gt;</span> 159: CPTM L07-0_159     23:24:00       23:24:00   18940             1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 160: CPTM L07-0_160     23:36:00       23:36:00   18940             1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 161: CPTM L07-0_161     23:48:00       23:48:00   18940             1</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -171,7 +171,7 @@ would be called <code>"example_trip_1"</code>, <code>"example_trip_2"</code> and
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

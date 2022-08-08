@@ -73,7 +73,9 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
-<ul><li>Fixed a bug in <code><a href="../reference/write_gtfs.html">write_gtfs()</a></code> that prevented <code>as_dir = TRUE</code> to be used.</li></ul></div>
+<ul><li>Fixed a bug in <code><a href="../reference/write_gtfs.html">write_gtfs()</a></code> that prevented <code>as_dir = TRUE</code> to be used.</li>
+<li>Fixed a bug in <code><a href="../reference/set_trip_speed.html">set_trip_speed()</a></code> that resulted in invalid stop_times tables when <code>max(stop_sequence)</code> was higher than the number of stops of a given trip. Thanks Alena Stern (<a href="https://github.com/alenastern" class="external-link">@alenastern</a>).</li>
+</ul></div>
 <div class="section level3"><h3 id="notes-development-version">Notes<a class="anchor" aria-label="anchor" href="#notes-development-version"></a></h3></div>
 </div>
     <div class="section level2">
@@ -166,7 +168,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

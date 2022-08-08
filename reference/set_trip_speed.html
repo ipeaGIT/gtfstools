@@ -71,7 +71,7 @@ arrival_time and departure_time columns in stop_times."><meta property="og:image
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">set_trip_speed</span><span class="op">(</span><span class="va">gtfs</span>, <span class="va">trip_id</span>, <span class="va">speed</span>, unit <span class="op">=</span> <span class="st">"km/h"</span>, by_reference <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">set_trip_speed</span><span class="op">(</span><span class="va">gtfs</span>, <span class="va">trip_id</span>, <span class="va">speed</span>, unit <span class="op">=</span> <span class="st">"km/h"</span>, by_reference <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -127,12 +127,12 @@ to this function in the future.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/spo_gtfs.zip"</span>, package <span class="op">=</span> <span class="st">"gtfstools"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_gtfs.html">read_gtfs</a></span><span class="op">(</span><span class="va">data_path</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">gtfs_new_speed</span> <span class="op">&lt;-</span> <span class="fu">set_trip_speed</span><span class="op">(</span><span class="va">gtfs</span>, trip_id <span class="op">=</span> <span class="st">"CPTM L07-0"</span>, <span class="fl">50</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">gtfs_new_speed</span><span class="op">$</span><span class="va">stop_times</span><span class="op">[</span><span class="va">trip_id</span> <span class="op">==</span> <span class="st">"CPTM L07-0"</span><span class="op">]</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/spo_gtfs.zip"</span>, package <span class="op">=</span> <span class="st">"gtfstools"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_gtfs.html">read_gtfs</a></span><span class="op">(</span><span class="va">data_path</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">gtfs_new_speed</span> <span class="op">&lt;-</span> <span class="fu">set_trip_speed</span><span class="op">(</span><span class="va">gtfs</span>, trip_id <span class="op">=</span> <span class="st">"CPTM L07-0"</span>, <span class="fl">50</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gtfs_new_speed</span><span class="op">$</span><span class="va">stop_times</span><span class="op">[</span><span class="va">trip_id</span> <span class="op">==</span> <span class="st">"CPTM L07-0"</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        trip_id arrival_time departure_time stop_id stop_sequence</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1: CPTM L07-0     04:00:00       04:00:00   18940             1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  2: CPTM L07-0                               18920             2</span>
@@ -152,15 +152,15 @@ to this function in the future.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16: CPTM L07-0                               18973            16</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17: CPTM L07-0                               18974            17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 18: CPTM L07-0     05:12:51       05:12:51   18975            18</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># use the unit argument to change the speed unit</span></span>
-<span class="r-in"><span class="va">gtfs_new_speed</span> <span class="op">&lt;-</span> <span class="fu">set_trip_speed</span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">gtfs</span>,</span>
-<span class="r-in">  trip_id <span class="op">=</span> <span class="st">"CPTM L07-0"</span>,</span>
-<span class="r-in">  speed <span class="op">=</span> <span class="fl">15</span>,</span>
-<span class="r-in">  unit <span class="op">=</span> <span class="st">"m/s"</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">gtfs_new_speed</span><span class="op">$</span><span class="va">stop_times</span><span class="op">[</span><span class="va">trip_id</span> <span class="op">==</span> <span class="st">"CPTM L07-0"</span><span class="op">]</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># use the unit argument to change the speed unit</span></span></span>
+<span class="r-in"><span><span class="va">gtfs_new_speed</span> <span class="op">&lt;-</span> <span class="fu">set_trip_speed</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">gtfs</span>,</span></span>
+<span class="r-in"><span>  trip_id <span class="op">=</span> <span class="st">"CPTM L07-0"</span>,</span></span>
+<span class="r-in"><span>  speed <span class="op">=</span> <span class="fl">15</span>,</span></span>
+<span class="r-in"><span>  unit <span class="op">=</span> <span class="st">"m/s"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gtfs_new_speed</span><span class="op">$</span><span class="va">stop_times</span><span class="op">[</span><span class="va">trip_id</span> <span class="op">==</span> <span class="st">"CPTM L07-0"</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        trip_id arrival_time departure_time stop_id stop_sequence</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1: CPTM L07-0     04:00:00       04:00:00   18940             1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  2: CPTM L07-0                               18920             2</span>
@@ -180,9 +180,9 @@ to this function in the future.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16: CPTM L07-0                               18973            16</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17: CPTM L07-0                               18974            17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 18: CPTM L07-0     05:07:27       05:07:27   18975            18</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># original gtfs remains unchanged</span></span>
-<span class="r-in"><span class="va">gtfs</span><span class="op">$</span><span class="va">stop_times</span><span class="op">[</span><span class="va">trip_id</span> <span class="op">==</span> <span class="st">"CPTM L07-0"</span><span class="op">]</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># original gtfs remains unchanged</span></span></span>
+<span class="r-in"><span><span class="va">gtfs</span><span class="op">$</span><span class="va">stop_times</span><span class="op">[</span><span class="va">trip_id</span> <span class="op">==</span> <span class="st">"CPTM L07-0"</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        trip_id arrival_time departure_time stop_id stop_sequence</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1: CPTM L07-0     04:00:00       04:00:00   18940             1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  2: CPTM L07-0     04:08:00       04:08:00   18920             2</span>
@@ -202,10 +202,10 @@ to this function in the future.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16: CPTM L07-0     06:00:00       06:00:00   18973            16</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17: CPTM L07-0     06:08:00       06:08:00   18974            17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 18: CPTM L07-0     06:16:00       06:16:00   18975            18</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># when doing by reference, original gtfs is changed</span></span>
-<span class="r-in"><span class="fu">set_trip_speed</span><span class="op">(</span><span class="va">gtfs</span>, trip_id <span class="op">=</span> <span class="st">"CPTM L07-0"</span>, <span class="fl">50</span>, by_reference <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">gtfs</span><span class="op">$</span><span class="va">stop_times</span><span class="op">[</span><span class="va">trip_id</span> <span class="op">==</span> <span class="st">"CPTM L07-0"</span><span class="op">]</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># when doing by reference, original gtfs is changed</span></span></span>
+<span class="r-in"><span><span class="fu">set_trip_speed</span><span class="op">(</span><span class="va">gtfs</span>, trip_id <span class="op">=</span> <span class="st">"CPTM L07-0"</span>, <span class="fl">50</span>, by_reference <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gtfs</span><span class="op">$</span><span class="va">stop_times</span><span class="op">[</span><span class="va">trip_id</span> <span class="op">==</span> <span class="st">"CPTM L07-0"</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        trip_id arrival_time departure_time stop_id stop_sequence</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1: CPTM L07-0     04:00:00       04:00:00   18940             1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  2: CPTM L07-0                               18920             2</span>
@@ -225,7 +225,7 @@ to this function in the future.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16: CPTM L07-0                               18973            16</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17: CPTM L07-0                               18974            17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 18: CPTM L07-0     05:12:51       05:12:51   18975            18</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -240,7 +240,7 @@ to this function in the future.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
