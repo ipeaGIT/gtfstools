@@ -76,8 +76,6 @@ set_trip_speed <- function(gtfs,
   )
   checkmate::assert_logical(by_reference, any.missing = FALSE, len = 1)
 
-  # check if required fields and files exist
-
   gtfsio::assert_field_class(
     gtfs,
     "stop_times",
@@ -135,7 +133,7 @@ set_trip_speed <- function(gtfs,
   } else {
     max_stops_index <- stop_times[
       trip_id %chin% trip_length_ids,
-      .I[max(stop_sequence)],
+      .I[stop_sequence == max(stop_sequence)],
       by = trip_id
     ]
     max_stops_index <- max_stops_index$V1

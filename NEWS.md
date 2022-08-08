@@ -9,6 +9,9 @@
 ## Bug fixes
 
 - Fixed a bug in `write_gtfs()` that prevented `as_dir = TRUE` to be used.
+- Fixed a bug in `set_trip_speed()` that resulted in invalid stop_times tables
+  when `max(stop_sequence)` was higher than the number of stops of a given
+  trip. Thanks Alena Stern (@alenastern).
 
 ## Notes
 

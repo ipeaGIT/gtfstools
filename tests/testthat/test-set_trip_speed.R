@@ -1,10 +1,6 @@
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 
-
-# tests -------------------------------------------------------------------
-
-
 test_that("raises errors due to incorrect input types/value", {
   no_class_gtfs <- gtfs
   attr(no_class_gtfs, "class") <- NULL
@@ -270,4 +266,24 @@ test_that("results in identical gtfs if none of the specified trip_ids exist", {
   expect_false(identical(gtfs, same_speeds_gtfs))
   data.table::setindex(same_speeds_gtfs$stop_times, NULL)
   expect_identical(gtfs, same_speeds_gtfs)
+})
+
+# issue #63
+test_that("sets correct speed when max(stop_sequence) != number of stops", {
+  edited_gtfs <- gtfs
+  edited_gtfs$stop_times <- data.table::copy(gtfs$stop_times)
+
+  edited_gtfs$stop_times[
+    trip_id == "CPTM L07-0" & stop_sequence == 18,
+    stop_sequence := 19
+  ]
+
+  correct_speed_gtfs <- set_trip_speed(
+    edited_gtfs,
+    "CPTM L07-0",
+    speed = 20
+  )
+  speed <- get_trip_speed(correct_speed_gtfs, "CPTM L07-0")
+
+  expect_identical(round(speed$speed), 20)
 })
