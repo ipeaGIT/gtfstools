@@ -287,3 +287,15 @@ test_that("sets correct speed when max(stop_sequence) != number of stops", {
 
   expect_identical(round(speed$speed), 20)
 })
+
+# issue #63 ("part two")
+test_that("sets correct speed independent of id order in trips & stop_times", {
+  trip_ids <- c("CPTM L07-0", "5290-10-1")
+  smaller_gtfs <- filter_by_trip_id(gtfs, trip_ids)
+  smaller_gtfs$trips <- rbind(smaller_gtfs$trips[2], smaller_gtfs$trips[1])
+
+  new_speed <- set_trip_speed(smaller_gtfs, trip_ids, 20)
+
+  speeds <- get_trip_speed(new_speed)
+  expect_true(all(round(speeds$speed) == 20))
+})
