@@ -119,30 +119,38 @@ set_trip_speed <- function(gtfs,
 
   desired_trips_index <- stop_times[, .I[trip_id %chin% trip_length_ids]]
 
-  min_stops_index <- stop_times[
+  min_stops_index_df <- stop_times[
     trip_id %chin% trip_length_ids,
     .I[1],
     by = trip_id
   ]
-  min_stops_index <- min_stops_index$V1
+  min_stops_index <- min_stops_index_df$V1
+  names(min_stops_index) <- min_stops_index_df$trip_id
 
   # issue #37 - max() raises a warning if it receives a integer(0), which
   # happens when none of the specified 'trip_id's exist in the gtfs object
+
   if (identical(trip_length_ids, character(0))) {
     max_stops_index <- 0
   } else {
-    max_stops_index <- stop_times[
+    max_stops_index_df <- stop_times[
       trip_id %chin% trip_length_ids,
       .I[stop_sequence == max(stop_sequence)],
       by = trip_id
     ]
-    max_stops_index <- max_stops_index$V1
+    max_stops_index <- max_stops_index_df$V1
+    names(max_stops_index) <- max_stops_index_df$trip_id
   }
+
+  # substitute given 'trip_id's intermediate stops arrival and departure time
+  # by ""
 
   na_time_stops_index <- setdiff(
     desired_trips_index,
     c(min_stops_index, max_stops_index)
   )
+
+  stop_times[na_time_stops_index, `:=`(arrival_time = "", departure_time = "")]
 
   # make sure that first stop arrival_time equals departure_time and save value
 
@@ -150,33 +158,28 @@ set_trip_speed <- function(gtfs,
 
   first_departure <- stop_times[min_stops_index, departure_time]
   first_departure <- string_to_seconds(first_departure)
+  names(first_departure) <- names(min_stops_index)
 
   # substitute last stop arrival and departure_time by first_departure plus
   # duration
 
-  trip_duration <- as.integer(trip_duration * 3600)
+  trip_duration_secs <- as.integer(trip_duration * 3600)
+  names(trip_duration_secs) <- names(trip_duration)
 
-  last_arrival  <- first_departure + trip_duration
+  last_arrival  <- first_departure[trip_length_ids] +
+    trip_duration_secs[trip_length_ids]
   last_arrival  <- seconds_to_string(last_arrival)
 
   stop_times[
     max_stops_index,
-    `:=`(arrival_time = last_arrival, departure_time = last_arrival)
+    `:=`(
+      arrival_time = last_arrival[names(max_stops_index)],
+      departure_time = last_arrival[names(max_stops_index)]
+    )
   ]
-
-  # substitute given 'trip_id's intermediate stops arrival and departure time
-  # by ""
-
-  stop_times[na_time_stops_index, `:=`(arrival_time = "", departure_time = "")]
-
-  # if by_reference is TRUE, return gtfs invisibly
 
   if (by_reference) return(invisible(gtfs))
 
-  # else assign stop_times to gtfs$stop_times and return gtfs
-
   gtfs$stop_times <- stop_times
-
   return(gtfs)
-
 }

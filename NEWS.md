@@ -12,6 +12,9 @@
 - Fixed a bug in `set_trip_speed()` that resulted in invalid stop_times tables
   when `max(stop_sequence)` was higher than the number of stops of a given
   trip. Thanks Alena Stern (@alenastern).
+- Fixed a bug in `set_trip_speed()` that resulted in the speed of wrong
+  trip_ids being updated because of the order that these ids would appear in
+  the trips and stop_times tables. Thanks Alena Stern (@alenastern).
 
 ## Notes
 
