@@ -14,7 +14,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.2.0 (2022-04-22)",
+  "runtimePlatform": "R version 4.2.1 (2022-06-23)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -279,7 +279,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "2973.919KB",
+  "fileSize": "2960.635KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -317,5 +317,5 @@
   "readme": "https://github.com/ipeaGIT/gtfstools/blob/master/README.md",
   "contIntegration": ["https://github.com/ipeaGIT/gtfstools/actions?query=workflow%3Acheck", "https://app.codecov.io/gh/ipeaGIT/gtfstools?branch=master"],
   "developmentStatus": "https://lifecycle.r-lib.org/articles/stages.html",
-  "keywords": ["r", "gtfs"]
+  "keywords": ["r", "gtfs", "public-transport", "publictransport"]
 }
