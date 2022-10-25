@@ -1,5 +1,6 @@
 available_versions <- c(
   "latest",
+  "4.0.0",
   "3.1.1",
   "3.1.0",
   "3.0.1",
@@ -44,7 +45,7 @@ test_that("validator is saved to path", {
 test_that("correct version is downloaded", {
   # latest defaults to highest version, else downloads specified version
   tester(version = "latest")
-  expect_true(grepl("gtfs-validator-v3\\.1\\.1\\.jar$", list.files(tmpdir)))
+  expect_true(grepl("gtfs-validator-v4\\.0\\.0\\.jar$", list.files(tmpdir)))
 
   tester(version = "3.0.0")
   expect_true(
@@ -97,7 +98,7 @@ test_that("all versions can be downloaded", {
     function(v) tester(tempdir(), version = v),
     character(1)
   )
-  expect_true(paths["latest"] == paths["3.1.1"])
+  expect_true(paths["latest"] == paths["4.0.0"])
 
   non_latest <- paths[-1]
   manually_built <- file.path(

@@ -2,6 +2,7 @@ testthat::skip_if_offline() # calls skip_on_cran()
 
 available_versions <- c(
   "latest",
+  "4.0.0",
   "3.1.1",
   "3.1.0",
   "3.0.1",
