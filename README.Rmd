@@ -17,9 +17,8 @@ knitr::opts_chunk$set(
 [![gtfstools status badge](https://dhersz.r-universe.dev/badges/gtfstools)](https://dhersz.r-universe.dev)
 [![B status](https://github.com/ipeaGIT/gtfstools/workflows/check/badge.svg)](https://github.com/ipeaGIT/gtfstools/actions?query=workflow%3Acheck)
 [![Codecov test coverage](https://codecov.io/gh/ipeaGIT/gtfstools/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ipeaGIT/gtfstools?branch=master)
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+[![Lifecycle: experimental](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![CRAN/METACRAN Total downloads](http://cranlogs.r-pkg.org/badges/grand-total/gtfstools?color=yellow)](https://CRAN.R-project.org/package=gtfstools)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6577028.svg)](https://doi.org/10.5281/zenodo.6577028)
 
 **gtfstools** offers a set of convenient tools for editing and analysing
 transit feeds in GTFS format. Feeds are read as a `list` of `data.table`s,
@@ -72,12 +71,8 @@ Please read **gtfstools** vignettes for more on the package usage:
 - [`{gtfs2gps}`](https://github.com/ipeaGIT/gtfs2gps)
 - [`{gtfsrouter}`](https://github.com/ATFutures/gtfs-router)
 
-## Citation
+## Acknowledgement <a href="https://www.ipea.gov.br"><img align="right"
+src="man/figures/ipea_logo.png" alt="IPEA" width="300" /></a>
 
-```{r}
-citation("gtfstools")
-```
-
-## Acknowledgement <a href="https://www.ipea.gov.br"><img align="right" src="man/figures/ipea_logo.png" alt="IPEA" width="300" /></a>
-
-**gtfstools** is developed by a team at the Institute for Applied Economic Research (Ipea), Brazil.
+**gtfstools** is developed by a team at the Institute for Applied Economic
+Research (Ipea), Brazil.
