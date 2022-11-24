@@ -1,8 +1,10 @@
-# gtfstools (development version)
+# gtfstools 1.2.0
 
 ## New features
 
-- New `validate_gtfs()` behavior. Now used to run MobilityData Canonical GTFS validator with a feed. The old behavior was marked as deprecated since v1.0.0.
+- New `validate_gtfs()` behavior. Now used to run MobilityData Canonical GTFS
+  validator with a feed. The old behavior was marked as deprecated since
+  v1.0.0.
 - New function `download_validator()`.
 - New vignette demonstrating how to validate feeds.
 
@@ -15,8 +17,6 @@
 - Fixed a bug in `set_trip_speed()` that resulted in the speed of wrong
   trip_ids being updated because of the order that these ids would appear in
   the trips and stop_times tables. Thanks Alena Stern (@alenastern).
-
-## Notes
 
 # gtfstools 1.1.0
 

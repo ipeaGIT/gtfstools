@@ -8,13 +8,13 @@
   "codeRepository": "https://github.com/ipeaGIT/gtfstools",
   "issueTracker": "https://github.com/ipeaGIT/gtfstools/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.1.0.9000",
+  "version": "1.2.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.2.1 (2022-06-23)",
+  "runtimePlatform": "R version 4.2.2 Patched (2022-11-10 r83330)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -279,40 +279,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "2960.635KB",
-  "citation": [
-    {
-      "@type": "SoftwareSourceCode",
-      "datePublished": "2022",
-      "author": [
-        {
-          "@type": "Person",
-          "givenName": "Daniel",
-          "familyName": "Herszenhut"
-        },
-        {
-          "@type": "Person",
-          "givenName": ["Rafael", "H.", "M."],
-          "familyName": "Pereira"
-        },
-        {
-          "@type": "Person",
-          "givenName": ["Pedro", "R."],
-          "familyName": "Andrade"
-        },
-        {
-          "@type": "Person",
-          "givenName": "Joao",
-          "familyName": "Bazzo"
-        }
-      ],
-      "name": "gtfstools: General Transit Feed Specification (GTFS) Editing and Analysing Tools",
-      "identifier": "10.5281/zenodo.6577028",
-      "url": "https://doi.org/10.5281/zenodo.6577028",
-      "@id": "https://doi.org/10.5281/zenodo.6577028",
-      "sameAs": "https://doi.org/10.5281/zenodo.6577028"
-    }
-  ],
+  "fileSize": "2958.866KB",
   "releaseNotes": "https://github.com/ipeaGIT/gtfstools/blob/master/NEWS.md",
   "readme": "https://github.com/ipeaGIT/gtfstools/blob/master/README.md",
   "contIntegration": ["https://github.com/ipeaGIT/gtfstools/actions?query=workflow%3Acheck", "https://app.codecov.io/gh/ipeaGIT/gtfstools?branch=master"],
