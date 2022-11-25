@@ -65,8 +65,7 @@ Please read **gtfstools** vignettes for more on the package usage:
   - [`{gtfs2gps}`](https://github.com/ipeaGIT/gtfs2gps)
   - [`{gtfsrouter}`](https://github.com/ATFutures/gtfs-router)
 
-## Acknowledgement <a href="https://www.ipea.gov.br"><img align="right"
-src="man/figures/ipea_logo.png" alt="IPEA" width="300" /></a>
+## Acknowledgement <a href="https://www.ipea.gov.br"><img align="right" src="man/figures/ipea_logo.png" alt="IPEA" width="300" /></a>
 
 **gtfstools** is developed by a team at the Institute for Applied
 Economic Research (Ipea), Brazil.
