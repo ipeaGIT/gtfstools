@@ -279,7 +279,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "2958.947KB",
+  "fileSize": "2959.017KB",
   "releaseNotes": "https://github.com/ipeaGIT/gtfstools/blob/master/NEWS.md",
   "readme": "https://github.com/ipeaGIT/gtfstools/blob/master/README.md",
   "contIntegration": ["https://github.com/ipeaGIT/gtfstools/actions?query=workflow%3Acheck", "https://app.codecov.io/gh/ipeaGIT/gtfstools?branch=master"],
