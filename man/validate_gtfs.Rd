@@ -12,7 +12,7 @@ validate_gtfs(
   html_preview = TRUE,
   pretty_json = FALSE,
   quiet = TRUE,
-  n_threads = parallel::detectCores() - 1
+  n_threads = 1
 )
 }
 \arguments{

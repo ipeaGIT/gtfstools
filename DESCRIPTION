@@ -44,6 +44,7 @@ Imports:
     curl,
     data.table,
     gtfsio (>= 1.0.0),
+    parallelly,
     processx,
     sf,
     sfheaders,

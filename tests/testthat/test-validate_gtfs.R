@@ -26,7 +26,7 @@ tester <- function(gtfs = data_path,
                    html_preview = TRUE,
                    pretty_json = FALSE,
                    quiet = TRUE,
-                   n_threads = 2) {
+                   n_threads = 1) {
   validate_gtfs(
     gtfs,
     output_path,
@@ -75,7 +75,6 @@ test_that("raises error due to incorrect input", {
 
   expect_error(tester(n_threads = "1"))
   expect_error(tester(n_threads = 0))
-  expect_error(tester(n_threads = parallel::detectCores() + 1))
   expect_error(tester(n_threads = Inf))
   expect_error(tester(n_threads = c(1, 1)))
 })

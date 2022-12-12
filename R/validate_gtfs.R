@@ -62,7 +62,7 @@ validate_gtfs <- function(gtfs,
                           html_preview = TRUE,
                           pretty_json = FALSE,
                           quiet = TRUE,
-                          n_threads = parallel::detectCores() - 1) {
+                          n_threads = 1) {
   assert_java_version()
   checkmate::assert(
     checkmate::check_string(output_path),
@@ -78,16 +78,11 @@ validate_gtfs <- function(gtfs,
   checkmate::assert_logical(html_preview, any.missing = FALSE, len = 1)
   checkmate::assert_logical(pretty_json, any.missing = FALSE, len = 1)
   checkmate::assert_logical(quiet, any.missing = FALSE, len = 1)
-  checkmate::assert_number(
-    n_threads,
-    lower = 1,
-    upper = parallel::detectCores(),
-    finite = TRUE
-  )
   assert_overwritten_files(output_path, overwrite)
 
   gtfs <- assert_and_assign_gtfs(gtfs, quiet)
   validator_version <- parse_validator_version(validator_path)
+  n_threads <- assert_and_assign_n_threads(n_threads)
 
   pretty_json_flag <- ""
   if (pretty_json) pretty_json_flag <- "-p"
@@ -249,4 +244,16 @@ assert_overwritten_files <- function(output_path, overwrite) {
       overwrite = overwrite
     )
   }
+}
+
+assert_and_assign_n_threads <- function(n_threads) {
+  checkmate::assert_number(n_threads, lower = 1, finite = TRUE)
+
+  n_threads <- min(
+    n_threads,
+    parallelly::availableCores(),
+    parallelly::freeConnections()
+  )
+
+  return(n_threads)
 }

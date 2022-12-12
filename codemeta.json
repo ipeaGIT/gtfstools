@@ -214,6 +214,18 @@
     },
     "6": {
       "@type": "SoftwareApplication",
+      "identifier": "parallelly",
+      "name": "parallelly",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=parallelly"
+    },
+    "7": {
+      "@type": "SoftwareApplication",
       "identifier": "processx",
       "name": "processx",
       "provider": {
@@ -224,7 +236,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=processx"
     },
-    "7": {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "sf",
       "name": "sf",
@@ -236,7 +248,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=sf"
     },
-    "8": {
+    "9": {
       "@type": "SoftwareApplication",
       "identifier": "sfheaders",
       "name": "sfheaders",
@@ -248,7 +260,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=sfheaders"
     },
-    "9": {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "units",
       "name": "units",
@@ -260,12 +272,12 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=units"
     },
-    "10": {
+    "11": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
-    "11": {
+    "12": {
       "@type": "SoftwareApplication",
       "identifier": "zip",
       "name": "zip",
@@ -279,7 +291,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "2959.017KB",
+  "fileSize": "2959.033KB",
   "releaseNotes": "https://github.com/ipeaGIT/gtfstools/blob/master/NEWS.md",
   "readme": "https://github.com/ipeaGIT/gtfstools/blob/master/README.md",
   "contIntegration": ["https://github.com/ipeaGIT/gtfstools/actions?query=workflow%3Acheck", "https://app.codecov.io/gh/ipeaGIT/gtfstools?branch=master"],
