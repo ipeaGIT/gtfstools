@@ -3,3 +3,7 @@
 cpp_time_to_seconds <- function(times_in) {
   .Call(`_gtfstools_cpp_time_to_seconds`, times_in)
 }
+
+cpp_seconds_to_string <- function(seconds_from_midnight) {
+  .Call(`_gtfstools_cpp_seconds_to_string`, seconds_from_midnight)
+}

@@ -10,6 +10,8 @@
   default to run parallelly using all available cores. Heavily inspired by
   Henrik Bengtsson post "Please Avoid detectCores() in your R packages"
   (https://www.jottr.org/2022/12/05/avoid-detectcores/).
+- Improved performance of `seconds_to_string()` and, consequently, any other
+  functions that use it.
 
 # gtfstools 1.2.0
 

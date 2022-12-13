@@ -33,10 +33,11 @@ context("Seconds to string")
 test_that("raises errors due to incorrect input types", {
   expect_error(seconds_to_string(1000))
   expect_error(seconds_to_string("1000"))
+  expect_error(seconds_to_string(-1000))
 })
 
 test_that("outputs '' if NA is given", {
-  expect_equal(seconds_to_string(NA), "")
+  expect_equal(seconds_to_string(NA_integer_), "")
 })
 
 test_that("generates strings correctly", {

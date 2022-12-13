@@ -28,22 +28,11 @@ string_to_seconds <- function(string) {
 #'
 #' @keywords internal
 seconds_to_string <- function(seconds) {
+  checkmate::assert_integer(seconds, lower = 0)
 
-  checkmate::assert_integer(seconds)
-
-  time_string <- data.table::fifelse(
-    is.na(seconds),
-    "",
-    paste(
-      formatC(seconds %/% 3600, width = 2, format = "d", flag = 0),
-      formatC((seconds %% 3600) %/% 60, width = 2, format = "d", flag = 0),
-      formatC((seconds %% 3600) %% 60, width = 2, format = "d", flag = 0),
-      sep = ":"
-    )
-  )
+  time_string <- cpp_seconds_to_string(seconds)
 
   return(time_string)
-
 }
 
 
