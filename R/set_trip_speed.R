@@ -169,6 +169,7 @@ set_trip_speed <- function(gtfs,
   last_arrival  <- first_departure[trip_length_ids] +
     trip_duration_secs[trip_length_ids]
   last_arrival  <- seconds_to_string(last_arrival)
+  names(last_arrival) <- trip_length_ids
 
   stop_times[
     max_stops_index,
