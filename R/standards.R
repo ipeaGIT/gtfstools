@@ -59,7 +59,6 @@ integer_to_date <- function(field) {
 #'
 #' @keywords internal
 convert_to_standard <- function(gtfs) {
-  # input checking
   checkmate::assert_class(gtfs, "dt_gtfs")
 
   # create a copy of 'gtfs' to prevent the original object from being modified
@@ -103,6 +102,8 @@ convert_to_standard <- function(gtfs) {
       new_gtfs$calendar[, end_date := date_to_integer(end_date)]
     }
   }
+
+  class(new_gtfs) <- setdiff(class(new_gtfs), "dt_gtfs")
 
   return(new_gtfs)
 }
