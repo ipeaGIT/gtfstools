@@ -10,8 +10,7 @@
 #'
 #' @keywords internal
 convert_from_standard <- function(gtfs) {
-  # input checking
-  checkmate::assert_class(gtfs, "dt_gtfs")
+  checkmate::assert_class(gtfs, "gtfs")
 
   # create a copy of 'gtfs' to prevent the original object from being modified
   # by data.table assignments
@@ -33,6 +32,8 @@ convert_from_standard <- function(gtfs) {
     if (gtfsio::check_field_exists(gtfs, "calendar", "end_date"))
       new_gtfs$calendar[, end_date := integer_to_date(end_date)]
   }
+
+  new_gtfs <- gtfsio::new_gtfs(new_gtfs, subclass = "dt_gtfs")
 
   return(new_gtfs)
 }

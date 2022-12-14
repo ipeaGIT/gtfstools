@@ -87,7 +87,6 @@ read_gtfs <- function(path,
     quiet = quiet,
     encoding = encoding
   )
-  gtfs <- gtfsio::new_gtfs(gtfs, subclass = "dt_gtfs")
   gtfs <- convert_from_standard(gtfs)
 
   return(gtfs)
