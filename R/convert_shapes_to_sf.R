@@ -37,6 +37,9 @@ convert_shapes_to_sf <- function(gtfs, shape_id = NULL, crs = 4326) {
     c("shape_id", "shape_pt_lat", "shape_pt_lon"),
     c("character", "numeric", "numeric")
   )
+  
+  # Make sure that shapes are ordered correctly
+  shapes <- shapes[order(shape_id, shape_pt_sequence)]
 
   # select relevant shape_ids and  raise warning/error if given shape_ids don't
   # exist in shapes
