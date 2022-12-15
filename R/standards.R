@@ -16,21 +16,35 @@ convert_from_standard <- function(gtfs) {
   # by data.table assignments
   new_gtfs <- gtfs
 
-  # convert 'calendar_dates' date field from integer to Date
+  # convert date fields from integer to Date
+
   if (gtfsio::check_field_exists(gtfs, "calendar_dates", fields = "date")) {
     new_gtfs$calendar_dates <- data.table::copy(gtfs$calendar_dates)
     new_gtfs$calendar_dates[, date := integer_to_date(date)]
   }
 
-  # convert 'calendar' date fields from integer to Date
   if (gtfsio::check_file_exists(gtfs, "calendar")) {
     new_gtfs$calendar <- data.table::copy(gtfs$calendar)
 
-    if (gtfsio::check_field_exists(gtfs, "calendar", "start_date"))
+    if (gtfsio::check_field_exists(gtfs, "calendar", "start_date")) {
       new_gtfs$calendar[, start_date := integer_to_date(start_date)]
+    }
 
-    if (gtfsio::check_field_exists(gtfs, "calendar", "end_date"))
+    if (gtfsio::check_field_exists(gtfs, "calendar", "end_date")) {
       new_gtfs$calendar[, end_date := integer_to_date(end_date)]
+    }
+  }
+
+  if (gtfsio::check_file_exists(gtfs, "feed_info")) {
+    new_gtfs$feed_info <- data.table::copy(gtfs$feed_info)
+
+    if (gtfsio::check_field_exists(gtfs, "feed_info", "feed_start_date")) {
+      new_gtfs$feed_info[, feed_start_date := integer_to_date(feed_start_date)]
+    }
+
+    if (gtfsio::check_field_exists(gtfs, "feed_info", "feed_end_date")) {
+      new_gtfs$feed_info[, feed_end_date := integer_to_date(feed_end_date)]
+    }
   }
 
   new_gtfs <- gtfsio::new_gtfs(new_gtfs, subclass = "dt_gtfs")
