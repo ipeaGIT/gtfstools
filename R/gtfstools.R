@@ -95,6 +95,8 @@ utils::globalVariables(
     "template_arrival",
     "origin_gtfs",
     "feed_start_date",
-    "feed_end_date"
+    "feed_end_date",
+    "dist_to_prev_point",
+    "shape_dist_traveled"
   )
 )
