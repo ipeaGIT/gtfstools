@@ -26,6 +26,7 @@
 #' information on how they are formatted in the first place.
 #'
 #' @param gtfs The object that should be coerced to a `dt_gtfs`.
+#' @param ... Ignored.
 #'
 #' @return A `dt_gtfs` GTFS object.
 #'
@@ -45,22 +46,32 @@
 #' class(gtfstools_gtfs)
 #'
 #' @export
-as_dt_gtfs <- function(gtfs) {
+as_dt_gtfs <- function(gtfs, ...) {
   UseMethod("as_dt_gtfs")
 }
 
 
 
+#' @param calculate_distance A logical. Passed to [convert_sf_to_shapes()],
+#'   which only affects the output when the object to be converted includes a
+#'   `shapes` element. Controls whether this function, used to convert a
+#'   `LINESTRING sf` into a GTFS `shapes` table, should calculate and populate
+#'   the `shape_dist_traveled` column. This column is used to describe the
+#'   distance along the shape from each one of its points to its first point.
+#'   Defaults to `FALSE`.
+#'
 #' @rdname as_dt_gtfs
 #' @export
-as_dt_gtfs.tidygtfs <- function(gtfs) {
+as_dt_gtfs.tidygtfs <- function(gtfs, calculate_distance = FALSE, ...) {
+  checkmate::assert_logical(calculate_distance, any.missing = FALSE, len = 1)
+
   obj_names <- names(gtfs)
   no_dot_names <- setdiff(obj_names, ".")
 
   gtfs[no_dot_names] <- lapply(gtfs[no_dot_names], data.table::as.data.table)
   gtfs$. <- lapply(gtfs$., data.table::as.data.table)
 
-  # tidytransit convers time columns to hms
+  # tidytransit converts time columns to hms
 
   if (gtfsio::check_field_exists(gtfs, "stop_times", "arrival_time")) {
     gtfs$stop_times[
@@ -90,6 +101,16 @@ as_dt_gtfs.tidygtfs <- function(gtfs) {
     ]
   }
 
+  # the shapes element of a tidygtfs object may be a sf. if that's the case,
+  # convert it into a data.table
+
+  if (inherits(gtfs$shapes, "sf")) {
+    gtfs$shapes <- convert_sf_to_shapes(
+      gtfs$shapes,
+      calculate_distance = calculate_distance
+    )
+  }
+
   return(gtfs)
 }
 
@@ -97,7 +118,7 @@ as_dt_gtfs.tidygtfs <- function(gtfs) {
 
 #' @rdname as_dt_gtfs
 #' @export
-as_dt_gtfs.gtfs <- function(gtfs) {
+as_dt_gtfs.gtfs <- function(gtfs, ...) {
   if (!inherits(gtfs, "dt_gtfs")) gtfs <- convert_from_standard(gtfs)
 
   return(gtfs)
@@ -107,7 +128,7 @@ as_dt_gtfs.gtfs <- function(gtfs) {
 
 #' @rdname as_dt_gtfs
 #' @export
-as_dt_gtfs.list <- function(gtfs) {
+as_dt_gtfs.list <- function(gtfs, ...) {
   gtfsio::assert_gtfs(gtfs)
 
   # convert any df that doesn't inherit from data.table as the main class to

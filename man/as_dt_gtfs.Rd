@@ -8,16 +8,26 @@
 \title{Coerce lists and GTFS objects from other packages into gtfstools-compatible
 GTFS objects}
 \usage{
-as_dt_gtfs(gtfs)
+as_dt_gtfs(gtfs, ...)
 
-\method{as_dt_gtfs}{tidygtfs}(gtfs)
+\method{as_dt_gtfs}{tidygtfs}(gtfs, calculate_distance = FALSE, ...)
 
-\method{as_dt_gtfs}{gtfs}(gtfs)
+\method{as_dt_gtfs}{gtfs}(gtfs, ...)
 
-\method{as_dt_gtfs}{list}(gtfs)
+\method{as_dt_gtfs}{list}(gtfs, ...)
 }
 \arguments{
 \item{gtfs}{The object that should be coerced to a \code{dt_gtfs}.}
+
+\item{...}{Ignored.}
+
+\item{calculate_distance}{A logical. Passed to \code{\link[=convert_sf_to_shapes]{convert_sf_to_shapes()}},
+which only affects the output when the object to be converted includes a
+\code{shapes} element. Controls whether this function, used to convert a
+\verb{LINESTRING sf} into a GTFS \code{shapes} table, should calculate and populate
+the \code{shape_dist_traveled} column. This column is used to describe the
+distance along the shape from each one of its points to its first point.
+Defaults to \code{FALSE}.}
 }
 \value{
 A \code{dt_gtfs} GTFS object.
