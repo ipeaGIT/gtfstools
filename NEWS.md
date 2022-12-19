@@ -2,6 +2,10 @@
 
 ## New features
 
+- New function `convert_sf_to_shapes()`.
+- New generic function `as_dt_gtfs()` with methods for a few different classes
+  (`tidygtfs`, `gtfs` and `list`).
+
 ## Bug fixes
 
 ## Notes
