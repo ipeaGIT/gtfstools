@@ -1,3 +1,40 @@
+#' Convert a simple feature object into a `shapes` table
+#'
+#' Converts a `LINESTRING sf` object into a GTFS `shapes` table.
+#'
+#' @param sf_shapes A `LINESTRING sf` associating each `shape_id`s to a
+#'   geometry. This object must use CRS WGS 84 (EPSG code 4326).
+#' @param shape_id A character vector specifying the `shape_id`s to be
+#'   converted. If `NULL` (the default), all shapes are converted.
+#' @param calculate_distance A logical. Whether to calculate and populate the
+#'   `shape_dist_traveled` column. This column is used to describe the distance
+#'   along the shape from each one of its points to its first point. Defaults to
+#'   `FALSE`.
+#'
+#' @return A `data.table` representing a GTFS `shapes` table.
+#'
+#' @examples
+#' data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
+#' gtfs <- read_gtfs(data_path)
+#'
+#' # first converting existing shapes table into a sf object
+#' shapes_sf <- convert_shapes_to_sf(gtfs)
+#' head(shapes_sf)
+#'
+#' # by default converts all shapes
+#' result <- convert_sf_to_shapes(shapes_sf)
+#' result
+#'
+#' # shape_id argument controls which shapes are converted
+#' result <- convert_sf_to_shapes(shapes_sf, shape_id = c("17846", "17847"))
+#' result
+#'
+#' # calculate_distance argument controls whether to calculate
+#' # shape_dist_traveled or not
+#' result <- convert_sf_to_shapes(shapes_sf, calculate_distance = TRUE)
+#' result
+#'
+#' @export
 convert_sf_to_shapes <- function(sf_shapes,
                                  shape_id = NULL,
                                  calculate_distance = FALSE) {
