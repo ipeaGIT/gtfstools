@@ -69,7 +69,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">convert_sf_to_shapes</span><span class="op">(</span><span class="va">sf_shapes</span>, shape_id <span class="op">=</span> <span class="cn">NULL</span>, calculate_distance <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">convert_sf_to_shapes</span><span class="op">(</span><span class="va">sf_shapes</span>, shape_id <span class="op">=</span> <span class="cn">NULL</span>, calculate_distance <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -88,7 +88,7 @@ converted. If <code>NULL</code> (the default), all shapes are converted.</p></dd
 <dd><p>A logical. Whether to calculate and populate the
 <code>shape_dist_traveled</code> column. This column is used to describe the distance
 along the shape from each one of its points to its first point. Defaults to
-<code>FALSE</code>.</p></dd>
+<code>TRUE</code>.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -122,34 +122,34 @@ along the shape from each one of its points to its first point. Defaults to
 <span class="r-in"><span><span class="co"># by default converts all shapes</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">convert_sf_to_shapes</span><span class="op">(</span><span class="va">shapes_sf</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">result</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        shape_id shape_pt_lon shape_pt_lat shape_pt_sequence</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     1:    17846    -46.63535    -23.53517                 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     2:    17846    -46.63548    -23.53513                 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     3:    17846    -46.63626    -23.53494                 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     4:    17846    -46.63710    -23.53473                 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     5:    17846    -46.63735    -23.53466                 5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    ---                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12291:    68962    -46.64066    -23.54921               628</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12292:    68962    -46.64057    -23.54922               629</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12293:    68962    -46.64033    -23.54913               630</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12294:    68962    -46.63995    -23.54910               631</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12295:    68962    -46.63967    -23.54907               632</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        shape_id shape_dist_traveled shape_pt_lon shape_pt_lat shape_pt_sequence</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     1:    17846             0.00000    -46.63535    -23.53517                 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     2:    17846            13.55178    -46.63548    -23.53513                 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     3:    17846            95.86978    -46.63626    -23.53494                 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     4:    17846           184.81732    -46.63710    -23.53473                 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     5:    17846           211.17349    -46.63735    -23.53466                 5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    ---                                                                         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12291:    68962         26058.05526    -46.64066    -23.54921               628</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12292:    68962         26067.76199    -46.64057    -23.54922               629</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12293:    68962         26094.30002    -46.64033    -23.54913               630</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12294:    68962         26132.70120    -46.63995    -23.54910               631</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12295:    68962         26162.11007    -46.63967    -23.54907               632</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># shape_id argument controls which shapes are converted</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">convert_sf_to_shapes</span><span class="op">(</span><span class="va">shapes_sf</span>, shape_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"17846"</span>, <span class="st">"17847"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">result</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       shape_id shape_pt_lon shape_pt_lat shape_pt_sequence</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    1:    17846    -46.63535    -23.53517                 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    2:    17846    -46.63548    -23.53513                 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    3:    17846    -46.63626    -23.53494                 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    4:    17846    -46.63710    -23.53473                 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    5:    17846    -46.63735    -23.53466                 5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ---                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1090:    17847    -46.63735    -23.53466               543</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1091:    17847    -46.63710    -23.53473               544</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1092:    17847    -46.63626    -23.53494               545</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1093:    17847    -46.63548    -23.53513               546</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1094:    17847    -46.63535    -23.53517               547</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       shape_id shape_dist_traveled shape_pt_lon shape_pt_lat shape_pt_sequence</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    1:    17846             0.00000    -46.63535    -23.53517                 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2:    17846            13.55178    -46.63548    -23.53513                 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    3:    17846            95.86978    -46.63626    -23.53494                 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    4:    17846           184.81732    -46.63710    -23.53473                 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    5:    17846           211.17349    -46.63735    -23.53466                 5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ---                                                                         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1090:    17847         60507.76810    -46.63735    -23.53466               543</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1091:    17847         60534.12426    -46.63710    -23.53473               544</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1092:    17847         60623.07180    -46.63626    -23.53494               545</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1093:    17847         60705.38981    -46.63548    -23.53513               546</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1094:    17847         60718.94158    -46.63535    -23.53517               547</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># calculate_distance argument controls whether to calculate</span></span></span>
 <span class="r-in"><span><span class="co"># shape_dist_traveled or not</span></span></span>

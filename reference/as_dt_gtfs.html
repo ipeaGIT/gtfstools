@@ -110,7 +110,7 @@ information on how they are formatted in the first place.</p></li>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">as_dt_gtfs</span><span class="op">(</span><span class="va">gtfs</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for tidygtfs</span></span>
-<span><span class="fu">as_dt_gtfs</span><span class="op">(</span><span class="va">gtfs</span>, calculate_distance <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">as_dt_gtfs</span><span class="op">(</span><span class="va">gtfs</span>, calculate_distance <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for gtfs</span></span>
 <span><span class="fu">as_dt_gtfs</span><span class="op">(</span><span class="va">gtfs</span>, <span class="va">...</span><span class="op">)</span></span>
@@ -136,7 +136,7 @@ which only affects the output when the object to be converted includes a
 <code>LINESTRING sf</code> into a GTFS <code>shapes</code> table, should calculate and populate
 the <code>shape_dist_traveled</code> column. This column is used to describe the
 distance along the shape from each one of its points to its first point.
-Defaults to <code>FALSE</code>.</p></dd>
+Defaults to <code>TRUE</code>.</p></dd>
 
 </dl></div>
     <div id="value">
