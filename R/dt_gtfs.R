@@ -68,8 +68,23 @@ as_dt_gtfs.tidygtfs <- function(gtfs, calculate_distance = TRUE, ...) {
   obj_names <- names(gtfs)
   no_dot_names <- setdiff(obj_names, ".")
 
+  # the shapes element of a tidygtfs object may be a sf. if that's the case,
+  # convert it into a data.table
+
+  if (
+    gtfsio::check_file_exists(gtfs, "shapes") && inherits(gtfs$shapes, "sf")
+  ) {
+    gtfs$shapes <- convert_sf_to_shapes(
+      gtfs$shapes,
+      calculate_distance = calculate_distance
+    )
+  }
+
+  # convert all other tables to data.table as well - tidygtfs generally use them
+  # as tibbles
+
   gtfs[no_dot_names] <- lapply(gtfs[no_dot_names], data.table::as.data.table)
-  gtfs$. <- lapply(gtfs$., data.table::as.data.table)
+  if (!is.null(gtfs$.)) gtfs$. <- lapply(gtfs$., data.table::as.data.table)
 
   # tidytransit converts time columns to hms
 
@@ -101,16 +116,6 @@ as_dt_gtfs.tidygtfs <- function(gtfs, calculate_distance = TRUE, ...) {
     ]
   }
 
-  # the shapes element of a tidygtfs object may be a sf. if that's the case,
-  # convert it into a data.table
-
-  if (inherits(gtfs$shapes, "sf")) {
-    gtfs$shapes <- convert_sf_to_shapes(
-      gtfs$shapes,
-      calculate_distance = calculate_distance
-    )
-  }
-
   gtfs <- unclass(gtfs)
   gtfs <- gtfsio::new_gtfs(gtfs, "dt_gtfs")
 
@@ -134,19 +139,14 @@ as_dt_gtfs.gtfs <- function(gtfs, ...) {
 as_dt_gtfs.list <- function(gtfs, ...) {
   gtfsio::assert_gtfs(gtfs)
 
-  # convert any df that doesn't inherit from data.table as the main class to
-  # data.table to make sure our functions work with it
+  # convert elements to data.table to data.table to make sure our functions work
+  # with it
 
-  gtfs <- lapply(
-    gtfs,
-    function(i) {
-      if (class(i)[1] == "data.table") {
-        i
-      } else {
-        i <- data.table::as.data.table(i)
-      }
-    }
-  )
+  obj_names <- names(gtfs)
+  no_dot_names <- setdiff(obj_names, ".")
+
+  gtfs[no_dot_names] <- lapply(gtfs[no_dot_names], data.table::as.data.table)
+  if (!is.null(gtfs$.)) gtfs$. <- lapply(gtfs$., data.table::as.data.table)
 
   gtfs <- gtfsio::new_gtfs(gtfs, "dt_gtfs")
 
