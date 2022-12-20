@@ -49,7 +49,7 @@ get_trip_speed <- function(gtfs,
                            trip_id = NULL,
                            file = "shapes",
                            unit = "km/h") {
-  checkmate::assert_class(gtfs, "dt_gtfs")
+  gtfs <- assert_and_assign_gtfs_object(gtfs)
   checkmate::assert_character(trip_id, null.ok = TRUE, any.missing = FALSE)
   checkmate::assert_names(file, subset.of = c("shapes", "stop_times"))
   checkmate::assert(

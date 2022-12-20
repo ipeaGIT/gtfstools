@@ -73,7 +73,7 @@ integer_to_date <- function(field) {
 #'
 #' @keywords internal
 convert_to_standard <- function(gtfs) {
-  checkmate::assert_class(gtfs, "dt_gtfs")
+  gtfs <- assert_and_assign_gtfs_object(gtfs)
 
   # create a copy of 'gtfs' to prevent the original object from being modified
   # by data.table assignments

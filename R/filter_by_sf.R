@@ -49,7 +49,7 @@ filter_by_sf <- function(gtfs,
                          spatial_operation = sf::st_intersects,
                          keep = TRUE) {
 
-  checkmate::assert_class(gtfs, "dt_gtfs")
+  gtfs <- assert_and_assign_gtfs_object(gtfs)
   checkmate::assert_logical(keep, len = 1)
   checkmate::assert_class(spatial_operation, "function")
   checkmate::assert(

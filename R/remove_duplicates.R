@@ -19,7 +19,7 @@
 #' @export
 remove_duplicates <- function(gtfs) {
 
-  checkmate::assert_class(gtfs, "dt_gtfs")
+  gtfs <- assert_and_assign_gtfs_object(gtfs)
 
   for (table in names(gtfs)) gtfs[[table]] <- unique(gtfs[[table]])
 

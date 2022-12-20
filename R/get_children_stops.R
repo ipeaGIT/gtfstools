@@ -27,7 +27,7 @@
 #'
 #' @export
 get_children_stops <- function(gtfs, stop_id = NULL) {
-  checkmate::assert_class(gtfs, "dt_gtfs")
+  gtfs <- assert_and_assign_gtfs_object(gtfs)
   checkmate::assert_character(stop_id, null.ok = TRUE, any.missing = FALSE)
   gtfsio::assert_field_class(
     gtfs,

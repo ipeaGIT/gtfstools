@@ -43,7 +43,7 @@
 #'
 #' @export
 get_trip_geometry <- function(gtfs, trip_id = NULL, file = NULL, crs = 4326) {
-  checkmate::assert_class(gtfs, "dt_gtfs")
+  gtfs <- assert_and_assign_gtfs_object(gtfs)
   checkmate::assert_character(trip_id, null.ok = TRUE, any.missing = FALSE)
   checkmate::assert(
     checkmate::check_number(crs),

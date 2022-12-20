@@ -86,7 +86,7 @@ filter_by_weekday <- function(gtfs, weekday, combine = "or", keep = TRUE) {
     "saturday",
     "sunday"
   )
-  checkmate::assert_class(gtfs, "dt_gtfs")
+  gtfs <- assert_and_assign_gtfs_object(gtfs)
   checkmate::assert_names(weekday, subset.of = days)
   checkmate::assert_string(combine)
   checkmate::assert_names(combine, subset.of = c("or", "and"))

@@ -37,7 +37,7 @@
 #'
 #' @export
 get_trip_segment_duration <- function(gtfs, trip_id = NULL, unit = "min") {
-  checkmate::assert_class(gtfs, "dt_gtfs")
+  gtfs <- assert_and_assign_gtfs_object(gtfs)
   checkmate::assert_character(trip_id, null.ok = TRUE, any.missing = FALSE)
   checkmate::assert(
     checkmate::check_string(unit),

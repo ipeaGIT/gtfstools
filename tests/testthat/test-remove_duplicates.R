@@ -5,7 +5,7 @@ gtfs <- read_gtfs(data_path)
 
 test_that("raises errors due to incorrect input", {
   no_class_gtfs <- unclass(gtfs)
-  expect_error(remove_duplicates(no_class_gtfs), regexp = "'dt_gtfs'")
+  expect_error(remove_duplicates(no_class_gtfs))
 })
 
 test_that("outputs a dt_gtfs object", {

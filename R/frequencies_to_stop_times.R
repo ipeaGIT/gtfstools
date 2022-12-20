@@ -49,7 +49,7 @@
 #'
 #' @export
 frequencies_to_stop_times <- function(gtfs, trip_id = NULL, force = FALSE) {
-  checkmate::assert_class(gtfs, "dt_gtfs")
+  gtfs <- assert_and_assign_gtfs_object(gtfs)
   checkmate::assert_character(trip_id, null.ok = TRUE, any.missing = FALSE)
   checkmate::assert_logical(force, len = 1, any.missing = FALSE)
   gtfsio::assert_field_class(
