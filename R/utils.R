@@ -141,3 +141,14 @@ copy_gtfs_diff_field_class <- function(gtfs, file, field, class) {
   return(gtfs_copy)
 
 }
+
+
+
+#' @keywords internal
+assert_and_assign_gtfs_object <- function(gtfs) {
+  checkmate::assert_class(gtfs, "gtfs")
+
+  if (!inherits(gtfs, "dt_gtfs")) gtfs <- as_dt_gtfs(gtfs)
+
+  return(gtfs)
+}

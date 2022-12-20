@@ -80,7 +80,7 @@ validate_gtfs <- function(gtfs,
   checkmate::assert_logical(quiet, any.missing = FALSE, len = 1)
   assert_overwritten_files(output_path, overwrite)
 
-  gtfs <- assert_and_assign_gtfs(gtfs, quiet)
+  gtfs <- assert_and_assign_gtfs_input(gtfs, quiet)
   validator_version <- parse_validator_version(validator_path)
   n_threads <- assert_and_assign_n_threads(n_threads)
 
@@ -149,7 +149,7 @@ parse_validator_version <- function(validator_path) {
   return(version)
 }
 
-assert_and_assign_gtfs <- function(gtfs, quiet) {
+assert_and_assign_gtfs_input <- function(gtfs, quiet) {
   if (inherits(gtfs, "dt_gtfs")) {
     gtfs_path <- tempfile("gtfs", fileext = ".zip")
     write_gtfs(gtfs, gtfs_path, quiet = quiet)

@@ -159,3 +159,20 @@ test_that("function call doesn't change original file", {
   stops_after <- data.table::copy(gtfs$stops)
   expect_identical(stops_before, stops_after)
 })
+
+# assert_and_assign_gtfs_object -------------------------------------------
+
+context("Assert and assign GTFS object")
+
+test_that("raises error if input is not an gtfs object", {
+  expect_error(assert_and_assign_gtfs_object(unclass(gtfs)))
+})
+
+test_that("always returns a dt_gtfs object", {
+  result <- assert_and_assign_gtfs_object(gtfs)
+  expect_s3_class(result, "dt_gtfs")
+
+  gtfsio_gtfs <- gtfsio::import_gtfs(data_path)
+  result <- assert_and_assign_gtfs_object(gtfsio_gtfs)
+  expect_s3_class(result, "dt_gtfs")
+})
