@@ -9,7 +9,7 @@
 #' @param calculate_distance A logical. Whether to calculate and populate the
 #'   `shape_dist_traveled` column. This column is used to describe the distance
 #'   along the shape from each one of its points to its first point. Defaults to
-#'   `FALSE`.
+#'   `TRUE`.
 #'
 #' @return A `data.table` representing a GTFS `shapes` table.
 #'
@@ -37,7 +37,7 @@
 #' @export
 convert_sf_to_shapes <- function(sf_shapes,
                                  shape_id = NULL,
-                                 calculate_distance = FALSE) {
+                                 calculate_distance = TRUE) {
   assert_linestring_sf(sf_shapes)
   checkmate::assert_character(shape_id, null.ok = TRUE, any.missing = FALSE)
   checkmate::assert_logical(calculate_distance, any.missing = FALSE, len = 1)

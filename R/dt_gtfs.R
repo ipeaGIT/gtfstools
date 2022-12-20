@@ -58,11 +58,11 @@ as_dt_gtfs <- function(gtfs, ...) {
 #'   `LINESTRING sf` into a GTFS `shapes` table, should calculate and populate
 #'   the `shape_dist_traveled` column. This column is used to describe the
 #'   distance along the shape from each one of its points to its first point.
-#'   Defaults to `FALSE`.
+#'   Defaults to `TRUE`.
 #'
 #' @rdname as_dt_gtfs
 #' @export
-as_dt_gtfs.tidygtfs <- function(gtfs, calculate_distance = FALSE, ...) {
+as_dt_gtfs.tidygtfs <- function(gtfs, calculate_distance = TRUE, ...) {
   checkmate::assert_logical(calculate_distance, any.missing = FALSE, len = 1)
 
   obj_names <- names(gtfs)

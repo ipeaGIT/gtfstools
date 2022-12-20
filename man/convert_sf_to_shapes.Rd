@@ -4,7 +4,7 @@
 \alias{convert_sf_to_shapes}
 \title{Convert a simple feature object into a \code{shapes} table}
 \usage{
-convert_sf_to_shapes(sf_shapes, shape_id = NULL, calculate_distance = FALSE)
+convert_sf_to_shapes(sf_shapes, shape_id = NULL, calculate_distance = TRUE)
 }
 \arguments{
 \item{sf_shapes}{A \verb{LINESTRING sf} associating each \code{shape_id}s to a
@@ -16,7 +16,7 @@ converted. If \code{NULL} (the default), all shapes are converted.}
 \item{calculate_distance}{A logical. Whether to calculate and populate the
 \code{shape_dist_traveled} column. This column is used to describe the distance
 along the shape from each one of its points to its first point. Defaults to
-\code{FALSE}.}
+\code{TRUE}.}
 }
 \value{
 A \code{data.table} representing a GTFS \code{shapes} table.

@@ -10,7 +10,7 @@ GTFS objects}
 \usage{
 as_dt_gtfs(gtfs, ...)
 
-\method{as_dt_gtfs}{tidygtfs}(gtfs, calculate_distance = FALSE, ...)
+\method{as_dt_gtfs}{tidygtfs}(gtfs, calculate_distance = TRUE, ...)
 
 \method{as_dt_gtfs}{gtfs}(gtfs, ...)
 
@@ -27,7 +27,7 @@ which only affects the output when the object to be converted includes a
 \verb{LINESTRING sf} into a GTFS \code{shapes} table, should calculate and populate
 the \code{shape_dist_traveled} column. This column is used to describe the
 distance along the shape from each one of its points to its first point.
-Defaults to \code{FALSE}.}
+Defaults to \code{TRUE}.}
 }
 \value{
 A \code{dt_gtfs} GTFS object.
