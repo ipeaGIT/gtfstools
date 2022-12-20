@@ -111,6 +111,9 @@ as_dt_gtfs.tidygtfs <- function(gtfs, calculate_distance = FALSE, ...) {
     )
   }
 
+  gtfs <- unclass(gtfs)
+  gtfs <- gtfsio::new_gtfs(gtfs, "dt_gtfs")
+
   return(gtfs)
 }
 
