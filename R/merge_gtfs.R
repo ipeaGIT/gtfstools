@@ -51,29 +51,13 @@ merge_gtfs <- function(..., files = NULL, prefix = FALSE) {
 
   gtfs_objects <- list(...)
 
-  is_list_of_gtfs <- vapply(
-    gtfs_objects,
-    function(list_element) {
-      is_gtfs_object <- vapply(
-        list_element,
-        function(i) checkmate::test_class(i, "dt_gtfs"),
-        logical(1)
-      )
-      all(is_gtfs_object)
-    },
-    logical(1)
-  )
+  is_list_of_gtfs <- vapply(gtfs_objects, is_gtfs_list, logical(1))
 
   gtfs_objects <- append(
     gtfs_objects[!is_list_of_gtfs],
     unlist(gtfs_objects[is_list_of_gtfs], recursive = FALSE)
   )
-
-  # check if all objects passed in ... are GTFS objects
-
-  invisible(
-    lapply(gtfs_objects, checkmate::assert_class, "dt_gtfs", .var.name = "...")
-  )
+  gtfs_objects <- lapply(gtfs_objects, assert_and_assign_gtfs_object)
 
   # check if prefix is either a logical or a character vector with length equal
   # to the number of provided gtfs objects
@@ -94,13 +78,14 @@ merge_gtfs <- function(..., files = NULL, prefix = FALSE) {
 
   # only merge the tables specified by 'files'
   # if 'files' is NULL, then merge all possible files.
+  # * with the exception of the '.' element, that may exist in tidygtfs objects
   # if not, check if the GTFS to be merged contain the files.
   # * if some of them are missing, throw a warning.
   # * if all of them are missing, throw an error.
 
   files_within_gtfs <- unlist(lapply(gtfs_objects, names))
   files_within_gtfs <- unique(files_within_gtfs)
-  files_to_merge <- files_within_gtfs
+  files_to_merge <- setdiff(files_within_gtfs, ".")
 
   if (!is.null(files)) {
     invalid_files <- files[! files %chin% files_within_gtfs]
@@ -193,4 +178,14 @@ merge_gtfs <- function(..., files = NULL, prefix = FALSE) {
   merged_gtfs <- gtfsio::new_gtfs(merged_gtfs, "dt_gtfs")
 
   return(merged_gtfs)
+}
+
+
+is_gtfs_list <- function(x) {
+  is_gtfs_object <- vapply(
+    x,
+    function(i) checkmate::test_class(i, "gtfs"),
+    logical(1)
+  )
+  all(is_gtfs_object)
 }
