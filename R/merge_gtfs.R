@@ -6,7 +6,6 @@
 #' a list of GTFS objects.
 #' @param files A character vector listing the GTFS tables to be merged. If
 #' `NULL` (the default), all tables are merged.
-#' @param warnings Whether to display warning messages (defaults to `TRUE`).
 #' @param prefix Either a logical or a character vector (defaults to `FALSE`).
 #' Whether to add a prefix to the value of id fields that identify from which
 #' GTFS object the value comes from. If `TRUE`, the prefixes will range from
@@ -45,15 +44,8 @@
 #' merged_gtfs <- merge_gtfs(gtfs_list, prefix = c("spo", "ggl"))
 #' merged_gtfs$agency
 #' @export
-merge_gtfs <- function(..., files = NULL, warnings, prefix = FALSE) {
+merge_gtfs <- function(..., files = NULL, prefix = FALSE) {
   checkmate::assert_character(files, null.ok = TRUE, any.missing = FALSE)
-
-  if (!missing(warnings)) {
-    warning(
-      "Argument 'warnings' is deprecated and has no effect. ",
-      "The argument will be completely removed from v1.2.0 onwards."
-    )
-  }
 
   # store gtfs objects in a list and unlist eventual lists of gtfs
 

@@ -210,7 +210,3 @@ test_that("prefix argument works correctly", {
     c("spo_1", "spo_1", "ggl_agency001")
   )
 })
-
-test_that("'warnings' arguments is deprecated", {
-  expect_warning(merge_gtfs(spo_gtfs, ggl_gtfs, warnings = TRUE))
-})
