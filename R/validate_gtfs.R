@@ -150,15 +150,15 @@ parse_validator_version <- function(validator_path) {
 }
 
 assert_and_assign_gtfs_input <- function(gtfs, quiet) {
-  if (inherits(gtfs, "dt_gtfs")) {
+  if (inherits(gtfs, "gtfs")) {
     gtfs_path <- tempfile("gtfs", fileext = ".zip")
     write_gtfs(gtfs, gtfs_path, quiet = quiet)
     gtfs <- gtfs_path
   } else {
     if (!checkmate::test_string(gtfs)) {
       stop(
-        "Assertion on 'gtfs' failed: Must either be a GTFS object (with ",
-        "dt_gtfs class), a path to a local GTFS file, a path to a local ",
+        "Assertion on 'gtfs' failed: Must either be a GTFS object, ",
+        "a path to a local GTFS file, a path to a local ",
         "directory or an URL to a feed."
       )
     }
