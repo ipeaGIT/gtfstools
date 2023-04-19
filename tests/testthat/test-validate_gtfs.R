@@ -12,6 +12,7 @@ available_versions <- c(
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs_url <- "https://github.com/ipeaGIT/gtfstools/raw/master/inst/extdata/spo_gtfs.zip"
 gtfs <- read_gtfs(data_path, encoding = "UTF-8")
+gtfsio_gtfs <- gtfsio::import_gtfs(data_path, encoding = "UTF-8")
 gtfs_dir <- tempfile("gtfs")
 
 write_gtfs(gtfs, gtfs_dir, as_dir = TRUE)
@@ -140,6 +141,7 @@ get_result_json <- function(validation_dir) {
 
 test_that("works with the 4 types of input (url, path, dir, object)", {
   obj_dir <- validation_works(gtfs)
+  gtfsio_obj_dir <- validation_works(gtfsio_gtfs)
   path_dir <- validation_works(data_path)
   url_dir <- validation_works(gtfs_url)
   dir_dir <- validation_works(gtfs_dir)
@@ -149,10 +151,12 @@ test_that("works with the 4 types of input (url, path, dir, object)", {
 
   if (requireNamespace("jsonlite", quietly = TRUE)) {
     obj_result <- get_result_json(obj_dir)
+    gtfsio_obj_result <- get_result_json(gtfsio_obj_dir)
     path_result <- get_result_json(path_dir)
     url_result <- get_result_json(url_dir)
     dir_result <- get_result_json(dir_dir)
 
+    expect_identical(obj_result, gtfsio_obj_result)
     expect_identical(obj_result, path_result)
     expect_identical(obj_result, url_result)
 

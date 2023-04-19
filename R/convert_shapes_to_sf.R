@@ -30,7 +30,7 @@ convert_shapes_to_sf <- function(gtfs,
                                  shape_id = NULL,
                                  crs = 4326,
                                  sort_sequence = FALSE) {
-  checkmate::assert_class(gtfs, "dt_gtfs")
+  gtfs <- assert_and_assign_gtfs_object(gtfs)
   checkmate::assert_character(shape_id, null.ok = TRUE, any.missing = FALSE)
   checkmate::assert(
     checkmate::check_number(crs),

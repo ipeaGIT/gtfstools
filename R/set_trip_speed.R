@@ -62,7 +62,7 @@ set_trip_speed <- function(gtfs,
                            by_reference = FALSE) {
   env <- environment()
 
-  checkmate::assert_class(gtfs, "dt_gtfs")
+  gtfs <- assert_and_assign_gtfs_object(gtfs)
   checkmate::assert_character(trip_id, any.missing = FALSE)
   checkmate::assert(
     checkmate::check_number(speed),

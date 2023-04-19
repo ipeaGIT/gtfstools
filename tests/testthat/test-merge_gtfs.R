@@ -31,7 +31,6 @@ test_that("raises errors/warnings due to unavailable files passed to 'files'", {
 
   # should run silently otherwise
   expect_silent(merge_gtfs(spo_gtfs, ggl_gtfs))
-
 })
 
 test_that("results in a GTFS object", {
@@ -102,24 +101,20 @@ test_that("merges the adequate 'files'", {
     merged_gtfs <- merge_gtfs(spo_gtfs, ggl_gtfs, files = c("shapes", "oie"))
   )
   expect_identical(names(merged_gtfs), "shapes")
-
 })
 
 test_that("bind the rows of each GTFS object adequately", {
-
-  merged_gtfs       <- merge_gtfs(spo_gtfs, ggl_gtfs)
+  merged_gtfs <- merge_gtfs(spo_gtfs, ggl_gtfs)
   merged_gtfs_names <- names(merged_gtfs)
 
   # each data.table in the final GTFS object should be the "sum" of the
   # data.tables of same name in the original GTFS objs
 
   for (filename in merged_gtfs_names){
-
     expect_equal(
       nrow(merged_gtfs[[filename]]),
       nrow(rbind(spo_gtfs[[filename]], ggl_gtfs[[filename]], fill = TRUE))
     )
-
   }
 
   # but rbind.data.table() fill = TRUE results in some character columns with a
@@ -127,31 +122,27 @@ test_that("bind the rows of each GTFS object adequately", {
   # test if after replacing these values the data.tables are identical
 
   for (filename in merged_gtfs_names){
-
     merged_by_hand <- rbind(
       spo_gtfs[[filename]],
       ggl_gtfs[[filename]],
       fill = TRUE
     )
-    col_classes    <- vapply(merged_by_hand, class, character(1))
-    is_char        <- which(col_classes == "character")
+    col_classes  <- vapply(merged_by_hand, class, character(1))
+    is_char <- which(col_classes == "character")
 
     for (col in is_char) {
-
       data.table::set(
         merged_by_hand,
         i = which(is.na(merged_by_hand[[col]])),
         j = col,
         value = ""
       )
-
     }
 
     expect_equal(
       nrow(merged_gtfs[[filename]]),
       nrow(merged_by_hand)
     )
-
   }
 
 })
@@ -211,6 +202,51 @@ test_that("prefix argument works correctly", {
   )
 })
 
-test_that("'warnings' arguments is deprecated", {
-  expect_warning(merge_gtfs(spo_gtfs, ggl_gtfs, warnings = TRUE))
+test_that("works with non dt_gtfs objects", {
+  merged_gtfs <- merge_gtfs(spo_gtfs, ggl_gtfs)
+
+  # gtfsio objects
+
+  gtfsio_ggl <- gtfsio::import_gtfs(ggl_path)
+  expect_identical(merged_gtfs, merge_gtfs(spo_gtfs, gtfsio_ggl))
+
+  # tidytransit objects
+  # ggl_gtfs includes times in the H:MM:SS format, not HH:MM:SS. this causes
+  # problems when checking if the objects are identical, because the conversion
+  # procedure always convert times to HH:MM:SS. so we have to adjust ggl_gtfs
+  # to make it work in this test
+
+  adjusted_ggl_gtfs <- ggl_gtfs
+  adjusted_ggl_gtfs$stop_times <- data.table::copy(ggl_gtfs$stop_times)
+  adjusted_ggl_gtfs$stop_times[
+    arrival_time != "",
+    arrival_time := paste0("0", arrival_time)
+  ]
+  adjusted_ggl_gtfs$stop_times[
+    departure_time != "",
+    departure_time := paste0("0", departure_time)
+  ]
+
+  merged_gtfs <- merge_gtfs(spo_gtfs, adjusted_ggl_gtfs)
+
+  tidy_ggl <- read_gtfs(ggl_path)
+  tidy_ggl$stop_times[
+    ,
+    `:=`(
+      arrival_time = string_to_seconds(arrival_time),
+      departure_time = string_to_seconds(departure_time)
+    )
+  ]
+  tidy_ggl$frequencies[
+    ,
+    `:=`(
+      start_time = string_to_seconds(start_time),
+      end_time = string_to_seconds(end_time)
+    )
+  ]
+  invisible(lapply(tidy_ggl, data.table::setDF))
+  tidy_ggl$. <- list(internal_table = data.frame(a = 1:2, b = 2:3))
+  class(tidy_ggl) <- c("tidygtfs", "gtfs")
+
+  expect_identical(merged_gtfs, merge_gtfs(spo_gtfs, tidy_ggl))
 })

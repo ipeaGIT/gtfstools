@@ -2,7 +2,13 @@
 
 ## New features
 
-- `convert_shapes_to_sf()` now takes an additional argument `sort_sequence`, used to indicate whether shapes should be ordered by `shape_pt_sequence`.
+- New function `convert_sf_to_shapes()`.
+- New generic function `as_dt_gtfs()` with methods for a few different classes
+  (`tidygtfs`, `gtfs` and `list`).
+- `filter_by_route_type()` now accepts Google Transit's [extended route
+  types](https://developers.google.com/transit/gtfs/reference/extended-route-types).
+- `convert_shapes_to_sf()` now takes an additional argument `sort_sequence`,
+  used to indicate whether shapes should be ordered by `shape_pt_sequence`.
 
 ## Bug fixes
 

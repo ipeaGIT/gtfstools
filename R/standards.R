@@ -10,29 +10,44 @@
 #'
 #' @keywords internal
 convert_from_standard <- function(gtfs) {
-  # input checking
-  checkmate::assert_class(gtfs, "dt_gtfs")
+  checkmate::assert_class(gtfs, "gtfs")
 
   # create a copy of 'gtfs' to prevent the original object from being modified
   # by data.table assignments
   new_gtfs <- gtfs
 
-  # convert 'calendar_dates' date field from integer to Date
+  # convert date fields from integer to Date
+
   if (gtfsio::check_field_exists(gtfs, "calendar_dates", fields = "date")) {
     new_gtfs$calendar_dates <- data.table::copy(gtfs$calendar_dates)
     new_gtfs$calendar_dates[, date := integer_to_date(date)]
   }
 
-  # convert 'calendar' date fields from integer to Date
   if (gtfsio::check_file_exists(gtfs, "calendar")) {
     new_gtfs$calendar <- data.table::copy(gtfs$calendar)
 
-    if (gtfsio::check_field_exists(gtfs, "calendar", "start_date"))
+    if (gtfsio::check_field_exists(gtfs, "calendar", "start_date")) {
       new_gtfs$calendar[, start_date := integer_to_date(start_date)]
+    }
 
-    if (gtfsio::check_field_exists(gtfs, "calendar", "end_date"))
+    if (gtfsio::check_field_exists(gtfs, "calendar", "end_date")) {
       new_gtfs$calendar[, end_date := integer_to_date(end_date)]
+    }
   }
+
+  if (gtfsio::check_file_exists(gtfs, "feed_info")) {
+    new_gtfs$feed_info <- data.table::copy(gtfs$feed_info)
+
+    if (gtfsio::check_field_exists(gtfs, "feed_info", "feed_start_date")) {
+      new_gtfs$feed_info[, feed_start_date := integer_to_date(feed_start_date)]
+    }
+
+    if (gtfsio::check_field_exists(gtfs, "feed_info", "feed_end_date")) {
+      new_gtfs$feed_info[, feed_end_date := integer_to_date(feed_end_date)]
+    }
+  }
+
+  new_gtfs <- gtfsio::new_gtfs(new_gtfs, subclass = "dt_gtfs")
 
   return(new_gtfs)
 }
@@ -58,8 +73,7 @@ integer_to_date <- function(field) {
 #'
 #' @keywords internal
 convert_to_standard <- function(gtfs) {
-  # input checking
-  checkmate::assert_class(gtfs, "dt_gtfs")
+  gtfs <- assert_and_assign_gtfs_object(gtfs)
 
   # create a copy of 'gtfs' to prevent the original object from being modified
   # by data.table assignments
@@ -102,6 +116,8 @@ convert_to_standard <- function(gtfs) {
       new_gtfs$calendar[, end_date := date_to_integer(end_date)]
     }
   }
+
+  class(new_gtfs) <- setdiff(class(new_gtfs), "dt_gtfs")
 
   return(new_gtfs)
 }

@@ -23,7 +23,7 @@
 #'
 #' @export
 convert_stops_to_sf <- function(gtfs, stop_id = NULL, crs = 4326) {
-  checkmate::assert_class(gtfs, "dt_gtfs")
+  gtfs <- assert_and_assign_gtfs_object(gtfs)
   checkmate::assert_character(stop_id, null.ok = TRUE, any.missing = FALSE)
   checkmate::assert(
     checkmate::check_number(crs),

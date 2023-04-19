@@ -52,7 +52,7 @@ write_gtfs <- function(gtfs,
 
   # inputs are more thoroughly checked on gtfsio::export_gtfs()
 
-  checkmate::assert_class(gtfs, "dt_gtfs")
+  gtfs <- assert_and_assign_gtfs_object(gtfs)
   checkmate::assert_logical(as_dir, any.missing = FALSE, len = 1)
   if (as_dir) {
     checkmate::assert_path_for_output(path, overwrite = overwrite)

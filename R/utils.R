@@ -49,7 +49,7 @@ seconds_to_string <- function(seconds) {
 #' @keywords internal
 copy_gtfs_without_file <- function(gtfs, file) {
 
-  checkmate::assert_class(gtfs, "dt_gtfs")
+  gtfs <- assert_and_assign_gtfs_object(gtfs)
   checkmate::assert_string(file)
 
   # check if file exists
@@ -81,7 +81,7 @@ copy_gtfs_without_file <- function(gtfs, file) {
 #' @keywords internal
 copy_gtfs_without_field <- function(gtfs, file, field) {
 
-  checkmate::assert_class(gtfs, "dt_gtfs")
+  gtfs <- assert_and_assign_gtfs_object(gtfs)
   checkmate::assert_string(file)
   checkmate::assert_string(field)
 
@@ -116,7 +116,7 @@ copy_gtfs_without_field <- function(gtfs, file, field) {
 #' @keywords internal
 copy_gtfs_diff_field_class <- function(gtfs, file, field, class) {
 
-  checkmate::assert_class(gtfs, "dt_gtfs")
+  gtfs <- assert_and_assign_gtfs_object(gtfs)
   checkmate::assert_string(file)
   checkmate::assert_string(field)
   checkmate::assert_string(class)
@@ -140,4 +140,15 @@ copy_gtfs_diff_field_class <- function(gtfs, file, field, class) {
 
   return(gtfs_copy)
 
+}
+
+
+
+#' @keywords internal
+assert_and_assign_gtfs_object <- function(gtfs) {
+  checkmate::assert_class(gtfs, "gtfs")
+
+  if (!inherits(gtfs, "dt_gtfs")) gtfs <- as_dt_gtfs(gtfs)
+
+  return(gtfs)
 }

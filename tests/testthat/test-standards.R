@@ -2,18 +2,16 @@ context("Convert to/from standards")
 
 path <- system.file("extdata/ggl_gtfs.zip", package = "gtfstools")
 standard_gtfs <- gtfsio::import_gtfs(path)
-class(standard_gtfs) <- c("dt_gtfs", "gtfs")
 gtfstools_gtfs <- convert_from_standard(standard_gtfs)
 
 # convert_from_standard() tests
 
-test_that("convert_from_standard only works on 'dt_gtfs's", {
+test_that("convert_from_standard only works on objects with gtfs class", {
   expect_error(convert_from_standard(unclass(standard_gtfs)))
 })
 
 test_that("convert_from_standard doesn't change original gtfs object", {
   original_gtfs <- gtfsio::import_gtfs(path)
-  class(original_gtfs) <- c("dt_gtfs", "gtfs")
 
   expect_silent(invisible(convert_from_standard(standard_gtfs)))
   expect_identical(original_gtfs, standard_gtfs)

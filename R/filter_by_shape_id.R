@@ -31,7 +31,7 @@
 #'
 #' @export
 filter_by_shape_id <- function(gtfs, shape_id, keep = TRUE) {
-  checkmate::assert_class(gtfs, "dt_gtfs")
+  gtfs <- assert_and_assign_gtfs_object(gtfs)
   checkmate::assert_character(shape_id, any.missing = FALSE)
   checkmate::assert_logical(keep, len = 1, any.missing = FALSE)
 
