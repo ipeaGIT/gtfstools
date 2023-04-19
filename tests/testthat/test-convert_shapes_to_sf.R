@@ -1,9 +1,6 @@
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 
-
-# tests -------------------------------------------------------------------
-
 test_that("raises errors due to incorrect input types", {
   no_class_gtfs <- unclass(gtfs)
 
@@ -12,6 +9,9 @@ test_that("raises errors due to incorrect input types", {
   expect_error(convert_shapes_to_sf(gtfs, shape_id = NA))
   expect_error(convert_shapes_to_sf(gtfs, crs = "4326"))
   expect_error(convert_shapes_to_sf(gtfs, crs = NA))
+  expect_error(convert_shapes_to_sf(gtfs, sort_sequence = "FALSE"))
+  expect_error(convert_shapes_to_sf(gtfs, sort_sequence = NA))
+  expect_error(convert_shapes_to_sf(gtfs, sort_sequence = c(TRUE, TRUE)))
 
   wrong_types_gtfs <- read_gtfs(data_path)
   wrong_types_gtfs$shapes[, shape_id := as.factor(shape_id)]
@@ -34,6 +34,16 @@ test_that("raises errors due to incorrect input types", {
     )
   ]
   expect_error(convert_shapes_to_sf(wrong_types_gtfs))
+
+  # shape_pt_sequence is required when sort_sequence = TRUE
+  wrong_types_gtfs$shapes[
+    ,
+    `:=`(
+      shape_pt_lat = as.numeric(shape_pt_lat),
+      shape_pt_sequence = as.character(shape_pt_sequence)
+    )
+  ]
+  expect_error(convert_shapes_to_sf(wrong_types_gtfs, sort_sequence = TRUE))
 })
 
 test_that("convert correct shapes", {
@@ -82,6 +92,25 @@ test_that("returns a LINESTRING sf with correct crs", {
   expect_s3_class(shapes_sf$geometry, "sfc_LINESTRING")
 })
 
+test_that("sort_sequence works correctly", {
+  shapes_sf <- convert_shapes_to_sf(gtfs, "17846")
+
+  unordered_gtfs <- gtfs
+  unordered_gtfs$shapes <- gtfs$shapes[shape_id == "17846"]
+
+  set.seed(1)
+  n_shapes <- nrow(unordered_gtfs$shapes)
+  unordered_gtfs$shapes <- gtfs$shapes[
+    sample(seq.int(n_shapes), n_shapes, replace = FALSE)
+  ]
+
+  unordered_sf <- convert_shapes_to_sf(unordered_gtfs)
+  expect_false(identical(unordered_sf, shapes_sf))
+
+  ordered_sf <- convert_shapes_to_sf(unordered_gtfs, sort_sequence = TRUE)
+  expect_identical(ordered_sf, shapes_sf)
+})
+
 test_that("doesn't change passed gtfs object (only the index of gtfs$shapes)", {
   original_gtfs <- read_gtfs(data_path)
   gtfs <- read_gtfs(data_path)
@@ -89,5 +118,9 @@ test_that("doesn't change passed gtfs object (only the index of gtfs$shapes)", {
 
   # 'shape_id' is set as gtfs$shapes index because of data.table subset
   data.table::setindex(gtfs$shapes, NULL)
+  expect_identical(original_gtfs, gtfs)
+
+  # should also work when sorting shapes
+  shapes_sf <- convert_shapes_to_sf(gtfs, sort_sequence = TRUE)
   expect_identical(original_gtfs, gtfs)
 })

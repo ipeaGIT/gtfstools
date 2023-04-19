@@ -2,6 +2,8 @@
 
 ## New features
 
+- `convert_shapes_to_sf()` now takes an additional argument `sort_sequence`, used to indicate whether shapes should be ordered by `shape_pt_sequence`.
+
 ## Bug fixes
 
 ## Notes
