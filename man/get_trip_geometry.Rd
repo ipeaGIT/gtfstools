@@ -4,7 +4,13 @@
 \alias{get_trip_geometry}
 \title{Get trip geometry}
 \usage{
-get_trip_geometry(gtfs, trip_id = NULL, file = NULL, crs = 4326)
+get_trip_geometry(
+  gtfs,
+  trip_id = NULL,
+  file = NULL,
+  crs = 4326,
+  sort_sequence = FALSE
+)
 }
 \arguments{
 \item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
@@ -20,6 +26,13 @@ both files, but only raises an error if none of the files exist.}
 
 \item{crs}{The CRS of the resulting object, either as an EPSG code or as an
 \code{crs} object. Defaults to 4326 (WGS 84).}
+
+\item{sort_sequence}{A logical specifying whether to sort shapes and
+timetables by \code{shape_pt_sequence} and \code{stop_sequence}, respectively.
+Defaults to \code{FALSE}, otherwise spec-compliant feeds, in which
+shape/timetables points are already ordered by
+\code{shape_pt_sequence}/\code{stop_sequence}, would be penalized through longer
+processing times.}
 }
 \value{
 A \verb{LINESTRING sf}.

@@ -5,8 +5,9 @@ trip_id <- "CPTM L07-0"
 tester <- function(gtfs = get("gtfs", envir = parent.frame()),
                    trip_id = NULL,
                    file = NULL,
-                   crs = 4326) {
-  get_trip_geometry(gtfs, trip_id, file, crs)
+                   crs = 4326,
+                   sort_sequence = FALSE) {
+  get_trip_geometry(gtfs, trip_id, file, crs, sort_sequence)
 }
 
 test_that("raises errors due to incorrect input types/value", {
@@ -15,6 +16,9 @@ test_that("raises errors due to incorrect input types/value", {
   expect_error(tester(trip_id = NA))
   expect_error(tester(file = c("shapes", "stops")))
   expect_error(tester(crs = "4674"))
+  expect_error(tester(sort_sequence = "FALSE"))
+  expect_error(tester(sort_sequence = NA))
+  expect_error(tester(sort_sequence = c(TRUE, TRUE)))
 })
 
 test_that("raises errors if gtfs doesn't have required files/fields", {
@@ -33,9 +37,17 @@ test_that("raises errors if gtfs doesn't have required files/fields", {
   no_shp_shapelon_gtfs <- copy_gtfs_without_field(
     gtfs, "shapes", "shape_pt_lon"
   )
+  no_shp_shapeseq_gtfs <- copy_gtfs_without_field(
+    gtfs, "shapes", "shape_pt_sequence"
+  )
 
   no_stt_tripid_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "trip_id")
   no_stt_stopid_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "stop_id")
+  no_stt_stopseq_gtfs <- copy_gtfs_without_field(
+    gtfs,
+    "stop_times",
+    "stop_sequence"
+  )
 
   no_sts_stopid_gtfs <- copy_gtfs_without_field(gtfs, "stops", "stop_id")
   no_sts_stoplat_gtfs <- copy_gtfs_without_field(gtfs, "stops", "stop_lat")
@@ -50,6 +62,9 @@ test_that("raises errors if gtfs doesn't have required files/fields", {
   expect_error(tester(no_shp_shapeid_gtfs, trip_id, "shapes"))
   expect_error(tester(no_shp_shapelat_gtfs, trip_id, "shapes"))
   expect_error(tester(no_shp_shapelon_gtfs, trip_id, "shapes"))
+  expect_error(
+    tester(no_shp_shapeseq_gtfs, trip_id, "shapes", sort_sequence = TRUE)
+  )
   expect_s3_class(tester(no_stop_times_gtfs, trip_id, "shapes"), "sf")
   expect_s3_class(tester(no_stops_gtfs, trip_id, "shapes"), "sf")
 
@@ -64,6 +79,9 @@ test_that("raises errors if gtfs doesn't have required files/fields", {
   expect_error(tester(no_sts_stopid_gtfs, trip_id, "stop_times"))
   expect_error(tester(no_sts_stoplat_gtfs, trip_id, "stop_times"))
   expect_error(tester(no_sts_stoplon_gtfs, trip_id, "stop_times"))
+  expect_error(
+    tester(no_stt_stopseq_gtfs, trip_id, "stop_times", sort_sequence = TRUE)
+  )
   expect_s3_class(tester(no_shapes_gtfs, trip_id, "stop_times"), "sf")
   expect_s3_class(tester(no_trp_shapeid_gtfs, trip_id, "stop_times"), "sf")
 })
@@ -193,6 +211,12 @@ test_that("doesn't change given gtfs", {
   data.table::setindex(gtfs$shapes, NULL)
   data.table::setindex(gtfs$stop_times, NULL)
   expect_identical(original_gtfs, gtfs)
+
+  # should also work when sorting shapes/timetables
+  sf_geom <- tester(sort_sequence = TRUE)
+  data.table::setindex(gtfs$shapes, NULL)
+  data.table::setindex(gtfs$stop_times, NULL)
+  expect_identical(original_gtfs, gtfs)
 })
 
 test_that("returns empty sf if passed 'trip_id' isn't linked to a 'shape_id'", {
@@ -233,4 +257,20 @@ test_that("works correctly if 'file' is untouched and one file is missing", {
       "'shapes' or a 'stop_times' table\\."
     )
   )
+})
+
+test_that("sort_sequence works correctly", {
+  geoms <- tester(trip_id = trip_id)
+
+  unordered_gtfs <- gtfs
+  unordered_gtfs$shapes <- gtfs$shapes[shape_id == "17846"]
+  unordered_gtfs$shapes <- unordered_gtfs$shapes[c(200:547, 1:199)]
+  unordered_gtfs$stop_times <- gtfs$stop_times[trip_id == "CPTM L07-0"]
+  unordered_gtfs$stop_times <- unordered_gtfs$stop_times[c(10:18, 1:9)]
+
+  unordered_geoms <- tester(unordered_gtfs, trip_id)
+  expect_false(identical(unordered_geoms, geoms))
+
+  ordered_geoms <- tester(unordered_gtfs, trip_id, sort_sequence = TRUE)
+  expect_identical(ordered_geoms, geoms)
 })

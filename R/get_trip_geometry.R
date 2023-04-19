@@ -13,6 +13,12 @@
 #'   both files, but only raises an error if none of the files exist.
 #' @param crs The CRS of the resulting object, either as an EPSG code or as an
 #'   `crs` object. Defaults to 4326 (WGS 84).
+#' @param sort_sequence A logical specifying whether to sort shapes and
+#'   timetables by `shape_pt_sequence` and `stop_sequence`, respectively.
+#'   Defaults to `FALSE`, otherwise spec-compliant feeds, in which
+#'   shape/timetables points are already ordered by
+#'   `shape_pt_sequence`/`stop_sequence`, would be penalized through longer
+#'   processing times.
 #'
 #' @return A `LINESTRING sf`.
 #'
@@ -42,7 +48,11 @@
 #' plot(trip_geometry["origin_file"])
 #'
 #' @export
-get_trip_geometry <- function(gtfs, trip_id = NULL, file = NULL, crs = 4326) {
+get_trip_geometry <- function(gtfs,
+                              trip_id = NULL,
+                              file = NULL,
+                              crs = 4326,
+                              sort_sequence = FALSE) {
   gtfs <- assert_and_assign_gtfs_object(gtfs)
   checkmate::assert_character(trip_id, null.ok = TRUE, any.missing = FALSE)
   checkmate::assert(
@@ -50,12 +60,12 @@ get_trip_geometry <- function(gtfs, trip_id = NULL, file = NULL, crs = 4326) {
     checkmate::check_class(crs, "crs"),
     combine = "or"
   )
+  checkmate::assert_logical(sort_sequence, any.missing = FALSE, len = 1)
+
   checkmate::assert_character(file, null.ok = TRUE)
   if (!is.null(file)) {
     checkmate::assert_names(file, subset.of = c("shapes", "stop_times"))
-  }
-
-  if (is.null(file)) {
+  } else {
     file <- names(gtfs)
     file <- file[file %chin% c("shapes", "stop_times")]
 
@@ -124,9 +134,18 @@ get_trip_geometry <- function(gtfs, trip_id = NULL, file = NULL, crs = 4326) {
 
     relevant_shapes <- unique(trips$shape_id)
 
-    # generate geometry; the condition for nrow == 0 prevents an sfheaders error
-
     shapes <- gtfs$shapes[shape_id %chin% relevant_shapes]
+
+    if (sort_sequence) {
+      gtfsio::assert_field_class(gtfs, "shapes", "shape_pt_sequence", "integer")
+
+      shapes <- data.table::setorderv(
+        shapes,
+        c("shape_id", "shape_pt_sequence")
+      )
+    }
+
+    # the condition for nrow == 0 prevents an sfheaders error
 
     if (nrow(shapes) == 0) {
       empty_linestring <- sf::st_sfc()
@@ -166,7 +185,17 @@ get_trip_geometry <- function(gtfs, trip_id = NULL, file = NULL, crs = 4326) {
       stop_times <- gtfs$stop_times
     }
 
-    # generate geometry; the condition for nrow == 0 prevents an sfheaders error
+    if (sort_sequence) {
+      gtfsio::assert_field_class(gtfs, "stop_times", "stop_sequence", "integer")
+
+      if (is.null(trip_id)) stop_times <- data.table::copy(stop_times)
+      stop_times <- data.table::setorderv(
+        stop_times,
+        c("trip_id", "stop_sequence")
+      )
+    }
+
+    # the condition for nrow == 0 prevents an sfheaders error
 
     stop_times[
       gtfs$stops,
