@@ -4,7 +4,7 @@
 \alias{convert_shapes_to_sf}
 \title{Convert \code{shapes} table to simple feature object}
 \usage{
-convert_shapes_to_sf(gtfs, shape_id = NULL, crs = 4326)
+convert_shapes_to_sf(gtfs, shape_id = NULL, crs = 4326, sort_sequence = FALSE)
 }
 \arguments{
 \item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
@@ -14,6 +14,11 @@ If \code{NULL} (the default), all shapes are converted.}
 
 \item{crs}{The CRS of the resulting object, either as an EPSG code or as an
 \code{crs} object. Defaults to 4326 (WGS 84).}
+
+\item{sort_sequence}{A logical. Whether to sort shapes by
+\code{shape_pt_sequence}. Defaults to \code{FALSE}, otherwise spec-compliant feeds,
+in which shape points are already ordered by \code{shape_pt_sequence}, would be
+penalized through longer processing times.}
 }
 \value{
 A \verb{LINESTRING sf} object.

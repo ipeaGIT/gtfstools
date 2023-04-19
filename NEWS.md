@@ -7,6 +7,8 @@
   (`tidygtfs`, `gtfs` and `list`).
 - `filter_by_route_type()` now accepts Google Transit's [extended route
   types](https://developers.google.com/transit/gtfs/reference/extended-route-types).
+- `convert_shapes_to_sf()` now takes an additional argument `sort_sequence`,
+  used to indicate whether shapes should be ordered by `shape_pt_sequence`.
 
 ## Bug fixes
 
