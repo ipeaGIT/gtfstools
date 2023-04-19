@@ -25,7 +25,9 @@ Filters a GTFS object by \code{route_type}s, keeping (or dropping) the relevant
 entries in each file.
 }
 \section{Route types}{
-Valid options are:
+Valid options include the route types listed in the GTFS Schedule
+specification and in the Google Transit implementation. The types specified
+in the GTFS Schedule specification are:
 \itemize{
 \item 0 - Tram, Streetcar, Light rail. Any light rail or street level system
 within a metropolitan area.
@@ -43,6 +45,92 @@ means of one or more cables.
 poles.
 \item 12 - Monorail. Railway in which the track consists of a single rail or a
 beam.
+}
+
+The types defined in Google Transit's extension are listed below, including
+some examples (not available for all types):
+\itemize{
+\item 100 - Railway Service - Not applicable (N/A)
+\item 101 - High Speed Rail Service - TGV (FR), ICE (DE), Eurostar (GB)
+\item 102 - Long Distance Trains - InterCity/EuroCity
+\item 103 - Inter Regional Rail Service - InterRegio (DE), Cross County Rail (GB)
+\item 104 - Car Transport Rail Service
+\item 105 - Sleeper Rail Service - GNER Sleeper (GB)
+\item 106 - Regional Rail Service - TER (FR), Regionalzug (DE)
+\item 107 - Tourist Railway Service - Romney, Hythe & Dymchurch (GB)
+\item 108 - Rail Shuttle (Within Complex) - Gatwick Shuttle (GB), Sky Line (DE)
+\item 109 - Suburban Railway - S-Bahn (DE), RER (FR), S-tog (Kopenhagen)
+\item 110 - Replacement Rail Service
+\item 111 - Special Rail Service
+\item 112 - Lorry Transport Rail Service
+\item 113 - All Rail Services
+\item 114 - Cross-Country Rail Service
+\item 115 - Vehicle Transport Rail Service
+\item 116 - Rack and Pinion Railway - Rochers de Naye (CH), Dolderbahn (CH)
+\item 117 - Additional Rail Service
+\item 200 - Coach Service
+\item 201 - International Coach Service - EuroLine, Touring
+\item 202 - National Coach Service - National Express (GB)
+\item 203 - Shuttle Coach Service - Roissy Bus (FR), Reading-Heathrow (GB)
+\item 204 - Regional Coach Service
+\item 205 - Special Coach Service
+\item 206 - Sightseeing Coach Service
+\item 207 - Tourist Coach Service
+\item 208 - Commuter Coach Service
+\item 209 - All Coach Services
+\item 400 - Urban Railway Service
+\item 401 - Metro Service - Métro de Paris
+\item 402 - Underground Service - London Underground, U-Bahn
+\item 403 - Urban Railway Service
+\item 404 - All Urban Railway Services
+\item 405 - Monorail
+\item 700 - Bus Service
+\item 701 - Regional Bus Service - Eastbourne-Maidstone (GB)
+\item 702 - Express Bus Service - X19 Wokingham-Heathrow (GB)
+\item 703 - Stopping Bus Service - 38 London: Clapton Pond-Victoria (GB)
+\item 704 - Local Bus Service
+\item 705 - Night Bus Service - N prefixed buses in London (GB)
+\item 706 - Post Bus Service - Maidstone P4 (GB)
+\item 707 - Special Needs Bus
+\item 708 - Mobility Bus Service
+\item 709 - Mobility Bus for Registered Disabled
+\item 710 - Sightseeing Bus
+\item 711 - Shuttle Bus - 747 Heathrow-Gatwick Airport Service (GB)
+\item 712 - School Bus
+\item 713 - School and Public Service Bus
+\item 714 - Rail Replacement Bus Service
+\item 715 - Demand and Response Bus Service
+\item 716 - All Bus Services
+\item 800 - Trolleybus Service
+\item 900 - Tram Service
+\item 901 - City Tram Service
+\item 902 - Local Tram Service - Munich (DE), Brussels (BE), Croydon (GB)
+\item 903 - Regional Tram Service
+\item 904 - Sightseeing Tram Service - Blackpool Seafront (GB)
+\item 905 - Shuttle Tram Service
+\item 906 - All Tram Services
+\item 1000 - Water Transport Service
+\item 1100 - Air Service
+\item 1200 - Ferry Service
+\item 1300 - Aerial Lift Service - Telefèric de Montjuïc (ES), Saleve (CH), Roosevelt Island Tramway (US)
+\item 1301 - Telecabin Service
+\item 1302 - Cable Car Service
+\item 1303 - Elevator Service
+\item 1304 - Chair Lift Service
+\item 1305 - Drag Lift Service
+\item 1306 - Small Telecabin Service
+\item 1307 - All Telecabin Services
+\item 1400 - Funicular Service - Rigiblick (Zürich, CH)
+\item 1500 - Taxi Service
+\item 1501 - Communal Taxi Service - Marshrutka (RU), dolmuş (TR)
+\item 1502 - Water Taxi Service
+\item 1503 - Rail Taxi Service
+\item 1504 - Bike Taxi Service
+\item 1505 - Licensed Taxi Service
+\item 1506 - Private Hire Service Vehicle
+\item 1507 - All Taxi Services
+\item 1700 - Miscellaneous Service
+\item 1702 - Horse-drawn Carriage
 }
 }
 
