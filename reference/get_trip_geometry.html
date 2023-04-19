@@ -71,7 +71,13 @@ shapes or the stop_times file (or both)."><meta property="og:image" content="/lo
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_trip_geometry</span><span class="op">(</span><span class="va">gtfs</span>, trip_id <span class="op">=</span> <span class="cn">NULL</span>, file <span class="op">=</span> <span class="cn">NULL</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_trip_geometry</span><span class="op">(</span></span>
+<span>  <span class="va">gtfs</span>,</span>
+<span>  trip_id <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  file <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  crs <span class="op">=</span> <span class="fl">4326</span>,</span>
+<span>  sort_sequence <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -96,6 +102,15 @@ both files, but only raises an error if none of the files exist.</p></dd>
 <dt>crs</dt>
 <dd><p>The CRS of the resulting object, either as an EPSG code or as an
 <code>crs</code> object. Defaults to 4326 (WGS 84).</p></dd>
+
+
+<dt>sort_sequence</dt>
+<dd><p>A logical specifying whether to sort shapes and
+timetables by <code>shape_pt_sequence</code> and <code>stop_sequence</code>, respectively.
+Defaults to <code>FALSE</code>, otherwise spec-compliant feeds, in which
+shape/timetables points are already ordered by
+<code>shape_pt_sequence</code>/<code>stop_sequence</code>, would be penalized through longer
+processing times.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -128,7 +143,7 @@ stops along a straight line (stops' coordinates are retrieved from the
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -46.98404 ymin: -23.73644 xmax: -46.63535 ymax: -23.19474</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CRS:           EPSG:4326</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      trip_id origin_file                       geometry</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 CPTM L07-0      shapes LINESTRING (-46.63535 -23.5...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 CPTM L07-1      shapes LINESTRING (-46.87255 -23.1...</span>
@@ -144,7 +159,7 @@ stops along a straight line (stops' coordinates are retrieved from the
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -46.98404 ymin: -23.73644 xmax: -46.63535 ymax: -23.19474</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CRS:           EPSG:4326</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      trip_id origin_file                       geometry</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 CPTM L07-0      shapes LINESTRING (-46.63535 -23.5...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 CPTM L07-1      shapes LINESTRING (-46.87255 -23.1...</span>
@@ -160,7 +175,7 @@ stops along a straight line (stops' coordinates are retrieved from the
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -46.87255 ymin: -23.55262 xmax: -46.62922 ymax: -23.19474</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CRS:           EPSG:4326</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      trip_id origin_file                       geometry</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 CPTM L07-0      shapes LINESTRING (-46.63535 -23.5...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  2002-10-0      shapes LINESTRING (-46.62963 -23.5...</span>

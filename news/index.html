@@ -69,6 +69,10 @@
 <h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
 <ul><li>New function <code><a href="../reference/convert_sf_to_shapes.html">convert_sf_to_shapes()</a></code>.</li>
 <li>New generic function <code><a href="../reference/as_dt_gtfs.html">as_dt_gtfs()</a></code> with methods for a few different classes (<code>tidygtfs</code>, <code>gtfs</code> and <code>list</code>).</li>
+<li>
+<code><a href="../reference/filter_by_route_type.html">filter_by_route_type()</a></code> now accepts Google Transit’s <a href="https://developers.google.com/transit/gtfs/reference/extended-route-types" class="external-link">extended route types</a>.</li>
+<li>
+<code><a href="../reference/convert_shapes_to_sf.html">convert_shapes_to_sf()</a></code> and <code><a href="../reference/get_trip_geometry.html">get_trip_geometry()</a></code> now take an additional argument <code>sort_sequence</code>, used to indicate whether shapes/timetables should be ordered by <code>shape_pt_sequence</code>/<code>stop_sequence</code> when applying the functions’ procedures.</li>
 </ul></div>
 <div class="section level3"><h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3></div>
 <div class="section level3">

@@ -100,7 +100,9 @@ process.</p>
     </div>
     <div id="route-types">
     <h2>Route types</h2>
-    <p>Valid options are:</p><ul><li><p>0 - Tram, Streetcar, Light rail. Any light rail or street level system
+    <p>Valid options include the route types listed in the GTFS Schedule
+specification and in the Google Transit implementation. The types specified
+in the GTFS Schedule specification are:</p><ul><li><p>0 - Tram, Streetcar, Light rail. Any light rail or street level system
 within a metropolitan area.</p></li>
 <li><p>1 - Subway, Metro. Any underground rail system within a metropolitan area.</p></li>
 <li><p>2 - Rail. Used for intercity or long-distance travel.</p></li>
@@ -116,6 +118,88 @@ means of one or more cables.</p></li>
 poles.</p></li>
 <li><p>12 - Monorail. Railway in which the track consists of a single rail or a
 beam.</p></li>
+</ul><p>The types defined in Google Transit's extension are listed below, including
+some examples (not available for all types):</p><ul><li><p>100 - Railway Service - Not applicable (N/A)</p></li>
+<li><p>101 - High Speed Rail Service - TGV (FR), ICE (DE), Eurostar (GB)</p></li>
+<li><p>102 - Long Distance Trains - InterCity/EuroCity</p></li>
+<li><p>103 - Inter Regional Rail Service - InterRegio (DE), Cross County Rail (GB)</p></li>
+<li><p>104 - Car Transport Rail Service</p></li>
+<li><p>105 - Sleeper Rail Service - GNER Sleeper (GB)</p></li>
+<li><p>106 - Regional Rail Service - TER (FR), Regionalzug (DE)</p></li>
+<li><p>107 - Tourist Railway Service - Romney, Hythe &amp; Dymchurch (GB)</p></li>
+<li><p>108 - Rail Shuttle (Within Complex) - Gatwick Shuttle (GB), Sky Line (DE)</p></li>
+<li><p>109 - Suburban Railway - S-Bahn (DE), RER (FR), S-tog (Kopenhagen)</p></li>
+<li><p>110 - Replacement Rail Service</p></li>
+<li><p>111 - Special Rail Service</p></li>
+<li><p>112 - Lorry Transport Rail Service</p></li>
+<li><p>113 - All Rail Services</p></li>
+<li><p>114 - Cross-Country Rail Service</p></li>
+<li><p>115 - Vehicle Transport Rail Service</p></li>
+<li><p>116 - Rack and Pinion Railway - Rochers de Naye (CH), Dolderbahn (CH)</p></li>
+<li><p>117 - Additional Rail Service</p></li>
+<li><p>200 - Coach Service</p></li>
+<li><p>201 - International Coach Service - EuroLine, Touring</p></li>
+<li><p>202 - National Coach Service - National Express (GB)</p></li>
+<li><p>203 - Shuttle Coach Service - Roissy Bus (FR), Reading-Heathrow (GB)</p></li>
+<li><p>204 - Regional Coach Service</p></li>
+<li><p>205 - Special Coach Service</p></li>
+<li><p>206 - Sightseeing Coach Service</p></li>
+<li><p>207 - Tourist Coach Service</p></li>
+<li><p>208 - Commuter Coach Service</p></li>
+<li><p>209 - All Coach Services</p></li>
+<li><p>400 - Urban Railway Service</p></li>
+<li><p>401 - Metro Service - Métro de Paris</p></li>
+<li><p>402 - Underground Service - London Underground, U-Bahn</p></li>
+<li><p>403 - Urban Railway Service</p></li>
+<li><p>404 - All Urban Railway Services</p></li>
+<li><p>405 - Monorail</p></li>
+<li><p>700 - Bus Service</p></li>
+<li><p>701 - Regional Bus Service - Eastbourne-Maidstone (GB)</p></li>
+<li><p>702 - Express Bus Service - X19 Wokingham-Heathrow (GB)</p></li>
+<li><p>703 - Stopping Bus Service - 38 London: Clapton Pond-Victoria (GB)</p></li>
+<li><p>704 - Local Bus Service</p></li>
+<li><p>705 - Night Bus Service - N prefixed buses in London (GB)</p></li>
+<li><p>706 - Post Bus Service - Maidstone P4 (GB)</p></li>
+<li><p>707 - Special Needs Bus</p></li>
+<li><p>708 - Mobility Bus Service</p></li>
+<li><p>709 - Mobility Bus for Registered Disabled</p></li>
+<li><p>710 - Sightseeing Bus</p></li>
+<li><p>711 - Shuttle Bus - 747 Heathrow-Gatwick Airport Service (GB)</p></li>
+<li><p>712 - School Bus</p></li>
+<li><p>713 - School and Public Service Bus</p></li>
+<li><p>714 - Rail Replacement Bus Service</p></li>
+<li><p>715 - Demand and Response Bus Service</p></li>
+<li><p>716 - All Bus Services</p></li>
+<li><p>800 - Trolleybus Service</p></li>
+<li><p>900 - Tram Service</p></li>
+<li><p>901 - City Tram Service</p></li>
+<li><p>902 - Local Tram Service - Munich (DE), Brussels (BE), Croydon (GB)</p></li>
+<li><p>903 - Regional Tram Service</p></li>
+<li><p>904 - Sightseeing Tram Service - Blackpool Seafront (GB)</p></li>
+<li><p>905 - Shuttle Tram Service</p></li>
+<li><p>906 - All Tram Services</p></li>
+<li><p>1000 - Water Transport Service</p></li>
+<li><p>1100 - Air Service</p></li>
+<li><p>1200 - Ferry Service</p></li>
+<li><p>1300 - Aerial Lift Service - Telefèric de Montjuïc (ES), Saleve (CH), Roosevelt Island Tramway (US)</p></li>
+<li><p>1301 - Telecabin Service</p></li>
+<li><p>1302 - Cable Car Service</p></li>
+<li><p>1303 - Elevator Service</p></li>
+<li><p>1304 - Chair Lift Service</p></li>
+<li><p>1305 - Drag Lift Service</p></li>
+<li><p>1306 - Small Telecabin Service</p></li>
+<li><p>1307 - All Telecabin Services</p></li>
+<li><p>1400 - Funicular Service - Rigiblick (Zürich, CH)</p></li>
+<li><p>1500 - Taxi Service</p></li>
+<li><p>1501 - Communal Taxi Service - Marshrutka (RU), dolmuş (TR)</p></li>
+<li><p>1502 - Water Taxi Service</p></li>
+<li><p>1503 - Rail Taxi Service</p></li>
+<li><p>1504 - Bike Taxi Service</p></li>
+<li><p>1505 - Licensed Taxi Service</p></li>
+<li><p>1506 - Private Hire Service Vehicle</p></li>
+<li><p>1507 - All Taxi Services</p></li>
+<li><p>1700 - Miscellaneous Service</p></li>
+<li><p>1702 - Horse-drawn Carriage</p></li>
 </ul></div>
     <div id="see-also">
     <h2>See also</h2>
