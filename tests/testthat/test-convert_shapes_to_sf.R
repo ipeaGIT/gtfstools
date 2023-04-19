@@ -97,12 +97,7 @@ test_that("sort_sequence works correctly", {
 
   unordered_gtfs <- gtfs
   unordered_gtfs$shapes <- gtfs$shapes[shape_id == "17846"]
-
-  set.seed(1)
-  n_shapes <- nrow(unordered_gtfs$shapes)
-  unordered_gtfs$shapes <- gtfs$shapes[
-    sample(seq.int(n_shapes), n_shapes, replace = FALSE)
-  ]
+  unordered_gtfs$shapes <- unordered_gtfs$shapes[c(200:547, 1:199)]
 
   unordered_sf <- convert_shapes_to_sf(unordered_gtfs)
   expect_false(identical(unordered_sf, shapes_sf))

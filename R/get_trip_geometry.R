@@ -83,22 +83,27 @@ get_trip_geometry <- function(gtfs,
       c("trip_id", "shape_id"),
       rep("character", 2)
     )
-    gtfsio::assert_field_class(
-      gtfs,
-      "shapes",
-      c("shape_id", "shape_pt_lat", "shape_pt_lon"),
-      c("character", "numeric", "numeric")
-    )
+
+    shp_req_cols <- c("shape_id", "shape_pt_lat", "shape_pt_lon")
+    shp_req_classes <- c("character", "numeric", "numeric")
+    if (sort_sequence) {
+      shp_req_cols <- c(shp_req_cols, "shape_pt_sequence")
+      shp_req_classes <- c(shp_req_classes, "integer")
+    }
+    gtfsio::assert_field_class(gtfs, "shapes", shp_req_cols, shp_req_classes)
   }
 
   if ("stop_times" %in% file) {
     gtfsio::assert_field_class(gtfs, "trips", "trip_id", "character")
-    gtfsio::assert_field_class(
-      gtfs,
-      "stop_times",
-      c("trip_id", "stop_id"),
-      c("character", "character")
-    )
+
+    st_req_cols <- c("trip_id", "stop_id")
+    st_req_classes <- c("character", "character")
+    if (sort_sequence) {
+      st_req_cols <- c(st_req_cols, "stop_sequence")
+      st_req_classes <- c(st_req_classes, "integer")
+    }
+    gtfsio::assert_field_class(gtfs, "stop_times", st_req_cols, st_req_classes)
+
     gtfsio::assert_field_class(
       gtfs,
       "stops",
@@ -137,8 +142,6 @@ get_trip_geometry <- function(gtfs,
     shapes <- gtfs$shapes[shape_id %chin% relevant_shapes]
 
     if (sort_sequence) {
-      gtfsio::assert_field_class(gtfs, "shapes", "shape_pt_sequence", "integer")
-
       shapes <- data.table::setorderv(
         shapes,
         c("shape_id", "shape_pt_sequence")
@@ -186,8 +189,6 @@ get_trip_geometry <- function(gtfs,
     }
 
     if (sort_sequence) {
-      gtfsio::assert_field_class(gtfs, "stop_times", "stop_sequence", "integer")
-
       if (is.null(trip_id)) stop_times <- data.table::copy(stop_times)
       stop_times <- data.table::setorderv(
         stop_times,

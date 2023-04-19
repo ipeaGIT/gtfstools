@@ -39,14 +39,15 @@ convert_shapes_to_sf <- function(gtfs,
   )
   checkmate::assert_logical(sort_sequence, any.missing = FALSE, len = 1)
 
-  gtfsio::assert_field_class(
-    gtfs,
-    "shapes",
-    c("shape_id", "shape_pt_lat", "shape_pt_lon"),
-    c("character", "numeric", "numeric")
-  )
+  required_cols <- c("shape_id", "shape_pt_lat", "shape_pt_lon")
+  required_classes <- c("character", "numeric", "numeric")
+  if (sort_sequence) {
+    required_cols <- c(required_cols, "shape_pt_sequence")
+    required_classes <- c(required_classes, "integer")
+  }
+  gtfsio::assert_field_class(gtfs, "shapes", required_cols, required_classes)
 
-  # select relevant shape_ids and  raise warning/error if given shape_ids don't
+  # select relevant shape_ids and raise warning/error if given shape_ids don't
   # exist in shapes
 
   if (!is.null(shape_id)) {
@@ -68,8 +69,6 @@ convert_shapes_to_sf <- function(gtfs,
   }
 
   if (sort_sequence) {
-    gtfsio::assert_field_class(gtfs, "shapes", "shape_pt_sequence", "integer")
-
     if (is.null(shape_id)) shapes <- data.table::copy(shapes)
     shapes <- data.table::setorderv(shapes, c("shape_id", "shape_pt_sequence"))
   }
