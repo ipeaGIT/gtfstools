@@ -73,7 +73,12 @@ these cases.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_stop_times_patterns</span><span class="op">(</span><span class="va">gtfs</span>, trip_id <span class="op">=</span> <span class="cn">NULL</span>, type <span class="op">=</span> <span class="st">"spatial"</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_stop_times_patterns</span><span class="op">(</span></span>
+<span>  <span class="va">gtfs</span>,</span>
+<span>  trip_id <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"spatial"</span>,</span>
+<span>  sort_sequence <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -91,6 +96,15 @@ analyses the pattern of every <code>trip_id</code> in the GTFS.</p></dd>
 <dt>type</dt>
 <dd><p>A string specifying the type of patterns to be analyzed. Either
 <code>"spatial"</code> (the default) or "spatiotemporal".</p></dd>
+
+
+<dt>sort_sequence</dt>
+<dd><p>A logical specifying whether to sort timetables by
+<code>stop_sequence</code>. Defaults to <code>FALSE</code>, otherwise spec-compliant feeds, in
+which timetables points are already ordered by <code>stop_sequence</code>, would be
+penalized through longer processing times. Pattern identification based on
+unordered timetables may result in multiple ids identifying what would be
+the same pattern, had the table been ordered.</p></dd>
 
 </dl></div>
     <div id="value">
