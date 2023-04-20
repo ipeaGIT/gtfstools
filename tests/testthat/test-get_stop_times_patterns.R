@@ -4,8 +4,9 @@ trip_id <- "143765658"
 
 tester <- function(gtfs = get("gtfs", envir = parent.frame()),
                    trip_id = NULL,
-                   type = "spatial") {
-  get_stop_times_patterns(gtfs, trip_id, type)
+                   type = "spatial",
+                   sort_sequence = FALSE) {
+  get_stop_times_patterns(gtfs, trip_id, type, sort_sequence)
 }
 
 test_that("raises errors due to incorrect input types/value", {
@@ -15,6 +16,9 @@ test_that("raises errors due to incorrect input types/value", {
   expect_error(tester(type = NA))
   expect_error(tester(type = c("spatial", "spatial")))
   expect_error(tester(type = "oie"))
+  expect_error(tester(sort_sequence = "FALSE"))
+  expect_error(tester(sort_sequence = NA))
+  expect_error(tester(sort_sequence = c(TRUE, TRUE)))
 })
 
 test_that("raises warning if a non-existent trip_id is specified", {
@@ -182,6 +186,11 @@ test_that("doesn't change original gtfs", {
   patterns <- tester(new_gtfs, type = "spatiotemporal")
   expect_identical(new_gtfs, original_gtfs)
 
+  # should also work if sort_sequence = TRUE
+
+  patterns <- tester(new_gtfs, sort_sequence = TRUE)
+  expect_identical(new_gtfs, original_gtfs)
+
   # should also work if gtfs contain time-in-seconds columns
 
   convert_time_to_seconds(new_gtfs, file = "stop_times", by_reference = TRUE)
@@ -193,4 +202,22 @@ test_that("doesn't change original gtfs", {
   expect_identical(new_gtfs, original_gtfs)
   patterns <- tester(new_gtfs, type = "spatiotemporal")
   expect_identical(new_gtfs, original_gtfs)
+})
+
+test_that("sort_sequence works correctly", {
+  # trips 143765659 and 143765658 have the same spatial pattern
+  ids <- c("143765658", "143765659")
+  patterns <- tester(trip_id = ids)
+
+  unordered_gtfs <- gtfs
+  unordered_gtfs$stop_times <- gtfs$stop_times[trip_id %in% ids]
+  unordered_gtfs$stop_times <- unordered_gtfs$stop_times[
+    c(10:18, 1:9, 19:62)
+  ]
+
+  unordered_patterns <- tester(unordered_gtfs, ids)
+  expect_false(identical(unordered_patterns, patterns))
+
+  ordered_patterns <- tester(unordered_gtfs, ids, sort_sequence = TRUE)
+  expect_identical(ordered_patterns, patterns)
 })

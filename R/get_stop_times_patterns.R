@@ -10,6 +10,12 @@
 #'   analyses the pattern of every `trip_id` in the GTFS.
 #' @param type A string specifying the type of patterns to be analyzed. Either
 #'   `"spatial"` (the default) or "spatiotemporal".
+#' @param sort_sequence A logical specifying whether to sort timetables by
+#'   `stop_sequence`. Defaults to `FALSE`, otherwise spec-compliant feeds, in
+#'   which timetables points are already ordered by `stop_sequence`, would be
+#'   penalized through longer processing times. Pattern identification based on
+#'   unordered timetables may result in multiple ids identifying what would be
+#'   the same pattern, had the table been ordered.
 #'
 #' @return A `data.table` associating each `trip_id` to a `pattern_id`.
 #'
@@ -54,7 +60,10 @@
 #' patterns
 #'
 #' @export
-get_stop_times_patterns <- function(gtfs, trip_id = NULL, type = "spatial") {
+get_stop_times_patterns <- function(gtfs,
+                                    trip_id = NULL,
+                                    type = "spatial",
+                                    sort_sequence = FALSE) {
   gtfs <- assert_and_assign_gtfs_object(gtfs)
   checkmate::assert_character(trip_id, null.ok = TRUE, any.missing = FALSE)
   checkmate::assert(
@@ -62,13 +71,17 @@ get_stop_times_patterns <- function(gtfs, trip_id = NULL, type = "spatial") {
     checkmate::check_names(type, subset.of = c("spatial", "spatiotemporal")),
     combine = "and"
   )
+  checkmate::assert_logical(sort_sequence, any.missing = FALSE, len = 1)
 
   must_exist <- c("trip_id", "stop_id")
   classes <- rep("character", 2)
   if (type == "spatiotemporal") {
     must_exist <- c(must_exist, "departure_time", "arrival_time")
     classes <- c(classes, rep("character", 2))
-
+  }
+  if (sort_sequence) {
+    must_exist <- c(must_exist, "stop_sequence")
+    classes <- c(classes, "integer")
   }
   gtfsio::assert_field_class(
     gtfs,
@@ -95,6 +108,11 @@ get_stop_times_patterns <- function(gtfs, trip_id = NULL, type = "spatial") {
     patterns <- gtfs$stop_times[trip_id %chin% relevant_trips]
   } else {
     patterns <- gtfs$stop_times
+  }
+
+  if (sort_sequence) {
+    if (is.null(trip_id)) patterns <- data.table::copy(patterns)
+    patterns <- data.table::setorderv(patterns, c("trip_id", "stop_sequence"))
   }
 
   if (type == "spatial") {
@@ -145,14 +163,14 @@ get_stop_times_patterns <- function(gtfs, trip_id = NULL, type = "spatial") {
     }
 
     if (
-      gtfsio::check_field_exists(gtfs, "stop_times", "departure_time_secs") &
+      gtfsio::check_field_exists(gtfs, "stop_times", "departure_time_secs") &&
       exists("created_departure_secs")
     ) {
       gtfs$stop_times[, departure_time_secs := NULL]
     }
 
     if (
-      gtfsio::check_field_exists(gtfs, "stop_times", "arrival_time_secs") &
+      gtfsio::check_field_exists(gtfs, "stop_times", "arrival_time_secs") &&
       exists("created_arrival_secs")
     ) {
       gtfs$stop_times[, arrival_time_secs := NULL]

@@ -4,7 +4,12 @@
 \alias{get_stop_times_patterns}
 \title{Get stop times patterns}
 \usage{
-get_stop_times_patterns(gtfs, trip_id = NULL, type = "spatial")
+get_stop_times_patterns(
+  gtfs,
+  trip_id = NULL,
+  type = "spatial",
+  sort_sequence = FALSE
+)
 }
 \arguments{
 \item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
@@ -15,6 +20,13 @@ analyses the pattern of every \code{trip_id} in the GTFS.}
 
 \item{type}{A string specifying the type of patterns to be analyzed. Either
 \code{"spatial"} (the default) or "spatiotemporal".}
+
+\item{sort_sequence}{A logical specifying whether to sort timetables by
+\code{stop_sequence}. Defaults to \code{FALSE}, otherwise spec-compliant feeds, in
+which timetables points are already ordered by \code{stop_sequence}, would be
+penalized through longer processing times. Pattern identification based on
+unordered timetables may result in multiple ids identifying what would be
+the same pattern, had the table been ordered.}
 }
 \value{
 A \code{data.table} associating each \code{trip_id} to a \code{pattern_id}.
