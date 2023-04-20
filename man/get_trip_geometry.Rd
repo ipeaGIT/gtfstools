@@ -32,7 +32,8 @@ timetables by \code{shape_pt_sequence} and \code{stop_sequence}, respectively.
 Defaults to \code{FALSE}, otherwise spec-compliant feeds, in which
 shape/timetables points are already ordered by
 \code{shape_pt_sequence}/\code{stop_sequence}, would be penalized through longer
-processing times.}
+processing times. Geometries generated from unordered sequences do not
+correctly depict the trip trajectories.}
 }
 \value{
 A \verb{LINESTRING sf}.

@@ -18,7 +18,8 @@ If \code{NULL} (the default), all shapes are converted.}
 \item{sort_sequence}{A logical. Whether to sort shapes by
 \code{shape_pt_sequence}. Defaults to \code{FALSE}, otherwise spec-compliant feeds,
 in which shape points are already ordered by \code{shape_pt_sequence}, would be
-penalized through longer processing times.}
+penalized through longer processing times. Shapes generated from unordered
+sequences do not correctly depict the real life trip shapes.}
 }
 \value{
 A \verb{LINESTRING sf} object.

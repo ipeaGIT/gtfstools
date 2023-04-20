@@ -10,7 +10,8 @@
 #' @param sort_sequence A logical. Whether to sort shapes by
 #'   `shape_pt_sequence`. Defaults to `FALSE`, otherwise spec-compliant feeds,
 #'   in which shape points are already ordered by `shape_pt_sequence`, would be
-#'   penalized through longer processing times.
+#'   penalized through longer processing times. Shapes generated from unordered
+#'   sequences do not correctly depict the real life trip shapes.
 #'
 #' @return A `LINESTRING sf` object.
 #'

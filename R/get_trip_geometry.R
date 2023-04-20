@@ -18,7 +18,8 @@
 #'   Defaults to `FALSE`, otherwise spec-compliant feeds, in which
 #'   shape/timetables points are already ordered by
 #'   `shape_pt_sequence`/`stop_sequence`, would be penalized through longer
-#'   processing times.
+#'   processing times. Geometries generated from unordered sequences do not
+#'   correctly depict the trip trajectories.
 #'
 #' @return A `LINESTRING sf`.
 #'
