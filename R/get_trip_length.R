@@ -13,6 +13,13 @@
 #'   files, but only raises an error if none of the files exist.
 #' @param unit A string representing the unit in which lengths are desired.
 #'   Either `"km"` (the default) or `"m"`.
+#' @param sort_sequence A logical specifying whether to sort shapes and
+#'   timetables by `shape_pt_sequence` and `stop_sequence`, respectively.
+#'   Defaults to `FALSE`, otherwise spec-compliant feeds, in which
+#'   shape/timetables points are already ordered by
+#'   `shape_pt_sequence`/`stop_sequence`, would be penalized through longer
+#'   processing times. Lengths calculated from trip trajectories generated with
+#'   unordered sequences do not correctly depict the actual trip lengths.
 #'
 #' @return A `data.table` containing the length of each specified trip.
 #'
@@ -38,7 +45,11 @@
 #' trip_length
 #'
 #' @export
-get_trip_length <- function(gtfs, trip_id = NULL, file = NULL, unit = "km") {
+get_trip_length <- function(gtfs,
+                            trip_id = NULL,
+                            file = NULL,
+                            unit = "km",
+                            sort_sequence = FALSE) {
   gtfs <- assert_and_assign_gtfs_object(gtfs)
   checkmate::assert_character(trip_id, null.ok = TRUE, any.missing = FALSE)
   checkmate::assert(
@@ -46,14 +57,12 @@ get_trip_length <- function(gtfs, trip_id = NULL, file = NULL, unit = "km") {
     checkmate::check_names(unit, subset.of = c("km", "m")),
     combine = "and"
   )
+  checkmate::assert_logical(sort_sequence, any.missing = FALSE, len = 1)
+
   checkmate::assert_character(file, null.ok = TRUE)
   if (!is.null(file)) {
     checkmate::assert_names(file, subset.of = c("shapes", "stop_times"))
-  }
-
-  # check if required fields and files exist
-
-  if (is.null(file)) {
+  } else {
     file <- names(gtfs)
     file <- file[file %in% c("shapes", "stop_times")]
 
@@ -71,22 +80,27 @@ get_trip_length <- function(gtfs, trip_id = NULL, file = NULL, unit = "km") {
       c("trip_id", "shape_id"),
       rep("character", 2)
     )
-    gtfsio::assert_field_class(
-      gtfs,
-      "shapes",
-      c("shape_id", "shape_pt_lat", "shape_pt_lon"),
-      c("character", "numeric", "numeric")
-    )
+
+    shp_req_cols <- c("shape_id", "shape_pt_lat", "shape_pt_lon")
+    shp_req_classes <- c("character", "numeric", "numeric")
+    if (sort_sequence) {
+      shp_req_cols <- c(shp_req_cols, "shape_pt_sequence")
+      shp_req_classes <- c(shp_req_classes, "integer")
+    }
+    gtfsio::assert_field_class(gtfs, "shapes", shp_req_cols, shp_req_classes)
   }
 
   if ("stop_times" %in% file) {
     gtfsio::assert_field_class(gtfs, "trips", "trip_id", "character")
-    gtfsio::assert_field_class(
-      gtfs,
-      "stop_times",
-      c("trip_id", "stop_id"),
-      c("character", "character")
-    )
+
+    st_req_cols <- c("trip_id", "stop_id")
+    st_req_classes <- c("character", "character")
+    if (sort_sequence) {
+      st_req_cols <- c(st_req_cols, "stop_sequence")
+      st_req_classes <- c(st_req_classes, "integer")
+    }
+    gtfsio::assert_field_class(gtfs, "stop_times", st_req_cols, st_req_classes)
+
     gtfsio::assert_field_class(
       gtfs,
       "stops",
@@ -124,6 +138,13 @@ get_trip_length <- function(gtfs, trip_id = NULL, file = NULL, unit = "km") {
     # the condition for nrow == 0 prevents an sfheaders error
 
     shapes <- gtfs$shapes[shape_id %chin% relevant_shapes]
+
+    if (sort_sequence) {
+      shapes <- data.table::setorderv(
+        shapes,
+        c("shape_id", "shape_pt_sequence")
+      )
+    }
 
     if (nrow(shapes) == 0) {
       empty_linestring <- sf::st_sfc()
@@ -168,6 +189,14 @@ get_trip_length <- function(gtfs, trip_id = NULL, file = NULL, unit = "km") {
       stop_times <- gtfs$stop_times[trip_id %chin% relevant_trips]
     } else {
       stop_times <- gtfs$stop_times
+    }
+
+    if (sort_sequence) {
+      if (is.null(trip_id)) stop_times <- data.table::copy(stop_times)
+      stop_times <- data.table::setorderv(
+        stop_times,
+        c("trip_id", "stop_sequence")
+      )
     }
 
     # generate geometry; the condition for nrow == 0 prevents an sfheaders error
