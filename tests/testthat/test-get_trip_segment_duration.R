@@ -4,8 +4,9 @@ trip_id <- "CPTM L07-0"
 
 tester <- function(gtfs = get("gtfs", envir = parent.frame()),
                    trip_id = NULL,
-                   unit = "min") {
-  get_trip_segment_duration(gtfs, trip_id, unit)
+                   unit = "min",
+                   sort_sequence = FALSE) {
+  get_trip_segment_duration(gtfs, trip_id, unit, sort_sequence)
 }
 
 test_that("raises errors due to incorrect input types/value", {
@@ -15,6 +16,9 @@ test_that("raises errors due to incorrect input types/value", {
   expect_error(tester(unit = min))
   expect_error(tester(unit = "mins"))
   expect_error(tester(unit = c("s", "min")))
+  expect_error(tester(sort_sequence = "FALSE"))
+  expect_error(tester(sort_sequence = NA))
+  expect_error(tester(sort_sequence = c(TRUE, TRUE)))
 })
 
 test_that("raises errors if gtfs doesn't have required files/fields", {
@@ -27,11 +31,18 @@ test_that("raises errors if gtfs doesn't have required files/fields", {
   no_st_deptime_gtfs <- copy_gtfs_without_field(
     gtfs, "stop_times", "departure_time"
   )
+  no_st_stopseq_gtfs <- copy_gtfs_without_field(
+    gtfs, "stop_times", "stop_sequence"
+  )
 
   expect_error(tester(no_stop_times_gtfs), class = "missing_required_file")
   expect_error(tester(no_st_tripid_gtfs), class = "missing_required_field")
   expect_error(tester(no_st_arrtime_gtfs), class = "missing_required_field")
   expect_error(tester(no_st_deptime_gtfs), class = "missing_required_field")
+  expect_error(
+    tester(no_st_stopseq_gtfs, sort_sequence = TRUE),
+    class = "missing_required_field"
+  )
 })
 
 test_that("calculates the duration of correct 'trip_id's", {
@@ -154,4 +165,23 @@ test_that("doesn't change given gtfs (except for stop_times index)", {
 
   data.table::setindex(gtfs$stop_times, NULL)
   expect_identical(original_gtfs, gtfs)
+
+  # should also work when sorting shapes/timetables
+  # doesn't change stop_times index because doesn't subset it
+  durations <- tester(sort_sequence = TRUE)
+  expect_identical(original_gtfs, gtfs)
+})
+
+test_that("sort_sequence works correctly", {
+  durations <- tester(trip_id = trip_id)
+
+  unordered_gtfs <- gtfs
+  unordered_gtfs$stop_times <- gtfs$stop_times[trip_id == "CPTM L07-0"]
+  unordered_gtfs$stop_times <- unordered_gtfs$stop_times[c(10:18, 1:9)]
+
+  unordered_durations <- tester(unordered_gtfs, trip_id)
+  expect_false(identical(unordered_durations, durations))
+
+  ordered_durations <- tester(unordered_gtfs, trip_id, sort_sequence = TRUE)
+  expect_identical(ordered_durations, durations)
 })

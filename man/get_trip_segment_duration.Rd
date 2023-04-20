@@ -4,7 +4,12 @@
 \alias{get_trip_segment_duration}
 \title{Get trip segments' duration}
 \usage{
-get_trip_segment_duration(gtfs, trip_id = NULL, unit = "min")
+get_trip_segment_duration(
+  gtfs,
+  trip_id = NULL,
+  unit = "min",
+  sort_sequence = FALSE
+)
 }
 \arguments{
 \item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
@@ -16,6 +21,13 @@ calculates the segments' duration of every \code{trip_id} in the GTFS.}
 \item{unit}{A string representing the time unit in which the duration is
 desired. One of \code{"s"} (seconds), \code{"min"} (minutes, the default),
 \code{"h"} (hours) or \code{"d"} (days).}
+
+\item{sort_sequence}{A logical specifying whether to sort timetables by
+\code{stop_sequence}. Defaults to \code{FALSE}, otherwise spec-compliant feeds, in
+which timetables points are already ordered by \code{stop_sequence}, would be
+penalized through longer processing times. Durations calculated from
+unordered timetables do not correctly depict the real life segment
+durations.}
 }
 \value{
 A \code{data.table} containing the segments' duration of each specified

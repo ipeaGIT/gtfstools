@@ -7,10 +7,11 @@
   (`tidygtfs`, `gtfs` and `list`).
 - `filter_by_route_type()` now accepts Google Transit's [extended route
   types](https://developers.google.com/transit/gtfs/reference/extended-route-types).
-- `convert_shapes_to_sf()`, `get_trip_geometry()` and `get_trip_length()` now
-  take an additional argument `sort_sequence`, used to indicate whether
-  shapes/timetables should be ordered by `shape_pt_sequence`/`stop_sequence`
-  when applying the functions' procedures.
+- `convert_shapes_to_sf()`, `get_trip_geometry()`, `get_trip_length()` and
+  `get_trip_segment_duration()` now take an additional argument
+  `sort_sequence`, used to indicate whether shapes/timetables should be ordered
+  by `shape_pt_sequence`/`stop_sequence` when applying the functions'
+  procedures.
 
 ## Bug fixes
 

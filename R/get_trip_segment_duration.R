@@ -9,6 +9,12 @@
 #' @param unit A string representing the time unit in which the duration is
 #'   desired. One of `"s"` (seconds), `"min"` (minutes, the default),
 #'   `"h"` (hours) or `"d"` (days).
+#' @param sort_sequence A logical specifying whether to sort timetables by
+#'   `stop_sequence`. Defaults to `FALSE`, otherwise spec-compliant feeds, in
+#'   which timetables points are already ordered by `stop_sequence`, would be
+#'   penalized through longer processing times. Durations calculated from
+#'   unordered timetables do not correctly depict the real life segment
+#'   durations.
 #'
 #' @return A `data.table` containing the segments' duration of each specified
 #'   trip.
@@ -36,7 +42,10 @@
 #' trip_segment_dur
 #'
 #' @export
-get_trip_segment_duration <- function(gtfs, trip_id = NULL, unit = "min") {
+get_trip_segment_duration <- function(gtfs,
+                                      trip_id = NULL,
+                                      unit = "min",
+                                      sort_sequence = FALSE) {
   gtfs <- assert_and_assign_gtfs_object(gtfs)
   checkmate::assert_character(trip_id, null.ok = TRUE, any.missing = FALSE)
   checkmate::assert(
@@ -44,13 +53,15 @@ get_trip_segment_duration <- function(gtfs, trip_id = NULL, unit = "min") {
     checkmate::check_names(unit, subset.of = c("s", "min", "h", "d")),
     combine = "and"
   )
+  checkmate::assert_logical(sort_sequence, any.missing = FALSE, len = 1)
 
-  gtfsio::assert_field_class(
-    gtfs,
-    "stop_times",
-    c("trip_id", "arrival_time", "departure_time"),
-    c("character", "character", "character")
-  )
+  req_cols <- c("trip_id", "arrival_time", "departure_time")
+  req_classes <- c("character", "character", "character")
+  if (sort_sequence) {
+    req_cols <- c(req_cols, "stop_sequence")
+    req_classes <- c(req_classes, "integer")
+  }
+  gtfsio::assert_field_class(gtfs, "stop_times", req_cols, req_classes)
 
   # select trip_ids to get segment's duration of and raise warning if a given
   # trip_id doesn't exist in 'stop_times'
@@ -84,7 +95,10 @@ get_trip_segment_duration <- function(gtfs, trip_id = NULL, unit = "min") {
     created_arrival_secs <- TRUE
   }
 
-  # calculate durations
+  if (sort_sequence) {
+    if (is.null(trip_id)) durations <- data.table::copy(durations)
+    durations <- data.table::setorderv(durations, c("trip_id", "stop_sequence"))
+  }
 
   durations[
     ,
@@ -121,14 +135,14 @@ get_trip_segment_duration <- function(gtfs, trip_id = NULL, unit = "min") {
   # wasn't made when creating the durations table, so we need to clean them up
 
   if (
-    gtfsio::check_field_exists(gtfs, "stop_times", "departure_time_secs") &
+    gtfsio::check_field_exists(gtfs, "stop_times", "departure_time_secs") &&
     exists("created_departure_secs")
   ) {
     gtfs$stop_times[, departure_time_secs := NULL]
   }
 
   if (
-    gtfsio::check_field_exists(gtfs, "stop_times", "arrival_time_secs") &
+    gtfsio::check_field_exists(gtfs, "stop_times", "arrival_time_secs") &&
     exists("created_arrival_secs")
   ) {
     gtfs$stop_times[, arrival_time_secs := NULL]
