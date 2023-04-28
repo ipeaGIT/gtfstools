@@ -15,6 +15,10 @@
 
 ## Bug fixes
 
+- Fixed a bug in `convert_to_standard()` in which the date fields from
+  `feed_info` would not be converted back to an integer in their standard
+  format (YYYYMMDD).
+
 ## Notes
 
 - `validate_gtfs()` now defaults to run sequentially. Previously it would

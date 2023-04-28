@@ -117,9 +117,34 @@ convert_to_standard <- function(gtfs) {
     }
   }
 
+  # convert 'feed_info' date fields from Date to integer
+  if (gtfsio::check_file_exists(gtfs, "feed_info")) {
+    new_gtfs$feed_info <- data.table::copy(gtfs$feed_info)
+
+    if (gtfsio::check_field_exists(gtfs, "feed_info", "feed_start_date")) {
+      gtfsio::assert_field_class(
+        gtfs,
+        "feed_info",
+        fields = "feed_start_date",
+        classes = "Date"
+      )
+      new_gtfs$feed_info[, feed_start_date := date_to_integer(feed_start_date)]
+    }
+
+    if (gtfsio::check_field_exists(gtfs, "feed_info", "feed_end_date")) {
+      gtfsio::assert_field_class(
+        gtfs,
+        "feed_info",
+        fields = "feed_end_date",
+        classes = "Date"
+      )
+      new_gtfs$feed_info[, feed_end_date := date_to_integer(feed_end_date)]
+    }
+  }
+
   class(new_gtfs) <- setdiff(class(new_gtfs), "dt_gtfs")
 
-  return(new_gtfs)
+  return(new_gtfs[])
 }
 
 
