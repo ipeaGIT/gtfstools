@@ -12,6 +12,8 @@
   additional argument `sort_sequence`, used to indicate whether
   shapes/timetables should be ordered by `shape_pt_sequence`/`stop_sequence`
   when applying the functions' procedures.
+- `download_validator()` and `validate_gtfs()` now support using validator
+  v4.1.0.
 
 ## Bug fixes
 

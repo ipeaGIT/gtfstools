@@ -5,7 +5,7 @@
 #' @param path A string. The directory where the validator should be saved to.
 #' @param version A string. The version of the validator that should be
 #'   downloaded. Defaults to `"latest"`, but accepts version numbers as strings
-#'   (i.e. to download version v4.0.0 please enter `"4.0.0"`). Please check
+#'   (i.e. to download version v4.1.0 please enter `"4.1.0"`). Please check
 #'   [MobilityData/gtfs-validator
 #'   releases](https://github.com/MobilityData/gtfs-validator/releases) for the
 #'   full set of available versions.
@@ -24,7 +24,7 @@
 #' download_validator(path)
 #'
 #' # specifying a specific version
-#' download_validator(path, version = "4.0.0")
+#' download_validator(path, version = "4.1.0")
 #'
 #' @export
 download_validator <- function(path,
@@ -33,6 +33,7 @@ download_validator <- function(path,
                                quiet = TRUE) {
   available_versions <- c(
     "latest",
+    "4.1.0",
     "4.0.0",
     "3.1.1",
     "3.1.0",

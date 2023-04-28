@@ -11,7 +11,7 @@ download_validator(path, version = "latest", force = FALSE, quiet = TRUE)
 
 \item{version}{A string. The version of the validator that should be
 downloaded. Defaults to \code{"latest"}, but accepts version numbers as strings
-(i.e. to download version v4.0.0 please enter \code{"4.0.0"}). Please check
+(i.e. to download version v4.1.0 please enter \code{"4.1.0"}). Please check
 \href{https://github.com/MobilityData/gtfs-validator/releases}{MobilityData/gtfs-validator releases} for the
 full set of available versions.}
 
@@ -34,7 +34,7 @@ path <- tempdir()
 download_validator(path)
 
 # specifying a specific version
-download_validator(path, version = "4.0.0")
+download_validator(path, version = "4.1.0")
 \dontshow{\}) # examplesIf}
 }
 \seealso{
