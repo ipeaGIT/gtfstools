@@ -12,6 +12,14 @@
 #'   trip). Defaults to `shapes`.
 #' @param unit A string representing the unit in which the speeds are desired.
 #'   Either `"km/h"` (the default) or `"m/s"`.
+#' @param sort_sequence Ultimately passed to [get_trip_length()], a logical
+#'   specifying whether to sort shapes and timetables by `shape_pt_sequence` and
+#'   `stop_sequence`, respectively. Speeds calculated from trip trajectories
+#'   generated with unordered sequences do not correctly depict the actual trip
+#'   speeds. Defaults to `FALSE`, otherwise spec-compliant feeds, in which
+#'   shape/timetables points are already ordered by
+#'   `shape_pt_sequence`/`stop_sequence`, would be penalized through longer
+#'   processing times.
 #'
 #' @return A `data.table` containing the duration of each specified trip and the
 #'   file from which geometries were generated.
@@ -48,7 +56,8 @@
 get_trip_speed <- function(gtfs,
                            trip_id = NULL,
                            file = "shapes",
-                           unit = "km/h") {
+                           unit = "km/h",
+                           sort_sequence = FALSE) {
   gtfs <- assert_and_assign_gtfs_object(gtfs)
   checkmate::assert_character(trip_id, null.ok = TRUE, any.missing = FALSE)
   checkmate::assert_names(file, subset.of = c("shapes", "stop_times"))
@@ -57,6 +66,7 @@ get_trip_speed <- function(gtfs,
     checkmate::check_names(unit, subset.of = c("km/h", "m/s")),
     combine = "and"
   )
+  checkmate::assert_logical(sort_sequence, any.missing = FALSE, len = 1)
 
   # check if fields and files required to estimate trip duration exist (a bit of
   # an overlap, since these are also checked in a later get_trip_duration call,
@@ -72,7 +82,13 @@ get_trip_speed <- function(gtfs,
   )
 
   length_unit <- ifelse(unit == "km/h", "km", "m")
-  trips_length <- get_trip_length(gtfs, trip_id, file, length_unit)
+  trips_length <- get_trip_length(
+    gtfs,
+    trip_id,
+    file,
+    length_unit,
+    sort_sequence
+  )
 
   # calculate trips' duration
   # - a warning might be raised in get_trip_duration() if a trip in

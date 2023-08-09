@@ -8,10 +8,10 @@
 - `filter_by_route_type()` now accepts Google Transit's [extended route
   types](https://developers.google.com/transit/gtfs/reference/extended-route-types).
 - `convert_shapes_to_sf()`, `get_trip_geometry()`, `get_trip_length()`,
-  `get_trip_segment_duration()` and `get_stop_times_patterns()` now take an
-  additional argument `sort_sequence`, used to indicate whether
-  shapes/timetables should be ordered by `shape_pt_sequence`/`stop_sequence`
-  when applying the functions' procedures.
+  `get_trip_speed()`, `get_trip_segment_duration()` and
+  `get_stop_times_patterns()` now take an additional argument `sort_sequence`,
+  used to indicate whether shapes/timetables should be ordered by
+  `shape_pt_sequence`/`stop_sequence` when applying the functions' procedures.
 - `download_validator()` and `validate_gtfs()` now support using validator
   v4.1.0.
 

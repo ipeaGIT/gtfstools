@@ -5,8 +5,9 @@ trip_id <- "CPTM L07-0"
 tester <- function(gtfs = get("gtfs", envir = parent.frame()),
                    trip_id = NULL,
                    file = "shapes",
-                   unit = "km/h") {
-  get_trip_speed(gtfs, trip_id, file, unit)
+                   unit = "km/h",
+                   sort_sequence = FALSE) {
+  get_trip_speed(gtfs, trip_id, file, unit, sort_sequence)
 }
 
 test_that("raises errors due to incorrect input types/value", {
@@ -15,6 +16,9 @@ test_that("raises errors due to incorrect input types/value", {
   expect_error(tester(trip_id = NA))
   expect_error(tester(file = c("shape", "stop_times")))
   expect_error(tester(unit = "km/s"))
+  expect_error(tester(sort_sequence = "FALSE"))
+  expect_error(tester(sort_sequence = NA))
+  expect_error(tester(sort_sequence = c(TRUE, TRUE)))
 })
 
 test_that("raises errors if gtfs doesn't have required files/fields", {
@@ -25,6 +29,7 @@ test_that("raises errors if gtfs doesn't have required files/fields", {
 
   no_trp_tripid_gtfs <- copy_gtfs_without_field(gtfs, "trips", "trip_id")
   no_trp_shapeid_gtfs <- copy_gtfs_without_field(gtfs, "trips", "shape_id")
+
   no_shp_shapeid_gtfs <- copy_gtfs_without_field(gtfs, "shapes", "shape_id")
   no_shp_shapeptlat_gtfs <- copy_gtfs_without_field(
     gtfs, "shapes", "shape_pt_lat"
@@ -32,6 +37,10 @@ test_that("raises errors if gtfs doesn't have required files/fields", {
   no_shp_shapeptlon_gtfs <- copy_gtfs_without_field(
     gtfs, "shapes", "shape_pt_lon"
   )
+  no_shp_shapeseq_gtfs <- copy_gtfs_without_field(
+    gtfs, "shapes", "shape_pt_sequence"
+  )
+
   no_stt_tripid_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "trip_id")
   no_stt_stopid_gtfs <- copy_gtfs_without_field(gtfs, "stop_times", "stop_id")
   no_stt_arrtime_gtfs <- copy_gtfs_without_field(
@@ -40,6 +49,12 @@ test_that("raises errors if gtfs doesn't have required files/fields", {
   no_stt_deptime_gtfs <- copy_gtfs_without_field(
     gtfs, "stop_times", "departure_time"
   )
+  no_stt_stopseq_gtfs <- copy_gtfs_without_field(
+    gtfs,
+    "stop_times",
+    "stop_sequence"
+  )
+
   no_sto_stopid_gtfs <- copy_gtfs_without_field(gtfs, "stops", "stop_id")
   no_sto_stoplat_gtfs <- copy_gtfs_without_field(gtfs, "stops", "stop_lat")
   no_sto_stoplon_gtfs <- copy_gtfs_without_field(gtfs, "stops", "stop_lon")
@@ -82,6 +97,10 @@ test_that("raises errors if gtfs doesn't have required files/fields", {
   )
   expect_error(
     tester(no_stt_deptime_gtfs, trip_id),
+    class = "missing_required_field"
+  )
+  expect_error(
+    tester(no_shp_shapeseq_gtfs, trip_id, sort_sequence = TRUE),
     class = "missing_required_field"
   )
 
@@ -133,6 +152,10 @@ test_that("raises errors if gtfs doesn't have required files/fields", {
   )
   expect_error(
     tester(no_stt_deptime_gtfs, trip_id, "stop_times"),
+    class = "missing_required_field"
+  )
+  expect_error(
+    tester(no_stt_stopseq_gtfs, trip_id, "stop_times", sort_sequence = TRUE),
     class = "missing_required_field"
   )
 })
@@ -245,6 +268,15 @@ test_that("doesn't change given gtfs", {
   data.table::setindex(gtfs$stop_times, NULL)
   expect_identical(original_gtfs, gtfs)
 
+  # should also work when sorting shapes/timetables
+  speeds <- tester(
+    trip_id = "CPTM L07-0",
+    file = c("shapes", "stop_times"),
+    sort_sequence = TRUE
+  )
+  data.table::setindex(gtfs$shapes, NULL)
+  data.table::setindex(gtfs$stop_times, NULL)
+  expect_identical(original_gtfs, gtfs)
 })
 
 # issue #35
@@ -261,4 +293,29 @@ test_that("warnings works properly", {
   expect_silent(speed <- tester())
   expect_true(!any("CPTM L07-0" %chin% speed$trip_id))
   expect_true(all(gtfs$stop_times$trip_id %chin% speed$trip_id))
+})
+
+test_that("sort_sequence works correctly", {
+  speeds <- tester(trip_id = trip_id, file = c("shapes", "stop_times"))
+
+  unordered_gtfs <- gtfs
+  unordered_gtfs$shapes <- gtfs$shapes[shape_id == "17846"]
+  unordered_gtfs$shapes <- unordered_gtfs$shapes[c(200:547, 1:199)]
+  unordered_gtfs$stop_times <- gtfs$stop_times[trip_id == "CPTM L07-0"]
+  unordered_gtfs$stop_times <- unordered_gtfs$stop_times[c(10:18, 1:9)]
+
+  unordered_speeds <- tester(
+    unordered_gtfs,
+    trip_id,
+    file = c("shapes", "stop_times")
+  )
+  expect_false(identical(unordered_speeds, speeds))
+
+  ordered_speeds <- tester(
+    unordered_gtfs,
+    trip_id,
+    file = c("shapes", "stop_times"),
+    sort_sequence = TRUE
+  )
+  expect_identical(ordered_speeds, speeds)
 })

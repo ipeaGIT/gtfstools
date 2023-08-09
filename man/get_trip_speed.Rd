@@ -4,7 +4,13 @@
 \alias{get_trip_speed}
 \title{Get trip speed}
 \usage{
-get_trip_speed(gtfs, trip_id = NULL, file = "shapes", unit = "km/h")
+get_trip_speed(
+  gtfs,
+  trip_id = NULL,
+  file = "shapes",
+  unit = "km/h",
+  sort_sequence = FALSE
+)
 }
 \arguments{
 \item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
@@ -19,6 +25,15 @@ trip). Defaults to \code{shapes}.}
 
 \item{unit}{A string representing the unit in which the speeds are desired.
 Either \code{"km/h"} (the default) or \code{"m/s"}.}
+
+\item{sort_sequence}{Ultimately passed to \code{\link[=get_trip_length]{get_trip_length()}}, a logical
+specifying whether to sort shapes and timetables by \code{shape_pt_sequence} and
+\code{stop_sequence}, respectively. Speeds calculated from trip trajectories
+generated with unordered sequences do not correctly depict the actual trip
+speeds. Defaults to \code{FALSE}, otherwise spec-compliant feeds, in which
+shape/timetables points are already ordered by
+\code{shape_pt_sequence}/\code{stop_sequence}, would be penalized through longer
+processing times.}
 }
 \value{
 A \code{data.table} containing the duration of each specified trip and the
