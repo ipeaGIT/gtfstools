@@ -5,13 +5,13 @@
 #'
 #' @template gtfs
 #' @param agency_id A character vector. The `agency_id`s used to filter the
-#' data.
+#'   data.
 #' @param keep A logical. Whether the entries related to the specified
-#' `agency_id`s should be kept or dropped (defaults to `TRUE`, which keeps the
-#' entries).
+#'   `agency_id`s should be kept or dropped (defaults to `TRUE`, which keeps the
+#'   entries).
 #'
 #' @return The GTFS object passed to the `gtfs` parameter, after the filtering
-#' process.
+#'   process.
 #'
 #' @family filtering functions
 #'
@@ -46,13 +46,13 @@ filter_by_agency_id <- function(gtfs, agency_id, keep = TRUE) {
 
   # 'agency', 'attributions', 'fare_attributes' and 'routes' (agency_id)
   #
-  # 'fare_attributes' could be used to filter 'fare_rules' via fare_id. but
-  # that introduces some complexity, because agency_id is an optional field
-  # in both 'fare_attributes' and 'routes' if 'agency' contains only one
-  # agency, and 'routes' can also be used to filter 'fare_rules' (via
-  # route_id). i'm opting to filter 'fare_rules' via the 'routes' path only,
-  # afterall a fare only makes sense if it's associated to a route, but i can
-  # change this behaviour later if needed
+  # 'fare_attributes' could be used to filter 'fare_rules' via fare_id. but that
+  # introduces some complexity, because agency_id may appear in both
+  # 'fare_attributes' and 'routes', and 'routes' can also be used to filter
+  # 'fare_rules' (via route_id). i'm opting to filter 'fare_rules' via the
+  # 'routes' path only, assuming that the agency behind running the route is the
+  # same agency that operates its fare. if this assumption ends up being
+  # problematic, I can this behavior
 
   gtfs <- filter_agency_from_agency_id(gtfs, agency_id, `%ffilter%`)
   gtfs <- filter_attributions_from_agency_id(gtfs, agency_id, `%ffilter%`)

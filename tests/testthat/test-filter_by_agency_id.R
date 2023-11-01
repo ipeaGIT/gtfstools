@@ -50,10 +50,6 @@ test_that("doesn't change given gtfs", {
 })
 
 test_that("'agency_id' and 'keep' arguments work correctly", {
-  # adding a agency_id to routes and fare_attributes for the sake of coverage
-  ggl_gtfs$routes[, agency_id := "agency001"]
-  ggl_gtfs$fare_attributes[, agency_id := "agency001"]
-
   smaller_keeping <- tester(ggl_gtfs, ggl_agency)
   expect_true(all(smaller_keeping$agency$agency_id %chin% ggl_agency))
   expect_true(all(smaller_keeping$routes$agency_id %chin% ggl_agency))
@@ -110,9 +106,6 @@ test_that("the function filters berlin's gtfs correctly", {
 })
 
 test_that("the function filters google's gtfs correctly", {
-  # adding a agency_id to routes and fare_attributes for the sake of coverage
-  ggl_gtfs$routes[, agency_id := "agency001"]
-  ggl_gtfs$fare_attributes[, agency_id := "agency001"]
   smaller_ggl <- tester(ggl_gtfs, ggl_agency)
 
   # agency
