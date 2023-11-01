@@ -1,0 +1,225 @@
+filter_agency_from_agency_id <- function(gtfs, relevant_agencies, `%ffilter%`) {
+  if (is.null(relevant_agencies)) return(gtfs)
+
+  if (gtfsio::check_field_exists(gtfs, "agency", "agency_id")) {
+    gtfsio::assert_field_class(gtfs, "agency", "agency_id", "character")
+    gtfs$agency <- gtfs$agency[agency_id %ffilter% relevant_agencies]
+  }
+
+  return(gtfs)
+}
+
+filter_attributions_from_agency_id <- function(gtfs,
+                                               relevant_agencies,
+                                               `%ffilter%`) {
+  if (is.null(relevant_agencies)) return(gtfs)
+
+  if (gtfsio::check_field_exists(gtfs, "attributions", "agency_id")) {
+    gtfsio::assert_field_class(gtfs, "attributions", "agency_id", "character")
+    gtfs$attributions <- gtfs$attributions[
+      agency_id %ffilter% relevant_agencies
+    ]
+  }
+
+  return(gtfs)
+}
+
+filter_fare_attr_from_agency_id <- function(gtfs,
+                                            relevant_agencies,
+                                            `%ffilter%`) {
+  if (is.null(relevant_agencies)) return(gtfs)
+
+  if (gtfsio::check_field_exists(gtfs, "fare_attributes", "agency_id")) {
+    gtfsio::assert_field_class(
+      gtfs,
+      "fare_attributes",
+      "agency_id",
+      "character"
+    )
+    gtfs$fare_attributes <- gtfs$fare_attributes[
+      agency_id %ffilter% relevant_agencies
+    ]
+  }
+
+  return(gtfs)
+}
+
+filter_routes_from_agency_id <- function(gtfs, relevant_agencies, `%ffilter%`) {
+  if (is.null(relevant_agencies)) return(gtfs)
+
+  if (gtfsio::check_field_exists(gtfs, "routes", "agency_id")) {
+    gtfsio::assert_field_class(gtfs, "routes", "agency_id", "character")
+    gtfs$routes <- gtfs$routes[agency_id %ffilter% relevant_agencies]
+  }
+
+  return(gtfs)
+}
+
+filter_fare_rules_from_route_id <- function(gtfs,
+                                            relevant_routes,
+                                            `%ffilter%`) {
+  if (is.null(relevant_routes)) return(gtfs)
+
+  if (gtfsio::check_field_exists(gtfs, "fare_rules", "route_id")) {
+    gtfsio::assert_field_class(gtfs, "fare_rules", "route_id", "character")
+    gtfs$fare_rules <- gtfs$fare_rules[route_id %ffilter% relevant_routes]
+  }
+
+  return(gtfs)
+}
+
+filter_trips_from_route_id <- function(gtfs, relevant_routes, `%ffilter%`) {
+  if (is.null(relevant_routes)) return(gtfs)
+
+  if (gtfsio::check_field_exists(gtfs, "trips", "route_id")) {
+    gtfsio::assert_field_class(gtfs, "trips", "route_id", "character")
+    gtfs$trips <- gtfs$trips[route_id %ffilter% relevant_routes]
+  }
+
+  return(gtfs)
+}
+
+filter_shapes_from_shape_id <- function(gtfs, relevant_shapes, `%ffilter%`) {
+  if (is.null(relevant_shapes)) return(gtfs)
+
+  if (gtfsio::check_field_exists(gtfs, "shapes", "shape_id")) {
+    gtfsio::assert_field_class(gtfs, "shapes", "shape_id", "character")
+    gtfs$shapes <- gtfs$shapes[shape_id %ffilter% relevant_shapes]
+  }
+
+  return(gtfs)
+}
+
+filter_calendar_from_service_id <- function(gtfs,
+                                            relevant_services,
+                                            `%ffilter%`) {
+  if (is.null(relevant_services)) return(gtfs)
+
+  if (gtfsio::check_field_exists(gtfs, "calendar", "service_id")) {
+    gtfsio::assert_field_class(gtfs, "calendar", "service_id", "character")
+    gtfs$calendar <- gtfs$calendar[service_id %ffilter% relevant_services]
+  }
+
+  return(gtfs)
+}
+
+filter_calend_dates_from_service_id <- function(gtfs,
+                                                relevant_services,
+                                                `%ffilter%`) {
+  if (is.null(relevant_services)) return(gtfs)
+
+  if (gtfsio::check_field_exists(gtfs, "calendar_dates", "service_id")) {
+    gtfsio::assert_field_class(
+      gtfs,
+      "calendar_dates",
+      "service_id",
+      "character"
+    )
+    gtfs$calendar_dates <- gtfs$calendar_dates[
+      service_id %ffilter% relevant_services
+    ]
+  }
+
+  return(gtfs)
+}
+
+filter_frequencies_from_trip_id <- function(gtfs, relevant_trips, `%ffilter%`) {
+  if (is.null(relevant_trips)) return(gtfs)
+
+  if (gtfsio::check_field_exists(gtfs, "frequencies", "trip_id")) {
+    gtfsio::assert_field_class(gtfs, "frequencies", "trip_id", "character")
+    gtfs$frequencies <- gtfs$frequencies[trip_id %ffilter% relevant_trips]
+  }
+
+  return(gtfs)
+}
+
+filter_stop_times_from_trip_id <- function(gtfs, relevant_trips, `%ffilter%`) {
+  if (is.null(relevant_trips)) return(gtfs)
+
+  if (gtfsio::check_field_exists(gtfs, "stop_times", "trip_id")) {
+    gtfsio::assert_field_class(gtfs, "stop_times", "trip_id", "character")
+    gtfs$stop_times <- gtfs$stop_times[trip_id %ffilter% relevant_trips]
+  }
+
+  return(gtfs)
+}
+
+filter_transfers_from_stop_id <- function(gtfs, relevant_stops, `%ffilter%`) {
+  if (is.null(relevant_stops)) return(gtfs)
+
+  from_to_stop_id <- c("from_stop_id", "to_stop_id")
+
+  if (gtfsio::check_field_exists(gtfs, "transfers", from_to_stop_id)) {
+    gtfsio::assert_field_class(
+      gtfs,
+      "transfers",
+      from_to_stop_id,
+      rep("character", 2)
+    )
+    gtfs$transfers <- gtfs$transfers[
+      from_stop_id %ffilter% relevant_stops &
+        to_stop_id %ffilter% relevant_stops
+    ]
+  }
+
+  return(gtfs)
+}
+
+filter_stops_from_stop_id <- function(gtfs, relevant_stops, `%ffilter%`) {
+  if (is.null(relevant_stops)) return(gtfs)
+
+  if (gtfsio::check_field_exists(gtfs, "stops", "stop_id")) {
+    gtfsio::assert_field_class(gtfs, "stops", "stop_id", "character")
+    gtfs$stops <- gtfs$stops[stop_id %chin% relevant_stops]
+  }
+
+  return(gtfs)
+}
+
+filter_pathways_from_stop_id <- function(gtfs, relevant_stops, `%ffilter%`) {
+  if (is.null(relevant_stops)) return(gtfs)
+
+  from_to_stop_id <- c("from_stop_id", "to_stop_id")
+
+  if (gtfsio::check_field_exists(gtfs, "pathways", from_to_stop_id)) {
+    gtfsio::assert_field_class(
+      gtfs,
+      "pathways",
+      from_to_stop_id,
+      rep("character", 2)
+    )
+    gtfs$pathways <- gtfs$pathways[
+      from_stop_id %ffilter% relevant_stops &
+        to_stop_id %ffilter% relevant_stops
+    ]
+  }
+
+  return(gtfs)
+}
+
+filter_levels_from_level_id <- function(gtfs, relevant_levels, `%ffilter%`) {
+  if (is.null(relevant_levels)) return(gtfs)
+
+  if (gtfsio::check_field_exists(gtfs, "levels", "level_id")) {
+    gtfsio::assert_field_class(gtfs, "levels", "level_id", "character")
+    gtfs$levels <- gtfs$levels[level_id %ffilter% relevant_levels]
+  }
+
+  return(gtfs)
+}
+get_stops_and_parents <- function(gtfs) {
+  relevant_stops <- unique(gtfs$stop_times$stop_id)
+
+  # get_parent_station() raises a warning if a stop is present in 'stop_times'
+  # but not in 'stops', but we don't need to worry about it
+
+  if (gtfsio::check_field_exists(gtfs, "stops", "parent_station")) {
+    suppressWarnings(
+      stops_with_parents <- get_parent_station(gtfs, relevant_stops)
+    )
+    relevant_stops <- stops_with_parents$stop_id
+  }
+
+  return(relevant_stops)
+}

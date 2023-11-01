@@ -6,6 +6,9 @@ ggl_path <- system.file("extdata/ggl_gtfs.zip", package = "gtfstools")
 ggl_gtfs <- read_gtfs(ggl_path)
 ggl_agency <- "agency001"
 
+tester <- function(gtfs = ber_gtfs, agency_id = ber_agency, keep = TRUE) {
+  filter_by_agency_id(gtfs, agency_id, keep)
+}
 
 # tests -------------------------------------------------------------------
 
