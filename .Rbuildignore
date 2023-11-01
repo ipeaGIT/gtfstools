@@ -13,3 +13,4 @@
 ^\.lintr$
 ^doc$
 ^Meta$
+^_pkgdown\.yml$

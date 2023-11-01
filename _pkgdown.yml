@@ -1,0 +1,31 @@
+reference:
+  - title: "Input/output"
+  - contents:
+    - read_gtfs 
+    - write_gtfs
+  - title: "Manipulation"
+  - contents:
+    - convert_sf_to_shapes
+    - convert_shapes_to_sf
+    - convert_stops_to_sf
+    - convert_time_to_seconds
+    - frequencies_to_stop_times
+    - merge_gtfs
+    - remove_duplicates
+    - set_trip_speed
+  - title: "Analysis"
+  - contents:
+    - starts_with("get_")
+  - title: "Validation"
+  - contents:
+    - download_validator
+    - validate_gtfs
+  - title: "Filters"
+  - contents:
+    - starts_with("filter_by_")
+  - title: "Interoperability between GTFS packages"
+  - contents:
+    - "as_dt_gtfs"
+
+development:
+  mode: auto

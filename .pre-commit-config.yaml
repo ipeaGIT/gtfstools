@@ -4,6 +4,10 @@ repos:
     hooks:
     -   id: mod-codemeta-description-updated
     -   id: mod-readme-rmd-rendered
+-   repo: https://github.com/lorenzwalthert/precommit
+    rev: v0.3.2.9023
+    hooks: 
+    -   id: pkgdown
 -   repo: local
     hooks:
     -   id: forbid-to-commit
