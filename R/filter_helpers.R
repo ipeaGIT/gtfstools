@@ -1,4 +1,13 @@
 filter_agency_from_agency_id <- function(gtfs, relevant_agencies, `%ffilter%`) {
+  # since agency_id is optional in many tables when the feed is only composed by
+  # one agency, we may have situations in which relevant_agencies is NULL (e.g.
+  # when trying to get gtfs$routes$agency_id from a routes table without an
+  # agency_id column).
+  # so if relevant_agencies is NULL, we keep the gtfs intact. otherwise, we
+  # would wrongfully subset agency down to an empty table.
+
+  if (is.null(relevant_agencies)) return(gtfs)
+
   if (gtfsio::check_field_exists(gtfs, "agency", "agency_id")) {
     gtfsio::assert_field_class(gtfs, "agency", "agency_id", "character")
     gtfs$agency <- gtfs$agency[agency_id %ffilter% relevant_agencies]
@@ -32,6 +41,17 @@ filter_fare_attr_from_agency_id <- function(gtfs,
     )
     gtfs$fare_attributes <- gtfs$fare_attributes[
       agency_id %ffilter% relevant_agencies
+    ]
+  }
+
+  return(gtfs)
+}
+
+filter_fare_attr_from_fare_id <- function(gtfs, relevant_fares, `%ffilter%`) {
+  if (gtfsio::check_field_exists(gtfs, "fare_attributes", "fare_id")) {
+    gtfsio::assert_field_class(gtfs, "fare_attributes", "fare_id", "character")
+    gtfs$fare_attributes <- gtfs$fare_attributes[
+      fare_id %ffilter% relevant_fares
     ]
   }
 
@@ -178,6 +198,27 @@ filter_levels_from_level_id <- function(gtfs, relevant_levels, `%ffilter%`) {
 
   return(gtfs)
 }
+
+filter_trips_from_trip_id <- function(gtfs, relevant_trips, `%ffilter%`) {
+  if (gtfsio::check_field_exists(gtfs, "trips", "trip_id")) {
+    gtfsio::assert_field_class(gtfs, "trips", "trip_id", "character")
+    gtfs$trips <- gtfs$trips[trip_id %ffilter% relevant_trips]
+  }
+
+  return(gtfs)
+}
+
+filter_routes_from_route_id <- function(gtfs, relevant_routes, `%ffilter%`) {
+  if (gtfsio::check_field_exists(gtfs, "routes", "route_id")) {
+    gtfsio::assert_field_class(gtfs, "routes", "route_id", "character")
+    gtfs$routes <- gtfs$routes[route_id %ffilter% relevant_routes]
+  }
+
+  return(gtfs)
+}
+
+
+
 
 get_stops_and_parents <- function(gtfs) {
   relevant_stops <- unique(gtfs$stop_times$stop_id)
