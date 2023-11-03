@@ -168,9 +168,43 @@ filter_transfers_from_stop_id <- function(gtfs, relevant_stops, `%ffilter%`) {
       from_to_stop_id,
       rep("character", 2)
     )
+    gtfs$transfers <- gtfs$transfers[from_stop_id %ffilter% relevant_stops]
+    gtfs$transfers <- gtfs$transfers[to_stop_id %ffilter% relevant_stops]
+  }
+
+  return(gtfs)
+}
+
+filter_transfers_from_route_id <- function(gtfs, relevant_routes, `%ffilter%`) {
+  if (gtfsio::check_field_exists(gtfs, "transfers", "from_route_id")) {
+    gtfsio::assert_field_class(gtfs, "transfers", "from_route_id", "character")
     gtfs$transfers <- gtfs$transfers[
-      from_stop_id %ffilter% relevant_stops &
-        to_stop_id %ffilter% relevant_stops
+      from_route_id %chin% "" | from_route_id %ffilter% relevant_routes
+    ]
+  }
+
+  if (gtfsio::check_field_exists(gtfs, "transfers", "to_route_id")) {
+    gtfsio::assert_field_class(gtfs, "transfers", "to_route_id", "character")
+    gtfs$transfers <- gtfs$transfers[
+      to_route_id %chin% "" | to_route_id %ffilter% relevant_routes
+    ]
+  }
+
+  return(gtfs)
+}
+
+filter_transfers_from_trip_id <- function(gtfs, relevant_trips, `%ffilter%`) {
+  if (gtfsio::check_field_exists(gtfs, "transfers", "from_trip_id")) {
+    gtfsio::assert_field_class(gtfs, "transfers", "from_trip_id", "character")
+    gtfs$transfers <- gtfs$transfers[
+      from_trip_id %chin% "" | from_trip_id %ffilter% relevant_trips
+    ]
+  }
+
+  if (gtfsio::check_field_exists(gtfs, "transfers", "to_trip_id")) {
+    gtfsio::assert_field_class(gtfs, "transfers", "to_trip_id", "character")
+    gtfs$transfers <- gtfs$transfers[
+      to_trip_id %chin% "" | to_trip_id %ffilter% relevant_trips
     ]
   }
 

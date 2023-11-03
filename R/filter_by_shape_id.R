@@ -61,7 +61,7 @@ filter_by_shape_id <- function(gtfs, shape_id, keep = TRUE) {
   gtfs <- filter_calendar_from_service_id(gtfs, relevant_services, `%chin%`)
   gtfs <- filter_calend_dates_from_service_id(gtfs, relevant_services, `%chin%`)
 
-  # 'routes' and 'fare_rules' (route_id)
+  # 'routes', 'fare_rules' and 'transfers' (route_id)
   #
   # we can use 'routes' to filter agency via routes -> agency_id, but we can
   # also use 'fare_rules' to filter it via fare_rules -> fare_id ->
@@ -69,6 +69,7 @@ filter_by_shape_id <- function(gtfs, shape_id, keep = TRUE) {
   # so we create a 'relevant_agencies' vector that holds the relevant
   # agency_ids from both paths and use all of them to filter agency later.
 
+  gtfs <- filter_transfers_from_route_id(gtfs, relevant_routes, `%chin%`)
   gtfs <- filter_routes_from_route_id(gtfs, relevant_routes, `%chin%`)
   gtfs <- filter_fare_rules_from_route_id(gtfs, relevant_routes, `%chin%`)
   relevant_agencies_from_routes <- unique(gtfs$routes$agency_id)
@@ -92,8 +93,9 @@ filter_by_shape_id <- function(gtfs, shape_id, keep = TRUE) {
 
   gtfs <- filter_agency_from_agency_id(gtfs, relevant_agencies, `%chin%`)
 
-  # 'stop_times' and 'frequencies' (trip_id)
+  # 'stop_times', 'frequencies' and 'transfers' (trip_id)
 
+  gtfs <- filter_transfers_from_trip_id(gtfs, relevant_trips, `%chin%`)
   gtfs <- filter_frequencies_from_trip_id(gtfs, relevant_trips, `%chin%`)
   gtfs <- filter_stop_times_from_trip_id(gtfs, relevant_trips, `%chin%`)
 

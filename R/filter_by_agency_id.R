@@ -63,8 +63,9 @@ filter_by_agency_id <- function(gtfs, agency_id, keep = TRUE) {
 
   relevant_routes <- unique(gtfs$routes$route_id)
 
-  # 'fare_rules' and 'trips' (route_id)
+  # 'fare_rules', 'trips' and 'transfers' (route_id)
 
+  gtfs <- filter_transfers_from_route_id(gtfs, relevant_routes, `%chin%`)
   gtfs <- filter_fare_rules_from_route_id(gtfs, relevant_routes, `%chin%`)
   gtfs <- filter_trips_from_route_id(gtfs, relevant_routes, `%chin%`)
 
@@ -83,8 +84,9 @@ filter_by_agency_id <- function(gtfs, agency_id, keep = TRUE) {
   gtfs <- filter_calendar_from_service_id(gtfs, relevant_services, `%chin%`)
   gtfs <- filter_calend_dates_from_service_id(gtfs, relevant_services, `%chin%`)
 
-  # 'stop_times' and 'frequencies' (trip_id)
+  # 'stop_times', 'frequencies' and 'transfers' (trip_id)
 
+  gtfs <- filter_transfers_from_trip_id(gtfs, relevant_trips, `%chin%`)
   gtfs <- filter_frequencies_from_trip_id(gtfs, relevant_trips, `%chin%`)
   gtfs <- filter_stop_times_from_trip_id(gtfs, relevant_trips, `%chin%`)
 
