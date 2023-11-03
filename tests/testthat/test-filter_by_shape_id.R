@@ -6,26 +6,26 @@ ggl_path <- system.file("extdata/ggl_gtfs.zip", package = "gtfstools")
 ggl_gtfs <- read_gtfs(ggl_path)
 ggl_shapes <- "A_shp"
 
+tester <- function(gtfs = spo_gtfs, shape_id = spo_shapes, keep = TRUE) {
+  filter_by_shape_id(gtfs, shape_id, keep)
+}
 
 # tests -------------------------------------------------------------------
 
-
 test_that("raises error due to incorrect input types", {
-  expect_error(filter_by_shape_id(unclass(spo_gtfs), spo_shapes))
-  expect_error(filter_by_shape_id(spo_gtfs, factor(spo_shapes)))
-  expect_error(filter_by_shape_id(spo_gtfs, NA))
-  expect_error(filter_by_shape_id(spo_gtfs, spo_shapes, keep = "TRUE"))
-  expect_error(filter_by_shape_id(spo_gtfs, spo_shapes, NA))
+  expect_error(tester(unclass(spo_gtfs)))
+  expect_error(tester(shape_id = factor(spo_shapes)))
+  expect_error(tester(shape_id = NA))
+  expect_error(tester(keep = "TRUE"))
+  expect_error(tester(NA))
 })
 
 test_that("results in a dt_gtfs object", {
-  # a dt_gtfs object is a list with "dt_gtfs" and "gtfs" classes
   dt_gtfs_class <- c("dt_gtfs", "gtfs", "list")
-  smaller_gtfs <- filter_by_shape_id(spo_gtfs, spo_shapes)
+
+  smaller_gtfs <- tester()
   expect_s3_class(smaller_gtfs, dt_gtfs_class, exact = TRUE)
   expect_type(smaller_gtfs, "list")
-
-  # all objects inside a dt_gtfs are data.tables
   invisible(lapply(smaller_gtfs, expect_s3_class, "data.table"))
 })
 
@@ -36,9 +36,8 @@ test_that("doesn't change given gtfs", {
   gtfs <- read_gtfs(spo_path)
   expect_identical(original_gtfs, gtfs)
 
-  smaller_gtfs <- filter_by_shape_id(gtfs, spo_shapes)
+  smaller_gtfs <- tester(gtfs)
   expect_false(identical(original_gtfs, gtfs))
-
   data.table::setindex(gtfs$agency, NULL)
   data.table::setindex(gtfs$calendar, NULL)
   data.table::setindex(gtfs$frequencies, NULL)
@@ -49,13 +48,13 @@ test_that("doesn't change given gtfs", {
 })
 
 test_that("'shape_id' and 'keep' arguments work correctly", {
-  smaller_keeping <- filter_by_shape_id(ggl_gtfs, ggl_shapes)
-  expect_true(all(smaller_keeping$shapes$shape_id %chin% ggl_shapes))
-  expect_true(all(smaller_keeping$trips$shape_id %chin% ggl_shapes))
+  smaller_keeping <- tester()
+  expect_true(all(smaller_keeping$shapes$shape_id %chin% spo_shapes))
+  expect_true(all(smaller_keeping$trips$shape_id %chin% spo_shapes))
 
-  smaller_not_keeping <- filter_by_shape_id(ggl_gtfs, ggl_shapes, keep = FALSE)
-  expect_true(!any(smaller_not_keeping$shapes$shape_id %chin% ggl_shapes))
-  expect_true(!any(smaller_not_keeping$trips$shape_id %chin% ggl_shapes))
+  smaller_not_keeping <- tester(keep = FALSE)
+  expect_true(!any(smaller_not_keeping$shapes$shape_id %chin% spo_shapes))
+  expect_true(!any(smaller_not_keeping$trips$shape_id %chin% spo_shapes))
 })
 
 test_that("the function filters berlin's gtfs correctly", {
@@ -63,7 +62,7 @@ test_that("the function filters berlin's gtfs correctly", {
   ber_gtfs <- read_gtfs(ber_path)
   ber_shapes <- c("14", "2")
 
-  smaller_ber <- filter_by_shape_id(ber_gtfs, ber_shapes)
+  smaller_ber <- tester(ber_gtfs, ber_shapes)
 
   # shapes
   expect_true(all(smaller_ber$shapes$shape_id %chin% ber_shapes))
@@ -99,7 +98,7 @@ test_that("the function filters berlin's gtfs correctly", {
 })
 
 test_that("the function filters sao paulo's gtfs correctly", {
-  smaller_spo <- filter_by_shape_id(spo_gtfs, spo_shapes)
+  smaller_spo <- tester()
 
   # shapes
   expect_true(all(smaller_spo$shapes$shape_id %chin% spo_shapes))
@@ -134,39 +133,24 @@ test_that("the function filters sao paulo's gtfs correctly", {
 })
 
 test_that("the function filters google's gtfs correctly", {
-  smaller_ggl <- filter_by_shape_id(ggl_gtfs, ggl_shapes)
-
-  # expect smaller_ggl to be identical to ggl_gtfs, because shapes only contain
-  # one shape_id and trips doesn't contain a shape_id - i.e. none of the filters
-  # that are triggered by trip_id happen
-  expect_identical(ggl_gtfs, smaller_ggl)
-
-  # adding a shape_id column to increase test coverage
-  # since the included shape is not equal to ggl_shapes, all tables (but shapes
-  # and agency) will be empty
-  ggl_gtfs$trips[, shape_id := "wrong_shape"]
-  smaller_ggl <- filter_by_shape_id(ggl_gtfs, ggl_shapes)
-
-  # shapes
+  # ggl_gtfs' trips table doesn't contain a shape_id column, even though the
+  # feed contains a shapes table. in this case, a warning is raised and trips is
+  # kept intact.
+  expect_warning(smaller_ggl <- tester(ggl_gtfs, ggl_shapes))
   expect_true(all(smaller_ggl$shapes$shape_id %chin% ggl_shapes))
-
-  #agency
-  relevant_agency <- "agency001"
-  expect_true(all(smaller_ggl$agency$agency_id %chin% relevant_agency))
-
-  # the rest
-  expect_true(nrow(smaller_ggl$trips) == 0)
-  expect_true(nrow(smaller_ggl$calendar) == 0)
-  expect_true(nrow(smaller_ggl$calendar_dates) == 0)
-  expect_true(nrow(smaller_ggl$routes) == 0)
+  expect_identical(smaller_ggl$trips, ggl_gtfs$trips)
+  expect_true(all(smaller_ggl$calendar$service_id == "WE"))
+  expect_true(all(smaller_ggl$calendar_dates$service_id == "WE"))
+  expect_true(all(smaller_ggl$routes$route_id == "A"))
   expect_true(nrow(smaller_ggl$fare_rules) == 0)
   expect_true(nrow(smaller_ggl$fare_attributes) == 0)
-  expect_true(nrow(smaller_ggl$stop_times) == 0)
+  expect_true(all(smaller_ggl$agency$agency_id == "agency001"))
+  expect_true(all(smaller_ggl$stop_times$trip_id == "AWE1"))
+  expect_true(all(smaller_ggl$frequencies$trip_id == "AWE1"))
   expect_true(nrow(smaller_ggl$stops) == 0)
-  expect_true(nrow(smaller_ggl$levels) == 0)
   expect_true(nrow(smaller_ggl$pathway) == 0)
   expect_true(nrow(smaller_ggl$transfers) == 0)
-  expect_true(nrow(smaller_ggl$frequencies) == 0)
+  expect_true(nrow(smaller_ggl$levels) == 0)
 })
 
 test_that("behaves correctly when shape_id = character(0)", {
@@ -174,15 +158,15 @@ test_that("behaves correctly when shape_id = character(0)", {
   ber_gtfs <- read_gtfs(ber_path)
 
   # if keep = TRUE, gtfs should be empty
-  empty <- filter_by_shape_id(ber_gtfs, character(0))
+  empty <- tester(ber_gtfs, character(0))
   n_rows <- vapply(empty, nrow, FUN.VALUE = integer(1))
   expect_true(all(n_rows == 0))
 
   # if keep = FALSE, gtfs should remain unchanged
   # this is actually not true because the calendar, calendar_dates and agency
-  # tables contain ids not listed in the routes and trips tables, which and up
+  # tables contain ids not listed in the routes and trips tables, which end up
   # removed anyway (I like this behaviour, so not considering a bug)
-  full <- filter_by_shape_id(ber_gtfs, character(0), keep = FALSE)
+  full <- tester(ber_gtfs, character(0), keep = FALSE)
   modified_ber <- read_gtfs(ber_path)
   modified_ber$calendar <- modified_ber$calendar[
     service_id %in% modified_ber$trips$service_id

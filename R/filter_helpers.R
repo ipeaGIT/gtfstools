@@ -91,6 +91,12 @@ filter_trips_from_shape_id <- function(gtfs, relevant_shapes, `%ffilter%`) {
   if (gtfsio::check_field_exists(gtfs, "trips", "shape_id")) {
     gtfsio::assert_field_class(gtfs, "trips", "shape_id", "character")
     gtfs$trips <- gtfs$trips[shape_id %ffilter% relevant_shapes]
+  } else if (gtfsio::check_file_exists(gtfs, "trips")) {
+    warning(
+      "'trips' table missing 'shape_id' column, therefore kept intact during ",
+      "the filtering process.",
+      call. = FALSE
+    )
   }
 
   return(gtfs)
