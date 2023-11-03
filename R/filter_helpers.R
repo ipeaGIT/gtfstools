@@ -87,6 +87,15 @@ filter_trips_from_route_id <- function(gtfs, relevant_routes, `%ffilter%`) {
   return(gtfs)
 }
 
+filter_trips_from_shape_id <- function(gtfs, relevant_shapes, `%ffilter%`) {
+  if (gtfsio::check_field_exists(gtfs, "trips", "shape_id")) {
+    gtfsio::assert_field_class(gtfs, "trips", "shape_id", "character")
+    gtfs$trips <- gtfs$trips[shape_id %ffilter% relevant_shapes]
+  }
+
+  return(gtfs)
+}
+
 filter_shapes_from_shape_id <- function(gtfs, relevant_shapes, `%ffilter%`) {
   if (gtfsio::check_field_exists(gtfs, "shapes", "shape_id")) {
     gtfsio::assert_field_class(gtfs, "shapes", "shape_id", "character")
