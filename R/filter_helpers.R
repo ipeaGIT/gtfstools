@@ -196,10 +196,8 @@ filter_pathways_from_stop_id <- function(gtfs, relevant_stops, `%ffilter%`) {
       from_to_stop_id,
       rep("character", 2)
     )
-    gtfs$pathways <- gtfs$pathways[
-      from_stop_id %ffilter% relevant_stops &
-        to_stop_id %ffilter% relevant_stops
-    ]
+    gtfs$pathways <- gtfs$pathways[from_stop_id %ffilter% relevant_stops]
+    gtfs$pathways <- gtfs$pathways[to_stop_id %ffilter% relevant_stops]
   }
 
   return(gtfs)
