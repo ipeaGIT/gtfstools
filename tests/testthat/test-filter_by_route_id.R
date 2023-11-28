@@ -219,3 +219,12 @@ test_that("behaves correctly when route_id = character(0)", {
   ]
   expect_identical(modified_ber, full)
 })
+
+test_that("agency table is kept intact if routes not list agency_id", {
+  agencyless <- read_gtfs(spo_path)
+  agencyless$routes[, agency_id := NULL]
+
+  filtered_agencyless <- tester(agencyless)
+
+  expect_identical(agencyless$agency, filtered_agencyless$agency)
+})
