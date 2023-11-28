@@ -94,10 +94,14 @@ filter_by_route_id <- function(gtfs, route_id, keep = TRUE) {
   gtfs <- filter_pathways_from_stop_id(gtfs, relevant_stops, `%chin%`)
   gtfs <- filter_stops_from_stop_id(gtfs, relevant_stops, `%chin%`)
 
-  # 'stops' allows us to filter by 'level_id'
-  # TODO: filter fare_rules from zone_id
+  # 'stops' allows us to filter by 'level_id' and 'zone_id'
 
+  relevant_zones <- unique(gtfs$stops$zone_id)
   relevant_levels <- unique(gtfs$stops$level_id)
+
+  # 'fare_rules' (zone_id)
+
+  gtfs <- filter_fare_rules_from_zone_id(gtfs, relevant_zones, `%chin%`)
 
   # 'levels' (level_id)
 

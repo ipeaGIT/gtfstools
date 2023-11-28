@@ -101,6 +101,7 @@ utils::globalVariables(
     "from_route_id",
     "to_route_id",
     "from_trip_id",
-    "to_trip_id"
+    "to_trip_id",
+    ".flagged"
   )
 )

@@ -78,6 +78,66 @@ filter_fare_rules_from_route_id <- function(gtfs,
   return(gtfs)
 }
 
+filter_fare_rules_from_zone_id <- function(gtfs, relevant_zones, `%ffilter%`) {
+  if (gtfsio::check_field_exists(gtfs, "fare_rules", "origin_id")) {
+    gtfsio::assert_field_class(gtfs, "fare_rules", "origin_id", "character")
+    gtfs$fare_rules <- gtfs$fare_rules[
+      origin_id %chin% "" | origin_id %ffilter% relevant_zones
+    ]
+  }
+
+  if (gtfsio::check_field_exists(gtfs, "fare_rules", "destination_id")) {
+    gtfsio::assert_field_class(
+      gtfs,
+      "fare_rules",
+      "destination_id",
+      "character"
+    )
+    gtfs$fare_rules <- gtfs$fare_rules[
+      destination_id %chin% "" | destination_id %ffilter% relevant_zones
+    ]
+  }
+
+  # the spec mentions that if the same fare_id is associated to many zones in
+  # contains_id, all contains_ids must be matched for the fare to apply.
+  # using their example: (https://gtfs.org/schedule/reference/#fare_rulestxt)
+  #
+  # fare_id,route_id,...,contains_id
+  # c,GRT,...,5
+  # c,GRT,...,6
+  # c,GRT,...,7
+  #
+  # an itinerary that passes through zones 5 and 6 but not zone 7 would not have
+  # fare class "c".
+  #
+  # in this case, when filtering fare_rules by contains_id we have to check if
+  # all referred contains_ids exist in stops (or if all ids are not in stops,
+  # when dropping ids), otherwise we can drop the fare class entirely
+
+  if (gtfsio::check_field_exists(gtfs, "fare_rules", "contains_id")) {
+    gtfsio::assert_field_class(gtfs, "fare_rules", "contains_id", "character")
+
+    .all_but_contains <- setdiff(names(gtfs$fare_rules), "contains_id")
+
+    gtfs$fare_rules[
+      ,
+      .flagged := ifelse(
+        contains_id %chin% "" | contains_id %ffilter% relevant_zones,
+        TRUE,
+        FALSE
+      )
+    ]
+
+    gtfs$fare_rules <- gtfs$fare_rules[
+      gtfs$fare_rules[, .I[all(.flagged)], by = .all_but_contains]$V1
+    ]
+
+    gtfs$fare_rules[, .flagged := NULL][]
+  }
+
+  return(gtfs)
+}
+
 filter_trips_from_route_id <- function(gtfs, relevant_routes, `%ffilter%`) {
   if (gtfsio::check_field_exists(gtfs, "trips", "route_id")) {
     gtfsio::assert_field_class(gtfs, "trips", "route_id", "character")
