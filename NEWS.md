@@ -5,21 +5,30 @@
 - New function `convert_sf_to_shapes()`.
 - New generic function `as_dt_gtfs()` with methods for a few different classes
   (`tidygtfs`, `gtfs` and `list`).
+- `{gtfstools}` functions now accepts GTFS objects created by other packages,
+  such as `{gtfsio}` and `{tidytransit}`.
 - `filter_by_route_type()` now accepts Google Transit's [extended route
   types](https://developers.google.com/transit/gtfs/reference/extended-route-types).
+  Thanks @Ge-Rag.
 - `convert_shapes_to_sf()`, `get_trip_geometry()`, `get_trip_length()`,
   `get_trip_speed()`, `get_trip_segment_duration()` and
   `get_stop_times_patterns()` now take an additional argument `sort_sequence`,
   used to indicate whether shapes/timetables should be ordered by
   `shape_pt_sequence`/`stop_sequence` when applying the functions' procedures.
 - `download_validator()` and `validate_gtfs()` now support using validator
-  v4.1.0.
+  v4.1.0 and v4.2.0.
 
 ## Bug fixes
 
 - Fixed a bug in `convert_to_standard()` in which the date fields from
   `feed_info` would not be converted back to an integer in their standard
   format (YYYYMMDD).
+- Filtering functions now also filter the `transfers` table based on `trip_id`
+  and `route_id`. Previously they would filter it based only on `stop_id`.
+  Thanks Daniel Langbein (@langbein-daniel).
+- Fixed a bug in `filter_by_route_id()` in which feeds with only one agency
+  that omitted `agency_id` in `routes` and `fare_attributes` would end up with
+  an empty `agency` table.
 
 ## Notes
 
@@ -29,6 +38,7 @@
   (https://www.jottr.org/2022/12/05/avoid-detectcores/).
 - Improved performance of `seconds_to_string()` and, consequently, any other
   functions that use it.
+- Improved performance and improved readability of most filtering functions.
 
 # gtfstools 1.2.0
 
