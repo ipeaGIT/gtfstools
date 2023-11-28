@@ -2,6 +2,7 @@ testthat::skip_if_offline() # calls skip_on_cran()
 
 available_versions <- c(
   "latest",
+  "4.2.0",
   "4.1.0",
   "4.0.0",
   "3.1.1",
@@ -137,6 +138,15 @@ validation_works <- function(input,
 get_result_json <- function(validation_dir) {
   json_report_path <- file.path(validation_dir, "report.json")
   json_report <- jsonlite::fromJSON(json_report_path)
+
+  # validator v4.2.0 introduces three summary fields that vary based on the
+  # validation time, output directory and input file. we remove these just to
+  # make sure we are comparing the actual validation content
+
+  json_report$summary$validatedAt <- NULL
+  json_report$summary$gtfsInput <- NULL
+  json_report$summary$outputDirectory <- NULL
+
   return(json_report)
 }
 
