@@ -14,7 +14,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.2.2 Patched (2022-11-10 r83330)",
+  "runtimePlatform": "R version 4.3.2 (2023-10-31)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -238,6 +238,18 @@
     },
     "8": {
       "@type": "SoftwareApplication",
+      "identifier": "rlang",
+      "name": "rlang",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rlang"
+    },
+    "9": {
+      "@type": "SoftwareApplication",
       "identifier": "sf",
       "name": "sf",
       "provider": {
@@ -248,7 +260,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=sf"
     },
-    "9": {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "sfheaders",
       "name": "sfheaders",
@@ -260,7 +272,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=sfheaders"
     },
-    "10": {
+    "11": {
       "@type": "SoftwareApplication",
       "identifier": "units",
       "name": "units",
@@ -272,12 +284,12 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=units"
     },
-    "11": {
+    "12": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
-    "12": {
+    "13": {
       "@type": "SoftwareApplication",
       "identifier": "zip",
       "name": "zip",
@@ -291,7 +303,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "2959.033KB",
+  "fileSize": "3366.387KB",
   "releaseNotes": "https://github.com/ipeaGIT/gtfstools/blob/master/NEWS.md",
   "readme": "https://github.com/ipeaGIT/gtfstools/blob/master/README.md",
   "contIntegration": ["https://github.com/ipeaGIT/gtfstools/actions?query=workflow%3Acheck", "https://app.codecov.io/gh/ipeaGIT/gtfstools?branch=master"],

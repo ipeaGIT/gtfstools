@@ -13,7 +13,8 @@
 #'   order to preserve the behavior of the function in versions 1.2.0 and below.
 #'   Please note that when `TRUE`, the resultant filtered feed may contain more
 #'   stops than the ones specified in `stop_id` to preserve the integrity of the
-#'   trips. IMPORTANT: this parameter will cease to exist from version 2.0.0
+#'   trips. IMPORTANT: using `full_trips = TRUE` is flagged as deprecated as of
+#'   version 1.3.0 and this parameter will default to `FALSE` from version 2.0.0
 #'   onward.
 #'
 #' @return The GTFS object passed to the `gtfs` parameter, after the filtering
@@ -44,6 +45,8 @@ filter_by_stop_id <- function(gtfs, stop_id, keep = TRUE, full_trips = TRUE) {
   checkmate::assert_logical(full_trips, len = 1, any.missing = FALSE)
 
   if (full_trips) {
+    full_trips_deprecation_warning()
+
     env <- environment()
 
     if (gtfsio::check_field_exists(gtfs, "stop_times", "stop_id")) {
@@ -58,4 +61,30 @@ filter_by_stop_id <- function(gtfs, stop_id, keep = TRUE, full_trips = TRUE) {
 
   return(gtfs)
 
+}
+
+full_trips_deprecation_warning <- function() {
+  rlang::warn(
+    class = "deprecated_full_trips_filter",
+    message = c(
+      paste0(
+        "The 'filter_by_stop_id()' behavior of filtering by trips that ",
+        "contain the specified stops has been DEPRECATED."
+      ),
+      "*" = paste0(
+        "For backwards compatibility reasons, this behavior is still the ",
+        "default as of version 1.3.0, and is controlled by the parameter ",
+        "'full_trips'."
+      ),
+      "v" = paste0(
+        "Please use 'full_trips = FALSE' to actually filter by 'stop_ids'. ",
+        "This behavior will be the default from version 2.0.0 onward."
+      ),
+      "v" = paste0(
+        "To achieve the old behavior, manually subset the 'stop_times' table ",
+        "by 'stop_id' and specify the 'trip_ids' included in the output in ",
+        "'filter_by_trip_id()'."
+      )
+    )
+  )
 }
