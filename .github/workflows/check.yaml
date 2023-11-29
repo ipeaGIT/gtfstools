@@ -85,10 +85,6 @@ jobs:
           sessioninfo::session_info(pkgs, include_base = TRUE)
         shell: Rscript {0}
 
-      - name: Hop into with SSH (Linux)
-        if: runner.os == 'Linux'
-        uses: lhotari/action-upterm@v1
-
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_: false
