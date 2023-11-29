@@ -227,6 +227,15 @@ filter_stop_times_from_trip_id <- function(gtfs, relevant_trips, `%ffilter%`) {
   return(gtfs)
 }
 
+filter_stop_times_from_stop_id <- function(gtfs, relevant_stops, `%ffilter%`) {
+  if (gtfsio::check_field_exists(gtfs, "stop_times", "stop_id")) {
+    gtfsio::assert_field_class(gtfs, "stop_times", "stop_id", "character")
+    gtfs$stop_times <- gtfs$stop_times[stop_id %ffilter% relevant_stops]
+  }
+
+  return(gtfs)
+}
+
 filter_transfers_from_stop_id <- function(gtfs, relevant_stops, `%ffilter%`) {
   from_to_stop_id <- c("from_stop_id", "to_stop_id")
 

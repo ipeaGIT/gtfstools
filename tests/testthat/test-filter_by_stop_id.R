@@ -62,7 +62,7 @@ test_that("doesn't change given gtfs", {
 })
 
 test_that("'stop_id' and 'keep' arguments work correctly", {
-  relevant_trips <- gtfs$stop_times[stop_id %chin% stop_ids]$trip_id
+  relevant_trips <- spo_gtfs$stop_times[stop_id %chin% relevant_stops]$trip_id
 
   suppressWarnings(
     smaller_gtfs_keeping <- tester(),
