@@ -12,9 +12,9 @@ name: test-coverage
 
 jobs:
   test-coverage:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     env:
-      RSPM: https://packagemanager.rstudio.com/cran/__linux__/focal/latest
+      RSPM: https://packagemanager.rstudio.com/cran/__linux__/jammy/latest
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
@@ -41,11 +41,10 @@ jobs:
           path: |
             ${{ env.R_LIBS_USER }}/*
             !${{ env.R_LIBS_USER }}/pak
-          key: ubuntu-20.04-${{ steps.install-r.outputs.installed-r-version }}-1-${{ hashFiles('.github/r-depends.rds') }}
-          restore-keys: ubuntu-20.04-${{ steps.install-r.outputs.installed-r-version }}-1-
+          key: ubuntu-22.04-${{ steps.install-r.outputs.installed-r-version }}-1-${{ hashFiles('.github/r-depends.rds') }}
+          restore-keys: ubuntu-22.04-${{ steps.install-r.outputs.installed-r-version }}-1-
 
       - name: Install system dependencies
-        if: runner.os == 'Linux'
         run: |
           pak::local_system_requirements(execute = TRUE)
           pak::pkg_system_requirements("covr", execute = TRUE)
