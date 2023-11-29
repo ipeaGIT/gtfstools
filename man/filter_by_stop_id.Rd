@@ -4,7 +4,7 @@
 \alias{filter_by_stop_id}
 \title{Filter GTFS object by \code{stop_id}}
 \usage{
-filter_by_stop_id(gtfs, stop_id, keep = TRUE)
+filter_by_stop_id(gtfs, stop_id, keep = TRUE, full_trips = TRUE)
 }
 \arguments{
 \item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
@@ -14,6 +14,15 @@ filter_by_stop_id(gtfs, stop_id, keep = TRUE)
 \item{keep}{A logical. Whether the entries related to the \code{trip_id}s that
 passes through the specified \code{stop_id}s should be kept or dropped (defaults
 to \code{TRUE}, which keeps the entries).}
+
+\item{full_trips}{A logical. Whether to keep all stops that compose trips
+that pass through the stops specified in \code{stop_id}. Defaults to \code{TRUE}, in
+order to preserve the behavior of the function in versions 1.2.0 and below.
+Please note that when \code{TRUE}, the resultant filtered feed may contain more
+stops than the ones specified in \code{stop_id} to preserve the integrity of the
+trips. IMPORTANT: using \code{full_trips = TRUE} is flagged as deprecated as of
+version 1.3.0 and this parameter will default to \code{FALSE} from version 2.0.0
+onward.}
 }
 \value{
 The GTFS object passed to the \code{gtfs} parameter, after the filtering
@@ -21,9 +30,7 @@ process.
 }
 \description{
 Filters a GTFS object by \code{stop_id}s, keeping (or dropping) relevant entries
-in each file. In order to keep the integrity of trips as described in the
-\code{stop_times} table, the \code{stop_id}s are actually used to filter \code{trip_id}s,
-which are then used to filter the rest of the GTFS object.
+in each file.
 }
 \examples{
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
