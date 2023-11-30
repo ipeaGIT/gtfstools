@@ -5,8 +5,17 @@ spo_stops <- c("18848", "940004157")
 tester <- function(gtfs = spo_gtfs,
                    stop_id = spo_stops,
                    keep = TRUE,
+                   include_children = TRUE,
+                   include_parents = TRUE,
                    full_trips = TRUE) {
-  filter_by_stop_id(gtfs, stop_id, keep, full_trips)
+  filter_by_stop_id(
+    gtfs,
+    stop_id,
+    keep,
+    include_children,
+    include_parents,
+    full_trips
+  )
 }
 
 # tests -------------------------------------------------------------------
@@ -22,6 +31,14 @@ test_that("raises error due to incorrect input types", {
   expect_error(tester(keep = "TRUE"))
   expect_error(tester(keep = c(TRUE, TRUE)))
   expect_error(tester(keep = NA))
+
+  expect_error(tester(include_children = "TRUE"))
+  expect_error(tester(include_children = c(TRUE, TRUE)))
+  expect_error(tester(include_children = NA))
+
+  expect_error(tester(include_parents = "TRUE"))
+  expect_error(tester(include_parents = c(TRUE, TRUE)))
+  expect_error(tester(include_parents = NA))
 
   expect_error(tester(full_trips = "TRUE"))
   expect_error(tester(full_trips = c(TRUE, TRUE)))
@@ -81,6 +98,14 @@ test_that("raises error due to incorrect input types", {
 
   expect_error(tester2(stop_id = factor(spo_stops)))
   expect_error(tester2(stop_id = NA))
+
+  expect_error(tester2(include_children = "TRUE"))
+  expect_error(tester2(include_children = c(TRUE, TRUE)))
+  expect_error(tester2(include_children = NA))
+
+  expect_error(tester2(include_parents = "TRUE"))
+  expect_error(tester2(include_parents = c(TRUE, TRUE)))
+  expect_error(tester2(include_parents = NA))
 
   expect_error(tester2(keep = "TRUE"))
   expect_error(tester2(keep = c(TRUE, TRUE)))
@@ -190,23 +215,27 @@ test_that("the function filters sao paulo's gtfs correctly", {
 test_that("the function filters google's gtfs correctly", {
   ggl_path <- system.file("extdata/ggl_gtfs.zip", package = "gtfstools")
   ggl_gtfs <- read_gtfs(ggl_path)
+
   ggl_stops <- c("S1", "N1", "N2", "S6", "S7")
+  included_stops <- suppressWarnings(
+    unique(c(ggl_stops, get_parent_station(ggl_gtfs, ggl_stops)$stop_id))
+  )
 
   smaller_ggl <- tester2(ggl_gtfs, ggl_stops)
 
   # stops, stop_times, pathways and transfers
-  expect_true(all(smaller_ggl$stops$stop_id %chin% ggl_stops))
-  expect_true(all(smaller_ggl$stop_times$stop_id %chin% ggl_stops))
+  expect_true(all(smaller_ggl$stops$stop_id %chin% included_stops))
+  expect_true(all(smaller_ggl$stop_times$stop_id %chin% included_stops))
   expect_true(
     all(
-      smaller_ggl$transfers$from_stop_id %chin% ggl_stops &
-        smaller_ggl$transfers$to_stop_id %chin% ggl_stops
+      smaller_ggl$transfers$from_stop_id %chin% included_stops &
+        smaller_ggl$transfers$to_stop_id %chin% included_stops
     )
   )
   expect_true(
     all(
-      smaller_ggl$pathways$from_stop_id %chin% ggl_stops &
-        smaller_ggl$pathways$to_stop_id %chin% ggl_stops
+      smaller_ggl$pathways$from_stop_id %chin% included_stops &
+        smaller_ggl$pathways$to_stop_id %chin% included_stops
     )
   )
 
@@ -268,4 +297,44 @@ test_that("behaves correctly when stop_id = character(0)", {
     agency_id %in% modified_ber$routes$agency_id
   ]
   expect_identical(modified_ber, full)
+})
+
+test_that("include_parents and include_children arguments work correctly", {
+  ggl_path <- system.file("extdata/ggl_gtfs.zip", package = "gtfstools")
+  ggl_gtfs <- read_gtfs(ggl_path)
+  ggl_stop <- "F12S"
+
+  only_stop <- tester2(
+    ggl_gtfs,
+    ggl_stop,
+    include_children = FALSE,
+    include_parents = FALSE
+  )
+  expect_true(only_stop$stops$stop_id == ggl_stop)
+
+  stop_and_parent <- tester2(
+    ggl_gtfs,
+    ggl_stop,
+    include_children = FALSE,
+    include_parents = TRUE
+  )
+  expect_true(all(stop_and_parent$stops$stop_id %in% c("F12S", "F12")))
+
+  stop_and_children <- tester2(
+    ggl_gtfs,
+    ggl_stop,
+    include_children = TRUE,
+    include_parents = FALSE
+  )
+  expect_true(all(stop_and_children$stops$stop_id %in% c("F12S", "B1", "B3")))
+
+  parent_and_children <- tester2(
+    ggl_gtfs,
+    ggl_stop,
+    include_children = TRUE,
+    include_parents = TRUE
+  )
+  expect_true(
+    all(parent_and_children$stops$stop_id %in% c("F12S", "B1", "B3", "F12"))
+  )
 })

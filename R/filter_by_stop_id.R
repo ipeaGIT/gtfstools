@@ -8,6 +8,12 @@
 #' @param keep A logical. Whether the entries related to the `trip_id`s that
 #'   passes through the specified `stop_id`s should be kept or dropped (defaults
 #'   to `TRUE`, which keeps the entries).
+#' @param include_children A logical. Whether the filtered output should
+#'   keep/drop children stops of those specified in `stop_id`. Defaults to
+#'   `TRUE`.
+#' @param include_parents A logical. Whether the filtered output should
+#'   keep/drop parent stations of those specified in `stop_id`. Defaults to
+#'   `TRUE`.
 #' @param full_trips A logical. Whether to keep all stops that compose trips
 #'   that pass through the stops specified in `stop_id`. Defaults to `TRUE`, in
 #'   order to preserve the behavior of the function in versions 1.2.0 and below.
@@ -38,11 +44,37 @@
 #' object.size(smaller_gtfs)
 #'
 #' @export
-filter_by_stop_id <- function(gtfs, stop_id, keep = TRUE, full_trips = TRUE) {
+filter_by_stop_id <- function(gtfs,
+                              stop_id,
+                              keep = TRUE,
+                              include_children = TRUE,
+                              include_parents = TRUE,
+                              full_trips = TRUE) {
   gtfs <- assert_and_assign_gtfs_object(gtfs)
   checkmate::assert_character(stop_id, any.missing = FALSE)
   checkmate::assert_logical(keep, len = 1, any.missing = FALSE)
+  checkmate::assert_logical(include_children, len = 1, any.missing = FALSE)
+  checkmate::assert_logical(include_parents, len = 1, any.missing = FALSE)
   checkmate::assert_logical(full_trips, len = 1, any.missing = FALSE)
+
+  # the feed may contain some stop_ids listed in stop_times that are not listed
+  # in stops, in which case get_children_stops() and get_parent_station() will
+  # throw warnings. we suppress these warnings, as they might feel a bit "out of
+  # place" in this function.
+  # (although invalid, this may happen when the production of a feed is
+  # still on going, for example)
+
+  if (gtfsio::check_field_exists(gtfs, "stops", "parent_station")) {
+    if (include_children) {
+      suppressWarnings(children <- get_children_stops(gtfs, stop_id))
+      stop_id <- unique(c(stop_id, children$stop_id))
+    }
+
+    if (include_parents) {
+      suppressWarnings(parents <- get_parent_station(gtfs, stop_id))
+      stop_id <- unique(c(stop_id, parents$stop_id))
+    }
+  }
 
   if (full_trips) {
     full_trips_deprecation_warning()

@@ -4,7 +4,14 @@
 \alias{filter_by_stop_id}
 \title{Filter GTFS object by \code{stop_id}}
 \usage{
-filter_by_stop_id(gtfs, stop_id, keep = TRUE, full_trips = TRUE)
+filter_by_stop_id(
+  gtfs,
+  stop_id,
+  keep = TRUE,
+  include_children = TRUE,
+  include_parents = TRUE,
+  full_trips = TRUE
+)
 }
 \arguments{
 \item{gtfs}{A GTFS object, as created by \code{\link[=read_gtfs]{read_gtfs()}}.}
@@ -14,6 +21,14 @@ filter_by_stop_id(gtfs, stop_id, keep = TRUE, full_trips = TRUE)
 \item{keep}{A logical. Whether the entries related to the \code{trip_id}s that
 passes through the specified \code{stop_id}s should be kept or dropped (defaults
 to \code{TRUE}, which keeps the entries).}
+
+\item{include_children}{A logical. Whether the filtered output should
+keep/drop children stops of those specified in \code{stop_id}. Defaults to
+\code{TRUE}.}
+
+\item{include_parents}{A logical. Whether the filtered output should
+keep/drop parent stations of those specified in \code{stop_id}. Defaults to
+\code{TRUE}.}
 
 \item{full_trips}{A logical. Whether to keep all stops that compose trips
 that pass through the stops specified in \code{stop_id}. Defaults to \code{TRUE}, in

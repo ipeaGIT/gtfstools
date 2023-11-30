@@ -1,5 +1,16 @@
 # gtfstools (development version)
 
+## Feature deprecation
+
+- The `filter_by_stop_id()` behavior of filtering by trips that contain the
+  specified stops has been deprecated. For backwards compatibility reasons,
+  this behavior is still the default as of the current version and is
+  controlled by the parameter `full_trips`. To actually filter by stop ids (the
+  behavior that we now believe is the most appropriate), please use `full_trips
+  = FALSE`. This behavior will be the default from version 2.0.0 onward. To
+  achieve the old behavior, manually subset the stop_times table by `stop_id`
+  and specify the `trip_id`s included in the output in `filter_by_trip_id()`.
+
 ## New features
 
 - New function `convert_sf_to_shapes()`.
@@ -17,6 +28,8 @@
   `shape_pt_sequence`/`stop_sequence` when applying the functions' procedures.
 - `download_validator()` and `validate_gtfs()` now support using validator
   v4.1.0 and v4.2.0.
+- New parameters to `filter_by_stop_id()`: `include_children` and
+  `include_parents`.
 
 ## Bug fixes
 
