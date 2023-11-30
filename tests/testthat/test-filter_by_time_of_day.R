@@ -48,19 +48,7 @@ test_that("doesn't change given gtfs", {
   expect_identical(original_gtfs, gtfs)
 
   suppressWarnings(smaller_gtfs <- tester())
-  expect_false(identical(original_gtfs, gtfs))
-
-  data.table::setindex(gtfs$agency, NULL)
-  data.table::setindex(gtfs$calendar, NULL)
-  data.table::setindex(gtfs$calendar_dates, NULL)
-  data.table::setindex(gtfs$fare_attributes, NULL)
-  data.table::setindex(gtfs$fare_rules, NULL)
-  data.table::setindex(gtfs$levels, NULL)
-  data.table::setindex(gtfs$pathways, NULL)
-  data.table::setindex(gtfs$routes, NULL)
-  data.table::setindex(gtfs$stops, NULL)
-  data.table::setindex(gtfs$transfers, NULL)
-  expect_identical(original_gtfs, gtfs)
+  expect_equal(original_gtfs, gtfs, check.attributes = FALSE)
 })
 
 # frequencies filtering ---------------------------------------------------

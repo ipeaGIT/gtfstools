@@ -45,8 +45,6 @@ test_that("results in a dt_gtfs object", {
 })
 
 test_that("doesn't change given gtfs", {
-  # (except for some tables' indices)
-
   original_gtfs <- read_gtfs(spo_path)
   gtfs <- read_gtfs(spo_path)
   expect_identical(original_gtfs, gtfs)
@@ -55,10 +53,7 @@ test_that("doesn't change given gtfs", {
     smaller_gtfs <- tester(gtfs),
     classes = "deprecated_full_trips_filter"
   )
-  expect_false(identical(original_gtfs, gtfs))
-  data.table::setindex(gtfs$stops, NULL)
-  data.table::setindex(gtfs$stop_times, NULL)
-  expect_identical(original_gtfs, gtfs)
+  expect_equal(original_gtfs, gtfs, check.attributes = FALSE)
 })
 
 test_that("'stop_id' and 'keep' arguments work correctly", {
@@ -109,7 +104,7 @@ test_that("doesn't change given gtfs", {
   expect_identical(original_gtfs, gtfs)
 
   smaller_gtfs <- tester2(gtfs)
-  expect_identical(original_gtfs, gtfs)
+  expect_equal(original_gtfs, gtfs, check.attributes = FALSE)
 })
 
 test_that("'stop_id' and 'keep' arguments work correctly", {

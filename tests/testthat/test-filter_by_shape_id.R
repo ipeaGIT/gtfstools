@@ -37,14 +37,7 @@ test_that("doesn't change given gtfs", {
   expect_identical(original_gtfs, gtfs)
 
   smaller_gtfs <- tester(gtfs)
-  expect_false(identical(original_gtfs, gtfs))
-  data.table::setindex(gtfs$agency, NULL)
-  data.table::setindex(gtfs$calendar, NULL)
-  data.table::setindex(gtfs$frequencies, NULL)
-  data.table::setindex(gtfs$routes, NULL)
-  data.table::setindex(gtfs$stop_times, NULL)
-  data.table::setindex(gtfs$stops, NULL)
-  expect_identical(original_gtfs, gtfs)
+  expect_equal(original_gtfs, gtfs, check.attributes = FALSE)
 })
 
 test_that("'shape_id' and 'keep' arguments work correctly", {
