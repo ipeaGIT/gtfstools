@@ -72,7 +72,7 @@ filter_by_stop_id <- function(gtfs, stop_id, keep = TRUE, full_trips = TRUE) {
   # use %chin%
 
   # 'transfers', 'pathways' and 'stops' (stop_id)
-  
+
   gtfs <- filter_transfers_from_stop_id(gtfs, stop_id, `%ffilter%`)
   gtfs <- filter_pathways_from_stop_id(gtfs, stop_id, `%ffilter%`)
 
