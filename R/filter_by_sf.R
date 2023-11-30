@@ -51,12 +51,12 @@ filter_by_sf <- function(gtfs,
 
   gtfs <- assert_and_assign_gtfs_object(gtfs)
   checkmate::assert_logical(keep, len = 1)
-  checkmate::assert_class(spatial_operation, "function")
   checkmate::assert(
     checkmate::check_class(geom, "sf"),
     checkmate::check_class(geom, "sfc"),
     checkmate::check_class(geom, "bbox")
   )
+  assert_spatial_operation(spatial_operation)
 
   # convert 'geom' to polygon if a bounding box was given
 
@@ -68,8 +68,10 @@ filter_by_sf <- function(gtfs,
   if (sf::st_crs(geom) != sf::st_crs(4326))
     stop("'geom' CRS must be WGS 84 (EPSG 4326).")
 
-  if ((inherits(geom, "sf") && nrow(geom) > 1) ||
-    (inherits(geom, "sfc") && length(geom) > 1)) {
+  if (
+    (inherits(geom, "sf") && nrow(geom) > 1) ||
+      (inherits(geom, "sfc") && length(geom) > 1)
+  ) {
     geom <- sf::st_union(geom)
   }
 
@@ -119,4 +121,45 @@ filter_by_sf <- function(gtfs,
 
   return(result_gtfs)
 
+}
+
+assert_spatial_operation <- function(spatial_operation) {
+  available_operations <- list(
+    intersects = sf::st_intersects,
+    disjoint = sf::st_disjoint,
+    touches = sf::st_touches,
+    crosses = sf::st_crosses,
+    within = sf::st_within,
+    contains = sf::st_contains,
+    contains_properly = sf::st_contains_properly,
+    overlaps = sf::st_overlaps,
+    equals = sf::st_equals,
+    covers = sf::st_covers,
+    covered_by = sf::st_covered_by,
+    equals_exact = sf::st_equals_exact,
+    is_within_distance = sf::st_is_within_distance
+  )
+
+  checkmate::assert_class(spatial_operation, "function")
+
+  operation_matches <- vapply(
+    available_operations,
+    FUN.VALUE = logical(1),
+    FUN = function(op) identical(op, spatial_operation)
+  )
+
+  if (!any(operation_matches)) {
+    function_listing <- paste0(
+      "'sf::st_", names(available_operations), "'",
+      collapse = ", "
+    )
+
+    stop(
+      "Assertion on 'spatial_operation' failed: ",
+      "Must be a geometric binary predicate listed in '?sf::geos_binary_pred' ",
+      "- i.e. one of ", function_listing, "."
+    )
+  }
+
+  return(invisible(TRUE))
 }

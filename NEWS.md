@@ -42,6 +42,8 @@
 - Fixed a bug in `filter_by_route_id()` in which feeds with only one agency
   that omitted `agency_id` in `routes` and `fare_attributes` would end up with
   an empty `agency` table.
+- `filter_by_sf()` now correctly throws an error when an unsupported function
+  is passed to `spatial_operation`.
 
 ## Notes
 
