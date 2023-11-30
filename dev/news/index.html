@@ -87,6 +87,8 @@
 <ul><li>Fixed a bug in <code><a href="../reference/convert_to_standard.html">convert_to_standard()</a></code> in which the date fields from <code>feed_info</code> would not be converted back to an integer in their standard format (YYYYMMDD).</li>
 <li>Filtering functions now also filter the <code>transfers</code> table based on <code>trip_id</code> and <code>route_id</code>. Previously they would filter it based only on <code>stop_id</code>. Thanks Daniel Langbein (<a href="https://github.com/langbein-daniel" class="external-link">@langbein-daniel</a>).</li>
 <li>Fixed a bug in <code><a href="../reference/filter_by_route_id.html">filter_by_route_id()</a></code> in which feeds with only one agency that omitted <code>agency_id</code> in <code>routes</code> and <code>fare_attributes</code> would end up with an empty <code>agency</code> table.</li>
+<li>
+<code><a href="../reference/filter_by_sf.html">filter_by_sf()</a></code> now correctly throws an error when an unsupported function is passed to <code>spatial_operation</code>.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="notes-development-version">Notes<a class="anchor" aria-label="anchor" href="#notes-development-version"></a></h3>
