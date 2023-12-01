@@ -4,25 +4,14 @@ spo_shape <- "68962"
 bbox <- sf::st_bbox(convert_shapes_to_sf(spo_gtfs, spo_shape))
 polygon <- sf::st_as_sf(sf::st_buffer(sf::st_as_sfc(bbox), 0))
 
-test_that("filter_by_sf is deprecated", {
-  expect_snapshot_warning(
-    filter_by_sf(spo_gtfs, bbox, sf::st_intersects, TRUE),
-    class = "deprecated_filter_by_sf"
-  )
-})
-
 tester <- function(gtfs = spo_gtfs,
                    geom = bbox,
                    spatial_operation = sf::st_intersects,
                    keep = TRUE) {
-  suppressWarnings(
-    filter_by_sf(gtfs, geom, spatial_operation, keep),
-    classes = "deprecated_filter_by_sf"
-  )
+  filter_by_spatial_extent(gtfs, geom, spatial_operation, keep)
 }
 
 # tests -------------------------------------------------------------------
-
 
 test_that("raises error due to incorrect input types", {
   expect_error(tester(unclass(spo_gtfs)))

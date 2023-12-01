@@ -1,16 +1,5 @@
 # gtfstools (development version)
 
-## Feature deprecation
-
-- The `filter_by_stop_id()` behavior of filtering by trips that contain the
-  specified stops has been deprecated. For backwards compatibility reasons,
-  this behavior is still the default as of the current version and is
-  controlled by the parameter `full_trips`. To actually filter by stop ids (the
-  behavior that we now believe is the most appropriate), please use `full_trips
-  = FALSE`. This behavior will be the default from version 2.0.0 onward. To
-  achieve the old behavior, manually subset the stop_times table by `stop_id`
-  and specify the `trip_id`s included in the output in `filter_by_trip_id()`.
-
 ## New features
 
 - New function `convert_sf_to_shapes()`.
@@ -44,6 +33,21 @@
   an empty `agency` table.
 - `filter_by_sf()` now correctly throws an error when an unsupported function
   is passed to `spatial_operation`.
+
+## Feature deprecation
+
+- The `filter_by_stop_id()` behavior of filtering by trips that contain the
+  specified stops has been deprecated. For backwards compatibility reasons,
+  this behavior is still the default as of the current version and is
+  controlled by the parameter `full_trips`. To actually filter by stop ids (the
+  behavior that we now believe is the most appropriate), please use `full_trips
+  = FALSE`. This behavior will be the default from version 2.0.0 onward. To
+  achieve the old behavior, manually subset the stop_times table by `stop_id`
+  and specify the `trip_id`s included in the output in `filter_by_trip_id()`.
+- `filter_by_sf()` has been deprecated in favor of
+  `filter_by_spatial_extent()`. For backwards compatibility reasons, usage of
+  `filter_by_sf()` is still allowed as of the curent version, but the function
+  will be removed from the package in version 2.0.0.
 
 ## Notes
 

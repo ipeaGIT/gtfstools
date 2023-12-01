@@ -71,6 +71,7 @@ Other filtering functions:
 \code{\link{filter_by_service_id}()},
 \code{\link{filter_by_sf}()},
 \code{\link{filter_by_shape_id}()},
+\code{\link{filter_by_spatial_extent}()},
 \code{\link{filter_by_time_of_day}()},
 \code{\link{filter_by_trip_id}()},
 \code{\link{filter_by_weekday}()}
