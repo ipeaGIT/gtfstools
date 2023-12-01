@@ -63,9 +63,12 @@ test_that("outputs a .zip file and invisibly returns the provided gtfs", {
   expect_true(file.exists(temp_file))
 })
 
-test_that("raises messages and warnings adequately", {
+test_that("output messages adequately", {
   expect_silent(write_gtfs(gtfs, temp_file))
-  expect_message(write_gtfs(gtfs, temp_file, quiet = FALSE))
+
+  suppressMessages(
+    expect_message(write_gtfs(gtfs, temp_file, quiet = FALSE))
+  )
 })
 
 test_that("outputs a gtfs with the desired files", {

@@ -38,7 +38,7 @@ test_that("doesn't change given gtfs", {
   expect_identical(original_gtfs, gtfs)
 
   smaller_gtfs <- filter_by_weekday(gtfs, weekday)
-  expect_equal(original_gtfs, gtfs, check.attributes = FALSE)
+  expect_equal(original_gtfs, gtfs, ignore_attr = TRUE)
 })
 
 test_that("'weekday', 'combine' and 'keep' arguments work correctly", {

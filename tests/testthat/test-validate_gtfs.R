@@ -235,7 +235,11 @@ test_that("quiet arg works correctly", {
   expect_silent(tester(gtfs_url, quiet = TRUE, html_preview = FALSE))
   expect_silent(tester(gtfs_dir, quiet = TRUE, html_preview = FALSE))
 
-  expect_message(tester(gtfs, quiet = FALSE, html_preview = FALSE))
+  # testthat edition 3 only captures one message, so suppress the additional
+  # ones
+  suppressMessages(
+    expect_message(tester(gtfs, quiet = FALSE, html_preview = FALSE))
+  )
   expect_message(tester(data_path, quiet = FALSE, html_preview = FALSE))
   capture.output(
     expect_message(tester(gtfs_url, quiet = FALSE, html_preview = FALSE)),

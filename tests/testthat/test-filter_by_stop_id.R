@@ -70,7 +70,7 @@ test_that("doesn't change given gtfs", {
     smaller_gtfs <- tester(gtfs),
     classes = "deprecated_full_trips_filter"
   )
-  expect_equal(original_gtfs, gtfs, check.attributes = FALSE)
+  expect_equal(original_gtfs, gtfs, ignore_attr = TRUE)
 })
 
 test_that("'stop_id' and 'keep' arguments work correctly", {
@@ -129,7 +129,7 @@ test_that("doesn't change given gtfs", {
   expect_identical(original_gtfs, gtfs)
 
   smaller_gtfs <- tester2(gtfs)
-  expect_equal(original_gtfs, gtfs, check.attributes = FALSE)
+  expect_equal(original_gtfs, gtfs, ignore_attr = TRUE)
 })
 
 test_that("'stop_id' and 'keep' arguments work correctly", {

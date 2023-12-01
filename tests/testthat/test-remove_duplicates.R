@@ -1,5 +1,3 @@
-context("Remove duplicated entries")
-
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 

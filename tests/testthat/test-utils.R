@@ -6,8 +6,6 @@ no_class_gtfs <- unclass(gtfs)
 # string_to_seconds -------------------------------------------------------
 
 
-context("String to seconds")
-
 test_that("raises errors due to incorrect input types", {
   expect_error(string_to_seconds(factor("25:00:00")))
   expect_error(string_to_seconds(NULL))
@@ -27,8 +25,6 @@ test_that("calculates seconds adequately", {
 
 # seconds_to_string -------------------------------------------------------
 
-
-context("Seconds to string")
 
 test_that("raises errors due to incorrect input types", {
   expect_error(seconds_to_string(1000))
@@ -50,8 +46,6 @@ test_that("generates strings correctly", {
 # copy_gtfs_without_file --------------------------------------------------
 
 
-context("Copy GTFS without file")
-
 test_that("raises errors due to incorrect input types", {
   expect_error(copy_gtfs_without_file(no_class_gtfs, "shapes"))
   expect_error(copy_gtfs_without_file(gtfs, as.factor("shapes")))
@@ -70,8 +64,6 @@ test_that("outputs a gtfs without given file", {
 
 # copy_gtfs_without_field -------------------------------------------------
 
-
-context("Copy GTFS without field")
 
 test_that("raises errors due to incorrect input types", {
   expect_error(copy_gtfs_without_file(no_class_gtfs, "shapes", "shape_id"))
@@ -103,8 +95,6 @@ test_that("outputs doesn't change original file", {
 
 # copy_gtfs_diff_field_class ----------------------------------------------
 
-
-context("Copy GTFS with a field of a different class")
 
 test_that("raises errors due to incorrect input types", {
   expect_error(
@@ -161,8 +151,6 @@ test_that("function call doesn't change original file", {
 })
 
 # assert_and_assign_gtfs_object -------------------------------------------
-
-context("Assert and assign GTFS object")
 
 test_that("raises error if input is not an gtfs object", {
   expect_error(assert_and_assign_gtfs_object(unclass(gtfs)))

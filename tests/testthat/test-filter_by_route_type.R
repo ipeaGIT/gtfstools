@@ -1,9 +1,3 @@
-context("Filter by route_type")
-
-
-# setup -------------------------------------------------------------------
-
-
 path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(path)
 route_type <- 1

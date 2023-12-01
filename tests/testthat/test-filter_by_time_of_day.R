@@ -1,5 +1,3 @@
-context("Filter by time of day: overall usage")
-
 path <- system.file("extdata/ggl_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(path)
 
@@ -48,12 +46,12 @@ test_that("doesn't change given gtfs", {
   expect_identical(original_gtfs, gtfs)
 
   suppressWarnings(smaller_gtfs <- tester())
-  expect_equal(original_gtfs, gtfs, check.attributes = FALSE)
+  expect_equal(original_gtfs, gtfs, ignore_attr = TRUE)
 })
+
 
 # frequencies filtering ---------------------------------------------------
 
-context("Filter by time of day: filter frequencies")
 
 path <- system.file("extdata/ggl_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(path)
@@ -236,7 +234,6 @@ test_that("drops entries where start_time > end_time when exact_times = 1", {
 
 # stop_times filtering ----------------------------------------------------
 
-context("Filter by time of day: filter stop_times")
 
 path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(path)

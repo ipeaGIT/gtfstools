@@ -1,5 +1,3 @@
-context("Convert to/from standards")
-
 path <- system.file("extdata/ggl_gtfs.zip", package = "gtfstools")
 standard_gtfs <- gtfsio::import_gtfs(path)
 standard_gtfs$feed_info[, feed_start_date := 20230428L]

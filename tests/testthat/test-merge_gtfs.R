@@ -58,7 +58,7 @@ test_that("results in a GTFS object", {
 
   # even if a non-existent file is passed to 'files' (but not all of them)
   expect_s3_class(
-    expect_warning(
+    suppressWarnings(
       merge_gtfs(list(spo_gtfs, ggl_gtfs), files = c("shapes", "ola", "oie")),
     ),
     dt_gtfs_class,

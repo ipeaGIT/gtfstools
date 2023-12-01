@@ -35,7 +35,7 @@ test_that("doesn't change given gtfs", {
   expect_identical(original_gtfs, gtfs)
 
   smaller_gtfs <- tester(gtfs, ggl_service)
-  expect_equal(original_gtfs, gtfs, check.attributes = FALSE)
+  expect_equal(original_gtfs, gtfs, ignore_attr = TRUE)
 })
 
 test_that("'service_id' and 'keep' arguments work correctly", {

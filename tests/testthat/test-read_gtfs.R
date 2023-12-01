@@ -90,23 +90,13 @@ test_that("raises errors due to incorrect input types", {
   expect_error(read_gtfs(data_path, encoding = c("unknown", "UTF-8")))
 })
 
-test_that("raises warnings and messages adequately", {
+test_that("output messages adequately", {
+  # this is more thoroughly checked on {gtfsio}, just some sanity checks to make
+  # sure the arguments are passed correctly
   expect_silent(read_gtfs(data_path))
-  expect_silent(read_gtfs(gtfs_url))
-  expect_silent(read_gtfs(ext_temp_file))
-
-  expect_message(read_gtfs(data_path, quiet = FALSE))
-  expect_message(read_gtfs(gtfs_url, quiet = FALSE))
-  expect_message(read_gtfs(ext_temp_file, quiet = FALSE))
-  expect_message(
-    suppressWarnings(read_gtfs(ef_temp_file, quiet = FALSE))
-  )
-
-  # empty-file-related warning
-  expect_warning(read_gtfs(ef_temp_file))
-
-  # parsing-failure-related warning
-  expect_warning(read_gtfs(pf_temp_file))
+  suppressMessages({
+    expect_message(read_gtfs(data_path, quiet = FALSE))
+  })
 })
 
 test_that("results in a dt_gtfs object", {

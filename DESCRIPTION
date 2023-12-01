@@ -45,7 +45,7 @@ Suggests:
     jsonlite,
     knitr,
     rmarkdown,
-    testthat
+    testthat (>= 3.0.0)
 LinkingTo:
     cpp11
 VignetteBuilder: 
@@ -54,3 +54,4 @@ Encoding: UTF-8
 NeedsCompilation: yes
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
+Config/testthat/edition: 3
