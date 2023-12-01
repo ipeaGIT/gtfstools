@@ -58,13 +58,21 @@ stop_ids <- c("18848", "940004157")
 object.size(gtfs)
 
 # keeps entries related to trips that pass through specified stop_ids
-smaller_gtfs <- filter_by_stop_id(gtfs, stop_ids)
+smaller_gtfs <- filter_by_stop_id(gtfs, stop_ids, full_trips = FALSE)
 object.size(smaller_gtfs)
 
 # drops entries related to trips that pass through specified stop_ids
-smaller_gtfs <- filter_by_stop_id(gtfs, stop_ids, keep = FALSE)
+smaller_gtfs <- filter_by_stop_id(
+  gtfs,
+  stop_ids,
+  keep = FALSE,
+  full_trips = FALSE
+)
 object.size(smaller_gtfs)
 
+# the old behavior of filtering trips that contained the specified stops has
+# been deprecated
+invisible(filter_by_stop_id(gtfs, stop_ids, full_trips = TRUE))
 }
 \seealso{
 Other filtering functions: 

@@ -39,13 +39,21 @@
 #' object.size(gtfs)
 #'
 #' # keeps entries related to trips that pass through specified stop_ids
-#' smaller_gtfs <- filter_by_stop_id(gtfs, stop_ids)
+#' smaller_gtfs <- filter_by_stop_id(gtfs, stop_ids, full_trips = FALSE)
 #' object.size(smaller_gtfs)
 #'
 #' # drops entries related to trips that pass through specified stop_ids
-#' smaller_gtfs <- filter_by_stop_id(gtfs, stop_ids, keep = FALSE)
+#' smaller_gtfs <- filter_by_stop_id(
+#'   gtfs,
+#'   stop_ids,
+#'   keep = FALSE,
+#'   full_trips = FALSE
+#' )
 #' object.size(smaller_gtfs)
 #'
+#' # the old behavior of filtering trips that contained the specified stops has
+#' # been deprecated
+#' invisible(filter_by_stop_id(gtfs, stop_ids, full_trips = TRUE))
 #' @export
 filter_by_stop_id <- function(gtfs,
                               stop_id,
@@ -193,26 +201,27 @@ filter_by_stop_id <- function(gtfs,
 }
 
 full_trips_deprecation_warning <- function() {
-  rlang::warn(
+  cli::cli_warn(
     class = "deprecated_full_trips_filter",
     message = c(
       paste0(
-        "The 'filter_by_stop_id()' behavior of filtering by trips that ",
-        "contain the specified stops has been DEPRECATED."
+        "The {.fun filter_by_stop_id} behavior of filtering by trips that ",
+        "contain the specified stops was deprecated in gtfstools 1.3.0."
       ),
-      "*" = paste0(
+      "i" = paste0(
         "For backwards compatibility reasons, this behavior is still the ",
         "default as of version 1.3.0, and is controlled by the parameter ",
-        "'full_trips'."
+        "{.arg full_trips}."
       ),
-      "v" = paste0(
-        "Please use 'full_trips = FALSE' to actually filter by 'stop_ids'. ",
-        "This behavior will be the default from version 2.0.0 onward."
+      "i" = paste0(
+        "Please set {.arg full_trips} to {.val FALSE} to actually filter by ",
+        "{.code stop_ids}. This behavior will be the default from version ",
+        "2.0.0 onward."
       ),
-      "v" = paste0(
-        "To achieve the old behavior, manually subset the 'stop_times' table ",
-        "by 'stop_id' and specify the 'trip_ids' included in the output in ",
-        "'filter_by_trip_id()'."
+      "i" = paste0(
+        "To achieve the old behavior, manually subset the {.code stop_times} ",
+        "table by {.code stop_id} and specify the {.code trip_ids} included ",
+        "in the output in {.fun filter_by_trip_id}."
       )
     )
   )

@@ -34,7 +34,6 @@ Imports:
     gtfsio (>= 1.0.0),
     parallelly,
     processx,
-    rlang,
     sf,
     sfheaders,
     units,

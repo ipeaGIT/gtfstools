@@ -47,6 +47,8 @@ test_that("raises error due to incorrect input types", {
 
 test_that("full_trips = TRUE is deprecated", {
   expect_warning(tester(), class = "deprecated_full_trips_filter")
+
+  expect_snapshot_warning(tester())
 })
 
 test_that("results in a dt_gtfs object", {

@@ -251,18 +251,6 @@
     },
     "9": {
       "@type": "SoftwareApplication",
-      "identifier": "rlang",
-      "name": "rlang",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=rlang"
-    },
-    "10": {
-      "@type": "SoftwareApplication",
       "identifier": "sf",
       "name": "sf",
       "provider": {
@@ -273,7 +261,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=sf"
     },
-    "11": {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "sfheaders",
       "name": "sfheaders",
@@ -285,7 +273,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=sfheaders"
     },
-    "12": {
+    "11": {
       "@type": "SoftwareApplication",
       "identifier": "units",
       "name": "units",
@@ -297,12 +285,12 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=units"
     },
-    "13": {
+    "12": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
-    "14": {
+    "13": {
       "@type": "SoftwareApplication",
       "identifier": "zip",
       "name": "zip",
@@ -316,7 +304,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "3393.64KB",
+  "fileSize": "3394.796KB",
   "releaseNotes": "https://github.com/ipeaGIT/gtfstools/blob/master/NEWS.md",
   "readme": "https://github.com/ipeaGIT/gtfstools/blob/master/README.md",
   "contIntegration": ["https://github.com/ipeaGIT/gtfstools/actions?query=workflow%3Acheck", "https://app.codecov.io/gh/ipeaGIT/gtfstools?branch=master"],
