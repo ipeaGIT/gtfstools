@@ -66,9 +66,6 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="development version" id="gtfstools-development-version">gtfstools (development version)<a class="anchor" aria-label="anchor" href="#gtfstools-development-version"></a></h2>
 <div class="section level3">
-<h3 id="feature-deprecation-development-version">Feature deprecation<a class="anchor" aria-label="anchor" href="#feature-deprecation-development-version"></a></h3>
-<ul><li>The <code><a href="../reference/filter_by_stop_id.html">filter_by_stop_id()</a></code> behavior of filtering by trips that contain the specified stops has been deprecated. For backwards compatibility reasons, this behavior is still the default as of the current version and is controlled by the parameter <code>full_trips</code>. To actually filter by stop ids (the behavior that we now believe is the most appropriate), please use <code>full_trips   = FALSE</code>. This behavior will be the default from version 2.0.0 onward. To achieve the old behavior, manually subset the stop_times table by <code>stop_id</code> and specify the <code>trip_id</code>s included in the output in <code><a href="../reference/filter_by_trip_id.html">filter_by_trip_id()</a></code>.</li></ul></div>
-<div class="section level3">
 <h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
 <ul><li>New function <code><a href="../reference/convert_sf_to_shapes.html">convert_sf_to_shapes()</a></code>.</li>
 <li>New generic function <code><a href="../reference/as_dt_gtfs.html">as_dt_gtfs()</a></code> with methods for a few different classes (<code>tidygtfs</code>, <code>gtfs</code> and <code>list</code>).</li>
@@ -89,6 +86,12 @@
 <li>Fixed a bug in <code><a href="../reference/filter_by_route_id.html">filter_by_route_id()</a></code> in which feeds with only one agency that omitted <code>agency_id</code> in <code>routes</code> and <code>fare_attributes</code> would end up with an empty <code>agency</code> table.</li>
 <li>
 <code><a href="../reference/filter_by_sf.html">filter_by_sf()</a></code> now correctly throws an error when an unsupported function is passed to <code>spatial_operation</code>.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="feature-deprecation-development-version">Feature deprecation<a class="anchor" aria-label="anchor" href="#feature-deprecation-development-version"></a></h3>
+<ul><li>The <code><a href="../reference/filter_by_stop_id.html">filter_by_stop_id()</a></code> behavior of filtering by trips that contain the specified stops has been deprecated. For backwards compatibility reasons, this behavior is still the default as of the current version and is controlled by the parameter <code>full_trips</code>. To actually filter by stop ids (the behavior that we now believe is the most appropriate), please use <code>full_trips   = FALSE</code>. This behavior will be the default from version 2.0.0 onward. To achieve the old behavior, manually subset the stop_times table by <code>stop_id</code> and specify the <code>trip_id</code>s included in the output in <code><a href="../reference/filter_by_trip_id.html">filter_by_trip_id()</a></code>.</li>
+<li>
+<code><a href="../reference/filter_by_sf.html">filter_by_sf()</a></code> has been deprecated in favor of <code><a href="../reference/filter_by_spatial_extent.html">filter_by_spatial_extent()</a></code>. For backwards compatibility reasons, usage of <code><a href="../reference/filter_by_sf.html">filter_by_sf()</a></code> is still allowed as of the curent version, but the function will be removed from the package in version 2.0.0.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="notes-development-version">Notes<a class="anchor" aria-label="anchor" href="#notes-development-version"></a></h3>

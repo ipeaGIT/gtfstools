@@ -76,7 +76,7 @@ in each file.</p>
 <span>  <span class="va">stop_id</span>,</span>
 <span>  keep <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  include_children <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  include_parents <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  include_parents <span class="op">=</span> <span class="va">keep</span>,</span>
 <span>  full_trips <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -100,13 +100,16 @@ to <code>TRUE</code>, which keeps the entries).</p></dd>
 <dt>include_children</dt>
 <dd><p>A logical. Whether the filtered output should
 keep/drop children stops of those specified in <code>stop_id</code>. Defaults to
-<code>TRUE</code>.</p></dd>
+<code>TRUE</code> - i.e. by default children stops are kept if their parents are kept
+and dropped if their parents are dropped.</p></dd>
 
 
 <dt>include_parents</dt>
 <dd><p>A logical. Whether the filtered output should
 keep/drop parent stations of those specified in <code>stop_id</code>. Defaults to
-<code>TRUE</code>.</p></dd>
+the same value of <code>keep</code> - i.e. by default parent stations are kept both
+when their children are kept and dropped, because they can be parents of
+multiple stops that are not necessarily dropped, even if their sibling are.</p></dd>
 
 
 <dt>full_trips</dt>
@@ -136,6 +139,7 @@ process.</p>
 <code><a href="filter_by_service_id.html">filter_by_service_id</a>()</code>,
 <code><a href="filter_by_sf.html">filter_by_sf</a>()</code>,
 <code><a href="filter_by_shape_id.html">filter_by_shape_id</a>()</code>,
+<code><a href="filter_by_spatial_extent.html">filter_by_spatial_extent</a>()</code>,
 <code><a href="filter_by_time_of_day.html">filter_by_time_of_day</a>()</code>,
 <code><a href="filter_by_trip_id.html">filter_by_trip_id</a>()</code>,
 <code><a href="filter_by_weekday.html">filter_by_weekday</a>()</code></p></div>
