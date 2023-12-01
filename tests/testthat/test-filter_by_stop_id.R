@@ -6,7 +6,7 @@ tester <- function(gtfs = spo_gtfs,
                    stop_id = spo_stops,
                    keep = TRUE,
                    include_children = TRUE,
-                   include_parents = TRUE,
+                   include_parents = keep,
                    full_trips = TRUE) {
   filter_by_stop_id(
     gtfs,
@@ -337,4 +337,14 @@ test_that("include_parents and include_children arguments work correctly", {
   expect_true(
     all(parent_and_children$stops$stop_id %in% c("F12S", "B1", "B3", "F12"))
   )
+
+  # by default include_parents = keep and include_children = TRUE
+
+  only_stop_dropping <- tester2(ggl_gtfs, ggl_stop, keep = FALSE)
+  expect_true("F12" %in% only_stop_dropping$stops$stop_id)
+  expect_true(!any(c("F12S", "B1", "B3") %in% only_stop_dropping$stops$stop_id))
+
+  only_stop_dropping <- tester2(ggl_gtfs, ggl_stop, keep = FALSE)
+  expect_true("F12" %in% only_stop_dropping$stops$stop_id)
+  expect_true(!any(c("F12S", "B1", "B3") %in% only_stop_dropping$stops$stop_id))
 })

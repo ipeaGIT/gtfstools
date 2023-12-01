@@ -9,7 +9,7 @@ filter_by_stop_id(
   stop_id,
   keep = TRUE,
   include_children = TRUE,
-  include_parents = TRUE,
+  include_parents = keep,
   full_trips = TRUE
 )
 }
@@ -24,11 +24,14 @@ to \code{TRUE}, which keeps the entries).}
 
 \item{include_children}{A logical. Whether the filtered output should
 keep/drop children stops of those specified in \code{stop_id}. Defaults to
-\code{TRUE}.}
+\code{TRUE} - i.e. by default children stops are kept if their parents are kept
+and dropped if their parents are dropped.}
 
 \item{include_parents}{A logical. Whether the filtered output should
 keep/drop parent stations of those specified in \code{stop_id}. Defaults to
-\code{TRUE}.}
+the same value of \code{keep} - i.e. by default parent stations are kept both
+when their children are kept and dropped, because they can be parents of
+multiple stops that are not necessarily dropped, even if their sibling are.}
 
 \item{full_trips}{A logical. Whether to keep all stops that compose trips
 that pass through the stops specified in \code{stop_id}. Defaults to \code{TRUE}, in

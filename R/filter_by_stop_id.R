@@ -10,10 +10,13 @@
 #'   to `TRUE`, which keeps the entries).
 #' @param include_children A logical. Whether the filtered output should
 #'   keep/drop children stops of those specified in `stop_id`. Defaults to
-#'   `TRUE`.
+#'   `TRUE` - i.e. by default children stops are kept if their parents are kept
+#'   and dropped if their parents are dropped.
 #' @param include_parents A logical. Whether the filtered output should
 #'   keep/drop parent stations of those specified in `stop_id`. Defaults to
-#'   `TRUE`.
+#'   the same value of `keep` - i.e. by default parent stations are kept both
+#'   when their children are kept and dropped, because they can be parents of
+#'   multiple stops that are not necessarily dropped, even if their sibling are.
 #' @param full_trips A logical. Whether to keep all stops that compose trips
 #'   that pass through the stops specified in `stop_id`. Defaults to `TRUE`, in
 #'   order to preserve the behavior of the function in versions 1.2.0 and below.
@@ -24,7 +27,7 @@
 #'   onward.
 #'
 #' @return The GTFS object passed to the `gtfs` parameter, after the filtering
-#' process.
+#'   process.
 #'
 #' @family filtering functions
 #'
@@ -48,7 +51,7 @@ filter_by_stop_id <- function(gtfs,
                               stop_id,
                               keep = TRUE,
                               include_children = TRUE,
-                              include_parents = TRUE,
+                              include_parents = keep,
                               full_trips = TRUE) {
   gtfs <- assert_and_assign_gtfs_object(gtfs)
   checkmate::assert_character(stop_id, any.missing = FALSE)
