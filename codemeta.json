@@ -178,6 +178,18 @@
     },
     "3": {
       "@type": "SoftwareApplication",
+      "identifier": "cli",
+      "name": "cli",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=cli"
+    },
+    "4": {
+      "@type": "SoftwareApplication",
       "identifier": "curl",
       "name": "curl",
       "provider": {
@@ -188,7 +200,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=curl"
     },
-    "4": {
+    "5": {
       "@type": "SoftwareApplication",
       "identifier": "data.table",
       "name": "data.table",
@@ -200,7 +212,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=data.table"
     },
-    "5": {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "gtfsio",
       "name": "gtfsio",
@@ -213,7 +225,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=gtfsio"
     },
-    "6": {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "parallelly",
       "name": "parallelly",
@@ -225,7 +237,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=parallelly"
     },
-    "7": {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "processx",
       "name": "processx",
@@ -237,7 +249,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=processx"
     },
-    "8": {
+    "9": {
       "@type": "SoftwareApplication",
       "identifier": "rlang",
       "name": "rlang",
@@ -249,7 +261,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=rlang"
     },
-    "9": {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "sf",
       "name": "sf",
@@ -261,7 +273,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=sf"
     },
-    "10": {
+    "11": {
       "@type": "SoftwareApplication",
       "identifier": "sfheaders",
       "name": "sfheaders",
@@ -273,7 +285,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=sfheaders"
     },
-    "11": {
+    "12": {
       "@type": "SoftwareApplication",
       "identifier": "units",
       "name": "units",
@@ -285,12 +297,12 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=units"
     },
-    "12": {
+    "13": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
-    "13": {
+    "14": {
       "@type": "SoftwareApplication",
       "identifier": "zip",
       "name": "zip",
@@ -304,7 +316,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "3391.765KB",
+  "fileSize": "3393.64KB",
   "releaseNotes": "https://github.com/ipeaGIT/gtfstools/blob/master/NEWS.md",
   "readme": "https://github.com/ipeaGIT/gtfstools/blob/master/README.md",
   "contIntegration": ["https://github.com/ipeaGIT/gtfstools/actions?query=workflow%3Acheck", "https://app.codecov.io/gh/ipeaGIT/gtfstools?branch=master"],

@@ -28,6 +28,7 @@ Depends:
     R (>= 2.10)
 Imports:
     checkmate,
+    cli,
     curl,
     data.table,
     gtfsio (>= 1.0.0),
@@ -50,8 +51,8 @@ LinkingTo:
     cpp11
 VignetteBuilder: 
     knitr
+Config/testthat/edition: 3
 Encoding: UTF-8
 NeedsCompilation: yes
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
-Config/testthat/edition: 3
