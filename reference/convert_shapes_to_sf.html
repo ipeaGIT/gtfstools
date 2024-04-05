@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0</span>
       </span>
     </div>
 
@@ -69,7 +69,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">convert_shapes_to_sf</span><span class="op">(</span><span class="va">gtfs</span>, shape_id <span class="op">=</span> <span class="cn">NULL</span>, crs <span class="op">=</span> <span class="fl">4326</span>, sort_sequence <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">convert_shapes_to_sf</span><span class="op">(</span><span class="va">gtfs</span>, shape_id <span class="op">=</span> <span class="cn">NULL</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -86,14 +86,6 @@ If <code>NULL</code> (the default), all shapes are converted.</p></dd>
 <dt>crs</dt>
 <dd><p>The CRS of the resulting object, either as an EPSG code or as an
 <code>crs</code> object. Defaults to 4326 (WGS 84).</p></dd>
-
-
-<dt>sort_sequence</dt>
-<dd><p>A logical. Whether to sort shapes by
-<code>shape_pt_sequence</code>. Defaults to <code>FALSE</code>, otherwise spec-compliant feeds,
-in which shape points are already ordered by <code>shape_pt_sequence</code>, would be
-penalized through longer processing times. Shapes generated from unordered
-sequences do not correctly depict the real life trip shapes.</p></dd>
 
 </dl></div>
     <div id="value">

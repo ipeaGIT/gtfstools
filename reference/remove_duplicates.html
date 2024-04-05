@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0</span>
       </span>
     </div>
 
@@ -93,17 +93,21 @@
 <span class="r-in"><span><span class="co"># this gtfs includes some duplicated entries</span></span></span>
 <span class="r-in"><span><span class="va">gtfs</span><span class="op">$</span><span class="va">agency</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    agency_id agency_name                               agency_url</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;char&gt;      &lt;char&gt;                                   &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:         1     SPTRANS http://www.sptrans.com.br/?versao=011019</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:         1     SPTRANS http://www.sptrans.com.br/?versao=011019</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      agency_timezone agency_lang</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               &lt;char&gt;      &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: America/Sao_Paulo          pt</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: America/Sao_Paulo          pt</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu">remove_duplicates</span><span class="op">(</span><span class="va">gtfs</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">gtfs</span><span class="op">$</span><span class="va">agency</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    agency_id agency_name                               agency_url</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;char&gt;      &lt;char&gt;                                   &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:         1     SPTRANS http://www.sptrans.com.br/?versao=011019</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      agency_timezone agency_lang</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               &lt;char&gt;      &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: America/Sao_Paulo          pt</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

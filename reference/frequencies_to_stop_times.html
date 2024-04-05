@@ -18,7 +18,7 @@ frequencies table."><meta property="og:image" content="/logo.png"><!-- mathjax -
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0</span>
       </span>
     </div>
 
@@ -134,6 +134,7 @@ would be called <code>"example_trip_1"</code>, <code>"example_trip_2"</code> and
 <span class="r-in"><span><span class="co"># how the specified trip_id was described in the frequencies table</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">gtfs</span><span class="op">$</span><span class="va">frequencies</span><span class="op">[</span><span class="va">trip_id</span> <span class="op">==</span> <span class="va">trip</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       trip_id start_time end_time headway_secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;char&gt;     &lt;char&gt;   &lt;char&gt;        &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: CPTM L07-0   04:00:00 04:59:00          720</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: CPTM L07-0   05:00:00 05:59:00          360</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3: CPTM L07-0   06:00:00 06:59:00          360</span>
@@ -145,6 +146,7 @@ would be called <code>"example_trip_1"</code>, <code>"example_trip_2"</code> and
 <span class="r-in"><span><span class="va">equivalent_stop_times</span> <span class="op">&lt;-</span> <span class="va">converted_gtfs</span><span class="op">$</span><span class="va">stop_times</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="va">trip</span>, <span class="va">trip_id</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="va">equivalent_stop_times</span><span class="op">[</span><span class="va">equivalent_stop_times</span><span class="op">[</span>, <span class="va">.I</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, by <span class="op">=</span> <span class="va">trip_id</span><span class="op">]</span><span class="op">$</span><span class="va">V1</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             trip_id arrival_time departure_time stop_id stop_sequence</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              &lt;char&gt;       &lt;char&gt;         &lt;char&gt;  &lt;char&gt;         &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1:   CPTM L07-0_1     04:00:00       04:00:00   18940             1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   2:   CPTM L07-0_2     04:12:00       04:12:00   18940             1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   3:   CPTM L07-0_3     04:24:00       04:24:00   18940             1</span>

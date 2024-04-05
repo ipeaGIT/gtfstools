@@ -19,7 +19,7 @@ parents, then parents' parents, and then their parents, and so on)."><meta prope
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0</span>
       </span>
     </div>
 
@@ -110,6 +110,7 @@ is marked as <code>""</code>.</p>
 <span class="r-in"><span><span class="va">parents</span> <span class="op">&lt;-</span> <span class="fu">get_parent_station</span><span class="op">(</span><span class="va">gtfs</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">parents</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    stop_id parent_station</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;char&gt;         &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:     F12               </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:      E1            F12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:      E2            F12</span>
@@ -121,6 +122,7 @@ is marked as <code>""</code>.</p>
 <span class="r-in"><span><span class="va">parents</span> <span class="op">&lt;-</span> <span class="fu">get_parent_station</span><span class="op">(</span><span class="va">gtfs</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B1"</span>, <span class="st">"B2"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">parents</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    stop_id parent_station</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;char&gt;         &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:      B1           F12S</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:      B2           F12N</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:    F12S            F12</span>

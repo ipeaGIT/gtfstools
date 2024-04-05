@@ -18,7 +18,7 @@ in each file."><meta property="og:image" content="/logo.png"><!-- mathjax --><sc
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0</span>
       </span>
     </div>
 
@@ -145,6 +145,7 @@ pass to <code>keep</code>.</p>
 <span class="r-in"><span><span class="va">smaller_gtfs</span> <span class="op">&lt;-</span> <span class="fu">filter_by_weekday</span><span class="op">(</span><span class="va">gtfs</span>, weekday <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"monday"</span>, <span class="st">"sunday"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">smaller_gtfs</span><span class="op">$</span><span class="va">calendar</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"service_id"</span>, <span class="st">"monday"</span>, <span class="st">"sunday"</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     service_id monday sunday</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;char&gt;  &lt;int&gt;  &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1:        USD      1      1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  2:        U__      1      0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  3:        US_      1      0</span>
@@ -166,6 +167,7 @@ pass to <code>keep</code>.</p>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">smaller_gtfs</span><span class="op">$</span><span class="va">calendar</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"service_id"</span>, <span class="st">"monday"</span>, <span class="st">"sunday"</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    service_id monday sunday</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;char&gt;  &lt;int&gt;  &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:        USD      1      1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:        USD      1      1</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">object.size</a></span><span class="op">(</span><span class="va">smaller_gtfs</span><span class="op">)</span></span></span>
@@ -180,6 +182,7 @@ pass to <code>keep</code>.</p>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">smaller_gtfs</span><span class="op">$</span><span class="va">calendar</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"service_id"</span>, <span class="st">"monday"</span>, <span class="st">"sunday"</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    service_id monday sunday</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;char&gt;  &lt;int&gt;  &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:        _S_      0      0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:        _S_      0      0</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">object.size</a></span><span class="op">(</span><span class="va">smaller_gtfs</span><span class="op">)</span></span></span>
@@ -196,6 +199,7 @@ pass to <code>keep</code>.</p>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">smaller_gtfs</span><span class="op">$</span><span class="va">calendar</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"service_id"</span>, <span class="st">"monday"</span>, <span class="st">"sunday"</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     service_id monday sunday</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;char&gt;  &lt;int&gt;  &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1:        U__      1      0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  2:        US_      1      0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  3:        _SD      0      1</span>

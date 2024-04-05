@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0</span>
       </span>
     </div>
 
@@ -69,7 +69,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">merge_gtfs</span><span class="op">(</span><span class="va">...</span>, files <span class="op">=</span> <span class="cn">NULL</span>, prefix <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">merge_gtfs</span><span class="op">(</span><span class="va">...</span>, files <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">warnings</span>, prefix <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -82,6 +82,10 @@ a list of GTFS objects.</p></dd>
 <dt>files</dt>
 <dd><p>A character vector listing the GTFS tables to be merged. If
 <code>NULL</code> (the default), all tables are merged.</p></dd>
+
+
+<dt>warnings</dt>
+<dd><p>Whether to display warning messages (defaults to <code>TRUE</code>).</p></dd>
 
 
 <dt>prefix</dt>
@@ -138,10 +142,12 @@ tables from the specified GTFS objects.</p>
 <span class="r-in"><span><span class="va">merged_gtfs</span> <span class="op">&lt;-</span> <span class="fu">merge_gtfs</span><span class="op">(</span><span class="va">gtfs_list</span>, prefix <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">merged_gtfs</span><span class="op">$</span><span class="va">agency</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      agency_id    agency_name                               agency_url</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;char&gt;         &lt;char&gt;                                   &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:         1_1        SPTRANS http://www.sptrans.com.br/?versao=011019</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:         1_1        SPTRANS http://www.sptrans.com.br/?versao=011019</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3: 2_agency001 Transit Agency       http://www.transitcommuterbus.com/</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      agency_timezone agency_lang</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               &lt;char&gt;      &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: America/Sao_Paulo          pt</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: America/Sao_Paulo          pt</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:               PST          en</span>
@@ -150,10 +156,12 @@ tables from the specified GTFS objects.</p>
 <span class="r-in"><span><span class="va">merged_gtfs</span> <span class="op">&lt;-</span> <span class="fu">merge_gtfs</span><span class="op">(</span><span class="va">gtfs_list</span>, prefix <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"spo"</span>, <span class="st">"ggl"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">merged_gtfs</span><span class="op">$</span><span class="va">agency</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        agency_id    agency_name                               agency_url</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;char&gt;         &lt;char&gt;                                   &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:         spo_1        SPTRANS http://www.sptrans.com.br/?versao=011019</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:         spo_1        SPTRANS http://www.sptrans.com.br/?versao=011019</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3: ggl_agency001 Transit Agency       http://www.transitcommuterbus.com/</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      agency_timezone agency_lang</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               &lt;char&gt;      &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: America/Sao_Paulo          pt</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: America/Sao_Paulo          pt</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:               PST          en</span>

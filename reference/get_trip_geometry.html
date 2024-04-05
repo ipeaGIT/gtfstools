@@ -18,7 +18,7 @@ shapes or the stop_times file (or both)."><meta property="og:image" content="/lo
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0</span>
       </span>
     </div>
 
@@ -71,13 +71,7 @@ shapes or the stop_times file (or both)."><meta property="og:image" content="/lo
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_trip_geometry</span><span class="op">(</span></span>
-<span>  <span class="va">gtfs</span>,</span>
-<span>  trip_id <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  file <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  crs <span class="op">=</span> <span class="fl">4326</span>,</span>
-<span>  sort_sequence <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_trip_geometry</span><span class="op">(</span><span class="va">gtfs</span>, trip_id <span class="op">=</span> <span class="cn">NULL</span>, file <span class="op">=</span> <span class="cn">NULL</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -102,16 +96,6 @@ both files, but only raises an error if none of the files exist.</p></dd>
 <dt>crs</dt>
 <dd><p>The CRS of the resulting object, either as an EPSG code or as an
 <code>crs</code> object. Defaults to 4326 (WGS 84).</p></dd>
-
-
-<dt>sort_sequence</dt>
-<dd><p>A logical specifying whether to sort shapes and
-timetables by <code>shape_pt_sequence</code> and <code>stop_sequence</code>, respectively.
-Defaults to <code>FALSE</code>, otherwise spec-compliant feeds, in which
-shape/timetables points are already ordered by
-<code>shape_pt_sequence</code>/<code>stop_sequence</code>, would be penalized through longer
-processing times. Geometries generated from unordered sequences do not
-correctly depict the trip trajectories.</p></dd>
 
 </dl></div>
     <div id="value">

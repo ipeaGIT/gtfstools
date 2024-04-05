@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0</span>
       </span>
     </div>
 
@@ -69,12 +69,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_trip_segment_duration</span><span class="op">(</span></span>
-<span>  <span class="va">gtfs</span>,</span>
-<span>  trip_id <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  unit <span class="op">=</span> <span class="st">"min"</span>,</span>
-<span>  sort_sequence <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_trip_segment_duration</span><span class="op">(</span><span class="va">gtfs</span>, trip_id <span class="op">=</span> <span class="cn">NULL</span>, unit <span class="op">=</span> <span class="st">"min"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -93,15 +88,6 @@ calculates the segments' duration of every <code>trip_id</code> in the GTFS.</p>
 <dd><p>A string representing the time unit in which the duration is
 desired. One of <code>"s"</code> (seconds), <code>"min"</code> (minutes, the default),
 <code>"h"</code> (hours) or <code>"d"</code> (days).</p></dd>
-
-
-<dt>sort_sequence</dt>
-<dd><p>A logical specifying whether to sort timetables by
-<code>stop_sequence</code>. Defaults to <code>FALSE</code>, otherwise spec-compliant feeds, in
-which timetables points are already ordered by <code>stop_sequence</code>, would be
-penalized through longer processing times. Durations calculated from
-unordered timetables do not correctly depict the real life segment
-durations.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -130,6 +116,7 @@ between its arrival time and its departure time, as specified in the
 <span class="r-in"><span><span class="va">trip_segment_dur</span> <span class="op">&lt;-</span> <span class="fu">get_trip_segment_duration</span><span class="op">(</span><span class="va">gtfs</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">trip_segment_dur</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       trip_id segment duration</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;char&gt;   &lt;int&gt;    &lt;num&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: CPTM L07-0       1        8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: CPTM L07-0       2        8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3: CPTM L07-0       3        8</span>
@@ -141,6 +128,7 @@ between its arrival time and its departure time, as specified in the
 <span class="r-in"><span><span class="va">trip_segment_dur</span> <span class="op">&lt;-</span> <span class="fu">get_trip_segment_duration</span><span class="op">(</span><span class="va">gtfs</span>, trip_id <span class="op">=</span> <span class="st">"CPTM L07-0"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">trip_segment_dur</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        trip_id segment duration</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;char&gt;   &lt;int&gt;    &lt;num&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1: CPTM L07-0       1        8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  2: CPTM L07-0       2        8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  3: CPTM L07-0       3        8</span>
@@ -163,6 +151,7 @@ between its arrival time and its departure time, as specified in the
 <span class="r-in"><span><span class="va">trip_segment_dur</span> <span class="op">&lt;-</span> <span class="fu">get_trip_segment_duration</span><span class="op">(</span><span class="va">gtfs</span>, <span class="st">"CPTM L07-0"</span>, unit <span class="op">=</span> <span class="st">"s"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">trip_segment_dur</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        trip_id segment duration</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;char&gt;   &lt;int&gt;    &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1: CPTM L07-0       1      480</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  2: CPTM L07-0       2      480</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  3: CPTM L07-0       3      480</span>
