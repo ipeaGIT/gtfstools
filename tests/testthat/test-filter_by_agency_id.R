@@ -10,6 +10,8 @@ tester <- function(gtfs = ber_gtfs, agency_id = ber_agency, keep = TRUE) {
   filter_by_agency_id(gtfs, agency_id, keep)
 }
 
+
+
 # tests -------------------------------------------------------------------
 
 test_that("raises error due to incorrect input types", {
@@ -150,6 +152,8 @@ test_that("the function filters google's gtfs correctly", {
   # frequencies
   expect_true(all(smaller_ggl$frequencies$trip_id %chin% relevant_trips))
 })
+
+
 
 test_that("behaves correctly when agency_id = character(0)", {
   # if keep = TRUE, gtfs should be empty
