@@ -63,7 +63,7 @@ Please read **gtfstools** vignettes for more on the package usage:
 
   - [`{tidytransit}`](https://github.com/r-transit/tidytransit)
   - [`{gtfs2gps}`](https://github.com/ipeaGIT/gtfs2gps)
-  - [`{gtfsrouter}`](https://github.com/ATFutures/gtfs-router)
+  - [`{gtfsrouter}`](https://github.com/UrbanAnalyst/gtfsrouter)
 
 ## Acknowledgement <a href="https://www.ipea.gov.br"><img align="right" src="man/figures/ipea_logo.png" alt="IPEA" width="300" /></a>
 

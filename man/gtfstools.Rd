@@ -3,7 +3,6 @@
 \docType{package}
 \name{gtfstools}
 \alias{gtfstools}
-\alias{_PACKAGE}
 \alias{gtfstools-package}
 \title{gtfstools: General Transit Feed Specification (GTFS) Editing and Analysing
 Tools}
