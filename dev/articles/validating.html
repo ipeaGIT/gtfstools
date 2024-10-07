@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.2.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.3.0.9000</span>
       </span>
     </div>
 
@@ -81,7 +81,7 @@
 
 
 
-      </header><script src="validating_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Validating GTFS feeds</h1>
@@ -94,16 +94,47 @@
 
     
     
-<p>Transport planners and researchers very frequently want to assess the quality of the GTFS feeds they have produced and consumed. Are the feeds structured according to the <a href="https://github.com/MobilityData/GTFS_Schedule_Best-Practices" class="external-link">best practices</a> agreed by members of the larger GTFS community? Are tables and fields adequately formatted? Is the information described in the feed reasonable (vehicle speeds, stop locations, etc.)? These are some of the questions that may arise when dealing with GTFS data.</p>
-<p>In order to answer these puzzling questions, <strong>gtfstools</strong> includes <code><a href="../reference/validate_gtfs.html">validate_gtfs()</a></code>, a function that wraps the <a href="https://github.com/MobilityData/gtfs-validator" class="external-link">Canonical GTFS Validator</a> developed by MobilityData. The validator requires Java 11 or higher to run - you can check the version you have currently installed with the command <code>java -version</code> on a terminal session or with the command <code>system("java -version")</code> from your R session. If need be, you can download Java 11 from <a href="https://jdk.java.net/java-se-ri/11" class="external-link uri">https://jdk.java.net/java-se-ri/11</a>.</p>
-<p>Using <code><a href="../reference/validate_gtfs.html">validate_gtfs()</a></code> is very simple and requires no more than a few function calls. First we need to download the validator command-line tool. We can do it manually from MobilityData releases, or we can use <code><a href="../reference/download_validator.html">download_validator()</a></code>. This function takes a path to a directory where the validator should be saved to and a validator version, which defaults to the latest release, and returns the path to the downloaded validator. Please note that manually downloaded validators should be saved with the same filename convention used by the function (i.e. <code>gtfs-validator-vX.Y.Z.jar</code>). This is important to make sure that our validation function can correctly parse the command-line tool version, which controls some of its behavior.</p>
+<p>Transport planners and researchers very frequently want to assess the
+quality of the GTFS feeds they have produced and consumed. Are the feeds
+structured according to the <a href="https://github.com/MobilityData/GTFS_Schedule_Best-Practices" class="external-link">best
+practices</a> agreed by members of the larger GTFS community? Are tables
+and fields adequately formatted? Is the information described in the
+feed reasonable (vehicle speeds, stop locations, etc.)? These are some
+of the questions that may arise when dealing with GTFS data.</p>
+<p>In order to answer these puzzling questions,
+<strong>gtfstools</strong> includes <code><a href="../reference/validate_gtfs.html">validate_gtfs()</a></code>, a
+function that wraps the <a href="https://github.com/MobilityData/gtfs-validator" class="external-link">Canonical GTFS
+Validator</a> developed by MobilityData. The validator requires Java 11
+or higher to run - you can check the version you have currently
+installed with the command <code>java -version</code> on a terminal
+session or with the command <code>system("java -version")</code> from
+your R session. If need be, you can download Java 11 from <a href="https://www.oracle.com/java/technologies/downloads" class="external-link uri">https://www.oracle.com/java/technologies/downloads</a>.</p>
+<p>Using <code><a href="../reference/validate_gtfs.html">validate_gtfs()</a></code> is very simple and requires no
+more than a few function calls. First we need to download the validator
+command-line tool. We can do it manually from MobilityData releases, or
+we can use <code><a href="../reference/download_validator.html">download_validator()</a></code>. This function takes a path
+to a directory where the validator should be saved to and a validator
+version, which defaults to the latest release, and returns the path to
+the downloaded validator. Please note that manually downloaded
+validators should be saved with the same filename convention used by the
+function (i.e. <code>gtfs-validator-vX.Y.Z.jar</code>). This is
+important to make sure that our validation function can correctly parse
+the command-line tool version, which controls some of its behavior.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ipeagit.github.io/gtfstools/" class="external-link">gtfstools</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">latest_validator</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/download_validator.html">download_validator</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">latest_validator</span></span>
-<span><span class="co">#&gt; [1] "/tmp/RtmpYG2uly/gtfs-validator-v4.2.0.jar"</span></span></code></pre></div>
-<p>The second (and final) step is actually running <code><a href="../reference/validate_gtfs.html">validate_gtfs()</a></code>. To do that we need some GTFS data, which the function accepts in varying formats: it can be a GTFS object, as created with <code><a href="../reference/read_gtfs.html">read_gtfs()</a></code>, a path to local GTFS file, an URL to a feed or a path to a local directory containing the GTFS data. It also takes a path to the directory where the validator output should be saved to and the path to the validator, previously generated with <code><a href="../reference/download_validator.html">download_validator()</a></code>. Let’s see how it works, using the same GTFS data in three different formats:</p>
+<span><span class="co">#&gt; [1] "/tmp/RtmpajUUZ3/gtfs-validator-v4.2.0.jar"</span></span></code></pre></div>
+<p>The second (and final) step is actually running
+<code><a href="../reference/validate_gtfs.html">validate_gtfs()</a></code>. To do that we need some GTFS data, which
+the function accepts in varying formats: it can be a GTFS object, as
+created with <code><a href="../reference/read_gtfs.html">read_gtfs()</a></code>, a path to local GTFS file, an URL
+to a feed or a path to a local directory containing the GTFS data. It
+also takes a path to the directory where the validator output should be
+saved to and the path to the validator, previously generated with
+<code><a href="../reference/download_validator.html">download_validator()</a></code>. Let’s see how it works, using the
+same GTFS data in three different formats:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/spo_gtfs.zip"</span>, package <span class="op">=</span> <span class="st">"gtfstools"</span><span class="op">)</span></span>
 <span></span>
@@ -115,17 +146,30 @@
 <p>As we can see, the validation generates a few output files:</p>
 <ul>
 <li>
-<code>report.html</code>, shown below, summarizes the validation results in a nicely formatted HTML page (only available when using validator v3.1.0 or higher);</li>
+<code>report.html</code>, shown below, summarizes the validation
+results in a nicely formatted HTML page (only available when using
+validator v3.1.0 or higher);</li>
 <li>
-<code>report.json</code> summarizes the exact same information, but in JSON format, which can be used to easily parse and process the results;</li>
+<code>report.json</code> summarizes the exact same information, but
+in JSON format, which can be used to easily parse and process the
+results;</li>
 <li>
-<code>system_errors.json</code> summarizes eventual system erros that may have happened during the validation and may compromise the results;</li>
+<code>system_errors.json</code> summarizes eventual system erros
+that may have happened during the validation and may compromise the
+results;</li>
 <li>
-<code>validation_stderr.txt</code> lists the informative messages sent by the command-line tool to the standard error output stream, which includes the list of validators in use, eventual error messages, etc;</li>
-<li>had the command-line tool printed anything to the standard output stream, the content would have been saved in <code>validation_stdout.txt</code><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</li>
+<code>validation_stderr.txt</code> lists the informative messages
+sent by the command-line tool to the standard error output stream, which
+includes the list of validators in use, eventual error messages,
+etc;</li>
+<li>had the command-line tool printed anything to the standard output
+stream, the content would have been saved in
+<code>validation_stdout.txt</code><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</li>
 </ul>
 <p><img src="../reference/figures/html_validation_report.png" width="100%"></p>
-<p>Had we run the validator using the same GTFS data in different formats (an URL or a GTFS object, for example) the results would be exactly the same:</p>
+<p>Had we run the validator using the same GTFS data in different
+formats (an URL or a GTFS object, for example) the results would be
+exactly the same:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gtfs_url</span> <span class="op">&lt;-</span> <span class="st">"https://github.com/ipeaGIT/gtfstools/raw/master/inst/extdata/spo_gtfs.zip"</span></span>
 <span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_gtfs.html">read_gtfs</a></span><span class="op">(</span><span class="va">data_path</span><span class="op">)</span></span>
@@ -150,11 +194,17 @@
 <span><span class="co">#&gt; [1] FALSE</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">path_output_content</span>, <span class="va">object_output_content</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
-<p>Once again, it’s important to acknowledge that <code><a href="../reference/validate_gtfs.html">validate_gtfs()</a></code> only exists thanks to the hard-work of folks at <a href="https://github.com/MobilityData/gtfs-validator" class="external-link">MobilityData/gtfs-validator</a>. A huge shoutout to them!</p>
-<div class="footnotes">
+<p>Once again, it’s important to acknowledge that
+<code><a href="../reference/validate_gtfs.html">validate_gtfs()</a></code> only exists thanks to the hard-work of
+folks at <a href="https://github.com/MobilityData/gtfs-validator" class="external-link">MobilityData/gtfs-validator</a>.
+A huge shoutout to them!</p>
+<div class="footnotes footnotes-end-of-document">
 <hr>
 <ol>
-<li id="fn1"><p>Please note that the content of <code>validation_stdout.txt</code> and <code>validation_stderr.txt</code> may slightly vary depending on the version of the validator.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn1"><p>Please note that the content of
+<code>validation_stdout.txt</code> and
+<code>validation_stderr.txt</code> may slightly vary depending on the
+version of the validator.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
   </div>
@@ -174,7 +224,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.2.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.3.0.9000</span>
       </span>
     </div>
 
@@ -66,7 +66,19 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="development version" id="gtfstools-development-version">gtfstools (development version)<a class="anchor" aria-label="anchor" href="#gtfstools-development-version"></a></h2>
 <div class="section level3">
+<h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+</div>
+<div class="section level3">
 <h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+</div>
+<div class="section level3">
+<h3 id="notes-development-version">Notes<a class="anchor" aria-label="anchor" href="#notes-development-version"></a></h3>
+</div>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.3.0" id="gtfstools-130">gtfstools 1.3.0<small>2024-10-07</small><a class="anchor" aria-label="anchor" href="#gtfstools-130"></a></h2>
+<div class="section level3">
+<h3 id="new-features-1-3-0">New features<a class="anchor" aria-label="anchor" href="#new-features-1-3-0"></a></h3>
 <ul><li>New function <code><a href="../reference/convert_sf_to_shapes.html">convert_sf_to_shapes()</a></code>.</li>
 <li>New generic function <code><a href="../reference/as_dt_gtfs.html">as_dt_gtfs()</a></code> with methods for a few different classes (<code>tidygtfs</code>, <code>gtfs</code> and <code>list</code>).</li>
 <li>
@@ -80,7 +92,7 @@
 <li>New parameters to <code><a href="../reference/filter_by_stop_id.html">filter_by_stop_id()</a></code>: <code>include_children</code> and <code>include_parents</code>.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<h3 id="bug-fixes-1-3-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-3-0"></a></h3>
 <ul><li>Fixed a bug in <code><a href="../reference/convert_to_standard.html">convert_to_standard()</a></code> in which the date fields from <code>feed_info</code> would not be converted back to an integer in their standard format (YYYYMMDD).</li>
 <li>Filtering functions now also filter the <code>transfers</code> table based on <code>trip_id</code> and <code>route_id</code>. Previously they would filter it based only on <code>stop_id</code>. Thanks Daniel Langbein (<a href="https://github.com/langbein-daniel" class="external-link">@langbein-daniel</a>).</li>
 <li>Fixed a bug in <code><a href="../reference/filter_by_route_id.html">filter_by_route_id()</a></code> in which feeds with only one agency that omitted <code>agency_id</code> in <code>routes</code> and <code>fare_attributes</code> would end up with an empty <code>agency</code> table.</li>
@@ -88,13 +100,13 @@
 <code><a href="../reference/filter_by_sf.html">filter_by_sf()</a></code> now correctly throws an error when an unsupported function is passed to <code>spatial_operation</code>.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="feature-deprecation-development-version">Feature deprecation<a class="anchor" aria-label="anchor" href="#feature-deprecation-development-version"></a></h3>
+<h3 id="feature-deprecation-1-3-0">Feature deprecation<a class="anchor" aria-label="anchor" href="#feature-deprecation-1-3-0"></a></h3>
 <ul><li>The <code><a href="../reference/filter_by_stop_id.html">filter_by_stop_id()</a></code> behavior of filtering by trips that contain the specified stops has been deprecated. For backwards compatibility reasons, this behavior is still the default as of the current version and is controlled by the parameter <code>full_trips</code>. To actually filter by stop ids (the behavior that we now believe is the most appropriate), please use <code>full_trips   = FALSE</code>. This behavior will be the default from version 2.0.0 onward. To achieve the old behavior, manually subset the stop_times table by <code>stop_id</code> and specify the <code>trip_id</code>s included in the output in <code><a href="../reference/filter_by_trip_id.html">filter_by_trip_id()</a></code>.</li>
 <li>
 <code><a href="../reference/filter_by_sf.html">filter_by_sf()</a></code> has been deprecated in favor of <code><a href="../reference/filter_by_spatial_extent.html">filter_by_spatial_extent()</a></code>. For backwards compatibility reasons, usage of <code><a href="../reference/filter_by_sf.html">filter_by_sf()</a></code> is still allowed as of the curent version, but the function will be removed from the package in version 2.0.0.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="notes-development-version">Notes<a class="anchor" aria-label="anchor" href="#notes-development-version"></a></h3>
+<h3 id="notes-1-3-0">Notes<a class="anchor" aria-label="anchor" href="#notes-1-3-0"></a></h3>
 <ul><li>
 <code><a href="../reference/validate_gtfs.html">validate_gtfs()</a></code> now defaults to run sequentially. Previously it would default to run parallelly using all available cores. Heavily inspired by Henrik Bengtsson post “Please Avoid detectCores() in your R packages” (<a href="https://www.jottr.org/2022/12/05/avoid-detectcores/" class="external-link uri">https://www.jottr.org/2022/12/05/avoid-detectcores/</a>).</li>
 <li>Improved performance of <code><a href="../reference/seconds_to_string.html">seconds_to_string()</a></code> and, consequently, any other functions that use it.</li>
@@ -176,7 +188,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="notes-1-0-0">Notes<a class="anchor" aria-label="anchor" href="#notes-1-0-0"></a></h3>
-<ul><li>Some utility functions previously provided by <a href="https://github.com/ipeaGIT/gtfs2gps" class="external-link"><code>{gtfs2gps}</code></a> will now be exported by <a href="https://ipeagit.github.io/gtfstools/" class="external-link">gtfstools</a>. Huge thanks to the whole <a href="https://github.com/ipeaGIT/gtfs2gps" class="external-link">gtfs2gps</a> crew (Rafael Pereira <a href="https://github.com/rafapereirabr" class="external-link">@rafapereirabr</a>, Pedro Andrade <a href="https://github.com/pedro-andrade-inpe" class="external-link">@pedro-andrade-inpe</a> and João Bazzo <a href="https://github.com/Joaobazzo" class="external-link">@Joaobazzo</a>)!</li>
+<ul><li>Some utility functions previously provided by <a href="https://github.com/ipeaGIT/gtfs2gps" class="external-link"><code>{gtfs2gps}</code></a> will now be exported by <a href="https://ipeagit.github.io/gtfstools/" class="external-link">gtfstools</a>. Huge thanks to the whole <code>{gtfs2gps}</code> crew (Rafael Pereira <a href="https://github.com/rafapereirabr" class="external-link">@rafapereirabr</a>, Pedro Andrade <a href="https://github.com/pedro-andrade-inpe" class="external-link">@pedro-andrade-inpe</a> and João Bazzo <a href="https://github.com/Joaobazzo" class="external-link">@Joaobazzo</a>)!</li>
 <li>The package now imports <a href="https://r-transit.github.io/gtfsio/" class="external-link">gtfsio</a>, and many functions now heavily rely on it, such as <code><a href="../reference/read_gtfs.html">read_gtfs()</a></code> and <code><a href="../reference/write_gtfs.html">write_gtfs()</a></code>.</li>
 <li>Internal function <code><a href="../reference/string_to_seconds.html">string_to_seconds()</a></code> now runs much faster thanks to Mark Padgham (<a href="https://github.com/mpadge" class="external-link">@mpadge</a>).</li>
 <li>
@@ -191,7 +203,8 @@
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.1.0" id="gtfstools-010">gtfstools 0.1.0<small>2021-02-23</small><a class="anchor" aria-label="anchor" href="#gtfstools-010"></a></h2>
-<ul><li>Initial CRAN release.</li></ul></div>
+<ul><li>Initial CRAN release.</li>
+</ul></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -206,7 +219,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
