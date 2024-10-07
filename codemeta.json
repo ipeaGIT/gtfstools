@@ -4,23 +4,17 @@
   "identifier": "gtfstools",
   "description": "Utility functions to read, manipulate, analyse and write transit feeds in the General Transit Feed Specification (GTFS) data format.",
   "name": "gtfstools: General Transit Feed Specification (GTFS) Editing and Analysing\n    Tools",
-  "relatedLink": ["https://ipeagit.github.io/gtfstools/", "https://CRAN.R-project.org/package=gtfstools"],
+  "relatedLink": "https://ipeagit.github.io/gtfstools/",
   "codeRepository": "https://github.com/ipeaGIT/gtfstools",
   "issueTracker": "https://github.com/ipeaGIT/gtfstools/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.2.0.9000",
+  "version": "1.3.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.3.2 (2023-10-31)",
-  "provider": {
-    "@id": "https://cran.r-project.org",
-    "@type": "Organization",
-    "name": "Comprehensive R Archive Network (CRAN)",
-    "url": "https://cran.r-project.org"
-  },
+  "runtimePlatform": "R version 4.2.2 (2022-10-31 ucrt)",
   "author": [
     {
       "@type": "Person",
@@ -304,7 +298,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "3394.796KB",
+  "fileSize": "6711.288KB",
   "releaseNotes": "https://github.com/ipeaGIT/gtfstools/blob/master/NEWS.md",
   "readme": "https://github.com/ipeaGIT/gtfstools/blob/master/README.md",
   "contIntegration": ["https://github.com/ipeaGIT/gtfstools/actions?query=workflow%3Acheck", "https://app.codecov.io/gh/ipeaGIT/gtfstools?branch=master"],

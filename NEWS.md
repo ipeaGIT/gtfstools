@@ -1,4 +1,4 @@
-# gtfstools (development version)
+# gtfstools 1.3.0
 
 ## New features
 
