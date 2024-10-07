@@ -1,3 +1,11 @@
+# gtfstools (development version)
+
+## Bug fixes
+
+## New features
+
+## Notes
+
 # gtfstools 1.3.0
 
 ## New features
