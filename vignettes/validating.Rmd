@@ -32,7 +32,7 @@ MobilityData. The validator requires Java 11 or higher to run - you can check
 the version you have currently installed with the command `java -version` on a
 terminal session or with the command `system("java -version")` from your R
 session. If need be, you can download Java 11 from
-https://jdk.java.net/java-se-ri/11.
+https://www.oracle.com/java/technologies/downloads.
 
 Using `validate_gtfs()` is very simple and requires no more than a few function
 calls. First we need to download the validator command-line tool. We can do it
