@@ -12,7 +12,7 @@ available_versions <- c(
 )
 
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
-gtfs_url <- "https://github.com/ipeaGIT/gtfstools/raw/master/inst/extdata/spo_gtfs.zip"
+gtfs_url <- "https://github.com/ipeaGIT/gtfstools/raw/main/inst/extdata/spo_gtfs.zip"
 gtfs <- read_gtfs(data_path, encoding = "UTF-8")
 gtfsio_gtfs <- gtfsio::import_gtfs(data_path, encoding = "UTF-8")
 gtfs_dir <- tempfile("gtfs")
