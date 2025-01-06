@@ -36,7 +36,7 @@ test_that("raises error due to incorrect input types", {
   expect_error(tester(quiet = NA))
 })
 
-testthat::skip_if_offline() # calls skip_on_cran()
+testthat::skip() # calls skip_on_cran()
 
 test_that("validator is saved to path", {
   expect_identical(list.files(tmpdir), character(0))

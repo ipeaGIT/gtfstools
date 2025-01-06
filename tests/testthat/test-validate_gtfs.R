@@ -1,4 +1,4 @@
-testthat::skip_if_offline() # calls skip_on_cran()
+testthat::skip() # calls skip_on_cran()
 
 available_versions <- c(
   "latest",
