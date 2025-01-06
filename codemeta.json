@@ -8,13 +8,13 @@
   "codeRepository": "https://github.com/ipeaGIT/gtfstools",
   "issueTracker": "https://github.com/ipeaGIT/gtfstools/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.3.0.9000",
+  "version": "1.4.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.2.2 (2022-10-31 ucrt)",
+  "runtimePlatform": "R version 4.4.2 (2024-10-31 ucrt)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -304,9 +304,9 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "6711.277KB",
+  "fileSize": "4589.532KB",
   "releaseNotes": "https://github.com/ipeaGIT/gtfstools/blob/master/NEWS.md",
-  "readme": "https://github.com/ipeaGIT/gtfstools/blob/master/README.md",
+  "readme": "https://github.com/ipeaGIT/gtfstools/blob/main/README.md",
   "contIntegration": ["https://github.com/ipeaGIT/gtfstools/actions?query=workflow%3Acheck", "https://app.codecov.io/gh/ipeaGIT/gtfstools?branch=master"],
   "developmentStatus": "https://lifecycle.r-lib.org/articles/stages.html",
   "keywords": ["r", "gtfs", "public-transport", "publictransport"]
