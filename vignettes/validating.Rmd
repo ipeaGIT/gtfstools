@@ -14,6 +14,8 @@ knitr::opts_chunk$set(
   eval = identical(tolower(Sys.getenv("NOT_CRAN")), "true"),
   out.width = "100%"
 )
+
+Sys.setenv(OMP_THREAD_LIMIT = 2)
 ```
 
 Transport planners and researchers very frequently want to assess the quality

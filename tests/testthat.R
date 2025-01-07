@@ -1,8 +1,6 @@
-if (requireNamespace("testthat", quietly = TRUE)) {
+Sys.setenv(OMP_THREAD_LIMIT = 2)
 
-  library(testthat)
-  library(gtfstools)
+library(testthat)
+library(gtfstools)
 
-  test_check("gtfstools")
-
-}
+test_check("gtfstools")
