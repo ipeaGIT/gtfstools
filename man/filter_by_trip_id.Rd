@@ -24,6 +24,10 @@ Filters a GTFS object by \code{trip_id}s, keeping (or dropping) the relevant
 entries in each file.
 }
 \examples{
+\dontshow{
+  old_dt_threads <- data.table::setDTthreads(1)
+  on.exit(data.table::setDTthreads(old_dt_threads), add = TRUE)
+}
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 trip_ids <- c("CPTM L07-0", "2002-10-0")

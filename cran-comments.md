@@ -22,6 +22,12 @@
       From: inst/doc/gtfstools.html
       Status: 403
       Message: Forbidden
+      
+This is a resubmission.
 
-We believe this note is a false positive, seince we have not had any issues
-accessing the URL above.
+The package was flagged for having examples and vignettes with CPU time
+considerably higher than elapsed time. This was caused by the heavy reliance on
+{data.table}, which uses multiple threads by default. We have restricted the
+number of threads to 1 in the example and vignettes. We're still receiving the
+note regarding the possibly invalid URL above, but we have no issues accessing
+it.

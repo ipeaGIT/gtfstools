@@ -12,6 +12,10 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+old_dt_threads <- data.table::setDTthreads(1)
+on.exit(data.table::setDTthreads(old_dt_threads), add = TRUE)
+
 library(gtfstools)
 ```
 

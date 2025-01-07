@@ -86,6 +86,10 @@
 #' @family filtering functions
 #'
 #' @examples
+#' \dontshow{
+#'   old_dt_threads <- data.table::setDTthreads(1)
+#'   on.exit(data.table::setDTthreads(old_dt_threads), add = TRUE)
+#' }
 #' data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 #' gtfs <- read_gtfs(data_path)
 #'
@@ -471,7 +475,7 @@ filter_stop_times <- function(gtfs,
   # that have any of their stops visited inside the specified time of day. if
   # full_trips is TRUE and keep is FALSE, we drop the trips that have any of
   # their stops visited inside the time interval, and if full_trips is FALSE, we
-  # keep/drop only the stops that fall outside the time interval 
+  # keep/drop only the stops that fall outside the time interval
 
   if (keep) {
     filtered_stop_times <- gtfs$stop_times[

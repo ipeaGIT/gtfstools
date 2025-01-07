@@ -12,6 +12,9 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+old_dt_threads <- data.table::setDTthreads(1)
+on.exit(data.table::setDTthreads(old_dt_threads), add = TRUE)
 ```
 
 The General Transit Feed Specification (GTFS) data format defines a common scheme for describing transit systems, and is widely used by transit agencies around the world and consumed by many software applications. The **gtfstools** package makes handling GTFS data in **R** very easy and fast, offering many utility functions to read, manipulate, analyze and write transit feeds in such format.

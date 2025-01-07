@@ -43,6 +43,10 @@ would be called \code{"example_trip_1"}, \code{"example_trip_2"} and
 }
 
 \examples{
+\dontshow{
+  old_dt_threads <- data.table::setDTthreads(1)
+  on.exit(data.table::setDTthreads(old_dt_threads), add = TRUE)
+}
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 trip <- "CPTM L07-0"

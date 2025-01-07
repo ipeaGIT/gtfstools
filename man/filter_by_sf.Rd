@@ -37,6 +37,10 @@ dropping) entries related to shapes and trips selected through a spatial
 operation.
 }
 \examples{
+\dontshow{
+  old_dt_threads <- data.table::setDTthreads(1)
+  on.exit(data.table::setDTthreads(old_dt_threads), add = TRUE)
+}
 data_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 

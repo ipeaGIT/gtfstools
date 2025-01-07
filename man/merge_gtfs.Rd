@@ -30,6 +30,10 @@ tables from the specified GTFS objects.
 Combines many GTFS objects into a single one.
 }
 \examples{
+\dontshow{
+  old_dt_threads <- data.table::setDTthreads(1)
+  on.exit(data.table::setDTthreads(old_dt_threads), add = TRUE)
+}
 spo_path <- system.file("extdata/spo_gtfs.zip", package = "gtfstools")
 ggl_path <- system.file("extdata/ggl_gtfs.zip", package = "gtfstools")
 

@@ -25,6 +25,10 @@ first children, then children's children, and then their children, and so
 on).
 }
 \examples{
+\dontshow{
+  old_dt_threads <- data.table::setDTthreads(1)
+  on.exit(data.table::setDTthreads(old_dt_threads), add = TRUE)
+}
 data_path <- system.file("extdata/ggl_gtfs.zip", package = "gtfstools")
 gtfs <- read_gtfs(data_path)
 
