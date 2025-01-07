@@ -14,3 +14,4 @@
 ^doc$
 ^Meta$
 ^_pkgdown\.yml$
+^CRAN-SUBMISSION$
