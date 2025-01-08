@@ -29,5 +29,6 @@ The package was flagged for having examples and vignettes with CPU time
 considerably higher than elapsed time. This was caused by the heavy reliance on
 {data.table}, which uses multiple threads by default. We have restricted the
 number of threads to 1 in the examples and set the env var OMP_THREAD_LIMIT to 2
-in vignettes and tests. We're still receiving the note regarding the possibly
-invalid URL above, but we have no issues accessing it.
+in vignettes and tests. We have also skipped some tests that were flagging
+runtime errors when post-processing tests. We're still receiving the note
+regarding the possibly invalid URL above, but we have no issues accessing it.
