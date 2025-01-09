@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
       </span>
     </div>
 
@@ -60,9 +60,21 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href="https://github.com/ipeaGIT/gtfstools/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/ipeaGIT/gtfstools/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.4.0" id="gtfstools-140">gtfstools 1.4.0<small>2025-01-08</small><a class="anchor" aria-label="anchor" href="#gtfstools-140"></a></h2>
+<div class="section level3">
+<h3 id="new-features-1-4-0">New features<a class="anchor" aria-label="anchor" href="#new-features-1-4-0"></a></h3>
+<ul><li>
+<code><a href="../reference/download_validator.html">download_validator()</a></code> and <code><a href="../reference/validate_gtfs.html">validate_gtfs()</a></code> now support using validator v5.0.0, v5.0.1 and v6.0.0.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="notes-1-4-0">Notes<a class="anchor" aria-label="anchor" href="#notes-1-4-0"></a></h3>
+<ul><li>Removed the local copies of <a href="https://cpp11.r-lib.org" class="external-link">cpp11</a> functions, as the most recent releases fix the issues we were having.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.3.0" id="gtfstools-130">gtfstools 1.3.0<small>2024-10-07</small><a class="anchor" aria-label="anchor" href="#gtfstools-130"></a></h2>
 <div class="section level3">
@@ -176,7 +188,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="notes-1-0-0">Notes<a class="anchor" aria-label="anchor" href="#notes-1-0-0"></a></h3>
-<ul><li>Some utility functions previously provided by <a href="https://github.com/ipeaGIT/gtfs2gps" class="external-link"><code>{gtfs2gps}</code></a> will now be exported by <a href="https://ipeagit.github.io/gtfstools/" class="external-link">gtfstools</a>. Huge thanks to the whole <code>{gtfs2gps}</code> crew (Rafael Pereira <a href="https://github.com/rafapereirabr" class="external-link">@rafapereirabr</a>, Pedro Andrade <a href="https://github.com/pedro-andrade-inpe" class="external-link">@pedro-andrade-inpe</a> and João Bazzo <a href="https://github.com/Joaobazzo" class="external-link">@Joaobazzo</a>)!</li>
+<ul><li>Some utility functions previously provided by <a href="https://github.com/ipeaGIT/gtfs2gps" class="external-link"><code>{gtfs2gps}</code></a> will now be exported by <a href="https://ipeagit.github.io/gtfstools/" class="external-link">gtfstools</a>. Huge thanks to the whole <a href="https://github.com/ipeaGIT/gtfs2gps" class="external-link">gtfs2gps</a> crew (Rafael Pereira <a href="https://github.com/rafapereirabr" class="external-link">@rafapereirabr</a>, Pedro Andrade <a href="https://github.com/pedro-andrade-inpe" class="external-link">@pedro-andrade-inpe</a> and João Bazzo <a href="https://github.com/Joaobazzo" class="external-link">@Joaobazzo</a>)!</li>
 <li>The package now imports <a href="https://r-transit.github.io/gtfsio/" class="external-link">gtfsio</a>, and many functions now heavily rely on it, such as <code><a href="../reference/read_gtfs.html">read_gtfs()</a></code> and <code><a href="../reference/write_gtfs.html">write_gtfs()</a></code>.</li>
 <li>Internal function <code><a href="../reference/string_to_seconds.html">string_to_seconds()</a></code> now runs much faster thanks to Mark Padgham (<a href="https://github.com/mpadge" class="external-link">@mpadge</a>).</li>
 <li>

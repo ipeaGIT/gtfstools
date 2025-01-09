@@ -23,7 +23,7 @@ higher to work."><meta property="og:image" content="/logo.png"><!-- mathjax --><
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gtfstools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
       </span>
     </div>
 
@@ -66,7 +66,7 @@ higher to work."><meta property="og:image" content="/logo.png"><!-- mathjax --><
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Validate GTFS feed</h1>
-    <small class="dont-index">Source: <a href="https://github.com/ipeaGIT/gtfstools/blob/master/R/validate_gtfs.R" class="external-link"><code>R/validate_gtfs.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/ipeaGIT/gtfstools/blob/main/R/validate_gtfs.R" class="external-link"><code>R/validate_gtfs.R</code></a></small>
     <div class="hidden name"><code>validate_gtfs.Rd</code></div>
     </div>
 
@@ -172,7 +172,7 @@ validation results were saved to.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># and with feeds pointed by an url</span></span></span>
 <span class="r-in"><span><span class="va">newer_output_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"newer_validation_result"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">gtfs_url</span> <span class="op">&lt;-</span> <span class="st">"https://github.com/ipeaGIT/gtfstools/raw/master/inst/extdata/spo_gtfs.zip"</span></span></span>
+<span class="r-in"><span><span class="va">gtfs_url</span> <span class="op">&lt;-</span> <span class="st">"https://github.com/ipeaGIT/gtfstools/raw/main/inst/extdata/spo_gtfs.zip"</span></span></span>
 <span class="r-in"><span><span class="fu">validate_gtfs</span><span class="op">(</span><span class="va">gtfs_url</span>, <span class="va">newer_output_path</span>, <span class="va">validator_path</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="va">newer_output_path</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "report.html"           "report.json"           "system_errors.json"   </span>
